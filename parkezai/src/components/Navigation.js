@@ -28,7 +28,7 @@ const StyledLi = styled.li`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${theme.accent};
-  font-weight: bold;
+  font-weight: 600;
   display: flex;
   align-items: center;
   width: 100%;
