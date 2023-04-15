@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../theme';
@@ -7,9 +7,17 @@ const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.primary};
+  background-color: ${({ scrolled }) => (scrolled ? theme.primary : 'transparent')};
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   padding: 0rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background-color 0.3s;
 `;
+
 
 const StyledUl = styled.ul`
   display: flex;
@@ -56,8 +64,27 @@ const Logo = styled.div`
 `;
 
 const Navigation = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    document.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      // Clean up the event listener
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
+
+
   return (
-    <StyledNav>
+    <StyledNav scrolled={scrolled}>
       <Logo>ParkEzAI</Logo>
       <StyledUl>
         <StyledLi>

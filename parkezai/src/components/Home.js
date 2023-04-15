@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { createGlobalStyle } from "styled-components";
+import heroImage from '../images/home-hero_mod.jpg';
+
 
 const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -11,24 +13,42 @@ const HomeContainer = styled.div`
 
 const Heading = styled.h1`
   font-size: 2.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0; // Remove bottom margin
+  color: white;
+  width: fit-content;
+  background-color: rgba(0, 0, 0, 1); // No transparency
+  padding: 0.5rem 1rem;
+  position:absolute;
+  top:45vh;
 `;
 
 const SubHeading = styled.h2`
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  width: fit-content;
+  color: white;
+  background-color: rgba(0, 0, 0, 1); // No transparency
+  padding: 0.5rem 1rem;
+  position:absolute;
+  top:55vh;
 `;
 
-const PlaceholderImage = styled.div`
+const HeroImage = styled.div`
   width: 100%;
-  height: 300px;
-  background-color: lightgray;
+  min-height: 70vh;
+  background-image: url(${heroImage});
+  background-position-y: top;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+  display: inline-block;
+  
   font-size: 1.5rem;
   margin-bottom: 2rem;
+
 `;
+
+
 
 const BenefitSection = styled.div`
   display: flex;
@@ -53,11 +73,12 @@ const BenefitList = styled.ul`
 const Home = () => {
   return (
     <HomeContainer>
-      <Heading>Welcome to ParkEZ</Heading>
-      <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
-      <PlaceholderImage>
-        Placeholder for a Hero Image
-      </PlaceholderImage>
+      
+      <HeroImage>
+        {/* Add the Heading and SubHeading components inside the HeroImage */}
+        <Heading>Welcome to ParkEZ</Heading>
+        <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
+      </HeroImage>
       <BenefitSection>
         <BenefitTitle>Benefits for Businesses with Parking Lots</BenefitTitle>
         <BenefitList>
