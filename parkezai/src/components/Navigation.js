@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../images/parkezlogosmall2.png'
 import styled from 'styled-components';
 import theme from '../theme';
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+`;
 
 const StyledNav = styled.nav`
   display: flex;
@@ -85,7 +92,14 @@ const Navigation = () => {
 
   return (
     <StyledNav scrolled={scrolled}>
-      <Logo>ParkEzAI</Logo>
+      <LogoContainer>
+      <img
+          src={logo}
+          alt="ParkEzAI Logo"
+          style={{ height: '40px', width: '40px', marginRight: '0px' }}
+        />
+      <Logo>ParkEz</Logo>
+      </LogoContainer>
       <StyledUl>
         <StyledLi>
           <StyledButton>
