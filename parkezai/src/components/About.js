@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import heroImageAbout from '../images/about-hero.jpg';
+import heroImage from '../images/about-hero.jpg';
 
 
 const HomeContainer = styled.div`
+  background-color: white;
 
   align-items: center;
   justify-content: center;
@@ -39,14 +40,23 @@ const Heading = styled.h1`
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
   position:absolute;
-  top:65vh;
+  top:45vh;
 `;
 
+const SubHeading = styled.h2`
+  font-size: 2rem;
+  width: fit-content;
+  color: white;
+  background-color: rgba(0, 0, 0, 1); // No transparency
+  padding: 0.5rem 1rem;
+  position:absolute;
+  top:55vh;
+`;
 
 const HeroImage = styled.div`
   width: 100%;
-  min-height: 80vh;
-  background-image: url(${heroImageAbout});
+  min-height: 70vh;
+  background-image: url(${heroImage});
   background-position-y: top;
   background-size: cover;
   display: flex;
@@ -62,6 +72,8 @@ const HeroImage = styled.div`
 
 
 const BenefitSectionsContainer = styled.div`
+  background-color: white;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,6 +111,10 @@ const BenefitList = styled.ul`
   padding-left: 1.5rem;
 `;
 
+const WhiteCon = styled.div`
+  background-color: white;
+`;
+
 const About = () => {
   return (
     <HomeContainer>
@@ -107,6 +123,7 @@ const About = () => {
         {/* Add the Heading and SubHeading components inside the HeroImage */}
         <Heading>About</Heading>
       </HeroImage>
+      <WhiteCon>
       <OverviewSection>
         ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
         approach parking. Our comprehensive solution offers real-time parking availability, advanced security features, 
@@ -142,6 +159,7 @@ const About = () => {
           </BenefitList>
         </BenefitSection>
       </BenefitSectionsContainer>
+      </WhiteCon>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
         <FooterItem>1234 Park Street, Suite 567</FooterItem>

@@ -4,6 +4,7 @@ import heroImage from '../images/help-hero.jpg';
 
 
 const HomeContainer = styled.div`
+  background-color: white;
 
   align-items: center;
   justify-content: center;
@@ -71,6 +72,8 @@ const HeroImage = styled.div`
 
 
 const BenefitSectionsContainer = styled.div`
+  background-color: white;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,6 +110,9 @@ const BenefitList = styled.ul`
   list-style-type: disc;
   padding-left: 1.5rem;
 `;
+const WhiteCon = styled.div`
+  background-color: white;
+`;
 
 const HelpCenter = () => {
   return (
@@ -117,6 +123,7 @@ const HelpCenter = () => {
         <Heading>Help Center</Heading>
         <SubHeading>How can we assist you?</SubHeading>
       </HeroImage>
+      <WhiteCon>
       <OverviewSection>
         ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
         approach parking. Our comprehensive solution offers real-time parking availability, advanced security features, 
@@ -152,6 +159,7 @@ const HelpCenter = () => {
           </BenefitList>
         </BenefitSection>
       </BenefitSectionsContainer>
+      </WhiteCon>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
         <FooterItem>1234 Park Street, Suite 567</FooterItem>

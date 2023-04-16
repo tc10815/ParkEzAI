@@ -111,47 +111,11 @@ const BenefitList = styled.ul`
 const Login = () => {
   return (
     <HomeContainer>
-      
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
         <Heading>Welcome back</Heading>
         <SubHeading>Please sign in</SubHeading>
       </HeroImage>
-      <OverviewSection>
-        ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
-        approach parking. Our comprehensive solution offers real-time parking availability, advanced security features, 
-        and targeted advertising opportunities. With ParkEZ, drivers can effortlessly find and secure parking spots, while 
-        businesses can maximize their revenue and improve customer satisfaction. Join us in creating a better parking experience for drivers and businesses alike.
-      </OverviewSection>
-      <BenefitSectionsContainer>
-        <BenefitSection>
-          <BenefitTitle>Benefits for Businesses with Parking Lots</BenefitTitle>
-          <BenefitList>
-            <li>Maximize revenue by efficiently managing parking spaces</li>
-            <li>Reduce illegal parking and provide parking availability to customers</li>
-            <li>Real-time occupancy tracking and notifications for overparking</li>
-            <li>Access to archived camera footage for security purposes</li>
-          </BenefitList>
-        </BenefitSection>
-        <BenefitSection>
-          <BenefitTitle>Benefits for People Parking</BenefitTitle>
-          <BenefitList>
-            <li>Find available parking spots easily and quickly</li>
-            <li>Park in secure and video monitored locations</li>
-            <li>Access real-time information on parking spot availability</li>
-            <li>Receive personalized recommendations for nearby parking spots</li>
-          </BenefitList>
-        </BenefitSection>
-        <BenefitSection>
-          <BenefitTitle>Benefits for Advertisers</BenefitTitle>
-          <BenefitList>
-            <li>Advertise on our platform, targeting potential customers</li>
-            <li>Reach users looking for parking spaces near your establishment</li>
-            <li>Monitor ad success through impression statistics and click counts</li>
-            <li>Target specific parking lots for increased visibility</li>
-          </BenefitList>
-        </BenefitSection>
-      </BenefitSectionsContainer>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
         <FooterItem>1234 Park Street, Suite 567</FooterItem>

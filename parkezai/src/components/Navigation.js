@@ -73,6 +73,12 @@ const Logo = styled.div`
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -102,32 +108,32 @@ const Navigation = () => {
       </LogoContainer>
       <StyledUl>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/">Home</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/find-parking">Find Parking</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/about">About</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/help-center">Help Center</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/login">Login</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton>
+          <StyledButton onClick={scrollToTop}>
             <StyledLink to="/signup">Sign Up</StyledLink>
           </StyledButton>
         </StyledLi>

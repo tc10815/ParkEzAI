@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { createGlobalStyle } from "styled-components";
 import heroImage from '../images/home-hero_mod.jpg';
 
 
 const HomeContainer = styled.div`
+  background-color: white;
 
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@ const HomeContainer = styled.div`
 const OverviewSection = styled.div`
   text-align: center;
   font-size: 1.2rem;
-  margin: 2rem auto;
+  margin: 1rem auto;
   max-width: 80vw;
 `;
 
@@ -76,6 +76,7 @@ const BenefitSectionsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 2rem;
+  background-color: white;
 
   @media (min-width: 768px) {
     flex-direction: row;

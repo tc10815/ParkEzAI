@@ -2,7 +2,7 @@ const theme = {
    primary: '#000000',
    secondary: '#39828E',
    accent: '#ffffff',
-   backgroundColor: '#f5f5f5'
+   backgroundColor: '#000000'
    };
   
   export default theme;
