@@ -18,6 +18,19 @@ const OverviewSection = styled.div`
   max-width: 80vw;
 `;
 
+const Footer = styled.footer`
+  background-color: black;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const FooterItem = styled.p`
+  margin: 0.2rem;
+`;
 
 const Heading = styled.h1`
   font-size: 2.5rem;
@@ -62,6 +75,7 @@ const BenefitSectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 2rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -139,6 +153,13 @@ const Home = () => {
           </BenefitList>
         </BenefitSection>
       </BenefitSectionsContainer>
+      <Footer>
+        <FooterItem>ParkEz Inc.</FooterItem>
+        <FooterItem>1234 Park Street, Suite 567</FooterItem>
+        <FooterItem>Stamford, CT 06902</FooterItem>
+        <FooterItem>Phone: (203) 123-4567</FooterItem>
+        <FooterItem>Email: support@parkez.ai</FooterItem>
+      </Footer>
     </HomeContainer>
   );
 };
