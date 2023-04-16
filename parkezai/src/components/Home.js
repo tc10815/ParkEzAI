@@ -11,6 +11,14 @@ const HomeContainer = styled.div`
   height: 100%;
 `;
 
+const OverviewSection = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 2rem auto;
+  max-width: 80vw;
+`;
+
+
 const Heading = styled.h1`
   font-size: 2.5rem;
   margin-bottom: 0; // Remove bottom margin
@@ -50,11 +58,28 @@ const HeroImage = styled.div`
 
 
 
+const BenefitSectionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
+`;
+
 const BenefitSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
+  flex: 1;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
 `;
 
 const BenefitTitle = styled.h3`
@@ -79,24 +104,41 @@ const Home = () => {
         <Heading>Welcome to ParkEZ</Heading>
         <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
       </HeroImage>
-      <BenefitSection>
-        <BenefitTitle>Benefits for Businesses with Parking Lots</BenefitTitle>
-        <BenefitList>
-          <li>Maximize revenue by efficiently managing parking spaces</li>
-          <li>Reduce illegal parking and provide parking availability to customers</li>
-          <li>Real-time occupancy tracking and notifications for overparking</li>
-          <li>Access to archived camera footage for security purposes</li>
-        </BenefitList>
-      </BenefitSection>
-      <BenefitSection>
-        <BenefitTitle>Benefits for Advertisers</BenefitTitle>
-        <BenefitList>
-          <li>Advertise on our platform, targeting potential customers</li>
-          <li>Reach users looking for parking spaces near your establishment</li>
-          <li>Monitor ad success through impression statistics and click counts</li>
-          <li>Target specific parking lots for increased visibility</li>
-        </BenefitList>
-      </BenefitSection>
+      <OverviewSection>
+        ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
+        approach parking. Our comprehensive solution offers real-time parking availability, advanced security features, 
+        and targeted advertising opportunities. With ParkEZ, drivers can effortlessly find and secure parking spots, while 
+        businesses can maximize their revenue and improve customer satisfaction. Join us in creating a better parking experience for drivers and businesses alike.
+      </OverviewSection>
+      <BenefitSectionsContainer>
+        <BenefitSection>
+          <BenefitTitle>Benefits for Businesses with Parking Lots</BenefitTitle>
+          <BenefitList>
+            <li>Maximize revenue by efficiently managing parking spaces</li>
+            <li>Reduce illegal parking and provide parking availability to customers</li>
+            <li>Real-time occupancy tracking and notifications for overparking</li>
+            <li>Access to archived camera footage for security purposes</li>
+          </BenefitList>
+        </BenefitSection>
+        <BenefitSection>
+          <BenefitTitle>Benefits for People Parking</BenefitTitle>
+          <BenefitList>
+            <li>Find available parking spots easily and quickly</li>
+            <li>Park in secure and video monitored locations</li>
+            <li>Access real-time information on parking spot availability</li>
+            <li>Receive personalized recommendations for nearby parking spots</li>
+          </BenefitList>
+        </BenefitSection>
+        <BenefitSection>
+          <BenefitTitle>Benefits for Advertisers</BenefitTitle>
+          <BenefitList>
+            <li>Advertise on our platform, targeting potential customers</li>
+            <li>Reach users looking for parking spaces near your establishment</li>
+            <li>Monitor ad success through impression statistics and click counts</li>
+            <li>Target specific parking lots for increased visibility</li>
+          </BenefitList>
+        </BenefitSection>
+      </BenefitSectionsContainer>
     </HomeContainer>
   );
 };
