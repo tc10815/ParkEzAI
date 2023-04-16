@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { createGlobalStyle } from "styled-components";
-import heroImage from '../images/home-hero_mod.jpg';
+import heroImage from '../images/signup-hero.jpg';
 
 
 const HomeContainer = styled.div`
@@ -40,7 +39,7 @@ const Heading = styled.h1`
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
   position:absolute;
-  top:45vh;
+  top:5vh;
 `;
 
 const SubHeading = styled.h2`
@@ -50,7 +49,7 @@ const SubHeading = styled.h2`
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
   position:absolute;
-  top:55vh;
+  top:15vh;
 `;
 
 const HeroImage = styled.div`
@@ -115,8 +114,8 @@ const Signup = () => {
       
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>Welcome to ParkEZ</Heading>
-        <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
+        <Heading>Join Us</Heading>
+        <SubHeading>Select account type:</SubHeading>
       </HeroImage>
       <OverviewSection>
         ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 

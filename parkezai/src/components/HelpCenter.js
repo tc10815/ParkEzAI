@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import heroImage from '../images/home-hero_mod.jpg';
+import heroImage from '../images/help-hero.jpg';
 
 
 const HomeContainer = styled.div`
@@ -114,8 +114,8 @@ const HelpCenter = () => {
       
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>Welcome to ParkEZ</Heading>
-        <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
+        <Heading>Help Center</Heading>
+        <SubHeading>How can we assist you?</SubHeading>
       </HeroImage>
       <OverviewSection>
         ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 

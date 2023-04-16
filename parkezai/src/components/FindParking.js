@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import heroImage from '../images/home-hero_mod.jpg';
+import parkImage from '../images/park-hero.jpg';
 
 
 const HomeContainer = styled.div`
@@ -31,17 +31,6 @@ const FooterItem = styled.p`
   margin: 0.2rem;
 `;
 
-const Heading = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 0; // Remove bottom margin
-  color: white;
-  width: fit-content;
-  background-color: rgba(0, 0, 0, 1); // No transparency
-  padding: 0.5rem 1rem;
-  position:absolute;
-  top:45vh;
-`;
-
 const SubHeading = styled.h2`
   font-size: 2rem;
   width: fit-content;
@@ -55,8 +44,9 @@ const SubHeading = styled.h2`
 const HeroImage = styled.div`
   width: 100%;
   min-height: 70vh;
-  background-image: url(${heroImage});
+  background-image: url(${parkImage});
   background-position-y: top;
+  background-position-x: center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -114,8 +104,7 @@ const FindParking = () => {
       
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>Welcome to ParkEZ</Heading>
-        <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
+        <SubHeading>Find a Parking Spot</SubHeading>
       </HeroImage>
       <OverviewSection>
         ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
