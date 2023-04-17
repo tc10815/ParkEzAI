@@ -5,7 +5,6 @@ import heroImage from '../images/help-hero.jpg';
 
 const HomeContainer = styled.div`
   background-color: white;
-
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -39,8 +38,20 @@ const Heading = styled.h1`
   width: fit-content;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  position:absolute;
   top:45vh;
+`;
+
+const HeroImage = styled.div`
+  width: 100%;
+  min-height: 70vh;
+  background-image: url(${heroImage});
+  background-position-y: top;
+  background-size: cover;
+  display: flex; // Set display to flex
+  justify-content: center; // Center horizontally
+  align-items: center; // Center vertically
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 `;
 
 const SubHeading = styled.h2`
@@ -52,24 +63,6 @@ const SubHeading = styled.h2`
   position:absolute;
   top:55vh;
 `;
-
-const HeroImage = styled.div`
-  width: 100%;
-  min-height: 70vh;
-  background-image: url(${heroImage});
-  background-position-y: top;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: inline-block;
-  
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-
-`;
-
-
 
 const BenefitSectionsContainer = styled.div`
   background-color: white;

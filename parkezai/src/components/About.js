@@ -39,18 +39,7 @@ const Heading = styled.h1`
   width: fit-content;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  position:absolute;
   top:45vh;
-`;
-
-const SubHeading = styled.h2`
-  font-size: 2rem;
-  width: fit-content;
-  color: white;
-  background-color: rgba(0, 0, 0, 1); // No transparency
-  padding: 0.5rem 1rem;
-  position:absolute;
-  top:55vh;
 `;
 
 const HeroImage = styled.div`
@@ -59,14 +48,11 @@ const HeroImage = styled.div`
   background-image: url(${heroImage});
   background-position-y: top;
   background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: inline-block;
-  
+  display: flex; // Set display to flex
+  justify-content: center; // Center horizontally
+  align-items: center; // Center vertically
   font-size: 1.5rem;
   margin-bottom: 2rem;
-
 `;
 
 
