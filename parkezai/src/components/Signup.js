@@ -111,7 +111,7 @@ const Signup = () => {
             <Select required>
               <option value="">Choose lot monitoring or advertising</option>
               <option value="parking_lot_owner">Parking Lot Monitoring</option>
-              <option value="advertiser">Advertisering</option>
+              <option value="advertiser">Advertising</option>
             </Select>
             <Input type="email" placeholder="Email" required />
             <Input type="text" placeholder="First Name" required />
