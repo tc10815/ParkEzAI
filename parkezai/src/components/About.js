@@ -141,6 +141,40 @@ const Image = styled.img`
   margin-bottom: 2rem;
 `;
 
+const PricingSection = styled.section`
+  max-width: 80vw;
+  margin: 2rem auto;
+  text-align: center;
+`;
+
+const PricingTitle = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1rem;
+`;
+
+const PricingTable = styled.table`
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 1.2rem;
+`;
+
+const PricingHeader = styled.thead`
+  font-weight: bold;
+`;
+
+const PricingRow = styled.tr`
+  border-bottom: 1px solid #ccc;
+`;
+
+const PricingCell = styled.td`
+  padding: 1rem;
+  text-align: left;
+`;
+
+
+
 const About = () => {
   return (
     <HomeContainer>
@@ -166,6 +200,38 @@ const About = () => {
           Our team is made up of industry experts with diverse backgrounds in technology, advertising, and parking management. We are dedicated to providing our clients with the highest level of service and support, ensuring their success and satisfaction.
         </Paragraph>
         <Image src={about2image} alt="Team members in a meeting" />
+        <PricingSection>
+        <PricingTitle>Pricing</PricingTitle>
+        <PricingTable>
+          <PricingHeader>
+            <PricingRow>
+              <PricingCell>Service</PricingCell>
+              <PricingCell>Details</PricingCell>
+              <PricingCell>Price</PricingCell>
+            </PricingRow>
+          </PricingHeader>
+          <tbody>
+            <PricingRow>
+              <PricingCell>Parking Lot Owner</PricingCell>
+              <PricingCell>
+                <ul>
+                  <li>Up to 50 spaces: $50/month</li>
+                  <li>51-200 spaces: $150/month</li>
+                  <li>201-500 spaces: $300/month</li>
+                  <li>Additional camera: $50/month</li>
+                  <li>License plate tracking: $100/month</li>
+                </ul>
+              </PricingCell>
+              <PricingCell>$50+/month</PricingCell>
+            </PricingRow>
+            <PricingRow>
+              <PricingCell>Advertiser</PricingCell>
+              <PricingCell>Price per lot page advertised on</PricingCell>
+              <PricingCell>$20/month per lot</PricingCell>
+            </PricingRow>
+          </tbody>
+        </PricingTable>
+      </PricingSection>
         <Subtitle>Testimonials</Subtitle>
         <Quote>
           "Working with ParkEz has completely transformed our parking operations. Their innovative solutions have helped us generate more revenue while improving the overall experience for our customers."
@@ -176,6 +242,8 @@ const About = () => {
           <QuoteAuthor>John Doe, Advertiser</QuoteAuthor>
         </Quote>
       </ContentSection>
+
+
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
         <FooterItem>1234 Park Street, Suite 567</FooterItem>
