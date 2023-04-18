@@ -4,17 +4,9 @@ import heroImage from '../images/signin-hero.jpg';
 
 
 const HomeContainer = styled.div`
-
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
-
-const OverviewSection = styled.div`
-  text-align: center;
-  font-size: 1.2rem;
-  margin: 2rem auto;
-  max-width: 80vw;
 `;
 
 const Footer = styled.footer`
@@ -36,10 +28,9 @@ const Heading = styled.h1`
   margin-bottom: 0; // Remove bottom margin
   color: white;
   width: fit-content;
+  margin-top:15vh;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  position:absolute;
-  top:10vh;
 `;
 
 const SubHeading = styled.h2`
@@ -48,8 +39,6 @@ const SubHeading = styled.h2`
   color: white;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  position:absolute;
-  top:20vh;
 `;
 
 const HeroImage = styled.div`
@@ -68,53 +57,72 @@ const HeroImage = styled.div`
 
 `;
 
-
-
-const BenefitSectionsContainer = styled.div`
+const SignInForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 2rem;
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: center;
-  }
 `;
 
-const BenefitSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex: 1;
-  padding: 0 1rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-  }
-`;
-
-const BenefitTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-`;
-
-const BenefitList = styled.ul`
+const Input = styled.input`
   font-size: 1rem;
-  text-align: left;
-  max-width: 800px;
-  list-style-type: disc;
-  padding-left: 1.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 300px;
+`;
+
+const LoginButton = styled.button`
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0072ff;
+  }
+`;
+
+const ForgotPasswordLink = styled.a`
+  font-size: 0.8rem;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1);
+  &:hover {
+    color: #e7f1ff;
+  }
+`;
+
+const SignInOrganizer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
 `;
 
 const Login = () => {
+  const handleSignInSubmit = (e) => {
+    e.preventDefault();
+    console.log('Sign In form submitted');
+  };
   return (
     <HomeContainer>
       <HeroImage>
-        {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>Welcome back</Heading>
-        <SubHeading>Please sign in</SubHeading>
+        <SignInOrganizer>
+          <Heading>Welcome back</Heading>
+          <SubHeading>Please sign in</SubHeading>
+          <SignInForm onSubmit={handleSignInSubmit}>
+            <Input type="email" placeholder="Email" required />
+            <Input type="password" placeholder="Password" required />
+            <LoginButton type="submit">Login</LoginButton>
+            <ForgotPasswordLink>Forgot my password</ForgotPasswordLink>
+          </SignInForm>
+        </SignInOrganizer>
       </HeroImage>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
