@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png'
 import styled from 'styled-components';
 import theme from '../theme';
@@ -40,7 +40,8 @@ const StyledLi = styled.li`
   height: 100%;
 `;
 
-const StyledLink = styled(Link)`
+
+const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: ${theme.accent};
   font-weight: 600;
@@ -48,7 +49,12 @@ const StyledLink = styled(Link)`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 1rem 0.5rem; // Increase the padding values to make the buttons bigger
+  padding: 1rem 0.5rem; 
+
+  &.active {
+    background-color: rgba(57,130,142,0.35);
+    
+  }
 `;
 
 const StyledButton = styled.div`
@@ -109,27 +115,27 @@ const Navigation = () => {
       <StyledUl>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/">Home</StyledLink>
+            <StyledNavLink to="/">Home</StyledNavLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/find-parking">Find Parking</StyledLink>
+            <StyledNavLink to="/find-parking">Find Parking</StyledNavLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/about">About</StyledLink>
+            <StyledNavLink to="/about">About</StyledNavLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/signup">Sign Up</StyledLink>
+            <StyledNavLink to="/signup">Sign Up</StyledNavLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/login">Login</StyledLink>
+            <StyledNavLink to="/login">Login</StyledNavLink>
           </StyledButton>
         </StyledLi>
       </StyledUl>
