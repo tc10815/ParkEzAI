@@ -24,15 +24,13 @@ const FooterItem = styled.p`
   margin: 0.2rem;
 `;
 
-const Heading = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 0; // Remove bottom margin
-  color: white;
-  width: fit-content;
-  background-color: rgba(0, 0, 0, 1); // No transparency
-  padding: 0.5rem 1rem;
-  position:absolute;
-  top:10vh;
+const SignUpOrganizer = styled.div`
+  margin-top: 12vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
 `;
 
 const SubHeading = styled.h2`
@@ -41,8 +39,6 @@ const SubHeading = styled.h2`
   color: white;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  position:absolute;
-  top:20vh;
 `;
 
 const HeroImage = styled.div`
@@ -61,17 +57,81 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 
 `;
+const Input = styled.input`
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 0.1rem;
+  width: 100%;
+  max-width: 300px;
+`;
 
+const LoginButton = styled.button`
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  margin-top: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  transition: background-color 0.3s ease;
 
+  &:hover {
+    background-color: #0072ff;
+  }
+`;
+const SignUpForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SignupButton = styled(LoginButton)`
+  margin-bottom: 0;
+`;
+
+const Select = styled.select`
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 0.1rem;
+  width: 100%;
+  max-width: 300px;
+`;
 
 const Signup = () => {
+  const handleSignUpSubmit = (e) => {
+    e.preventDefault();
+    console.log('Sign Up form submitted');
+  };
   return (
     <HomeContainer>
       
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>Join Us</Heading>
-        <SubHeading>Select account type:</SubHeading>
+        <SignUpOrganizer>
+          <SubHeading>Join us for parking lot monitoring or to advertise</SubHeading>
+          <SignUpForm onSubmit={handleSignUpSubmit}>
+            <Select required>
+              <option value="">Choose lot monitoring or advertising</option>
+              <option value="parking_lot_owner">Parking Lot Monitoring</option>
+              <option value="advertiser">Advertisering</option>
+            </Select>
+            <Input type="email" placeholder="Email" required />
+            <Input type="text" placeholder="First Name" required />
+            <Input type="text" placeholder="Last Name" required />
+            <Input type="text" placeholder="Company Name" required />
+            <Input type="text" placeholder="Company Address" required />
+            <Select required>
+              <option value="">Select State...</option>
+              <option value="CT">CT</option>
+              <option value="NJ">NJ</option>
+              <option value="NY">NY</option>
+            </Select>
+            <Input type="text" placeholder="City" required />
+            <Input type="text" placeholder="ZIP" required />
+            <Input type="password" placeholder="Password" required />
+            <SignupButton type="submit">Sign Up</SignupButton>
+          </SignUpForm>
+        </SignUpOrganizer>
       </HeroImage>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>

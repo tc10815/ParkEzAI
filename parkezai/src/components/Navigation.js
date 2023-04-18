@@ -124,17 +124,12 @@ const Navigation = () => {
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/help-center">Help Center</StyledLink>
+            <StyledLink to="/signup">Sign Up</StyledLink>
           </StyledButton>
         </StyledLi>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
             <StyledLink to="/login">Login</StyledLink>
-          </StyledButton>
-        </StyledLi>
-        <StyledLi>
-          <StyledButton onClick={scrollToTop}>
-            <StyledLink to="/signup">Sign Up</StyledLink>
           </StyledButton>
         </StyledLi>
       </StyledUl>

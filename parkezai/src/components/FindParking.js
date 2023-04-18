@@ -84,19 +84,6 @@ const LocationItem = styled.li`
   }
 `;
 
-const FindParkingButton = styled.button`
-  font-size: 1.2rem;
-  color: white;
-  background-color: rgba(0, 0, 0, 1);
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
-  &:hover {
-    background-color: ${theme.secondary};
-  }
-`;
-
 const locations = [
   { name: "Burger Gnome", address: "123 Munchkin Lane", city: "NY", zip: "10001" },
   { name: "The Thrifty Owl", address: "456 Feather St", city: "NJ", zip: "07001" },
@@ -115,15 +102,11 @@ const FindParking = () => {
     console.log(`Selected location: ${location.name}`);
   };
 
-  const handleFindParkingClick = () => {
-    console.log("Find Parking button clicked");
-  };
-
   return (
     <HomeContainer>
       <HeroImage>
         <ListOrganize>
-          <SubHeading>Find a Parking Spot</SubHeading>
+          <SubHeading>Choose Lot to Find Parking</SubHeading>
           <LocationList>
             {locations.map((location, index) => (
               <LocationItem key={index} onClick={() => handleLocationClick(location)}>
@@ -131,9 +114,6 @@ const FindParking = () => {
               </LocationItem>
             ))}
           </LocationList>
-          <FindParkingButton onClick={handleFindParkingClick}>
-            Find Parking
-          </FindParkingButton>
         </ListOrganize>
       </HeroImage>
       <Footer>
