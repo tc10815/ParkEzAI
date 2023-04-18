@@ -31,15 +31,16 @@ const SubHeading = styled.h2`
   color: white;
   background-color: rgba(0, 0, 0, 1); 
   padding: 0.5rem 1rem;
-  position: absolute;
-  top: 5vh;
 `;
-
-const listOrganize = styled.div`
-    position: absolute;
-    top: 20vh;
+// position: absolute;
+// top: 10vh;
+// padding-left: 0;
+const ListOrganize = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding-left: 0;
-    
 `;
 
 const HeroImage = styled.div`
@@ -58,12 +59,21 @@ const HeroImage = styled.div`
 // Add new styled components
 const LocationList = styled.ul`
   list-style-type: none;
+  list-style-position: inside;
+  margin-right: 0rem;
+  margin-left:0rem;
+  padding-right: 0rem;
+  padding-left:0rem;
 `;
 
 const LocationItem = styled.li`
   font-size: 1.2rem;
-  margin-bottom: 0rem;
+  margin-right: 0rem;
+  margin-left:0rem;
+  padding-right: 0rem;
+  padding-left:0rem;
   color: white;
+  text-align: center;
   background-color: rgba(0, 0, 0, 1);
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -82,24 +92,22 @@ const FindParkingButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 1rem;
-
   &:hover {
     background-color: ${theme.secondary};
   }
 `;
 
-// Add a list of fake locations
 const locations = [
-  { name: "Burger Gnome", address: "123 Munchkin Lane" },
-  { name: "The Thrifty Owl", address: "456 Feather St" },
-  { name: "Pasta Playground", address: "789 Noodle Ave" },
-  { name: "Fruity Pebbles Market", address: "321 Rainbow Rd" },
-  { name: "Meatball Emporium", address: "654 Spaghetti St" },
-  { name: "Veggie Voyager", address: "987 Carrot Blvd" },
-  { name: "Quirky Quinoa", address: "135 Grain Ct" },
-  { name: "The Hummingbird Bakery", address: "246 Sugar Dr" },
-  { name: "Cosmic Cantina", address: "369 Starry Way" },
-  { name: "Chili Conundrum", address: "987 Pepper Pl" },
+  { name: "Burger Gnome", address: "123 Munchkin Lane", city: "NY", zip: "10001" },
+  { name: "The Thrifty Owl", address: "456 Feather St", city: "NJ", zip: "07001" },
+  { name: "Pasta Playground", address: "789 Noodle Ave", city: "CT", zip: "06001" },
+  { name: "Fruity Pebbles Market", address: "321 Rainbow Rd", city: "NY", zip: "10002" },
+  { name: "Meatball Emporium", address: "654 Spaghetti St", city: "NJ", zip: "07002" },
+  { name: "Veggie Voyager", address: "987 Carrot Blvd", city: "CT", zip: "06002" },
+  { name: "Quirky Quinoa", address: "135 Grain Ct", city: "NY", zip: "10003" },
+  { name: "The Hummingbird Bakery", address: "246 Sugar Dr", city: "NJ", zip: "07003" },
+  { name: "Cosmic Cantina", address: "369 Starry Way", city: "CT", zip: "06003" },
+  { name: "Chili Conundrum", address: "987 Pepper Pl", city: "NY", zip: "10004" },
 ];
 
 const FindParking = () => {
@@ -114,17 +122,19 @@ const FindParking = () => {
   return (
     <HomeContainer>
       <HeroImage>
-        <SubHeading>Find a Parking Spot</SubHeading>
-        <LocationList>
-          {locations.map((location, index) => (
-            <LocationItem key={index} onClick={() => handleLocationClick(location)}>
-              {location.name} - {location.address}
-            </LocationItem>
-          ))}
-        </LocationList>
-        <FindParkingButton onClick={handleFindParkingClick}>
-          Find Parking
-        </FindParkingButton>
+        <ListOrganize>
+          <SubHeading>Find a Parking Spot</SubHeading>
+          <LocationList>
+            {locations.map((location, index) => (
+              <LocationItem key={index} onClick={() => handleLocationClick(location)}>
+                {location.name} - {location.address}, {location.city}, {location.zip}              
+              </LocationItem>
+            ))}
+          </LocationList>
+          <FindParkingButton onClick={handleFindParkingClick}>
+            Find Parking
+          </FindParkingButton>
+        </ListOrganize>
       </HeroImage>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
