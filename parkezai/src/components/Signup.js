@@ -104,9 +104,7 @@ const Signup = () => {
   };
   return (
     <HomeContainer>
-      
       <HeroImage>
-        {/* Add the Heading and SubHeading components inside the HeroImage */}
         <SignUpOrganizer>
           <SubHeading>Join us for parking lot monitoring or to advertise</SubHeading>
           <SignUpForm onSubmit={handleSignUpSubmit}>

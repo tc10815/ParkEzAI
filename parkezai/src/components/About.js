@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import heroImage from '../images/about-hero.jpg';
+import about1image from '../images/about-image1.jpg';
+import about2image from '../images/about-image2.jpg';
 
 
 const HomeContainer = styled.div`
@@ -39,12 +41,12 @@ const Heading = styled.h1`
   width: fit-content;
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
-  top:45vh;
+  top:30vh;
 `;
 
 const HeroImage = styled.div`
   width: 100%;
-  min-height: 70vh;
+  min-height: 30vh;
   background-image: url(${heroImage});
   background-position-y: top;
   background-size: cover;
@@ -101,51 +103,79 @@ const WhiteCon = styled.div`
   background-color: white;
 `;
 
+const ContentSection = styled.section`
+  max-width: 80vw;
+  margin: 2rem auto;
+  text-align: center;
+`;
+
+const Subtitle = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1rem;
+`;
+
+const Paragraph = styled.p`
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+`;
+
+const Quote = styled.blockquote`
+  font-size: 1.5rem;
+  font-style: italic;
+  margin: 2rem 0;
+  text-align: center;
+`;
+
+const QuoteAuthor = styled.cite`
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 0.5rem;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 2rem;
+`;
+
 const About = () => {
   return (
     <HomeContainer>
-      
-      <HeroImage>
-        {/* Add the Heading and SubHeading components inside the HeroImage */}
-        <Heading>About</Heading>
-      </HeroImage>
       <WhiteCon>
-      <OverviewSection>
-        ParkEZ is a state-of-the-art parking management platform designed to improve the way businesses and drivers 
-        approach parking. Our comprehensive solution offers real-time parking availability, advanced security features, 
-        and targeted advertising opportunities. With ParkEZ, drivers can effortlessly find and secure parking spots, while 
-        businesses can maximize their revenue and improve customer satisfaction. Join us in creating a better parking experience for drivers and businesses alike.
-      </OverviewSection>
-      <BenefitSectionsContainer>
-        <BenefitSection>
-          <BenefitTitle>Benefits for Businesses with Parking Lots</BenefitTitle>
-          <BenefitList>
-            <li>Maximize revenue by efficiently managing parking spaces</li>
-            <li>Reduce illegal parking and provide parking availability to customers</li>
-            <li>Real-time occupancy tracking and notifications for overparking</li>
-            <li>Access to archived camera footage for security purposes</li>
-          </BenefitList>
-        </BenefitSection>
-        <BenefitSection>
-          <BenefitTitle>Benefits for People Parking</BenefitTitle>
-          <BenefitList>
-            <li>Find available parking spots easily and quickly</li>
-            <li>Park in secure and video monitored locations</li>
-            <li>Access real-time information on parking spot availability</li>
-            <li>Receive personalized recommendations for nearby parking spots</li>
-          </BenefitList>
-        </BenefitSection>
-        <BenefitSection>
-          <BenefitTitle>Benefits for Advertisers</BenefitTitle>
-          <BenefitList>
-            <li>Advertise on our platform, targeting potential customers</li>
-            <li>Reach users looking for parking spaces near your establishment</li>
-            <li>Monitor ad success through impression statistics and click counts</li>
-            <li>Target specific parking lots for increased visibility</li>
-          </BenefitList>
-        </BenefitSection>
-      </BenefitSectionsContainer>
-      </WhiteCon>
+      <HeroImage>
+        <Heading>About ParkEz</Heading>
+      </HeroImage>
+      <ContentSection>
+        <Subtitle>Our Story</Subtitle>
+        <Paragraph>
+          ParkEz was founded in 2021 by a group of parking lot owners and advertisers who saw an opportunity to revolutionize the parking industry. Our mission is to make parking simpler, more accessible, and more efficient for both parking lot owners and users, while also creating new advertising opportunities for businesses.
+        </Paragraph>
+        <Paragraph>
+          Through our platform, we connect parking lot owners with advertisers, helping them increase revenue while providing a better experience for their customers. By leveraging cutting-edge technology, we create customized solutions for each of our clients, ensuring they get the most out of their partnership with us.
+        </Paragraph>
+        <Image src={about1image} alt="Team working together" />
+        <Subtitle>Our Values</Subtitle>
+        <Paragraph>
+          At ParkEz, we prioritize innovation, collaboration, and customer satisfaction. We believe that by working together and constantly pushing the boundaries of what's possible, we can create a world where parking is no longer a source of stress but rather an opportunity for growth and connection.
+        </Paragraph>
+        <Subtitle>Our Team</Subtitle>
+        <Paragraph>
+          Our team is made up of industry experts with diverse backgrounds in technology, advertising, and parking management. We are dedicated to providing our clients with the highest level of service and support, ensuring their success and satisfaction.
+        </Paragraph>
+        <Image src={about2image} alt="Team members in a meeting" />
+        <Subtitle>Testimonials</Subtitle>
+        <Quote>
+          "Working with ParkEz has completely transformed our parking operations. Their innovative solutions have helped us generate more revenue while improving the overall experience for our customers."
+          <QuoteAuthor>Jane Smith, Parking Lot Owner</QuoteAuthor>
+        </Quote>
+        <Quote>
+          "As an advertiser, partnering with ParkEz has been a game-changer. Their platform allows us to reach a wider audience and make a greater impact with our ads."
+          <QuoteAuthor>John Doe, Advertiser</QuoteAuthor>
+        </Quote>
+      </ContentSection>
       <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>
         <FooterItem>1234 Park Street, Suite 567</FooterItem>
@@ -153,6 +183,8 @@ const About = () => {
         <FooterItem>Phone: (203) 123-4567</FooterItem>
         <FooterItem>Email: support@parkez.ai</FooterItem>
       </Footer>
+      </WhiteCon>
+
     </HomeContainer>
   );
 };
