@@ -1,14 +1,18 @@
 ## Latest Stable Build
 [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-The above build is generated from the source code on Commit 52 on Github.
+The above build is generated from the source code on Commit 57 on Github.
 
 Basically it's a 'good enough for now' front end that would be visible before a user logs in. I won't be making major changes to this front end for now, and will be moving on to creating users and users views on the back end for next steps. I may polish these pages more at the later stages of the project. 
 
 Website doesn't render well on phones in this build, but will be responsive by the end of the project.
 
 Backend working so far:
-* You add Insert users to the live MariaDB database when you click submit on the Signup page (there is no feedback on the front end when this happens yet and you can't login yet) 
+* You can add users by filling in Signup page and clicking submit
+* On the bottom of the Signup page there's a button that lets you reset the Database to all default users (so feel free to add your own users)
+* On the bottom of the Signup page there's also a button to view all users in the database
+* A default password for an Advertiser and a Lot Owner account are visible on All Users page so testers can try out both roles in login
+
 
 # ParkEzAI
 

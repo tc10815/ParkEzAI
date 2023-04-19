@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import heroImage from '../images/signup-hero.jpg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 
 
@@ -194,7 +194,10 @@ const Signup = () => {
         <FooterItem>Phone: (203) 123-4567</FooterItem>
         <FooterItem>Email: support@parkez.ai</FooterItem>
         <h2>Demonstrations Features (not for production)</h2>
-        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset and Prepopulate Users</button>
+        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Sample Users</button>
+        <Link to="/users">
+          <button type="button">View All Users</button>
+        </Link>
       </Footer>
     </HomeContainer>
   );
