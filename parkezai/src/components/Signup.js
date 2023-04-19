@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import heroImage from '../images/signup-hero.jpg';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 
 
 const HomeContainer = styled.div`
@@ -97,7 +100,11 @@ const Select = styled.select`
   max-width: 300px;
 `;
 
+
 const Signup = () => {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const role = e.target.elements[0].value;
@@ -132,11 +139,13 @@ const Signup = () => {
       }),
     });
   
+
     if (response.ok) {
-      const responseData = await response.json();
-      console.log(responseData);
+      navigate('/success');
     } else {
-      console.error("Error creating user");
+      const errorText = await response.text();
+      setErrorMessage(errorText);
+      navigate('/error', { state: { errorMessage: errorText } });
     }
   };
   

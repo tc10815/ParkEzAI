@@ -8,6 +8,9 @@ import HelpCenter from './components/HelpCenter';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import styled from 'styled-components';
+import Success from './components/Success';
+import Error from './components/Error';
+
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -27,6 +30,9 @@ const App = () => {
           <Route path="/help-center" element={<HelpCenter/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
+          <Route path="/success" element={<Success/>} />
+          <Route path="/error" element={<Error/>} />
+
         </Routes>
       </ContentWrapper>
     </Router>
