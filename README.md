@@ -1,7 +1,7 @@
 ## Latest Stable Build
 [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-The above build is generated from the source code on Commit 48 on Github.
+The above build is generated from the source code on Commit 50 on Github.
 
 Basically it's a 'good enough for now' front end that would be visible before a user logs in. I won't be making major changes to this front end for now, and will be moving on to creating users and users views on the back end for next steps. I may polish these pages more at the later stages of the project. 
 
