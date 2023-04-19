@@ -119,7 +119,7 @@ const Signup = () => {
     const password = e.target.elements[9].value;
   
     const role_id = role === "parking_lot_owner" ? 1 : 2;
-  
+
     const response = await fetch("https://tomcookson.com/parkezaiphp/signup.php", {
       method: "POST",
       headers: {
@@ -148,7 +148,16 @@ const Signup = () => {
       navigate('/error', { state: { errorMessage: errorText } });
         }
   };
-  
+  const resetAndPrepopulate = async () => {
+    const response = await fetch("https://tomcookson.com/parkezaiphp/reset_and_prepopulate.php", { method: "POST" });
+
+    if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+    } else {
+        alert("Error resetting and prepopulating users");
+    }
+};
   return (
     <HomeContainer>
       <HeroImage>
@@ -184,6 +193,8 @@ const Signup = () => {
         <FooterItem>Stamford, CT 06902</FooterItem>
         <FooterItem>Phone: (203) 123-4567</FooterItem>
         <FooterItem>Email: support@parkez.ai</FooterItem>
+        <h2>Demonstrations Features (not for production)</h2>
+        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset and Prepopulate Users</button>
       </Footer>
     </HomeContainer>
   );
