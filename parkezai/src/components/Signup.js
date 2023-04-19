@@ -98,10 +98,48 @@ const Select = styled.select`
 `;
 
 const Signup = () => {
-  const handleSignUpSubmit = (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign Up form submitted');
+    const role = e.target.elements[0].value;
+    const email = e.target.elements[1].value;
+    const firstName = e.target.elements[2].value;
+    const lastName = e.target.elements[3].value;
+    const companyName = e.target.elements[4].value;
+    const companyAddress = e.target.elements[5].value;
+    const state = e.target.elements[6].value;
+    const city = e.target.elements[7].value;
+    const zip = e.target.elements[8].value;
+    const password = e.target.elements[9].value;
+  
+    const role_id = role === "parking_lot_owner" ? 1 : 2;
+  
+    const response = await fetch("https://tomcookson.com/parkezaiphp/signup.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role_id,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        company_name: companyName,
+        company_address: companyAddress,
+        state,
+        city,
+        zip,
+        password,
+      }),
+    });
+  
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log(responseData);
+    } else {
+      console.error("Error creating user");
+    }
   };
+  
   return (
     <HomeContainer>
       <HeroImage>
