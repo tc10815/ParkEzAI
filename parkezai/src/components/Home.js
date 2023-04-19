@@ -109,11 +109,14 @@ const BenefitList = styled.ul`
   list-style-type: disc;
   padding-left: 1.5rem;
 `;
+const WhiteCon = styled.div`
+  background-color: white;
+`;
 
 const Home = () => {
   return (
     <HomeContainer>
-      
+      <WhiteCon>
       <HeroImage>
         {/* Add the Heading and SubHeading components inside the HeroImage */}
         <Heading>Welcome to ParkEZ</Heading>
@@ -161,6 +164,7 @@ const Home = () => {
         <FooterItem>Phone: (203) 123-4567</FooterItem>
         <FooterItem>Email: support@parkez.ai</FooterItem>
       </Footer>
+      </WhiteCon>
     </HomeContainer>
   );
 };
