@@ -25,7 +25,7 @@ const FooterItem = styled.p`
 `;
 
 const SignUpOrganizer = styled.div`
-  margin-top: 12vh;
+  margin-top: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
