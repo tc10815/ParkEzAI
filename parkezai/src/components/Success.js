@@ -7,7 +7,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e0f7fa;
+  background-color: #000000;
+  color: white;
 `;
 
 const Message = styled.h1`

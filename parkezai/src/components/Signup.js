@@ -146,7 +146,7 @@ const Signup = () => {
       const errorText = await response.text();
       setErrorMessage(errorText);
       navigate('/error', { state: { errorMessage: errorText } });
-    }
+        }
   };
   
   return (

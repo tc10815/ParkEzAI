@@ -1,6 +1,8 @@
 // Error.js
 import React from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+
 
 const Container = styled.div`
   display: flex;
@@ -8,7 +10,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #ffcdd2;
+  background-color: #000000;
+  color: white;
+  text-align: center;
 `;
 
 const Message = styled.h1`
@@ -16,13 +20,17 @@ const Message = styled.h1`
   margin-bottom: 1rem;
 `;
 
-const Error = (props) => {
-  const { errorMessage } = props.location.state;
-
+const Error = () => {
+  const location = useLocation();
+  const errorMessageJson = location.state.errorMessage;
+  console.log(errorMessageJson);
+  const jsonObject = JSON.parse(errorMessageJson);
+  const errorKey = Object.keys(jsonObject)[0];
+  const errorMessage = jsonObject[errorKey];
   return (
     <Container>
-      <Message>Error creating account</Message>
-      <p>{errorMessage}</p>
+      <Message>Unable to create account</Message>
+      <p><strong>{errorKey}</strong><br />{errorMessage}</p>
     </Container>
   );
 };

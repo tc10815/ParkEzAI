@@ -57,48 +57,6 @@ const HeroImage = styled.div`
   margin-bottom: 2rem;
 `;
 
-
-
-const BenefitSectionsContainer = styled.div`
-  background-color: white;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 2rem;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: center;
-  }
-`;
-
-const BenefitSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex: 1;
-  padding: 0 1rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-  }
-`;
-
-const BenefitTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-`;
-
-const BenefitList = styled.ul`
-  font-size: 1rem;
-  text-align: left;
-  max-width: 800px;
-  list-style-type: disc;
-  padding-left: 1.5rem;
-`;
-
 const WhiteCon = styled.div`
   background-color: white;
 `;
