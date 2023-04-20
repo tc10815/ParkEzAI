@@ -106,9 +106,29 @@ const SignInOrganizer = styled.div`
 `;
 
 const Login = () => {
-  const handleSignInSubmit = (e) => {
+  const handleSignInSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign In form submitted');
+    const email = e.target.elements[0].value;
+    const password = e.target.elements[1].value;
+    console.log(email);
+    console.log(password);
+    const response = await fetch("https://tomcookson.com/parkezaiphp/login.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+  
+    const result = await response.json();
+    if (result.success) {
+      console.log("Logged in successfully");
+    } else {
+      console.log(result.error);
+    }
   };
   return (
     <HomeContainer>
