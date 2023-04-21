@@ -19,8 +19,8 @@ The Role titles are not named in a logical way, and they are named too long, so 
 1. Subscribed Parking Lot Operators -> **Lot Operator** (paying customer)
 2. Car Parking Users -> **None** (just a default user who hasn't logged in, doesn't pay)
 3. Subscribed Advertisers -> **Advertiser** (paying customer)
-4. Advertising --  **Advertising Specialist** (employee)
-5. Customer Support Specialist -- **Customer Support** (employee)
+4. Advertising ->  **Advertising Specialist** (employee)
+5. Customer Support Specialist -> **Customer Support** (employee)
 6. Accountant -> **Accountant** (employee)
 7. Manager -> **Parking Specialist** (employee)
 
