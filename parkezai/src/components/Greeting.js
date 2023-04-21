@@ -9,14 +9,26 @@ const HomeContainer = styled.div`
   height: 100%;
 `;
 
-
+const roles_dict = {
+  1: 'a parking lot operator',
+  2: 'an advertiser'
+}
 
 const SubHeading = styled.h2`
-  margin-top:15vh;
+  margin-top:20vh;
   font-size: 2rem;
   width: fit-content;
   color: white;
   background-color: rgba(0, 0, 0, 1); // No transparency
+  padding: 0.5rem 1rem;
+`;
+
+
+
+const SubSubHeading = styled.p`
+  font-size: 1.5rem;
+  width: fit-content;
+  color: white;
   padding: 0.5rem 1rem;
 `;
 
@@ -44,7 +56,11 @@ const Greeting = () => {
       <HomeContainer>
         <WrapperStyle>
           {user ? (
-            <SubHeading>Welcome back, {user.data.first_name}</SubHeading>
+            <>
+              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>
+              <SubSubHeading>You are logged in as {roles_dict[user.data.role_id]}</SubSubHeading>
+            </>
+
           ) : (
             <SubHeading>Data loading...</SubHeading>
           )}

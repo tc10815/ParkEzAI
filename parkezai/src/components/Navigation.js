@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png'
 import styled from 'styled-components';
 import theme from '../theme';
+import jwt_decode from "jwt-decode";
 
 const LogoContainer = styled.div`
   display: flex;
@@ -78,13 +79,26 @@ const Logo = styled.div`
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
-
+  const [userRole, setUserRole] = useState(null);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      console.log(token);
+      const decodedToken = jwt_decode(token);
+      console.log(decodedToken);
+
+      setUserRole(decodedToken.data.role_id);
+    }
+  }, []);
+
+
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -93,6 +107,8 @@ const Navigation = () => {
       }
     };
 
+
+    
     document.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
@@ -102,17 +118,9 @@ const Navigation = () => {
   }, [scrolled]);
 
 
-  return (
-    <StyledNav scrolled={scrolled}>
-      <LogoContainer>
-      <img
-          src={logo}
-          alt="ParkEzAI Logo"
-          style={{ height: '40px', width: '40px', marginRight: '0px' }}
-        />
-      <Logo>ParkEz</Logo>
-      </LogoContainer>
-      <StyledUl>
+  const renderLinksByRole = () => {
+    const commonLinks = (
+      <>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
             <StyledNavLink to="/">Home</StyledNavLink>
@@ -129,15 +137,71 @@ const Navigation = () => {
           </StyledButton>
         </StyledLi>
         <StyledLi>
-          <StyledButton onClick={scrollToTop}>
-            <StyledNavLink to="/signup">Sign Up</StyledNavLink>
-          </StyledButton>
-        </StyledLi>
-        <StyledLi>
-          <StyledButton onClick={scrollToTop}>
-            <StyledNavLink to="/login">Login</StyledNavLink>
-          </StyledButton>
-        </StyledLi>
+        <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/signup">Sign Up</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/login">Login</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+      </>
+    );
+
+    if (userRole === 1) {
+      return (
+        <>
+          {commonLinks}
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/operator-dashboard">Operator Dashboard</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+        </>
+      );
+    } else if (userRole === 2) {
+      return (
+        <>
+          {commonLinks}
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/advertiser-dashboard">Advertiser Dashboard</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+        </>
+      );
+    } else {
+      return (
+        <>
+          {commonLinks}
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/signup">Sign Up</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/login">Login</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+        </>
+      );
+    }
+  };
+
+  return (
+    <StyledNav scrolled={scrolled}>
+      <LogoContainer>
+        <img
+          src={logo}
+          alt="ParkEzAI Logo"
+          style={{ height: '40px', width: '40px', marginRight: '0px' }}
+        />
+        <Logo>ParkEz</Logo>
+      </LogoContainer>
+      <StyledUl>
+        {renderLinksByRole()}
       </StyledUl>
     </StyledNav>
   );
