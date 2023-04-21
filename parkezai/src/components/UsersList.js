@@ -40,7 +40,14 @@ const Para = styled.div`
   color:white;
   text-align: center;
 `;
-
+const roles_dict_ul = {
+  1: 'Lot operator',
+  2: 'Advertiser',
+  3: 'Customer Support',
+  4: 'Lot specialist',
+  5: 'Advertising Specialist',
+  6: 'Accountant'
+}
 const UsersList = () => {
   const [users, setUsers] = useState([]);
 
@@ -82,7 +89,7 @@ const UsersList = () => {
           {users.map((user) => (
             <tr key={user.id}>
                 <TableCell>{user.id}</TableCell>
-                <TableCell>{user.role_id === "1" ? "Lot Operator" : user.role_id === "2" ? "Advertiser" : "Unknown"}</TableCell>
+                <TableCell>{roles_dict_ul[user.role_id]}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.first_name}</TableCell>
                 <TableCell>{user.last_name}</TableCell>
@@ -95,9 +102,6 @@ const UsersList = () => {
           ))}
         </tbody>
       </UsersTable><br />
-      <Para><strong>Demonstration Accounts</strong></Para>
-      <Para><strong>Type:</strong> Lot Operator<br /><strong>Email:</strong> funky.chicken@example.com<br /><strong>Password:</strong> funky123</Para><br />
-      <Para><strong>Type:</strong> Advertiser<br /> <strong>Email:</strong> jolly.giraffe@example.com<br /><strong>Password:</strong> jolly123</Para>
     </ContentWrapper>
 
   );

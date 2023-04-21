@@ -1,14 +1,14 @@
 ## Latest Stable Build
 [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-The above build is generated from the source code on Commit 65 on Github.
+The above build is generated from the source code on Commit 72 on Github.
 
 Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
 
 Website doesn't render well on phones in this build, but will be responsive by the end of the project.
 
 Backend working so far:
-* You can log on to a demo account (see below for usernames / passwords) or an account you create
+* You can log on to a demo account (footer of login page for usernames / passwords) or an account you create
 * You can see how buttons are responsive to User Role in the top Navigation menu
 * You can log out. Notice how once you log in, you can close the browser and come back and you will still be logged in.
 * You can add users by filling in SignUp page and clicking submit
@@ -16,8 +16,8 @@ Backend working so far:
 * On the bottom of the Signup page there's also a button to view all users in the database
 
 Demonstrations accounts available for login:
-* Role: Lot Operator | email: funky.chicken@example.com | password: funky123
-* Role: Advertiser | email:jolly.giraffe@example.com | password: jolly123
+* All 6 logins and passwords at bottom of login page
+
 Note: You can also create a role at the Sign Up page and log on to the new account you create
 
 

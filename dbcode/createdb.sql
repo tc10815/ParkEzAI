@@ -1,6 +1,8 @@
 CREATE TABLE roles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    role_name VARCHAR(255) NOT NULL
+  id INT PRIMARY KEY,
+  role_name VARCHAR(50) NOT NULL,
+  user_type VARCHAR(50) NOT NULL,
+  is_employee BOOLEAN NOT NULL
 );
 
 CREATE TABLE users (

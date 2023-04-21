@@ -10,8 +10,12 @@ const HomeContainer = styled.div`
 `;
 
 const roles_dict = {
-  1: 'a parking lot operator',
-  2: 'an advertiser'
+  1: 'a lot operator',
+  2: 'an advertiser',
+  3: 'customer support',
+  4: 'a lot specialist',
+  5: 'an advertising specialist',
+  6: 'an accountant'
 }
 
 const SubHeading = styled.h2`

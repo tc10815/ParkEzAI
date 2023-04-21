@@ -149,7 +149,7 @@ const Signup = () => {
         }
   };
   const resetAndPrepopulate = async () => {
-    const response = await fetch("https://tomcookson.com/parkezaiphp/reset_and_prepopulate.php", { method: "POST" });
+    const response = await fetch("https://tomcookson.com/php2/reset_and_prepopulate.php", { method: "POST" });
 
     if (response.ok) {
         const data = await response.json();
@@ -202,5 +202,4 @@ const Signup = () => {
     </HomeContainer>
   );
 };
-
 export default Signup;

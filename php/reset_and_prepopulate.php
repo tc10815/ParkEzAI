@@ -3,10 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 
-$servername = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+$servername = "";
+$username = "";
+$password = "";
+$dbname = "";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -45,8 +45,8 @@ $demoUsers = [
         "password" => "jolly123"
     ],
     [
-        "role_id" => 1,
-        "email" => "curious.cat@example.com",
+        "role_id" => 3,
+        "email" => "curious.cat@parkez.com",
         "first_name" => "Curious",
         "last_name" => "Cat",
         "company_name" => "Whisker Whispers",
@@ -57,8 +57,8 @@ $demoUsers = [
         "password" => "curious123"
     ],
     [
-        "role_id" => 2,
-        "email" => "chatty.penguin@example.com",
+        "role_id" => 4,
+        "email" => "chatty.penguin@parkez.com",
         "first_name" => "Chatty",
         "last_name" => "Penguin",
         "company_name" => "Ice Breakers",
@@ -69,8 +69,8 @@ $demoUsers = [
         "password" => "chatty123"
     ],
     [
-        "role_id" => 1,
-        "email" => "happy.hippo@example.com",
+        "role_id" => 5,
+        "email" => "happy.hippo@parkez.com",
         "first_name" => "Happy",
         "last_name" => "Hippo",
         "company_name" => "River Riders",
@@ -81,8 +81,8 @@ $demoUsers = [
         "password" => "happy123"
     ],
     [
-        "role_id" => 2,
-        "email" => "lively.lemur@example.com",
+        "role_id" => 6,
+        "email" => "lively.lemur@parkez.com",
         "first_name" => "Lively",
         "last_name" => "Lemur",
         "company_name" => "Tree Jumpers",
@@ -92,18 +92,6 @@ $demoUsers = [
         "zip" => "07302",
         "password" => "lively123"
     ],
-    [
-        "role_id" => 1,
-        "email" => "daring.dolphin@example.com",
-        "first_name" => "Daring",
-        "last_name" => "Dolphin",
-        "company_name" => "Ocean Acrobats",
-        "company_address" => "147 Flipper Ct",
-        "state" => "NY",
-        "city" => "Rochester",
-        "zip" => "14604",
-        "password" => "daring123"
-    ]
 ];
 
 // Insert demo users into the users table

@@ -102,7 +102,27 @@ const SignInOrganizer = styled.div`
   justify-content: center;
   padding-left: 0;
 `;
+const UsersTable = styled.table`
+  text-align: center;
+  border-collapse: collapse;
+  color:white;
+  border-style: solid;
+  border-color: white;
+`;
 
+const TableHeader = styled.th`
+  padding: 0.2rem;
+  border: 1px solid black;
+  border-style: solid;
+  border-color: white;
+`;
+
+const TableCell = styled.td`
+  padding: 0.2rem;
+  border: 1px solid black;
+  border-style: solid;
+  border-color: white;
+`;
 
 
 
@@ -160,6 +180,51 @@ const Login = () => {
           <FooterItem>Stamford, CT 06902</FooterItem>
           <FooterItem>Phone: (203) 123-4567</FooterItem>
           <FooterItem>Email: support@parkez.ai</FooterItem>
+          <br />
+          <UsersTable>
+        <thead>
+          <tr>
+          <td colspan="3"><strong>Demo Logins (not for production)</strong> Reset users at bottom of 'Sign Up' if accounts don't work.</td>
+          </tr>
+          <tr>
+            <TableHeader>Role</TableHeader>
+            <TableHeader>Email</TableHeader>
+            <TableHeader>Password</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <TableCell>Lot Operator</TableCell>
+            <TableCell>funky.chicken@example.com</TableCell>
+            <TableCell>funky123</TableCell>
+          </tr>
+          <tr>
+            <TableCell>Advertiser</TableCell>
+            <TableCell>jolly.giraffe@example.com</TableCell>
+            <TableCell>jolly123</TableCell>
+          </tr>
+          <tr>
+            <TableCell>Customer Support</TableCell>
+            <TableCell>curious.cat@parkez.com</TableCell>
+            <TableCell>curious123</TableCell>
+          </tr>
+          <tr>
+            <TableCell>Lot Specialist</TableCell>
+            <TableCell>chatty.penguin@parkez.com</TableCell>
+            <TableCell>chatty123</TableCell>
+          </tr>
+          <tr>
+            <TableCell>Advertising Specialist</TableCell>
+            <TableCell>happy.hippo@parkez.com</TableCell>
+            <TableCell>happy123</TableCell>
+          </tr>
+          <tr>
+            <TableCell>Accountant	</TableCell>
+            <TableCell>lively.lemur@parkez.com</TableCell>
+            <TableCell>lively123</TableCell>
+          </tr>
+        </tbody>
+      </UsersTable>
         </Footer>
       </HomeContainer>
   );
