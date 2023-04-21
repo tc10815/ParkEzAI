@@ -7,8 +7,8 @@ Current Account Types:
 
 ## Account types named in RCT_v10 with discriptions
 1. ~~Subscribed Parking Lot Operators~~ (Now known as **Lot Operator**) -- A person with a parking lot who pays us to monitor it, help their customers find spaces
-2. ~~ Car Parking Users ~~ (Nameless user who has not logged in, and is not in database) -- A unenrolled website user, who probably wants to find best space in a parking lot, who never logs in
-3. ~~ Subscribed Advertisers ~~  (Now known as **Advertiser**) -- A person who pays us to advertise on our website
+2. ~~Car Parking Users~~ (Nameless user who has not logged in, and is not in database) -- A unenrolled website user, who probably wants to find best space in a parking lot, who never logs in
+3. ~~Subscribed Advertisers~~  (Now known as **Advertiser**) -- A person who pays us to advertise on our website
 4. Advertising & Sales Representative -- A ParkEz employee who supports **Advertisers**, including with technical problems
 5. Customer Support Specialist -- A ParkEz employee who helps both **Advertisers** and **Lot Operators**, but with more basic, non-technical issues.
 6. Accountant -- A ParkEz employee who manages paperwork
@@ -30,4 +30,3 @@ The Role titles are not named in a logical way, and they are named too long, so 
 * Accountant should be able to create new accounts for all employees, including new accoutants (they fill in email and temporary password, then new employees fill in the rest when they first log in) and edit roles for all accounts
  * Page for accountants to create new accounts (the only way for new employee accounts to be created)
  * Page for accoutnants to edit all accounts including role (the only way to edit accounts)
- * 
