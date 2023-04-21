@@ -22,11 +22,11 @@ The Role titles are not named in a logical way, and they are named too long, so 
 4. Advertising --  **Advertising Specialist** (employee)
 5. Customer Support Specialist -- **Customer Support** (employee)
 6. Accountant -> **Accountant** (employee)
-7. Manager -> **Parking Lot Support** (employee)
+7. Manager -> **Parking Specialist** (employee)
 
 ## Todo List
 * All pages should be able to view/edit their personal information (including password and email), except for role
- * One new EditAccount page all users can have access too
+  * One new EditAccount page all users can have access too
 * Accountant should be able to create new accounts for all employees, including new accoutants (they fill in email and temporary password, then new employees fill in the rest when they first log in) and edit roles for all accounts
- * Page for accountants to create new accounts (the only way for new employee accounts to be created)
- * Page for accoutnants to edit all accounts including role (the only way to edit accounts)
+  * Page for accountants to create new accounts (the only way for new employee accounts to be created)
+  * Page for accoutnants to edit all accounts including role (the only way to edit accounts)
