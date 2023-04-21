@@ -126,6 +126,7 @@ const Login = () => {
     });
     if (response.ok) {
       const { token } = await response.json();
+      console.log('token should be empty');
       console.log(token);
       localStorage.setItem("token", token);
       if(typeof token !== "undefined"){

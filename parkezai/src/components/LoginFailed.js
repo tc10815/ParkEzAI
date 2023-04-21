@@ -25,7 +25,7 @@ const SubHeading = styled.h2`
   padding: 0.5rem 1rem;
 `;
 
-const SignInOrganizer = styled.div`
+const FailOrganizer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,11 +36,11 @@ const SignInOrganizer = styled.div`
 const LoginFailed = () => {
   return (
     <HomeContainer>
-      <SignInOrganizer>
+      <FailOrganizer>
         <Heading>Login Failed</Heading>
         <SubHeading>Please check your email and password and try again.</SubHeading>
-      </SignInOrganizer>
-  </HomeContainer>
+      </FailOrganizer>
+    </HomeContainer>
   );
 };
 

@@ -1,8 +1,32 @@
-//NEW CODE
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import jwt_decode from "jwt-decode";
+
+const HomeContainer = styled.div`
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+
+
+const SubHeading = styled.h2`
+  margin-top:15vh;
+  font-size: 2rem;
+  width: fit-content;
+  color: white;
+  background-color: rgba(0, 0, 0, 1); // No transparency
+  padding: 0.5rem 1rem;
+`;
+
+const WrapperStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
+`;
 
 const Greeting = () => {
   const [user, setUser] = useState(null);
@@ -10,27 +34,23 @@ const Greeting = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwt_decode(token);
-      setUser(decodedToken.user);
-    }
+    const decodedToken = jwt_decode(token);
+    setUser(decodedToken);
+    
   }, [location]);
-  const WrapperStyle = styled.div`
-    position: absolute;
-    color:black;
-    text-align: center;
-    background-color:white;
-  `
+  console.log(user);
+
   return (
-    <div>
-      <WrapperStyle>
-        <h1>Welcome, {user.first_name}!</h1>
-        <p>Your role: {user.role_id === 1 ? "Lot Operator" : "Advertiser"}</p>
-        <p>Your company: {user.company_name}</p>
-        <p>Your email: {user.email}</p>
-      </WrapperStyle>
-    </div>
-  );
+      <HomeContainer>
+        <WrapperStyle>
+          {user ? (
+            <SubHeading>Welcome back, {user.data.first_name}</SubHeading>
+          ) : (
+            <SubHeading>Data loading...</SubHeading>
+          )}
+        </WrapperStyle>
+      </HomeContainer>
+    );
 };
 
 export default Greeting;
