@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png'
 import styled from 'styled-components';
 import theme from '../theme';
@@ -80,22 +80,44 @@ const Logo = styled.div`
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUserRole(null);
+    navigate("/login");
+  };
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      console.log(token);
       const decodedToken = jwt_decode(token);
-      console.log(decodedToken);
-
       setUserRole(decodedToken.data.role_id);
     }
   }, []);
+
+  useEffect(() => {
+    const handleTokenUpdate = (event) => {
+      const updatedToken = event.detail;
+      const decodedToken = jwt_decode(updatedToken);
+      setUserRole(decodedToken.data.role_id);
+    };
+
+    window.addEventListener('tokenUpdate', handleTokenUpdate);
+
+    return () => {
+      window.removeEventListener('tokenUpdate', handleTokenUpdate);
+    };
+  }, []);
+
+ 
 
 
 
@@ -108,9 +130,7 @@ const Navigation = () => {
     };
 
 
-    
     document.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => {
       // Clean up the event listener
       document.removeEventListener('scroll', handleScroll);
@@ -136,16 +156,6 @@ const Navigation = () => {
             <StyledNavLink to="/about">About</StyledNavLink>
           </StyledButton>
         </StyledLi>
-        <StyledLi>
-        <StyledButton onClick={scrollToTop}>
-              <StyledNavLink to="/signup">Sign Up</StyledNavLink>
-            </StyledButton>
-          </StyledLi>
-          <StyledLi>
-            <StyledButton onClick={scrollToTop}>
-              <StyledNavLink to="/login">Login</StyledNavLink>
-            </StyledButton>
-          </StyledLi>
       </>
     );
 
@@ -202,6 +212,16 @@ const Navigation = () => {
       </LogoContainer>
       <StyledUl>
         {renderLinksByRole()}
+      </StyledUl>
+      <StyledUl>
+        {/* ... (Keep the existing code for other links) */}
+        {userRole && (
+          <StyledLi>
+            <StyledButton onClick={handleLogout}>
+              <StyledNavLink to="/login">Logout</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+        )}
       </StyledUl>
     </StyledNav>
   );

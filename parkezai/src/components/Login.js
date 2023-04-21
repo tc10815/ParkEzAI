@@ -126,10 +126,10 @@ const Login = () => {
     });
     if (response.ok) {
       const { token } = await response.json();
-      console.log('token should be empty');
-      console.log(token);
       localStorage.setItem("token", token);
       if(typeof token !== "undefined"){
+        const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: token });
+        window.dispatchEvent(tokenUpdateEvent);
         navigate("/greeting", { state: { token } }); // Pass the token via location state
       } else {
         navigate("/login-failed");
@@ -138,6 +138,7 @@ const Login = () => {
       navigate("/login-failed");
     }
   };
+
 
   return (
         <HomeContainer>
