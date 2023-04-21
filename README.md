@@ -3,7 +3,7 @@
 
 The above build is generated from the source code on Commit 65 on Github.
 
-Text and design of website before logging in complete. Session management basics: Login, logout, create account, changing links/views based on roles now are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend works).
+Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
 
 Website doesn't render well on phones in this build, but will be responsive by the end of the project.
 
