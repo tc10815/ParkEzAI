@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
 
@@ -54,14 +55,12 @@ const HeroImage = styled.div`
   
   font-size: 1.5rem;
   margin-bottom: 2rem;
-
 `;
 
 const SignInForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-
 `;
 
 const Input = styled.input`
@@ -80,7 +79,6 @@ const LoginButton = styled.button`
   background-color: rgba(0, 0, 0, 1);
   color: white;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: #0072ff;
   }
@@ -105,14 +103,18 @@ const SignInOrganizer = styled.div`
   padding-left: 0;
 `;
 
+
+
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements[0].value;
     const password = e.target.elements[1].value;
-    console.log(email);
-    console.log(password);
-    const response = await fetch("https://tomcookson.com/parkezaiphp/login.php", {
+
+    const response = await fetch("https://tomcookson.com/php2/login.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -122,36 +124,42 @@ const Login = () => {
         password,
       }),
     });
-  
-    const result = await response.json();
-    if (result.success) {
-      console.log("Logged in successfully");
+    if (response.ok) {
+      const { token } = await response.json();
+      console.log(token);
+      localStorage.setItem("token", token);
+      if(typeof token !== "undefined"){
+        navigate("/greeting", { state: { token } }); // Pass the token via location state
+      } else {
+        navigate("/login-failed");
+      }
     } else {
-      console.log(result.error);
+      navigate("/login-failed");
     }
   };
+
   return (
-    <HomeContainer>
-      <HeroImage>
-        <SignInOrganizer>
-          <Heading>Welcome back</Heading>
-          <SubHeading>Please sign in</SubHeading>
-          <SignInForm onSubmit={handleSignInSubmit}>
-            <Input type="email" placeholder="Email" required />
-            <Input type="password" placeholder="Password" required />
-            <LoginButton type="submit">Login</LoginButton>
-            <ForgotPasswordLink>Forgot my password</ForgotPasswordLink>
-          </SignInForm>
-        </SignInOrganizer>
-      </HeroImage>
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
-      </Footer>
-    </HomeContainer>
+        <HomeContainer>
+        <HeroImage>
+          <SignInOrganizer>
+            <Heading>Welcome back</Heading>
+            <SubHeading>Please sign in</SubHeading>
+            <SignInForm onSubmit={handleSignInSubmit}>
+              <Input type="email" placeholder="Email" required />
+              <Input type="password" placeholder="Password" required />
+              <LoginButton type="submit">Login</LoginButton>
+              <ForgotPasswordLink>Forgot my password</ForgotPasswordLink>
+            </SignInForm>
+          </SignInOrganizer>
+        </HeroImage>
+        <Footer>
+          <FooterItem>ParkEz Inc.</FooterItem>
+          <FooterItem>1234 Park Street, Suite 567</FooterItem>
+          <FooterItem>Stamford, CT 06902</FooterItem>
+          <FooterItem>Phone: (203) 123-4567</FooterItem>
+          <FooterItem>Email: support@parkez.ai</FooterItem>
+        </Footer>
+      </HomeContainer>
   );
 };
 

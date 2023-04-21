@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
@@ -11,7 +11,8 @@ import styled from 'styled-components';
 import UsersList from './components/UsersList';
 import Success from './components/Success';
 import Error from './components/Error';
-
+import Greeting from './components/Greeting';
+import LoginFailed from './components/LoginFailed';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -20,20 +21,32 @@ const ContentWrapper = styled.div`
 `;
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
     <Router>
-      <Navigation />
+      <Navigation user={user} onLogout={handleLogout} />
       <ContentWrapper>
         <Routes>
-          <Route path="/" exact element={<Home/>} />
-          <Route path="/find-parking" element={<FindParking/>} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/help-center" element={<HelpCenter/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/signup" element={<Signup/>} />
-          <Route path="/success" element={<Success/>} />
-          <Route path="/error" element={<Error/>} />
+          <Route path="/" exact element={<Home />} />
+          <Route path="/find-parking" element={<FindParking />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/help-center" element={<HelpCenter />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/error" element={<Error />} />
           <Route path="/users" element={<UsersList />} />
+          <Route path="/greeting" element={<Greeting />} />
+          <Route path="/login-failed" element={<LoginFailed />} />
         </Routes>
       </ContentWrapper>
     </Router>
