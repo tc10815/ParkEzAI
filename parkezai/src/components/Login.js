@@ -56,7 +56,16 @@ const HeroImage = styled.div`
   font-size: 1.5rem;
   margin-bottom: 2rem;
 `;
+const resetAndPrepopulate = async () => {
+  const response = await fetch("https://tomcookson.com/php2/reset_and_prepopulate.php", { method: "POST" });
 
+  if (response.ok) {
+      const data = await response.json();
+      alert(data.message);
+  } else {
+      alert("Error resetting and prepopulating users");
+  }
+};
 const SignInForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -184,7 +193,7 @@ const Login = () => {
           <UsersTable>
         <thead>
           <tr>
-          <td colspan="3"><strong>Demo Logins (not for production)</strong> Reset users at bottom of 'Sign Up' if accounts don't work.</td>
+          <td colspan="3"><strong>Demo Logins (not for production)</strong> Click Reset at bottom if accounts don't work.</td>
           </tr>
           <tr>
             <TableHeader>Role</TableHeader>
@@ -225,6 +234,7 @@ const Login = () => {
           </tr>
         </tbody>
       </UsersTable>
+      <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Demonstration Data</button>
         </Footer>
       </HomeContainer>
   );
