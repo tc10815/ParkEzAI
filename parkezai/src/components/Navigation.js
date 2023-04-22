@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import logo from '../images/parkezlogosmall2.png'
+import logo from '../images/parkezlogosmall2.png';
 import styled from 'styled-components';
 import theme from '../theme';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 
 const LogoContainer = styled.div`
   display: flex;
@@ -137,10 +137,18 @@ const Navigation = () => {
     };
   }, [scrolled]);
 
-
   const renderLinksByRole = () => {
-    const commonLinks = (
-      <>
+    const loggedInLinks = (
+      <StyledLi>
+        <StyledButton onClick={handleLogout}>
+          <StyledNavLink to="/login">Logout</StyledNavLink>
+        </StyledButton>
+      </StyledLi>
+    );
+
+    if (!userRole) {
+      return (
+        <>
         <StyledLi>
           <StyledButton onClick={scrollToTop}>
             <StyledNavLink to="/">Home</StyledNavLink>
@@ -156,35 +164,7 @@ const Navigation = () => {
             <StyledNavLink to="/about">About</StyledNavLink>
           </StyledButton>
         </StyledLi>
-      </>
-    );
 
-    if (userRole === 1) {
-      return (
-        <>
-          {commonLinks}
-          <StyledLi>
-            <StyledButton onClick={scrollToTop}>
-              <StyledNavLink to="/operator-dashboard">Operator Dashboard</StyledNavLink>
-            </StyledButton>
-          </StyledLi>
-        </>
-      );
-    } else if (userRole === 2) {
-      return (
-        <>
-          {commonLinks}
-          <StyledLi>
-            <StyledButton onClick={scrollToTop}>
-              <StyledNavLink to="/advertiser-dashboard">Advertiser Dashboard</StyledNavLink>
-            </StyledButton>
-          </StyledLi>
-        </>
-      );
-    } else {
-      return (
-        <>
-          {commonLinks}
           <StyledLi>
             <StyledButton onClick={scrollToTop}>
               <StyledNavLink to="/signup">Sign Up</StyledNavLink>
@@ -195,6 +175,170 @@ const Navigation = () => {
               <StyledNavLink to="/login">Login</StyledNavLink>
             </StyledButton>
           </StyledLi>
+        </>
+      );
+    } else {
+      const roleLinks = {
+        1: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/operator-dashboard">Parking Lot Dashboard</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/archive">Archive</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/support">Support</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/analysis">Analysis</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/billing">Billing</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+        2: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/advertiser-dashboard">Advertisements Dashboard</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/archive">Archive</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/support">Support</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/analysis">Analysis</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/billing">Billing</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+        3: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/lot-admin">Lot Admin</StyledNavLink>
+              </StyledButton>
+              </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/ad-admin">Ad Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/billing-admin">Billing Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/user-account-admin">User Account Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+        4: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/lot-admin">Lot Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/lot-billing-admin">Lot Billing Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/lot-account-admin">Lot Account Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+        5: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/ad-admin">Ad Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/ad-billing-admin">Ad Billing Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/ad-account-admin">Ad Account Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+        6: (
+          <>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/billing">Billing</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/employee-admin">Employee Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+          </>
+        ),
+      };
+
+      return (
+        <>
+          {roleLinks[userRole]}
+          <StyledLi>
+            <StyledButton onClick={scrollToTop}>
+              <StyledNavLink to="/account">Account</StyledNavLink>
+            </StyledButton>
+          </StyledLi>
+          {loggedInLinks}
         </>
       );
     }
@@ -210,19 +354,7 @@ const Navigation = () => {
         />
         <Logo>ParkEz</Logo>
       </LogoContainer>
-      <StyledUl>
-        {renderLinksByRole()}
-      </StyledUl>
-      <StyledUl>
-        {/* ... (Keep the existing code for other links) */}
-        {userRole && (
-          <StyledLi>
-            <StyledButton onClick={handleLogout}>
-              <StyledNavLink to="/login">Logout</StyledNavLink>
-            </StyledButton>
-          </StyledLi>
-        )}
-      </StyledUl>
+      <StyledUl>{renderLinksByRole()}</StyledUl>
     </StyledNav>
   );
 };
