@@ -157,7 +157,7 @@ const Signup = () => {
     } else {
         alert("Error resetting and prepopulating users");
     }
-};
+  };
   return (
     <HomeContainer>
       <HeroImage>
@@ -194,7 +194,7 @@ const Signup = () => {
         <FooterItem>Phone: (203) 123-4567</FooterItem>
         <FooterItem>Email: support@parkez.ai</FooterItem>
         <h2>Demonstrations Features (not for production)</h2>
-        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Sample Users</button>
+        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Demonstration Data</button>
         <Link to="/users">
           <button type="button">View All Users</button>
         </Link>

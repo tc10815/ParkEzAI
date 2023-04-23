@@ -54,7 +54,6 @@ const Greeting = () => {
     setUser(decodedToken);
     
   }, [location]);
-  console.log(user);
 
   return (
       <HomeContainer>

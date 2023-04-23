@@ -13,6 +13,7 @@ import Success from './components/Success';
 import Error from './components/Error';
 import Greeting from './components/Greeting';
 import LoginFailed from './components/LoginFailed';
+import OperatorDashboard from './components/OperatorDashboard';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/users" element={<UsersList />} />
           <Route path="/greeting" element={<Greeting />} />
           <Route path="/login-failed" element={<LoginFailed />} />
+          <Route path="/operator-dashboard" element={<OperatorDashboard />} />
         </Routes>
       </ContentWrapper>
     </Router>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
+import jwt_decode from 'jwt-decode';
 
 
 const HomeContainer = styled.div`
@@ -159,7 +160,33 @@ const Login = () => {
       if(typeof token !== "undefined"){
         const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: token });
         window.dispatchEvent(tokenUpdateEvent);
-        navigate("/greeting", { state: { token } }); // Pass the token via location state
+        const decodedToken = jwt_decode(token);
+
+        switch(decodedToken.data.role_id){
+          case 1:
+            navigate("/operator-dashboard"); 
+            break;
+          case 2:
+            navigate("/advertiser-dashboard"); 
+            break;
+          case 3:
+            navigate("/support-tickets"); 
+            break;
+          case 4:
+            navigate("/support-tickets"); 
+            break;
+          case 5:
+            navigate("/support-tickets"); 
+            break;
+          case 6:
+            navigate("/support-tickets"); 
+            break;
+          default:
+            navigate("/billing"); 
+            break;
+        }
+  
+
       } else {
         navigate("/login-failed");
       }
