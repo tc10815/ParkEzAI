@@ -231,6 +231,11 @@ const UpdateAccount = () => {
           </label>
           <br />
           <button type="submit">Update</button>
+          <br />
+          <br />
+          <Link to="/change-password">
+            <button type="button">Change Password</button>
+          </Link>
         </UpdateForm>
 
       )}

@@ -17,6 +17,7 @@ import OperatorDashboard from './components/OperatorDashboard';
 import AdvertiserDashboard from './components/AdvertiserDashboard';
 import AccountantDashboard from './components/AccountantDashboard';
 import UpdateAccount from './components/UpdateAccount';
+import ChangePassword from './components/ChangePassword';
 import SuccessChange from './components/SuccessChange';
 import ErrorChange from './components/ErrorChange';
 const ContentWrapper = styled.div`
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
           <Route path="/accountant-dashboard" element={<AccountantDashboard />} />
           <Route path="/account" element={<UpdateAccount />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </ContentWrapper>
     </Router>

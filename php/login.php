@@ -50,7 +50,8 @@ if ($user) {
                 "first_name" => $user["first_name"],
                 "last_name" => $user["last_name"],
                 "role_id" => $user["role_id"],
-                "company_name" => $user["company_name"]
+                "company_name" => $user["company_name"],
+                "isUninitialized" => $user["isUninitialized"] 
             ]
         ];
 
