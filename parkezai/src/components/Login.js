@@ -161,7 +161,7 @@ const Login = () => {
         const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: token });
         window.dispatchEvent(tokenUpdateEvent);
         const decodedToken = jwt_decode(token);
-
+        console.log(decodedToken);
         switch(decodedToken.data.role_id){
           case 1:
             navigate("/operator-dashboard"); 

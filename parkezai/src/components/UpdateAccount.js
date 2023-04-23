@@ -11,13 +11,13 @@ const HomeContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 const FormContainer = styled.div`
-  margin-top: 5rem;
+  margin-top: 18vh;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
@@ -36,15 +36,19 @@ const TitleText = styled.p`
   color:black;
 `
 
-const SubHeading = styled.h2`
-  margin-top:20vh;
-  font-size: 2rem;
-  width: fit-content;
+const Footer = styled.footer`
+  background-color: black;
   color: white;
-  background-color: rgba(0, 0, 0, 1); // No transparency
-  padding: 0.5rem 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
+const FooterItem = styled.p`
+  margin: 0.2rem;
+`;
 const UpdateForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -170,6 +174,7 @@ const UpdateAccount = () => {
   };
 
   return (
+    <>
     <HomeContainer>
       <FormContainer>
         {user && (
@@ -231,7 +236,16 @@ const UpdateAccount = () => {
       )}
      
     </FormContainer>
+
     </HomeContainer>
+    <Footer>
+        <FooterItem>ParkEz Inc.</FooterItem>
+        <FooterItem>1234 Park Street, Suite 567</FooterItem>
+        <FooterItem>Stamford, CT 06902</FooterItem>
+        <FooterItem>Phone: (203) 123-4567</FooterItem>
+        <FooterItem>Email: support@parkez.ai</FooterItem>
+      </Footer>
+      </>
   );
 };
 

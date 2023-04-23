@@ -89,7 +89,8 @@ const OperatorDashboard = () => {
       <WebCamContainer>
       {user ? (
             <>
-              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>            </>
+              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>            
+            </>
           ) : (
             <SubHeading>Welcome back</SubHeading>
           )}
@@ -137,6 +138,5 @@ const OperatorDashboard = () => {
       </Footer>
     </HomeContainer>
   );
-
 };
 export default OperatorDashboard;

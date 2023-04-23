@@ -120,7 +120,7 @@ const Signup = () => {
   
     const role_id = role === "parking_lot_owner" ? 1 : 2;
 
-    const response = await fetch("https://tomcookson.com/parkezaiphp/signup.php", {
+    const response = await fetch("https://tomcookson.com/php2/signup.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

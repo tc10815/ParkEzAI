@@ -17,5 +17,6 @@ CREATE TABLE users (
     city VARCHAR(255) NOT NULL,
     zip VARCHAR(10) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    isUninitialized BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );

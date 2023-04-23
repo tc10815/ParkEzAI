@@ -53,7 +53,7 @@ const UsersList = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("https://tomcookson.com/parkezaiphp/get_users.php", { method: "GET" });
+      const response = await fetch("https://tomcookson.com/php2/get_users.php", { method: "GET" });
 
       if (response.ok) {
         const data = await response.json();
