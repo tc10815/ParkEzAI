@@ -1,7 +1,7 @@
 ## Latest Stable Build
 [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-The above build is generated from the source code on Commit 79 on Github.
+The above build is generated from the source code on Commit 80 on Github.
 
 Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
 
@@ -14,6 +14,7 @@ Backend working so far:
 * You can add users by filling in SignUp page and clicking submit
 * On the bottom of the Login and Signup page there's a button that lets you reset the Database to all default users (so feel free to add your own users)
 * On the bottom of the Signup page there's also a button to view all users in the database
+* All types of accounts can modify appropriate details on the Account tab after logging in
 * You can see a specialized **model** Dashboard if you log on as: 
     - Parking Lot Operators if you log on as one, including a live stream of a parking lot (!)
     - Advertisors 

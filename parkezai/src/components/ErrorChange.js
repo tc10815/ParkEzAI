@@ -1,7 +1,6 @@
 // Error.js
 import React from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -20,19 +19,12 @@ const Message = styled.h1`
   margin-bottom: 1rem;
 `;
 
-const Error = () => {
-  const location = useLocation();
-  const errorMessageJson = location.state.errorMessage;
-  console.log(errorMessageJson);
-  const jsonObject = JSON.parse(errorMessageJson);
-  const errorKey = Object.keys(jsonObject)[0];
-  const errorMessage = jsonObject[errorKey];
+const ErrorChange = () => {
   return (
     <Container>
       <Message>Unable to create or modify account</Message>
-      <p><strong>{errorKey}</strong><br />{errorMessage}</p>
     </Container>
   );
 };
 
-export default Error;
+export default ErrorChange;

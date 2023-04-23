@@ -16,7 +16,9 @@ import LoginFailed from './components/LoginFailed';
 import OperatorDashboard from './components/OperatorDashboard';
 import AdvertiserDashboard from './components/AdvertiserDashboard';
 import AccountantDashboard from './components/AccountantDashboard';
-
+import UpdateAccount from './components/UpdateAccount';
+import SuccessChange from './components/SuccessChange';
+import ErrorChange from './components/ErrorChange';
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,14 +48,16 @@ const App = () => {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/success-change" element={<SuccessChange />} />
           <Route path="/error" element={<Error />} />
+          <Route path="/error-change" element={<ErrorChange />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/greeting" element={<Greeting />} />
           <Route path="/login-failed" element={<LoginFailed />} />
           <Route path="/operator-dashboard" element={<OperatorDashboard />} />
           <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
           <Route path="/accountant-dashboard" element={<AccountantDashboard />} />
-
+          <Route path="/account" element={<UpdateAccount />} />
         </Routes>
       </ContentWrapper>
     </Router>
