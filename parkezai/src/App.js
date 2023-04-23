@@ -15,6 +15,7 @@ import Greeting from './components/Greeting';
 import LoginFailed from './components/LoginFailed';
 import OperatorDashboard from './components/OperatorDashboard';
 import AdvertiserDashboard from './components/AdvertiserDashboard';
+import AccountantDashboard from './components/AccountantDashboard';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -51,6 +52,8 @@ const App = () => {
           <Route path="/login-failed" element={<LoginFailed />} />
           <Route path="/operator-dashboard" element={<OperatorDashboard />} />
           <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
+          <Route path="/accountant-dashboard" element={<AccountantDashboard />} />
+
         </Routes>
       </ContentWrapper>
     </Router>

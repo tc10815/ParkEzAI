@@ -179,7 +179,7 @@ const Login = () => {
             navigate("/support-tickets"); 
             break;
           case 6:
-            navigate("/support-tickets"); 
+            navigate("/accountant-dashboard"); 
             break;
           default:
             navigate("/billing"); 

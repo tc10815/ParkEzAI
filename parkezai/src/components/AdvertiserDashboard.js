@@ -151,7 +151,7 @@ const AdvertiserDashboard = () => {
             <AdImage src={ad1.imageUrl} alt={ad1.title} />
             <h3>{ad1.title}</h3>
             <p>{ad1.description}</p>
-            <p>Impressions: {ad1.impressions}</p>
+            <p>Daily Impressions: {ad1.impressions}</p>
             <p>Clicks: {ad1.clicks}</p>
             <p>Conversions: {ad1.conversions}</p>
             <p>Ad Spend: ${ad1.spend}</p>
