@@ -328,7 +328,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/employee-admin">Employee Admin</StyledNavLink>
+                <StyledNavLink to="/create-staff-account">Employee Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
           </>

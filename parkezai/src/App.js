@@ -20,6 +20,10 @@ import UpdateAccount from './components/UpdateAccount';
 import ChangePassword from './components/ChangePassword';
 import SuccessChange from './components/SuccessChange';
 import ErrorChange from './components/ErrorChange';
+import CreateStaffAccount from './components/CreateStaffAccount';
+import SuccessCreate from './components/SuccessCreate';
+import ErrorCreate from './components/ErrorCreate'; 
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,6 +52,7 @@ const App = () => {
           <Route path="/help-center" element={<HelpCenter />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/create-staff-account" element={<CreateStaffAccount />} />
           <Route path="/success" element={<Success />} />
           <Route path="/success-change" element={<SuccessChange />} />
           <Route path="/error" element={<Error />} />
@@ -60,6 +65,8 @@ const App = () => {
           <Route path="/accountant-dashboard" element={<AccountantDashboard />} />
           <Route path="/account" element={<UpdateAccount />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/success-create" element={<SuccessCreate />} />
+          <Route path="/error-create" element={<ErrorCreate />} />
         </Routes>
       </ContentWrapper>
     </Router>
