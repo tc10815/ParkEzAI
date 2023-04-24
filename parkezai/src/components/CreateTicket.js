@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import styled from "styled-components";
-import heroImage from "../images/account-hero.jpg";
+import heroImage from "../images/support-hero.jpg";
 
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
@@ -44,24 +44,22 @@ const Footer = styled.footer`
   justify-content: center;
 `;
 
-const CenterMe = styled.div`
-  width: 350px;
-  margin-left: auto;
-  margin-right: auto;
-`;
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
-const UpdateForm = styled.form`
+
+const CreateTicketForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const MyLabel = styled.label`
-  width: 40px;
+  display: inline-block;
+  width: 400px;
 `;
-const InitiateAccount = () => {
+
+const CreateTicket = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,30 +70,32 @@ const InitiateAccount = () => {
 
       if (token) {
         const decodedToken = jwt_decode(token);
-        setUser(decodedToken);
+        setUser(decodedToken.data);
       }
     };
 
     fetchUser();
   }, [location]);
 
-  const handleInitiateSubmit = async (e) => {
+  const handleCreateTicketSubmit = async (e) => {
     e.preventDefault();
-    const first_name = e.target.elements[0].value;
-    const last_name = e.target.elements[1].value;
-    const current_password = e.target.elements[2].value;
-    const new_password = e.target.elements[3].value;
+    const subject = e.target.elements[0].value;
+    const description = e.target.elements[1].value;
+    const status = "Open";
+    const priority = e.target.elements[2].value;
+    const role_id = user.role_id;
+    const category = role_id === 1 ? "Lot Owners" : role_id === 2 ? "Advertisers" : "General";
 
     const requestBody = {
-      user_id: user.data.user_id,
-      first_name,
-      last_name,
-      current_password,
-      new_password,
+      user_id: user.user_id,
+      subject,
+      description,
+      status,
+      priority,
+      category,
     };
-    console.log(requestBody);
 
-    const response = await fetch("https://tomcookson.com/php2/initialize_account.php", {
+    const response = await fetch("https://tomcookson.com/php2/create_ticket.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -105,14 +105,13 @@ const InitiateAccount = () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       if (data.success) {
-        navigate("/account");
+        navigate("/success-ticket");
       } else {
-        alert('Error has occurred initiating account');
+        navigate("/error-ticket");
       }
     } else {
-      alert('Error has occurred initiating account');
+      navigate("/error-ticket");
     }
   };
 
@@ -121,36 +120,30 @@ const InitiateAccount = () => {
       <HomeContainer>
         <FormContainer>
           {user && (
-            <UpdateForm onSubmit={handleInitiateSubmit}>
-              <TitleText>Initiate Account</TitleText>
-              <CenterMe>
-                <MyLabel>
-                  First Name:&emsp;
-                  <input type="text" />
-                </MyLabel>
-                <br />
-                <MyLabel>
-                  Last Name:&emsp;
-                  <input type="text" />
-                </MyLabel>
-                <br />
-                <br />
-
-                <MyLabel>
-                  Temporary Password:<br />
-
-                  <input type="password" />
-                </MyLabel>
-                <br /><br />
-                <MyLabel>
-                  New Password:<br />
-                  <input type="password" />
-                </MyLabel>
-              </CenterMe>
+              <CreateTicketForm onSubmit={handleCreateTicketSubmit}>
+              <TitleText>Create Ticket</TitleText>
+              <MyLabel>
+                Subject:<br />
+                <input type="text" style={{minWidth:'350px'}} required />
+              </MyLabel>
               <br />
-              <button type="submit">Initiate</button>
+              <MyLabel>
+                Description<br />
+                <textarea style={{minHeight: '200px', minWidth:'350px'}} required />
+              </MyLabel>
               <br />
-            </UpdateForm>
+              <MyLabel>
+                Priority:&emsp;
+                <select required>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </MyLabel>
+              <br />
+              <button type="submit">Create Ticket</button>
+            </CreateTicketForm>
           )}
         </FormContainer>
       </HomeContainer>
@@ -165,6 +158,4 @@ const InitiateAccount = () => {
   );
 };
 
-export default InitiateAccount;
-
-  
+export default CreateTicket;
