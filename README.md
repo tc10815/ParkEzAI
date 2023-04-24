@@ -1,7 +1,7 @@
 ## Latest Stable Build
-[https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
+### [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-The above build is generated from the source code on Commit 88 on Github.
+**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** The above build is generated from the source code on Commit 89 on Github.
 
 Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
 
