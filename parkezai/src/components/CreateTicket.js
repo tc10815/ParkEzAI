@@ -106,12 +106,12 @@ const CreateTicket = () => {
     if (response.ok) {
       const data = await response.json();
       if (data.success) {
-        navigate("/success-ticket");
+        navigate("/my-tickets");
       } else {
-        navigate("/error-ticket");
+        alert('Error creating ticket');
       }
     } else {
-      navigate("/error-ticket");
+      alert('Error creating ticket');
     }
   };
 
