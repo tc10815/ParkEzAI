@@ -49,15 +49,15 @@ const FooterItem = styled.p`
 `;
 
 const MyLabel = styled.label`
-  display: inline-block;
   width: 400px;
-  text-align: right;
+  padding: 8px;
+  
 `;
 
 const CreateStaffForm = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
 `;
 
 const CreateStaffAccount = () => {

@@ -46,6 +46,11 @@ const Footer = styled.footer`
   justify-content: center;
 `;
 
+const CenterMe = styled.div`
+  width:300px;
+  margin-left:auto;
+  margin-right:auto;
+`
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
@@ -56,9 +61,7 @@ const UpdateForm = styled.form`
 `;
 
 const MyLabel = styled.label`
-    display: inline-block;
-    width: 400px;
-    text-align: right;
+    width: 40px;
 `
 const UpdateAccount = () => {
   const [userId, setUserId] = useState('');
@@ -177,13 +180,16 @@ const UpdateAccount = () => {
     <>
     <HomeContainer>
       <FormContainer>
+      
         {user && (
         <UpdateForm onSubmit={handleUpdateSubmit}>
           <TitleText>Update Account</TitleText>
+          <CenterMe>
           <MyLabel>
         First Name:&emsp;
         <input id="fname" type="text" defaultValue={firstName} />
       </MyLabel>
+      <br />
       <MyLabel>
         Last Name:&emsp;
         <input type="text" defaultValue={lastName} />
@@ -192,30 +198,35 @@ const UpdateAccount = () => {
         Email:&emsp;
         <input type="email" defaultValue={email} />
       </MyLabel>
+      <br />
           {user.user.role_id < 3 && (
             <>
               <MyLabel>
                 Address:&emsp;
                 <input defaultValue={address} />
               </MyLabel>
+              <br />
               <MyLabel>
                 Business:&emsp;
                 <input 
                   type="text"  defaultValue={business}
                 />
               </MyLabel>
+              <br />
               <MyLabel>
                 City:&emsp;
                 <input
                   type="text" defaultValue={city}
                 />
               </MyLabel>
+              <br />
               <MyLabel>
                 State:&emsp;
                 <input
                   type="text" defaultValue={state}
                 />
               </MyLabel>
+              <br />
               <MyLabel>
                 Zip:&emsp;
                 <input
@@ -224,6 +235,7 @@ const UpdateAccount = () => {
               </MyLabel>
             </>
           )}
+          </CenterMe>
           <label>
             <br /> <br />
             Enter password to update:<br />
@@ -235,6 +247,10 @@ const UpdateAccount = () => {
           <br />
           <Link to="/change-password">
             <button type="button">Change Password</button>
+          </Link>
+          <br />
+          <Link to="/delete-account">
+            <button type="button">Delete This Account</button>
           </Link>
         </UpdateForm>
 

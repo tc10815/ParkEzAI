@@ -109,11 +109,16 @@ const Navigation = () => {
       const decodedToken = jwt_decode(updatedToken);
       setUserRole(decodedToken.data.role_id);
     };
-
+    const handleLogout = () => {
+      setUserRole(null);
+    };
     window.addEventListener('tokenUpdate', handleTokenUpdate);
+    window.addEventListener('logout', handleLogout);
 
     return () => {
       window.removeEventListener('tokenUpdate', handleTokenUpdate);
+      window.removeEventListener('logout', handleLogout);
+  
     };
   }, []);
 
