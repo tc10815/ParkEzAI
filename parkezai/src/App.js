@@ -25,6 +25,7 @@ import SuccessCreate from './components/SuccessCreate';
 import ErrorCreate from './components/ErrorCreate'; 
 import ManageAccounts from './components/ManageAccounts';
 import DeleteOwnAccount from './components/DeleteOwnAccount';
+import InitiateAccount from './components/InitiateAccount';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -71,7 +72,7 @@ const App = () => {
           <Route path="/error-create" element={<ErrorCreate />} />
           <Route path="/manage-accounts" element={<ManageAccounts />} />
           <Route path="/delete-account" element={<DeleteOwnAccount />} />
-
+          <Route path="/initiate-account" element={<InitiateAccount />} />
 
         </Routes>
       </ContentWrapper>

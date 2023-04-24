@@ -1,7 +1,7 @@
 ## Latest Stable Build
 ### [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** The above build is generated from the source code on Commit 89 on Github.
+**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** The above build is generated from the source code on Commit 91 on Github.
 
 Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
 
@@ -11,7 +11,7 @@ Backend working so far:
 * You can log on to a demo account (footer of login page for usernames / passwords) or an account you create
 * You can see how buttons are responsive to User Role in the top Navigation menu
 * You can log out. Notice how once you log in, you can close the browser and come back and you will still be logged in.
-* You can add users by filling in SignUp page and clicking submit
+* You can add users by filling in SignUp page and clicking submit, Accountant accounts can create new employees, who are required to fill in account details upon logging in for the first time.
 * On the bottom of the Login and Signup page there's a button that lets you reset the Database to all default users (so feel free to add your own users)
 * On the bottom of the Signup page there's also a button to view all users in the database
 * All types of accounts can modify appropriate details on the Account tab after logging in

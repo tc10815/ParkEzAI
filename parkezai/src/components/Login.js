@@ -162,28 +162,32 @@ const Login = () => {
         window.dispatchEvent(tokenUpdateEvent);
         const decodedToken = jwt_decode(token);
         console.log(decodedToken);
-        switch(decodedToken.data.role_id){
-          case 1:
-            navigate("/operator-dashboard"); 
-            break;
-          case 2:
-            navigate("/advertiser-dashboard"); 
-            break;
-          case 3:
-            navigate("/support-tickets"); 
-            break;
-          case 4:
-            navigate("/support-tickets"); 
-            break;
-          case 5:
-            navigate("/support-tickets"); 
-            break;
-          case 6:
-            navigate("/accountant-dashboard"); 
-            break;
-          default:
-            navigate("/billing"); 
-            break;
+        if (decodedToken.data.isUninitialized == 0){
+          switch(decodedToken.data.role_id){
+            case 1:
+              navigate("/operator-dashboard"); 
+              break;
+            case 2:
+              navigate("/advertiser-dashboard"); 
+              break;
+            case 3:
+              navigate("/support-tickets"); 
+              break;
+            case 4:
+              navigate("/support-tickets"); 
+              break;
+            case 5:
+              navigate("/support-tickets"); 
+              break;
+            case 6:
+              navigate("/accountant-dashboard"); 
+              break;
+            default:
+              navigate("/billing"); 
+              break;
+          }
+        } else {
+            navigate("/initiate-account"); 
         }
   
 
