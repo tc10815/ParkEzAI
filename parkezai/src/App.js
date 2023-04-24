@@ -23,6 +23,7 @@ import ErrorChange from './components/ErrorChange';
 import CreateStaffAccount from './components/CreateStaffAccount';
 import SuccessCreate from './components/SuccessCreate';
 import ErrorCreate from './components/ErrorCreate'; 
+import ManageAccounts from './components/ManageAccounts';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -67,6 +68,8 @@ const App = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/success-create" element={<SuccessCreate />} />
           <Route path="/error-create" element={<ErrorCreate />} />
+          <Route path="/manage-accounts" element={<ManageAccounts />} />
+
         </Routes>
       </ContentWrapper>
     </Router>

@@ -323,12 +323,12 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/billing">Billing</StyledNavLink>
+                <StyledNavLink to="/manage-accounts">Manage Accounts</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/create-staff-account">Employee Admin</StyledNavLink>
+                <StyledNavLink to="/create-staff-account">Create Employees</StyledNavLink>
               </StyledButton>
             </StyledLi>
           </>
