@@ -15,16 +15,13 @@ if ($conn->connect_error) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$user_id = $data["user_id"];
+$account_id = $data["account_id"];
 $new_password = $data["new_password"];
-
-// Hash the new password
-$new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
 // Update the user's password in the database
 $sql = "UPDATE users SET password = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("si", $new_password_hash, $user_id);
+$stmt->bind_param("si", $new_password, $account_id);
 $stmt->execute();
 
 if ($stmt->affected_rows > 0) {
