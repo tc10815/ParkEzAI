@@ -28,6 +28,7 @@ import DeleteOwnAccount from './components/DeleteOwnAccount';
 import InitiateAccount from './components/InitiateAccount';
 import CreateTicket from './components/CreateTicket';
 import MyTickets from './components/MyTickets';
+import Tickets from './components/Tickets';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -77,7 +78,7 @@ const App = () => {
           <Route path="/initiate-account" element={<InitiateAccount />} />
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<MyTickets />} />
-
+          <Route path="/tickets" element={<Tickets />} />
         </Routes>
       </ContentWrapper>
     </Router>

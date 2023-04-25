@@ -246,7 +246,7 @@ const Navigation = () => {
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+                <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -275,7 +275,7 @@ const Navigation = () => {
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+                <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -299,7 +299,7 @@ const Navigation = () => {
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/support-tickets">Support tickets</StyledNavLink>
+                <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -335,6 +335,11 @@ const Navigation = () => {
               <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/create-staff-account">Create Employees</StyledNavLink>
               </StyledButton>
+              <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
             </StyledLi>
           </>
         ),

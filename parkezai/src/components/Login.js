@@ -171,19 +171,19 @@ const Login = () => {
               navigate("/advertiser-dashboard"); 
               break;
             case 3:
-              navigate("/support-tickets"); 
+              navigate("/tickets"); 
               break;
             case 4:
-              navigate("/support-tickets"); 
+              navigate("/tickets"); 
               break;
             case 5:
-              navigate("/support-tickets"); 
+              navigate("/tickets"); 
               break;
             case 6:
               navigate("/accountant-dashboard"); 
               break;
             default:
-              navigate("/billing"); 
+              navigate("/account"); 
               break;
           }
         } else {
