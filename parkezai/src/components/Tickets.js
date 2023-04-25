@@ -83,8 +83,6 @@ const Tickets = () => {
     const requestBody = {
       role,
     };
-    console.log('What is the role in the request?');
-    console.log(requestBody);
 
     const response = await fetch("https://tomcookson.com/php2/get_staff_tickets.php", {
       method: "POST",
@@ -95,7 +93,6 @@ const Tickets = () => {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       if (data.success) {
         setTickets(data.tickets);
       }
@@ -107,8 +104,6 @@ const Tickets = () => {
       if (user) {
 
         if ([3, 4, 5, 6].includes(user.role_id)) {
-            console.log('role going in')
-            console.log(user.role_id);
           fetchStaffTickets(user.role_id);
         } else {
           const requestBody = {
@@ -124,8 +119,6 @@ const Tickets = () => {
             },
             body: JSON.stringify(requestBody),
           });
-          console.log("This is what response looks like:");
-          console.log(response);
 
 
           if (response.ok) {
@@ -237,9 +230,11 @@ const Tickets = () => {
                 </select>
             </div>
             <p>Category: {ticket.category}</p>
-            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
+            <p style={{fontSize:'10px'}}><strong>Created:</strong> {ticket.date_created}<br />
+                    <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
                 Delete Ticket
             </button>
+
             </TicketItem>
             </FormContainer>
             ))}

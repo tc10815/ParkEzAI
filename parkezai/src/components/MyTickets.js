@@ -99,6 +99,7 @@ const MyTickets = () => {
           const data = await response.json();
           if (data.success) {
             setTickets(data.tickets);
+            console.log(data.tickets);
           }
         }
       }
@@ -144,6 +145,8 @@ const MyTickets = () => {
                     <p>Status: {ticket.status}</p>
                     <p>Priority: {ticket.priority}</p>
                     <p>Category: {ticket.category}</p>
+                    <p style={{fontSize:'10px'}}><strong>Created:</strong> {ticket.date_created}<br />
+                    <strong>Updated:</strong> {ticket.date_updated}</p>
                     <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>Delete Ticket</button>
                   </TicketItem>
                   </FormContainer>

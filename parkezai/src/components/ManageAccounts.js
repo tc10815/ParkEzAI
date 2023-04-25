@@ -189,10 +189,6 @@ const ManageAccounts = () => {
   };
 
   const filterAccountsByRole = (account) => {
-    console.log('user');
-    console.log(user);
-    console.log('account');
-    console.log(account);
     if (user) {
       if (user.role_id === 4 && account.role_id === "1") {
         return true;
