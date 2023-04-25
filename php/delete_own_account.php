@@ -29,6 +29,13 @@ $hashed_password = $row["password"];
 
 // Verify the provided password against the stored hashed password
 if (password_verify($password, $hashed_password)) {
+    // Delete the tickets associated with the user
+    $deleteTicketsSql = "DELETE FROM tickets WHERE user_id = ?";
+    $deleteTicketsStmt = $conn->prepare($deleteTicketsSql);
+    $deleteTicketsStmt->bind_param("i", $user_id);
+    $deleteTicketsStmt->execute();
+    $deleteTicketsStmt->close();
+
     // Delete the user from the database
     $sql = "DELETE FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -36,7 +43,7 @@ if (password_verify($password, $hashed_password)) {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        echo json_encode(["success" => true, "message" => "Account deleted successfully"]);
+        echo json_encode(["success" => true, "message" => "Account and associated tickets deleted successfully"]);
     } else {
         echo json_encode(["success" => false, "message" => "Error deleting account"]);
     }
