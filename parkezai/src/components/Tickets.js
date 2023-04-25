@@ -109,8 +109,6 @@ const Tickets = () => {
           const requestBody = {
             user_id: user.user_id,
           };
-          console.log("This is what user looks like:");
-          console.log(user);
 
           const response = await fetch("https://tomcookson.com/php2/get_tickets.php", {
             method: "POST",
@@ -230,8 +228,11 @@ const Tickets = () => {
                 </select>
             </div>
             <p>Category: {ticket.category}</p>
-            <p style={{fontSize:'10px'}}><strong>Created:</strong> {ticket.date_created}<br />
-                    <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
+            <p style={{fontSize:'10px'}}>
+                <strong>Name:</strong> {ticket.first_name} {ticket.last_name}<br />
+                <strong>Email:</strong> {ticket.email}<br />
+                <strong>Created:</strong> {ticket.date_created}<br />
+                <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
                 Delete Ticket
             </button>
 

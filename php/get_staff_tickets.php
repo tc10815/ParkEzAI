@@ -18,11 +18,11 @@ $data = json_decode(file_get_contents("php://input"), true);
 $staff_role_id = $data["role"];
 
 if ($staff_role_id == 3 || $staff_role_id == 6) {
-    $sql = "SELECT * FROM tickets";
+    $sql = "SELECT tickets.*, users.first_name, users.last_name, users.email FROM tickets JOIN users ON tickets.user_id = users.id";
 } elseif ($staff_role_id == 4) {
-    $sql = "SELECT * FROM tickets WHERE category = 'Lot Owners'";
+    $sql = "SELECT tickets.*, users.first_name, users.last_name, users.email FROM tickets JOIN users ON tickets.user_id = users.id WHERE category = 'Lot Owners'";
 } elseif ($staff_role_id == 5) {
-    $sql = "SELECT * FROM tickets WHERE category = 'Advertisers'";
+    $sql = "SELECT tickets.*, users.first_name, users.last_name, users.email FROM tickets JOIN users ON tickets.user_id = users.id WHERE category = 'Advertisers'";
 } else {
     die(json_encode(["success" => false, "message" => "Invalid staff role ID"]));
 }
