@@ -1,18 +1,19 @@
 ## Latest Build
 ### [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** 
+**Note: Best to open in a Incognito window since data from previous sessions may cause errors due to rapid change** 
 
-In additions to design and information pages, the following Functional Requirements have been implemented:
+In additions to the design and information pages, the following Functional Requirements have been implemented:
+
 <strong>1. Account Management</strong>
-* 1.1 Summarize Account:	Basic summary of account (when subscribed, when will expire, type of account).
-* 1.2 Authenticate Account:	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
-* 1.3 Request Customer Support:	A simple page where users can request customer support.
-* 1.4 Create Account:	Where users can create an account.
-* 1.5 Modify Account:	Where users can make changes to their account, such as passwords
-* 1.6 Cancel Account:	Where users can cancel their account.
+* **1.1 Summarize Account**:	Basic summary of account (when subscribed, when will expire, type of account).
+* **1.2 Authenticate Account**:	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
+* **1.3 Request Customer Support**:	A simple page where users can request customer support.
+* **1.4 Create Account**:	Where users can create an account.
+* **1.5 Modify Account**:	Where users can make changes to their account, such as passwords
+* **1.6 Cancel Account**:	Where users can cancel their account.
 
-Every user has a different view and logical experience **try 6 logins and passwords at bottom of login page**. Feel free to play around and change the data, since there's a reset button on the bottom of the  login  page.
+Every user has a different view and logical experience **try 6 logins and passwords at bottom of login page**. Feel free to play around and change the data, since **there's a reset database with sample data button on the bottom of the login  page**.
 
 *Website doesn't render well on phones in this build, but will be responsive by the end of the project.*
 
@@ -41,6 +42,7 @@ When ParkEzAI began development, the ParkEz school project was mostly unimplemen
 ParkEzAI allows parking lot owners to see how many spaces are occupied in their lot, identify overparkers and record security to the cloud to revisit it later. It allows would be parkers to see how occupied a lot is and see the best spot. Advertisors can also place advertisements on the park lot page for the general public. 
 
 <strong>1. Account Management</strong>
+
 * 1.1 Summarize Account:	Basic summary of account (when subscribed, when will expire, type of account).
 * 1.2 Authenticate Account:	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
 * 1.3 Request Customer Support:	A simple page where users can request customer support.
