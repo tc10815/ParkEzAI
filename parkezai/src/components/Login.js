@@ -47,7 +47,7 @@ const HeroImage = styled.div`
   width: 100%;
   min-height: 100vh;
   background-image: url(${heroImage});
-  background-position-y: top;
+  background-position-y: center;
   background-size: cover;
   display: flex;
   justify-content: center;
