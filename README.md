@@ -1,30 +1,22 @@
-## Latest Stable Build
+## Latest Build
 ### [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
 
-**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** The above build is generated from the source code on Commit 91 on Github.
+**Note: Best to open in a Incognito window since data from previous sessions may cause errors, as the nature of sessions is rapidly changing** 
 
-Text and design of website before logging in is complete. Session management basics: Login, logout, create account, changing links/views based on roles are now partially implemented (not all roles, and not all pages for all roles exist yet -- but the backend technology works).
+In additions to design and information pages, the following Functional Requirements have been implemented:
+<strong>1. Account Management</strong>
+* 1.1 Summarize Account:	Basic summary of account (when subscribed, when will expire, type of account).
+* 1.2 Authenticate Account:	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
+* 1.3 Request Customer Support:	A simple page where users can request customer support.
+* 1.4 Create Account:	Where users can create an account.
+* 1.5 Modify Account:	Where users can make changes to their account, such as passwords
+* 1.6 Cancel Account:	Where users can cancel their account.
 
-Website doesn't render well on phones in this build, but will be responsive by the end of the project.
+Every user has a different view and logical experience **try 6 logins and passwords at bottom of login page**. Feel free to play around and change the data, since there's a reset button on the bottom of the  login  page.
 
-Backend working so far:
-* You can log on to a demo account (footer of login page for usernames / passwords) or an account you create
-* You can see how buttons are responsive to User Role in the top Navigation menu
-* You can log out. Notice how once you log in, you can close the browser and come back and you will still be logged in.
-* You can add users by filling in SignUp page and clicking submit, Accountant accounts can create new employees, who are required to fill in account details upon logging in for the first time.
-* On the bottom of the Login and Signup page there's a button that lets you reset the Database to all default users (so feel free to add your own users)
-* On the bottom of the Signup page there's also a button to view all users in the database
-* All types of accounts can modify appropriate details on the Account tab after logging in
-* You can see a specialized **model** Dashboard if you log on as: 
-    - Parking Lot Operators if you log on as one, including a live stream of a parking lot (!)
-    - Advertisors 
-    - Accountants
+*Website doesn't render well on phones in this build, but will be responsive by the end of the project.*
 
-Demonstrations accounts available for login:
-* All 6 logins and passwords at bottom of login page
-
-Note: You can also create a customer role at the Sign Up page and log on to the new account you create
-
+## Note: Since all feature due for this semester are complete, this project is on hiatus until May 15, 2023 (gotta work on the real class project and take the final)
 
 # ParkEzAI
 
