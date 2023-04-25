@@ -200,7 +200,7 @@ const ManageAccounts = () => {
       if (user.role_id === 5 && account.role_id === "2") {
         return true;
       }
-      if (user.role_id === 3 || account.role_id === 6) {
+      if (user.role_id === 3 || user.role_id === 6) {
         return true;
       }
     }
