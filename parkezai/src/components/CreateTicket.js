@@ -9,9 +9,8 @@ const HomeContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-height: 70rem;
+  display: block;
   justify-content: space-between;
 `;
 const FormContainer = styled.div`

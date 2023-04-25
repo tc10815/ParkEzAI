@@ -10,8 +10,8 @@ const HomeContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  display: block;
   min-height: 100vh;
-  flex-direction: column;
   justify-content: space-between;
 `;
 
@@ -49,20 +49,6 @@ const TitleText = styled.p`
   padding: 0.5rem;
   color: black;
   background-color:white;
-`;
-
-const Footer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
 `;
 
 const TicketList = styled.ul`
@@ -167,16 +153,12 @@ const MyTickets = () => {
                   <MyButton type="button">Create Ticket</MyButton>
                 </Link>
               </TicketList>
+
             </>
           )}
+
       </HomeContainer>
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
-      </Footer>
+
     </>
   );
 };
