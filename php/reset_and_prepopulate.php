@@ -107,6 +107,65 @@ $demoUsers = [
     ],
 ];
 
+$demoTickets = [
+    [
+        "user_id" => 1,
+        "subject" => "Image recognition issue",
+        "description" => "One spot is recognized inconsistantly.",
+        "status" => "Open",
+        "priority" => "Low",
+        "category" => "Lot Owners"
+    ],
+    [
+        "user_id" => 1,
+        "subject" => "Need security data fast",
+        "description" => "A car was highjacked in my lot, I need raw data.",
+        "status" => "Open",
+        "priority" => "Urgent",
+        "category" => "Lot Owners"
+    ],
+    [
+        "user_id" => 1,
+        "subject" => "Remove some footage",
+        "description" => "I accidently recorded myself in the parking lot going someplace with my wifes sister. Can you help me delete the footage.",
+        "status" => "Resolved",
+        "priority" => "High",
+        "category" => "Lot Owners"
+    ],
+    [
+        "user_id" => 1,
+        "subject" => "Car occupancy off by 1",
+        "description" => "It always says there's 1 extra car in the lot. Fix it.",
+        "status" => "Open",
+        "priority" => "Low",
+        "category" => "Lot Owners"
+    ],
+    [
+        "user_id" => 2,
+        "subject" => "Payment issue",
+        "description" => "I was double billed for my Ad and need a refund.",
+        "status" => "In Progress",
+        "priority" => "Medium",
+        "category" => "Advertisers"
+    ],
+    [
+        "user_id" => 2,
+        "subject" => "Posting image is not working",
+        "description" => "ParkEz does not support my file format.",
+        "status" => "Resolved",
+        "priority" => "Low",
+        "category" => "Advertisers"
+    ],
+    [
+        "user_id" => 2,
+        "subject" => "Discount not applied",
+        "description" => "I thought I was supposed to get 20% off my account... refund the difference!",
+        "status" => "Closed",
+        "priority" => "High",
+        "category" => "Advertisers"
+    ],
+];
+
 // Insert demo users into the users table
 $insertSql = "INSERT INTO users (role_id, email, first_name, last_name, company_name, company_address, state, city, zip, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($insertSql);
@@ -127,6 +186,21 @@ foreach ($demoUsers as $user) {
         $passwordHash
     );
     $stmt->execute();
+}
+$insertTicketSql = "INSERT INTO tickets (user_id, subject, description, status, priority, category) VALUES (?, ?, ?, ?, ?, ?)";
+$stmtTicket = $conn->prepare($insertTicketSql);
+
+foreach ($demoTickets as $ticket) {
+    $stmtTicket->bind_param(
+        "isssss",
+        $ticket["user_id"],
+        $ticket["subject"],
+        $ticket["description"],
+        $ticket["status"],
+        $ticket["priority"],
+        $ticket["category"]
+    );
+    $stmtTicket->execute();
 }
 
 $stmt->close();
