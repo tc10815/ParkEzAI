@@ -5,10 +5,10 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 
 // Replace these with your actual database credentials
-$servername = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+$servername = " ";
+$username = " ";
+$password = " ";
+$dbname = " ";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

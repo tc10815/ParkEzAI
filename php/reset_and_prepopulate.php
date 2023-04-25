@@ -2,11 +2,14 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$servername = "";
-$username = "";
-$password = "";
-$dbname = "";
+$servername = " ";
+$username = " ";
+$password = " ";
+$dbname = " ";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -14,9 +17,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Disable foreign key checks
+$conn->query("SET FOREIGN_KEY_CHECKS = 0;");
+
+// Truncate the tickets table
+$truncateTicketsSql = "TRUNCATE TABLE tickets";
+$conn->query($truncateTicketsSql);
+
 // Truncate the users table
-$truncateSql = "TRUNCATE TABLE users";
-$conn->query($truncateSql);
+$truncateUsersSql = "TRUNCATE TABLE users";
+$conn->query($truncateUsersSql);
+
+// Re-enable foreign key checks
+$conn->query("SET FOREIGN_KEY_CHECKS = 1;");
 
 // Demo users data
 $demoUsers = [

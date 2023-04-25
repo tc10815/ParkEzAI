@@ -4,10 +4,10 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
 
-$servername = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+$servername = " ";
+$username = " ";
+$password = " ";
+$dbname = " ";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

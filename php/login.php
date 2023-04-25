@@ -7,10 +7,10 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 // Replace these with your actual database credentials
-$servername = "";
-$username = "";
-$password = "";
-$dbname = "";
+$servername = " ";
+$username = " ";
+$password = " ";
+$dbname = " ";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -32,7 +32,7 @@ $user = $result->fetch_assoc();
 
 if ($user) {
     if (password_verify($password, $user["password"])) {
-        $secretKey = ""; // Replace this with your own secret key
+        $secretKey = "raccoonsaretrash"; // Replace this with your own secret key
 
         $issuedAt = time();
         $notBefore = $issuedAt;
