@@ -70,9 +70,26 @@ const Button = styled.button`
 `;
 
 const ManageAccounts = () => {
+  const [user, setUser] = useState(null);
   const [accounts, setAccounts] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        setUser(decodedToken.data);
+        console.log('decoded token')
+        console.log(decodedToken.data);
+      }
+    };
+
+
+    fetchUser();
+  }, [location]);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -171,6 +188,25 @@ const ManageAccounts = () => {
     }
   };
 
+  const filterAccountsByRole = (account) => {
+    console.log('user');
+    console.log(user);
+    console.log('account');
+    console.log(account);
+    if (user) {
+      if (user.role_id === 4 && account.role_id === "1") {
+        return true;
+      }
+      if (user.role_id === 5 && account.role_id === "2") {
+        return true;
+      }
+      if (user.role_id === 3 || account.role_id === 6) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <HomeContainer>
       <FormContainer>
@@ -184,9 +220,10 @@ const ManageAccounts = () => {
               <Th>Actions</Th>
             </tr>
           </thead>
-          <tbody>
-            {accounts.map((account) => (
-              <tr key={account.id}>
+          {accounts
+          .filter(filterAccountsByRole)
+          .map((account) => (
+            <tr key={account.id}>
                 <Td>{account.id}</Td>
                 <Td>{account.email}</Td>
                 <Td>{account.role_id}</Td>
@@ -194,9 +231,8 @@ const ManageAccounts = () => {
                   <Button onClick={() => handleResetPassword(account.id)}>Reset Password</Button>
                   <Button onClick={() => handleDeleteAccount(account.id)}>Delete</Button>
                 </Td>
-              </tr>
-            ))}
-          </tbody>
+            </tr>
+          ))}
         </Table>
       </FormContainer>
       <Footer>

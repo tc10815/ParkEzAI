@@ -265,8 +265,8 @@ const Navigation = () => {
               </StyledButton>
             </StyledLi>
             <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/user-account-admin">User Account Admin</StyledNavLink>
+            <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/manage-accounts">Manage User Accounts</StyledNavLink>
               </StyledButton>
             </StyledLi>
           </>
@@ -289,8 +289,8 @@ const Navigation = () => {
               </StyledButton>
             </StyledLi>
             <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/lot-account-admin">Lot Account Admin</StyledNavLink>
+            <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/manage-accounts">Manage Lot Accounts</StyledNavLink>
               </StyledButton>
             </StyledLi>
           </>
@@ -313,8 +313,8 @@ const Navigation = () => {
               </StyledButton>
             </StyledLi>
             <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/ad-account-admin">Ad Account Admin</StyledNavLink>
+            <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/manage-accounts">Manage Ad Accounts</StyledNavLink>
               </StyledButton>
             </StyledLi>
           </>
