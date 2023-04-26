@@ -17,7 +17,12 @@ Every user has a different view and logical experience **try 6 logins and passwo
 
 *Website doesn't render well on phones in this build, but will be responsive by the end of the project.*
 
-## Note: Since all feature due for this semester are complete, this project is on hiatus until May 15, 2023 to work on the real class project and take the final. While I'm not adding features on my downtime I will still 1. Edit the PHP backend to consistantly use JSON Web Tokens (JWT) to confirm proper source and role of all database requests, 2. Make website responsive on mobile, 3. Make visual/interface improvements and fix bugs
+## Note: Since all feature due for this semester are complete, this project is on hiatus until May 15, 2023 to work on the real class project and take the final. 
+
+###While I'm not adding features on my downtime I will still 
+1. Edit the PHP backend to consistantly use JSON Web Tokens (JWT) to confirm proper source and role of all database requests
+2. Make website responsive on mobile
+3. Make visual/interface improvements and fix bugs
 
 # ParkEzAI
 
