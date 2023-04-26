@@ -7,10 +7,10 @@ import heroImage from "../images/support-hero.jpg";
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
+  background-attachment:fixed;
   background-position: center;
   background-repeat: no-repeat;
   display: block;
-  min-height: 100vh;
   justify-content: space-between;
 `;
 
@@ -28,17 +28,18 @@ const FormContainer = styled.div`
   background-color: white;
   margin-left: auto;
   margin-right: auto;
-  width: fit-content;
+  width: 20rem;
   color: black;
-  padding-left: 3em;
-  padding-right: 3em;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top 1em;
+  padding-bottom: 2em;
   text-align: center;
   margin-bottom: 2em;
-  padding-bottom: 0.5em;
 `;
 
 const TitleText = styled.p`
-  margin-top: 3em;
+  margin-top: 2.3em;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -136,8 +137,6 @@ const Tickets = () => {
     const requestBody = {
         ticket_id: ticketId,
       };
-      console.log('body request');
-      console.log(requestBody);
       const response = await fetch("https://tomcookson.com/php2/delete_ticket.php", {
         method: "POST",
         headers: {
@@ -239,7 +238,7 @@ const Tickets = () => {
             </TicketItem>
             </FormContainer>
             ))}
-            <p style={{backgroundColor:'white', color:'black', marginLeft:'auto', marginRight:'auto', padding:'2px',width:'fit-content'}}>Note: Database is updated instantly for status and priority</p>
+            <p style={{backgroundColor:'white', color:'black', marginLeft:'auto', marginRight:'auto', padding:'2px', marginBottom:'2em',width:'fit-content'}}>Note: Database is updated instantly for status and priority</p>
             </TicketList>
             </>
           )}
