@@ -9,6 +9,7 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+  margin-top: 3em;
 `;
 
 const Footer = styled.footer`

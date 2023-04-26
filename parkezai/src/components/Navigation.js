@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png';
 import styled from 'styled-components';
 import theme from '../theme';
@@ -80,6 +80,13 @@ const Logo = styled.div`
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const location = useLocation();
+
+  const isBlackNavbarPage = () => {
+    const blackNavbarPages = ['/login', '/advertiser-dashboard'];
+    return blackNavbarPages.includes(location.pathname);
+  };
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -137,7 +144,6 @@ const Navigation = () => {
 
     document.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      // Clean up the event listener
       document.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
@@ -360,7 +366,7 @@ const Navigation = () => {
   };
 
   return (
-    <StyledNav scrolled={scrolled}>
+    <StyledNav scrolled={scrolled || isBlackNavbarPage()}>
       <LogoContainer>
         <img
           src={logo}

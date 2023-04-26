@@ -73,7 +73,7 @@ const MyTable = styled.table`
 `;
 
 const HeroImage = styled.div`
-  margin-top: 2.2em;
+  padding-top: 3.5em;
   width: 100%;
   background-image: url(${heroImage});
   background-position-y: top;
