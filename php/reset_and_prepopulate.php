@@ -1,21 +1,8 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require 'config.php';
+use Firebase\JWT\JWT;
+$conn = connectDatabase($servername, $username, $password, $dbname);
 
-$servername = " ";
-$username = " ";
-$password = " ";
-$dbname = " ";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Disable foreign key checks
 $conn->query("SET FOREIGN_KEY_CHECKS = 0;");

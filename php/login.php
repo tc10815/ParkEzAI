@@ -1,24 +1,9 @@
 <?php
-require 'vendor/autoload.php';
+require 'config.php';
 use Firebase\JWT\JWT;
-
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
-// Replace these with your actual database credentials
-$servername = " ";
-$username = " ";
-$password = " ";
-$dbname = " ";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
-
-// Read JSON data from request body
+$conn = connectDatabase($servername, $username, $password, $dbname);
 $data = json_decode(file_get_contents("php://input"), true);
+
 
 $email = $data["email"];
 $password = $data["password"];
@@ -32,7 +17,6 @@ $user = $result->fetch_assoc();
 
 if ($user) {
     if (password_verify($password, $user["password"])) {
-        $secretKey = "raccoonsaretrash"; // Replace this with your own secret key
 
         $issuedAt = time();
         $notBefore = $issuedAt;
@@ -66,4 +50,3 @@ if ($user) {
 }
 $stmt->close();
 $conn->close();
-?>

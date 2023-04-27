@@ -1,18 +1,7 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
-$servername = " ";
-$username = " ";
-$password = " ";
-$dbname = " ";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
-
+require 'config.php';
+use Firebase\JWT\JWT;
+$conn = connectDatabase($servername, $username, $password, $dbname);
 $data = json_decode(file_get_contents("php://input"), true);
 
 $password = $data["password"];
