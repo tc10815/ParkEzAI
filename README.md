@@ -1,5 +1,5 @@
 ## Latest Build
-### [https://tomcookson.com/parkezai/](https://tomcookson.com/parkezai/)
+### [http://plan6.com/](http://plan6.com/)
 
 **Note: Best to open in a Incognito window since data from previous sessions may cause errors due to rapid change** 
 
