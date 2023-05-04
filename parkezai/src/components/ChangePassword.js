@@ -95,7 +95,7 @@ const ChangePassword = () => {
       new_password: newPassword,
     };
 
-    const response = await fetch("https://tomcookson.com/php2/change_password.php", {
+    const response = await fetch("http://gruevy.com/ezphp/change_password.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

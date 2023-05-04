@@ -120,7 +120,7 @@ const Signup = () => {
   
     const role_id = role === "parking_lot_owner" ? 1 : 2;
 
-    const response = await fetch("https://tomcookson.com/php2/signup.php", {
+    const response = await fetch("http://gruevy.com/ezphp/signup.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const Signup = () => {
         }
   };
   const resetAndPrepopulate = async () => {
-    const response = await fetch("https://tomcookson.com/php2/reset_and_prepopulate.php", { method: "POST" });
+    const response = await fetch("http://gruevy.com/ezphp/reset_and_prepopulate.php", { method: "POST" });
 
     if (response.ok) {
         const data = await response.json();

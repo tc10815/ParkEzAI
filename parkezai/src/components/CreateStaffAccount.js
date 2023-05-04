@@ -75,7 +75,7 @@ const CreateStaffAccount = () => {
       temp_password,
     };
 
-    const response = await fetch("https://tomcookson.com/php2/create_staff_account.php", {
+    const response = await fetch("http://gruevy.com/ezphp/create_staff_account.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -69,7 +69,7 @@ const DeleteOwnAccount = () => {
     const user_id = decodedToken.data.user_id;
 
 
-    const response = await fetch("https://tomcookson.com/php2/delete_own_account.php", {
+    const response = await fetch("http://gruevy.com/ezphp/delete_own_account.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

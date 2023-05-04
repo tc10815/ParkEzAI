@@ -85,7 +85,7 @@ const UpdateAccount = () => {
   
       if (token) {
         const decodedToken = jwt_decode(token);
-        const response = await fetch("https://tomcookson.com/php2/fetch_user_data.php", {
+        const response = await fetch("http://gruevy.com/ezphp/fetch_user_data.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -156,7 +156,7 @@ const UpdateAccount = () => {
       requestBody.zip = zip;
     }
 
-    const response = await fetch("https://tomcookson.com/php2/update_account.php", {
+    const response = await fetch("http://gruevy.com/ezphp/update_account.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

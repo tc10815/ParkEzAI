@@ -94,7 +94,7 @@ const CreateTicket = () => {
       category,
     };
 
-    const response = await fetch("https://tomcookson.com/php2/create_ticket.php", {
+    const response = await fetch("http://gruevy.com/ezphp/create_ticket.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

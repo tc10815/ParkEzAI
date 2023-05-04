@@ -95,7 +95,7 @@ const InitiateAccount = () => {
     };
     console.log(requestBody);
 
-    const response = await fetch("https://tomcookson.com/php2/initialize_account.php", {
+    const response = await fetch("http://gruevy.com/ezphp/initialize_account.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

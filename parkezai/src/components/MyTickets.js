@@ -89,7 +89,7 @@ const MyTickets = () => {
           user_id: user.user_id,
         };
 
-        const response = await fetch("https://tomcookson.com/php2/get_tickets.php", {
+        const response = await fetch("http://gruevy.com/ezphp/get_tickets.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -116,7 +116,7 @@ const MyTickets = () => {
     };
     console.log('body request');
     console.log(requestBody);
-    const response = await fetch("https://tomcookson.com/php2/delete_ticket.php", {
+    const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

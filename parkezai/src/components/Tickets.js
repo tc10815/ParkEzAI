@@ -85,7 +85,7 @@ const Tickets = () => {
       role,
     };
 
-    const response = await fetch("https://tomcookson.com/php2/get_staff_tickets.php", {
+    const response = await fetch("http://gruevy.com/ezphp/get_staff_tickets.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ const Tickets = () => {
             user_id: user.user_id,
           };
 
-          const response = await fetch("https://tomcookson.com/php2/get_tickets.php", {
+          const response = await fetch("http://gruevy.com/ezphp/get_tickets.php", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -137,7 +137,7 @@ const Tickets = () => {
     const requestBody = {
         ticket_id: ticketId,
       };
-      const response = await fetch("https://tomcookson.com/php2/delete_ticket.php", {
+      const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ const Tickets = () => {
       priority,
     };
   
-    const response = await fetch("https://tomcookson.com/php2/update_ticket.php", {
+    const response = await fetch("http://gruevy.com/ezphp/update_ticket.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

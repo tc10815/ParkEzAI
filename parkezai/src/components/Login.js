@@ -59,7 +59,7 @@ const HeroImage = styled.div`
   margin-bottom: 2rem;
 `;
 const resetAndPrepopulate = async () => {
-  const response = await fetch("https://tomcookson.com/php2/reset_and_prepopulate.php", { method: "POST" });
+  const response = await fetch("http://gruevy.com/ezphp/reset_and_prepopulate.php", { method: "POST" });
 
   if (response.ok) {
       const data = await response.json();
@@ -145,7 +145,7 @@ const Login = () => {
     const email = e.target.elements[0].value;
     const password = e.target.elements[1].value;
 
-    const response = await fetch("https://tomcookson.com/php2/login.php", {
+    const response = await fetch("http://gruevy.com/ezphp/login.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

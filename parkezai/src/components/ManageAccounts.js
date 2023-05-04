@@ -93,7 +93,7 @@ const ManageAccounts = () => {
 
   useEffect(() => {
     const fetchAccounts = async () => {
-      const response = await fetch("https://tomcookson.com/php2/manage_accounts.php", {
+      const response = await fetch("http://gruevy.com/ezphp/manage_accounts.php", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ const ManageAccounts = () => {
     const new_password = prompt("Please enter the new password:");
     if (!new_password) return;
   
-    const hashed_password = await fetch("https://tomcookson.com/php2/password_hash.php", {
+    const hashed_password = await fetch("http://gruevy.com/ezphp/password_hash.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -152,7 +152,7 @@ const ManageAccounts = () => {
       return;
     }
   
-    const response = await fetch("https://tomcookson.com/php2/reset_password.php", {
+    const response = await fetch("http://gruevy.com/ezphp/reset_password.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -172,7 +172,7 @@ const ManageAccounts = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this account?");
     if (!confirmDelete) return;
 
-    const response = await fetch("https://tomcookson.com/php2/delete_account.php", {
+    const response = await fetch("http://gruevy.com/ezphp/delete_account.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
