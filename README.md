@@ -21,8 +21,8 @@ Every user has a different view and logical experience **try 6 logins and passwo
 
 ### While I'm not adding features on my downtime I will still 
 1. Edit the PHP backend to consistantly use JSON Web Tokens (JWT) to confirm proper source and role of all database requests
-2. Make website responsive on mobile
-3. Make visual/interface improvements and fix bugs
+2. Make website responsive on mobile   
+3. Make visual/interface improvements and fix bugs    
 
 # ParkEzAI
 
@@ -35,7 +35,7 @@ ParkEz is a year long school project I'm working on as part of a large team (7 p
 When ParkEzAI began development, the ParkEz school project was mostly unimplemented, with only the frontend of the homepage, login page and new account page implemented with no backend. None of the code, design, text or images was used in ParkEzAI.
 
 ## The AI Assisted Process
-* AI tools used are ChatGPT-4 and Dall·E 2
+* AI tools used are ChatGPT-4 and Dall·E 2.
 * Goal is to have at least 80% code written by AI.
 * Include all prompts and the exact responses in a project folder for reference.
 * Some images will be created with Dall·E 2 (logo, some embedded imagines). 
