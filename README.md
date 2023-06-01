@@ -3,9 +3,12 @@
 
 Includes all features listed under 1. Account Management in Functional Requirements below. Try 6 logins/passwords for account types at bottom of Login page.
 
-### Part 2 (Functional Requirements 2, 3 and 4) beginning soon. Currently learning Django and Django REST framework with William Vincent's books. First step will be completely redoing backend to be pure Django for proper authentication, simplicity and for integrating machine learning with Python later on. 
+### Part 2 (Functional Requirements 2, 3 and 4): June 1 - Present
 
-### It may take a few weeks to get good enough with Django to get rid of all of the PHP.
+Currently remaking PHP backend in Django, before proceeding with 
+Requirements 2, 3 and 4. Django is more simple and more secure. Also, a 
+Python backend will be useful for Machine Learning in this part of 
+the project.
 
 # ParkEzAI
 
