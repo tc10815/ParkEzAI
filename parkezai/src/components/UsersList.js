@@ -40,20 +40,13 @@ const Para = styled.div`
   color:white;
   text-align: center;
 `;
-const roles_dict_ul = {
-  1: 'Lot operator',
-  2: 'Advertiser',
-  3: 'Customer Support',
-  4: 'Lot specialist',
-  5: 'Advertising Specialist',
-  6: 'Accountant'
-}
+
 const UsersList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("http://gruevy.com/ezphp/get_users.php", { method: "GET" });
+      const response = await fetch("http://localhost:8000/accounts/users/", { method: "GET" });
 
       if (response.ok) {
         const data = await response.json();
@@ -73,7 +66,6 @@ const UsersList = () => {
       <UsersTable>
         <thead>
           <tr>
-            <TableHeader>ID</TableHeader>
             <TableHeader>Role</TableHeader>
             <TableHeader>Email</TableHeader>
             <TableHeader>First Name</TableHeader>
@@ -88,8 +80,7 @@ const UsersList = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-                <TableCell>{user.id}</TableCell>
-                <TableCell>{roles_dict_ul[user.role_id]}</TableCell>
+                <TableCell>{user.role ? user.role.role_name : "N/A"}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.first_name}</TableCell>
                 <TableCell>{user.last_name}</TableCell>
