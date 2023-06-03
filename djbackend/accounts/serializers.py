@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser, Role
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,3 +15,26 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         # Include any other non-sensitive fields you want to expose
         fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'is_uninitialized']
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    role = serializers.CharField()  # Change this line
+
+    class Meta:
+        model = CustomUser
+        fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'password', 'is_uninitialized']
+
+    def create(self, validated_data):
+        role_name = validated_data.pop('role')
+        password = validated_data.pop('password')
+        try:
+            role = Role.objects.get(role_name=role_name)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError('Role does not exist')
+
+        validated_data['username'] = validated_data['email']
+
+        user = CustomUser(role=role, **validated_data)
+        user.set_password(password)
+        user.save()
+        return user

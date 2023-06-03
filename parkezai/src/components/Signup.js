@@ -118,15 +118,15 @@ const Signup = () => {
     const zip = e.target.elements[8].value;
     const password = e.target.elements[9].value;
   
-    const role_id = role === "parking_lot_owner" ? 1 : 2;
-
-    const response = await fetch("http://gruevy.com/ezphp/signup.php", {
+    const role_id = role === "parking_lot_owner" ? "Lot Operator" : "Advertiser";
+  
+    const response = await fetch("http://localhost:8000/accounts/create_user/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        role_id,
+        role: role_id,  // change key to `role` instead of `role_id`
         email,
         first_name: firstName,
         last_name: lastName,
@@ -136,18 +136,19 @@ const Signup = () => {
         city,
         zip,
         password,
+        is_uninitialized: false, // if you want to set `is_uninitialized` to false, otherwise remove this line
       }),
     });
   
-
     if (response.ok) {
       navigate('/success');
     } else {
       const errorText = await response.text();
       setErrorMessage(errorText);
       navigate('/error', { state: { errorMessage: errorText } });
-        }
+    }
   };
+  
   const resetAndPrepopulate = async () => {
     const response = await fetch("http://gruevy.com/ezphp/reset_and_prepopulate.php", { method: "POST" });
 
