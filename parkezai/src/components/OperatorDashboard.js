@@ -79,17 +79,25 @@ const OperatorDashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const decodedToken = jwt_decode(token);
-    setUser(decodedToken);
-
+    if (token) {
+      fetch('http://127.0.0.1:8000/accounts/users/me/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => setUser(data));
+    }
   }, [location]);
+  
   return (
     <HomeContainer>
       <HeroImage>
       <WebCamContainer>
       {user ? (
             <>
-              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>            
+              <SubHeading>Welcome back, {user ? user.first_name : ''}</SubHeading>
             </>
           ) : (
             <SubHeading>Welcome back</SubHeading>

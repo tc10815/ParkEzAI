@@ -174,8 +174,7 @@ const Login = () => {
         if (user.is_uninitialized == false){
           switch(user.role_name){
             case 'Lot Operator':
-              alert('Lot Op');
-              // navigate("/operator-dashboard"); 
+              navigate("/operator-dashboard"); 
               break;
             case 'Advertiser':
               alert('Avert');
