@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, Role
+from dj_rest_auth.serializers import UserDetailsSerializer
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -38,3 +39,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    role_name = serializers.CharField(source='role.role_name')
+
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + ('role_name', 'is_uninitialized')

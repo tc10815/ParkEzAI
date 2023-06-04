@@ -3,7 +3,6 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png';
 import styled from 'styled-components';
 import theme from '../theme';
-import jwt_decode from 'jwt-decode';
 
 const LogoContainer = styled.div`
   display: flex;
@@ -104,20 +103,20 @@ const Navigation = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwt_decode(token);
-      setUserRole(decodedToken.data.role_id);
-    }
+    // if (token) {
+    //   const decodedToken = jwt_decode(token);
+    //   setUserRole(decodedToken.data.role_id);
+    // }
   }, []);
 
   useEffect(() => {
     const handleTokenUpdate = (event) => {
-      const updatedToken = event.detail;
-      const decodedToken = jwt_decode(updatedToken);
-      setUserRole(decodedToken.data.role_id);
+      // const updatedToken = event.detail;
+      // const decodedToken = jwt_decode(updatedToken);
+      // setUserRole(decodedToken.data.role_id);
     };
     const handleLogout = () => {
-      setUserRole(null);
+      // setUserRole(null);
     };
     window.addEventListener('tokenUpdate', handleTokenUpdate);
     window.addEventListener('logout', handleLogout);

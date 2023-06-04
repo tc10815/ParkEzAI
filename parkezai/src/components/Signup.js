@@ -150,8 +150,8 @@ const Signup = () => {
   };
   
   const resetAndPrepopulate = async () => {
-    const response = await fetch("http://gruevy.com/ezphp/reset_and_prepopulate.php", { method: "POST" });
-
+    const response = await fetch("http://localhost:8000/accounts/populate_db/", { method: "POST" });
+  
     if (response.ok) {
         const data = await response.json();
         alert(data.message);

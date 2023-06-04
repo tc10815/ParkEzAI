@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
-import jwt_decode from 'jwt-decode';
 
 
 const HomeContainer = styled.div`
@@ -58,16 +57,6 @@ const HeroImage = styled.div`
   font-size: 1.5rem;
   margin-bottom: 2rem;
 `;
-const resetAndPrepopulate = async () => {
-  const response = await fetch("http://localhost:8000/accounts/populate_db/", { method: "POST" });
-
-  if (response.ok) {
-      const data = await response.json();
-      alert(data.message);
-  } else {
-      alert("Error resetting and prepopulating users");
-  }
-};
 
 const SignInForm = styled.form`
   display: flex;
@@ -136,6 +125,16 @@ const TableCell = styled.td`
   border-color: white;
 `;
 
+const resetAndPrepopulate = async () => {
+  const response = await fetch("http://localhost:8000/accounts/populate_db/", { method: "POST" });
+
+  if (response.ok) {
+      const data = await response.json();
+      alert(data.message);
+  } else {
+      alert("Error resetting and prepopulating users");
+  }
+};
 
 
 const Login = () => {
@@ -146,7 +145,7 @@ const Login = () => {
     const email = e.target.elements[0].value;
     const password = e.target.elements[1].value;
 
-    const response = await fetch("http://gruevy.com/ezphp/login.php", {
+    const response = await fetch("http://localhost:8000/dj-rest-auth/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -155,50 +154,66 @@ const Login = () => {
         email,
         password,
       }),
-    });
+    }); 
     if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem("token", token);
-      if(typeof token !== "undefined"){
-        const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: token });
-        window.dispatchEvent(tokenUpdateEvent);
-        const decodedToken = jwt_decode(token);
-        console.log(decodedToken);
-        if (decodedToken.data.isUninitialized == 0){
-          switch(decodedToken.data.role_id){
-            case 1:
-              navigate("/operator-dashboard"); 
+      const { key } = await response.json();
+      localStorage.setItem("token", key);
+      if (typeof key !== "undefined") {
+        // const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: key });
+        // window.dispatchEvent(tokenUpdateEvent);
+  
+        const response = await fetch('http://localhost:8000/accounts/users/me/', {
+          headers: {
+            'Authorization': `Token ${localStorage.getItem('token')}`,
+          },
+        });
+        const user = await response.json();
+        const roleName = user.role_name;
+        console.log(user);    
+
+        if (user.is_uninitialized == false){
+          switch(user.role_name){
+            case 'Lot Operator':
+              alert('Lot Op');
+              // navigate("/operator-dashboard"); 
               break;
-            case 2:
-              navigate("/advertiser-dashboard"); 
+            case 'Advertiser':
+              alert('Avert');
+              // navigate("/advertiser-dashboard"); 
               break;
-            case 3:
-              navigate("/tickets"); 
+            case 'Customer Support':
+              alert('Cust Sup');
+              // navigate("/tickets"); 
               break;
-            case 4:
-              navigate("/tickets"); 
+            case 'Lot Specialist':
+              alert('Lot Spec');
+              // navigate("/tickets"); 
               break;
-            case 5:
-              navigate("/tickets"); 
+            case 'Advertising Specialist':
+              alert('Ad Spec');
+              // navigate("/tickets"); 
               break;
-            case 6:
-              navigate("/accountant-dashboard"); 
+            case 'Accountant':
+              alert('Account');
+              // navigate("/accountant-dashboard"); 
               break;
             default:
-              navigate("/account"); 
+              alert('Default');
+              // navigate("/account"); 
               break;
           }
         } else {
-            navigate("/initiate-account"); 
+            alert('Initiate');
+            // navigate("/initiate-account"); 
         }
   
-
       } else {
         navigate("/login-failed");
       }
     } else {
       navigate("/login-failed");
     }
+
   };
 
 
