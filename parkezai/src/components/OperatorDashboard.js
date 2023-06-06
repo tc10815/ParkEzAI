@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation} from 'react-router-dom';
-import jwt_decode from "jwt-decode";
 import styled from 'styled-components';
 import heroImage from '../images/operatordbhero.jpg';
 import LotStream from './LotStream';

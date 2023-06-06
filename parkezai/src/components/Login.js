@@ -177,8 +177,7 @@ const Login = () => {
               navigate("/operator-dashboard"); 
               break;
             case 'Advertiser':
-              alert('Avert');
-              // navigate("/advertiser-dashboard"); 
+              navigate("/advertiser-dashboard"); 
               break;
             case 'Customer Support':
               alert('Cust Sup');

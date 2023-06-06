@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
 import styled from 'styled-components';
 import heroImage from '../images/advertiserdbhero.jpg';
 import placeholderImage1 from '../images/ad1-jg.jpg';
@@ -130,8 +129,16 @@ const AdvertiserDashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const decodedToken = jwt_decode(token);
-    setUser(decodedToken);
+    if (token) {
+      fetch('http://127.0.0.1:8000/accounts/users/me/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => setUser(data));
+    }
   }, [location]);
 
   return (
@@ -140,7 +147,7 @@ const AdvertiserDashboard = () => {
         <AdContainer>
           {user ? (
             <>
-              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>
+              <SubHeading>Welcome back, {user ? user.first_name : ''}</SubHeading>
             </>
           ) : (
             <SubHeading>Welcome back</SubHeading>
