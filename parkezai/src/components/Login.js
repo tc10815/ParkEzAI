@@ -170,7 +170,7 @@ const Login = () => {
         const user = await response.json();
         const roleName = user.role_name;
         console.log(user);    
-
+        window.dispatchEvent(new Event('login'));
         if (user.is_uninitialized == false){
           switch(user.role_name){
             case 'Lot Operator':

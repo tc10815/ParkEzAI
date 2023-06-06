@@ -101,13 +101,32 @@ const Navigation = () => {
     });
   };
 
-  useEffect(() => {
+
+
+  const fetchUserRole = async () => {
     const token = localStorage.getItem("token");
-    // if (token) {
-    //   const decodedToken = jwt_decode(token);
-    //   setUserRole(decodedToken.data.role_id);
-    // }
-  }, []);
+    if (token) {
+      try {
+        const response = await fetch('http://localhost:8000/accounts/users/me/', {
+          headers: {
+            'Authorization': `Token ${localStorage.getItem('token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        const user = await response.json();
+        const roleName = user.role_name;
+        console.log('Role got:');
+        console.log(roleName);
+        setUserRole(roleName);
+      } catch (error) {
+        console.log("Request to backend failed. Please ensure the endpoint is correct and the backend is running.");
+      }
+    }
+  };
+
+  
 
   useEffect(() => {
     const handleTokenUpdate = (event) => {
@@ -116,7 +135,7 @@ const Navigation = () => {
       // setUserRole(decodedToken.data.role_id);
     };
     const handleLogout = () => {
-      // setUserRole(null);
+      setUserRole(null);
     };
     window.addEventListener('tokenUpdate', handleTokenUpdate);
     window.addEventListener('logout', handleLogout);
@@ -129,7 +148,20 @@ const Navigation = () => {
   }, []);
 
  
+  useEffect(() => {
+    const handleLogin = () => {
+      fetchUserRole();
+    };
+    window.addEventListener('login', handleLogin);
 
+    return () => {
+      window.removeEventListener('login', handleLogin);
+    };
+  }, []);
+
+  useEffect(() => {
+    fetchUserRole();
+  }, []);
 
 
   useEffect(() => {
@@ -189,7 +221,7 @@ const Navigation = () => {
       );
     } else {
       const roleLinks = {
-        1: (
+        'Lot Operator': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
@@ -218,7 +250,7 @@ const Navigation = () => {
             </StyledLi>
           </>
         ),
-        2: (
+        'Advertiser': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
@@ -247,7 +279,7 @@ const Navigation = () => {
             </StyledLi>
           </>
         ),
-        3: (
+        'Customer Support': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
@@ -276,7 +308,7 @@ const Navigation = () => {
             </StyledLi>
           </>
         ),
-        4: (
+        'Lot Specialist': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
@@ -300,7 +332,7 @@ const Navigation = () => {
             </StyledLi>
           </>
         ),
-        5: (
+        'Advertising Specialist': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
@@ -324,7 +356,7 @@ const Navigation = () => {
             </StyledLi>
           </>
         ),
-        6: (
+        'Accountant': (
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
