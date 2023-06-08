@@ -62,3 +62,41 @@ class DeleteTicketView(APIView):
                 return Response(status=status.HTTP_403_FORBIDDEN)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+        
+class UpdateTicketView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TicketSerializer
+    lookup_field = 'ticket_id'
+    queryset = Ticket.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        print('gets to update, ext line  is request data')
+        print(request.data)
+        instance = self.get_object()
+        role_name = self.request.user.role.role_name
+
+        role_category_mapping = {
+            'Lot Specialist': 'Lot Owners',
+            'Advertising Specialist': 'Advertisers'
+        }
+
+        if role_name in ['Customer Support', 'Accountant']:
+            print('can edit all')
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+        elif role_name in ['Lot Specialist', 'Advertising Specialist']:
+            category = role_category_mapping.get(role_name, "")
+            print('category is ' + category)
+            print('instance cat is ' + category)
+            if instance.category != category:
+                return Response({'message': 'You do not have the permissions to update this ticket'}, status=status.HTTP_403_FORBIDDEN)
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+        else:
+            return Response({'message': 'You do not have the permissions to update this ticket'}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)

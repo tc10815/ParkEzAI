@@ -55,7 +55,7 @@ const TicketList = styled.ul`
   padding: 0;
 `;
 
-const TicketItem = styled.li`
+const TicketItemTag = styled.li`
   margin-bottom: 0rem;
 `;
 
@@ -70,6 +70,7 @@ const Tickets = () => {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       setTickets(data);
     }
   };
@@ -89,40 +90,73 @@ const Tickets = () => {
   
     if (response.ok) {
       setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
+    } else {
+      alert('Error deleting tickets')
     }
   };
 
-  const handleUpdateTicket = async (ticketId, status, priority) => {
-    // const requestBody = {
-    //   ticket_id: ticketId,
-    //   status,
-    //   priority,
-    // };
+  const handleUpdateTicketStatus = async (ticketId, status) => {
+    const requestBody = {
+      ticket_id: ticketId,
+      status,
+    };
 
-    // const response = await fetch("http://gruevy.com/ezphp/update_ticket.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(requestBody),
-    // });
+    const response = await fetch(`http://127.0.0.1:8000/tickets/update_ticket/${ticketId}/`, {
+      method: "PATCH",
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(requestBody),
+  });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        setTickets(
+          tickets.map((ticket) =>
+            ticket.ticket_id === ticketId
+              ? { ...ticket, status }
+              : ticket
+          )
+        );
+      } else {
+        console.error("Error updating ticket status:", data.message, data.error);
+      }
+    } else {
+      console.error("Error calling update_ticket.php:", response.statusText);
+    }
+  };
 
-    // if (response.ok) {
-    //   const data = await response.json();
-    //   if (data.success) {
-    //     setTickets(
-    //       tickets.map((ticket) =>
-    //         ticket.ticket_id === ticketId
-    //           ? { ...ticket, status, priority }
-    //           : ticket
-    //       )
-    //     );
-    //   } else {
-    //     console.error("Error updating ticket:", data.message, data.error);
-    //   }
-    // } else {
-    //   console.error("Error calling update_ticket.php:", response.statusText);
-    // }
+  const handleUpdateTicketPriority = async (ticketId, priority) => {
+    const requestBody = {
+      ticket_id: ticketId,
+      priority,
+    };
+
+    const response = await fetch(`http://127.0.0.1:8000/tickets/update_ticket/${ticketId}/`, {
+      method: "PATCH",
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(requestBody),
+  });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        setTickets(
+          tickets.map((ticket) =>
+            ticket.ticket_id === ticketId
+              ? { ...ticket, priority }
+              : ticket
+          )
+        );
+      } else {
+        console.error("Error updating ticket priority:", data.message, data.error);
+      }
+    } else {
+      console.error("Error calling update_ticket.php:", response.statusText);
+    }
   };
 
 
@@ -134,7 +168,7 @@ const Tickets = () => {
             <TicketList>
               {tickets.map((ticket) => (
                 <FormContainer>
-                  <TicketItem key={ticket.ticket_id}>
+                  <TicketItemTag key={ticket.ticket_id}>
                     <h3>{ticket.subject}</h3>
                     <p>{ticket.description}</p>
                     <div>
@@ -142,7 +176,7 @@ const Tickets = () => {
                       <select
                         defaultValue={ticket.status}
                         onChange={(e) =>
-                          handleUpdateTicket(ticket.ticket_id, e.target.value, ticket.priority)
+                          handleUpdateTicketStatus(ticket.ticket_id, e.target.value)
                         }
                       >
                         <option value="Open">Open</option>
@@ -156,7 +190,7 @@ const Tickets = () => {
                       <select
                         defaultValue={ticket.priority}
                         onChange={(e) =>
-                          handleUpdateTicket(ticket.ticket_id, ticket.status, e.target.value)
+                          handleUpdateTicketPriority(ticket.ticket_id, e.target.value)
                         }
                       >
                         <option value="Low">Low</option>
@@ -174,7 +208,7 @@ const Tickets = () => {
                       Delete Ticket
                     </button>
 
-                  </TicketItem>
+                  </TicketItemTag>
                 </FormContainer>
               ))}
               <p style={{ backgroundColor: 'white', color: 'black', marginLeft: 'auto', marginRight: 'auto', padding: '2px', marginBottom: '2em', width: 'fit-content' }}>Note: Database is updated instantly for status and priority</p>
