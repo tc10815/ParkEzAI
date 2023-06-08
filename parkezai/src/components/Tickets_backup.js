@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -68,88 +69,120 @@ const Tickets = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await fetch("http://127.0.0.1:8000/accounts/users/me/", {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        setUser(decodedToken.data);
       }
     };
+
     fetchUser();
   }, [location]);
 
-  const fetchStaffTickets = async () => {
-    const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets_staff", {
+  const fetchStaffTickets = async (role) => {
+    const requestBody = {
+      role,
+    };
+
+    const response = await fetch("http://gruevy.com/ezphp/get_staff_tickets.php", {
+      method: "POST",
       headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(requestBody),
     });
     if (response.ok) {
       const data = await response.json();
-      setTickets(data);
+      if (data.success) {
+        setTickets(data.tickets);
+      }
     }
   };
 
-
   useEffect(() => {
-    if (user) {
-      fetchStaffTickets();
-    }
+    const fetchTickets = async () => {
+      if (user) {
+
+        if ([3, 4, 5, 6].includes(user.role_id)) {
+          fetchStaffTickets(user.role_id);
+        } else {
+          const requestBody = {
+            user_id: user.user_id,
+          };
+
+          const response = await fetch("http://gruevy.com/ezphp/get_tickets.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          });
+
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+              setTickets(data.tickets);
+            }
+          }
+        }
+      }
+    };
+
+    fetchTickets();
   }, [user]);
-  
+
   const handleDeleteTicket = async (ticketId) => {
-    // const requestBody = {
-    //     ticket_id: ticketId,
-    //   };
-    //   const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestBody),
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     if (data.success) {
-    //       setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
-    //     }
-    //   }
+    const requestBody = {
+        ticket_id: ticketId,
+      };
+      const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
+        }
+      }
   };
 
   const handleUpdateTicket = async (ticketId, status, priority) => {
-    // const requestBody = {
-    //   ticket_id: ticketId,
-    //   status,
-    //   priority,
-    // };
+    const requestBody = {
+      ticket_id: ticketId,
+      status,
+      priority,
+    };
   
-    // const response = await fetch("http://gruevy.com/ezphp/update_ticket.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(requestBody),
-    // });
+    const response = await fetch("http://gruevy.com/ezphp/update_ticket.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
   
-    // if (response.ok) {
-    //   const data = await response.json();
-    //   if (data.success) {
-    //     setTickets(
-    //       tickets.map((ticket) =>
-    //         ticket.ticket_id === ticketId
-    //           ? { ...ticket, status, priority }
-    //           : ticket
-    //       )
-    //     );
-    //   } else {
-    //     console.error("Error updating ticket:", data.message, data.error);
-    //   }
-    // } else {
-    //   console.error("Error calling update_ticket.php:", response.statusText);
-    // }
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        setTickets(
+          tickets.map((ticket) =>
+            ticket.ticket_id === ticketId
+              ? { ...ticket, status, priority }
+              : ticket
+          )
+        );
+      } else {
+        console.error("Error updating ticket:", data.message, data.error);
+      }
+    } else {
+      console.error("Error calling update_ticket.php:", response.statusText);
+    }
   };
   
 

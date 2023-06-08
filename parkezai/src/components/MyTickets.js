@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -74,8 +74,8 @@ const MyTickets = () => {
       const token = localStorage.getItem("token");
 
       if (token) {
-        const decodedToken = jwt_decode(token);
-        setUser(decodedToken.data);
+        // const decodedToken = jwt_decode(token);
+        // setUser(decodedToken.data);
       }
     };
 

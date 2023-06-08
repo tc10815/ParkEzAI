@@ -180,16 +180,13 @@ const Login = () => {
               navigate("/advertiser-dashboard"); 
               break;
             case 'Customer Support':
-              alert('Cust Sup');
-              // navigate("/tickets"); 
+              navigate("/tickets"); 
               break;
             case 'Lot Specialist':
-              alert('Lot Spec');
-              // navigate("/tickets"); 
+              navigate("/tickets"); 
               break;
             case 'Advertising Specialist':
-              alert('Ad Spec');
-              // navigate("/tickets"); 
+              navigate("/tickets"); 
               break;
             case 'Accountant':
               alert('Account');
