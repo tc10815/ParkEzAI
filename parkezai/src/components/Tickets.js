@@ -79,22 +79,17 @@ const Tickets = () => {
   }, []);
 
   const handleDeleteTicket = async (ticketId) => {
-    // const requestBody = {
-    //     ticket_id: ticketId,
-    //   };
-    //   const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestBody),
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     if (data.success) {
-    //       setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
-    //     }
-    //   }
+    const response = await fetch(`http://127.0.0.1:8000/tickets/delete_ticket/${ticketId}/`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Token ${localStorage.getItem("token")}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (response.ok) {
+      setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
+    }
   };
 
   const handleUpdateTicket = async (ticketId, status, priority) => {
@@ -172,8 +167,8 @@ const Tickets = () => {
                     </div>
                     <p>Category: {ticket.category}</p>
                     <p style={{ fontSize: '10px' }}>
-                      <strong>Name:</strong> {ticket.first_name} {ticket.last_name}<br />
-                      <strong>Email:</strong> {ticket.email}<br />
+                      <strong>Name:</strong> {ticket.user.first_name} {ticket.user.last_name}<br />
+                      <strong>Email:</strong> {ticket.user.email}<br />
                       <strong>Created:</strong> {ticket.date_created}<br />
                       <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
                       Delete Ticket
