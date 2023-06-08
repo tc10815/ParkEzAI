@@ -59,27 +59,8 @@ const TicketItem = styled.li`
   margin-bottom: 0rem;
 `;
 
-
 const Tickets = () => {
-  const [user, setUser] = useState(null);
   const [tickets, setTickets] = useState([]);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await fetch("http://127.0.0.1:8000/accounts/users/me/", {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      }
-    };
-    fetchUser();
-  }, [location]);
 
   const fetchStaffTickets = async () => {
     const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets_staff", {
@@ -93,13 +74,10 @@ const Tickets = () => {
     }
   };
 
-
   useEffect(() => {
-    if (user) {
-      fetchStaffTickets();
-    }
-  }, [user]);
-  
+    fetchStaffTickets();
+  }, []);
+
   const handleDeleteTicket = async (ticketId) => {
     // const requestBody = {
     //     ticket_id: ticketId,
@@ -125,7 +103,7 @@ const Tickets = () => {
     //   status,
     //   priority,
     // };
-  
+
     // const response = await fetch("http://gruevy.com/ezphp/update_ticket.php", {
     //   method: "POST",
     //   headers: {
@@ -133,7 +111,7 @@ const Tickets = () => {
     //   },
     //   body: JSON.stringify(requestBody),
     // });
-  
+
     // if (response.ok) {
     //   const data = await response.json();
     //   if (data.success) {
@@ -151,65 +129,62 @@ const Tickets = () => {
     //   console.error("Error calling update_ticket.php:", response.statusText);
     // }
   };
-  
+
 
   return (
     <>
       <HomeContainer>
-        {user && (
           <>
             <TitleText>My Tickets</TitleText>
             <TicketList>
               {tickets.map((ticket) => (
                 <FormContainer>
-            <TicketItem key={ticket.ticket_id}>
-            <h3>{ticket.subject}</h3>
-            <p>{ticket.description}</p>
-            <div>
-                <label>Status: </label>
-                <select
-                defaultValue={ticket.status}
-                onChange={(e) =>
-                    handleUpdateTicket(ticket.ticket_id, e.target.value, ticket.priority)
-                }
-                >
-                <option value="Open">Open</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Resolved">Resolved</option>
-                <option value="Closed">Closed</option>
-                </select>
-            </div>
-            <div>
-                <label>Priority: </label>
-                <select
-                defaultValue={ticket.priority}
-                onChange={(e) =>
-                    handleUpdateTicket(ticket.ticket_id, ticket.status, e.target.value)
-                }
-                >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Urgent">Urgent</option>
-                </select>
-            </div>
-            <p>Category: {ticket.category}</p>
-            <p style={{fontSize:'10px'}}>
-                <strong>Name:</strong> {ticket.first_name} {ticket.last_name}<br />
-                <strong>Email:</strong> {ticket.email}<br />
-                <strong>Created:</strong> {ticket.date_created}<br />
-                <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
-                Delete Ticket
-            </button>
+                  <TicketItem key={ticket.ticket_id}>
+                    <h3>{ticket.subject}</h3>
+                    <p>{ticket.description}</p>
+                    <div>
+                      <label>Status: </label>
+                      <select
+                        defaultValue={ticket.status}
+                        onChange={(e) =>
+                          handleUpdateTicket(ticket.ticket_id, e.target.value, ticket.priority)
+                        }
+                      >
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>Priority: </label>
+                      <select
+                        defaultValue={ticket.priority}
+                        onChange={(e) =>
+                          handleUpdateTicket(ticket.ticket_id, ticket.status, e.target.value)
+                        }
+                      >
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                      </select>
+                    </div>
+                    <p>Category: {ticket.category}</p>
+                    <p style={{ fontSize: '10px' }}>
+                      <strong>Name:</strong> {ticket.first_name} {ticket.last_name}<br />
+                      <strong>Email:</strong> {ticket.email}<br />
+                      <strong>Created:</strong> {ticket.date_created}<br />
+                      <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
+                      Delete Ticket
+                    </button>
 
-            </TicketItem>
-            </FormContainer>
-            ))}
-            <p style={{backgroundColor:'white', color:'black', marginLeft:'auto', marginRight:'auto', padding:'2px', marginBottom:'2em',width:'fit-content'}}>Note: Database is updated instantly for status and priority</p>
+                  </TicketItem>
+                </FormContainer>
+              ))}
+              <p style={{ backgroundColor: 'white', color: 'black', marginLeft: 'auto', marginRight: 'auto', padding: '2px', marginBottom: '2em', width: 'fit-content' }}>Note: Database is updated instantly for status and priority</p>
             </TicketList>
-            </>
-          )}
-
+          </>
       </HomeContainer>
 
     </>
