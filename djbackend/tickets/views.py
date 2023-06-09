@@ -15,11 +15,13 @@ class CreateTicketView(generics.CreateAPIView):
         user = self.request.user
 
         role_category_mapping = {
-            'Lot Specialist': 'Lot Owners',
-            'Advertising Specialist': 'Advertisers'
+            'Lot Operator': 'Lot Owners',
+            'Advertiser': 'Advertisers'
         }
 
         category = role_category_mapping.get(role_name, 'General')
+        print('role_name: ' + role_name)
+        print('category: ' + category)
 
         request.data['category'] = category
         request.data['user'] = user.id
