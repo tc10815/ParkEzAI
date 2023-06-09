@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-// import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -88,27 +87,20 @@ const MyTickets = () => {
     fetchTickets();
   }, []);
 
-
   const handleDeleteTicket = async (ticketId) => {
-    const requestBody = {
-      ticket_id: ticketId,
-    };
-    console.log('body request');
-    console.log(requestBody);
-    const response = await fetch("http://gruevy.com/ezphp/delete_ticket.php", {
-      method: "POST",
+    const response = await fetch(`http://127.0.0.1:8000/tickets/delete_ticket/${ticketId}/`, {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Authorization': `Token ${localStorage.getItem("token")}`,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody),
     });
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
-      }
+    
+    if (response.status === 204) { 
+      setTickets(tickets.filter((ticket) => ticket.ticket_id !== ticketId));
     }
   };
+  
 
   return (
     <>

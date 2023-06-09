@@ -47,6 +47,7 @@ class DeleteTicketView(APIView):
     def delete(self, request, ticket_id, format=None):
         ticket = self.get_object(ticket_id)
         role_name = self.request.user.role.role_name
+        current_user = self.request.user
 
         role_category_mapping = {
             'Lot Specialist': 'Lot Owners',
@@ -63,8 +64,15 @@ class DeleteTicketView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_403_FORBIDDEN)
+        elif role_name in ['Lot Operator', 'Advertiser']:
+            if ticket.user == current_user:
+                ticket.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(status=status.HTTP_403_FORBIDDEN)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+
         
 class UpdateTicketView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
