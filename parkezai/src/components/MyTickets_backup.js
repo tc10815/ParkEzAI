@@ -64,30 +64,51 @@ const TicketItem = styled.li`
 `;
 
 const MyTickets = () => {
-  console.log('Did MyTickets load');
+  const [user, setUser] = useState(null);
   const [tickets, setTickets] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        // const decodedToken = jwt_decode(token);
+        // setUser(decodedToken.data);
+      }
+    };
+
+    fetchUser();
+  }, [location]);
 
   useEffect(() => {
     const fetchTickets = async () => {
-        const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets", {
+      if (user) {
+        const requestBody = {
+          user_id: user.user_id,
+        };
+
+        const response = await fetch("http://gruevy.com/ezphp/get_tickets.php", {
+          method: "POST",
           headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify(requestBody),
         });
 
         if (response.ok) {
           const data = await response.json();
-          setTickets(data);
-          console.log(data);
+          if (data.success) {
+            setTickets(data.tickets);
+            console.log(data.tickets);
+          }
         }
-      
+      }
     };
-    fetchTickets();
-  }, []);
 
+    fetchTickets();
+  }, [user]);
 
   const handleDeleteTicket = async (ticketId) => {
     const requestBody = {
@@ -113,6 +134,7 @@ const MyTickets = () => {
   return (
     <>
     <HomeContainer>
+          {user && (
             <>
               <TitleText>My Tickets</TitleText>
               <TicketList>
@@ -138,6 +160,8 @@ const MyTickets = () => {
               </TicketList>
 
             </>
+          )}
+
       </HomeContainer>
 
     </>

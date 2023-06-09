@@ -63,7 +63,7 @@ const Tickets = () => {
   const [tickets, setTickets] = useState([]);
 
   const fetchStaffTickets = async () => {
-    const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets_staff", {
+    const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets", {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },

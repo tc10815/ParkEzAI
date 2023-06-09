@@ -7,12 +7,13 @@ from .serializers import TicketSerializer
 from django.http import Http404
 
 
-class GetStaffTickets(generics.ListAPIView):
+class GetTickets(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TicketSerializer
 
     def get_queryset(self):
-        role_name = self.request.user.role.role_name
+        user = self.request.user
+        role_name = user.role.role_name
 
         role_category_mapping = {
             'Lot Specialist': 'Lot Owners',
@@ -24,6 +25,8 @@ class GetStaffTickets(generics.ListAPIView):
         elif role_name in ['Lot Specialist', 'Advertising Specialist']:
             category = role_category_mapping.get(role_name, "")
             return Ticket.objects.select_related('user').filter(category=category)
+        elif role_name in ['Lot Operator', 'Advertiser']:
+            return Ticket.objects.select_related('user').filter(user=user)
         else:
             return Ticket.objects.none()
 
