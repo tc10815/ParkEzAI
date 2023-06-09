@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -59,58 +58,27 @@ const MyLabel = styled.label`
 `;
 
 const CreateTicket = () => {
-  const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        setUser(decodedToken.data);
-      }
-    };
-
-    fetchUser();
-  }, [location]);
-
-  const handleCreateTicketSubmit = async (e) => {
-    e.preventDefault();
-    const subject = e.target.elements[0].value;
-    const description = e.target.elements[1].value;
+  const handleCreateTicketSubmit = async (event) => {
+    event.preventDefault();
+    const subject = event.target.elements[0].value;
+    const description = event.target.elements[1].value;
     const status = "Open";
-    const priority = e.target.elements[2].value;
-    const role_id = user.role_id;
-    const category = role_id === 1 ? "Lot Owners" : role_id === 2 ? "Advertisers" : "General";
+    const priority = event.target.elements[2].value;
 
-    const requestBody = {
-      user_id: user.user_id,
-      subject,
-      description,
-      status,
-      priority,
-      category,
-    };
-
-    const response = await fetch("http://gruevy.com/ezphp/create_ticket.php", {
+    const response = await fetch("http://127.0.0.1:8000/tickets/create_ticket/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Token ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({subject, description, priority}),
     });
-
+  
     if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        navigate("/my-tickets");
-      } else {
-        alert('Error creating ticket');
-      }
-    } else {
-      alert('Error creating ticket');
+      navigate("/my-tickets");
     }
   };
 
@@ -118,7 +86,6 @@ const CreateTicket = () => {
     <>
       <HomeContainer>
         <FormContainer>
-          {user && (
               <CreateTicketForm onSubmit={handleCreateTicketSubmit}>
               <TitleText>Create Ticket</TitleText>
               <MyLabel>
@@ -143,7 +110,6 @@ const CreateTicket = () => {
               <br />
               <button type="submit">Create Ticket</button>
             </CreateTicketForm>
-          )}
         </FormContainer>
       </HomeContainer>
       <Footer>

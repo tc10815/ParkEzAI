@@ -6,6 +6,33 @@ from .models import Ticket
 from .serializers import TicketSerializer
 from django.http import Http404
 
+class CreateTicketView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TicketSerializer
+
+    def create(self, request, *args, **kwargs):
+        role_name = self.request.user.role.role_name
+        user = self.request.user
+
+        role_category_mapping = {
+            'Lot Specialist': 'Lot Owners',
+            'Advertising Specialist': 'Advertisers'
+        }
+
+        category = role_category_mapping.get(role_name, 'General')
+
+        request.data['category'] = category
+        request.data['user'] = user.id
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class GetTickets(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
