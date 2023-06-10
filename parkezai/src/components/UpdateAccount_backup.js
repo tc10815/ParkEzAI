@@ -63,10 +63,19 @@ const MyLabel = styled.label`
     width: 40px;
 `
 const UpdateAccount = () => {
+  const [userId, setUserId] = useState('');
+  const [role, setRole] =  useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [business, setBusiness] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const [isStaff, setIsStaff] = useState(true);
   const location = useLocation();
 
 
@@ -80,74 +89,55 @@ const UpdateAccount = () => {
         },
       })
         .then(response => response.json())
-        .then(data => setUser(data))
+        .then(data => setUser(data));
     }
-  }, [location]); 
+    setUserId(user.pk);
 
-  const handleUpdateSubmit = async (event) => {
-    event.preventDefault(); 
+  }, [location]);
 
 
-    // let company_address = "";
-    // let company_name = "";
-    // let city = "";
-    // let state = "";
-    // let zip = "";
-    if (['Advertiser', 'Lot Operator'].includes(user.role_name)){
-      let first_name = event.target.elements[0].value
-      let last_name = event.target.elements[1].value
-      let email = event.target.elements[2].value
-      let company_address = event.target.elements[3].value;
-      let company_name = event.target.elements[4].value;
-      let city = event.target.elements[5].value;
-      let state = event.target.elements[6].value;
-      let zip = event.target.elements[7].value;
-      let password = event.target.elements[8].value;
-      const requestBody = {
-        email, first_name, last_name, password, 
-        company_name, company_address, city, state, zip,
-      };
-      console.log("ReqSubmitted", requestBody);
-      const response = await fetch(`http://127.0.0.1:8000/accounts/users/edit/`, {
-        method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-          body: JSON.stringify(requestBody),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      } else {
-        const data = await response.json();
-        console.log("success:", data);
-      }
-    } else {
-      let first_name = event.target.elements[0].value;
-      let last_name = event.target.elements[1].value;
-      let email = event.target.elements[2].value;
-      let password = event.target.elements[3].value;
-      const requestBody = {
-        email, first_name, last_name, password, 
-      };
-      console.log("ReqSubmitted", requestBody);
-      const response = await fetch(`http://127.0.0.1:8000/accounts/users/edit/`, {
-        method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-          body: JSON.stringify(requestBody),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      } else {
-        const data = await response.json();
-        console.log("success:", data);
-      }
-    }
+  
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    const first_name = e.target.elements[0].value;
+    const last_name = e.target.elements[1].value;
+    const email = e.target.elements[2].value;
 
+    var address = "";
+    var business = "";
+    var city = "";
+    var state = "";
+    var zip = "";
+    // if (user.user._id < 3) {
+    //  address =  e.target.elements[3].value;
+    //  business = e.target.elements[4].value;
+    //  city = e.target.elements[5].value;
+    //  state = e.target.elements[6].value;
+    //  zip = e.target.elements[7].value;
+    // }
+
+    var password = e.target.elements[3].value;
+    // if (user.user.role_id < 3) {
+    //   password = e.target.elements[8].value;
+    // }
+
+    const requestBody = {
+      user_id: userId,
+      first_name,
+      last_name,
+      email,
+      password,
+    };
+
+    // if (user.user.role_id < 3) {
+    //   requestBody.address = address;
+    //   requestBody.business = business;
+    //   requestBody.city = city;
+    //   requestBody.state = state;
+    //   requestBody.zip = zip;
+    // }
   };
+
   return (
     <>
     <HomeContainer>
@@ -159,54 +149,54 @@ const UpdateAccount = () => {
           <CenterMe>
           <MyLabel>
         First Name:&emsp;
-         <input id="fname" type="text" defaultValue={user.first_name} />
+        <input id="fname" type="text" defaultValue={firstName} />
       </MyLabel>
       <br />
       <MyLabel>
         Last Name:&emsp;
-        <input type="text" defaultValue={user.last_name} />
+        <input type="text" defaultValue={lastName} />
       </MyLabel>
       <MyLabel>
         Email:&emsp;
-        <input type="email" defaultValue={user.email} /> 
+        <input type="email" defaultValue={email} />
       </MyLabel>
       <br />
-          {['Advertiser', 'Lot Operator'].includes(user.role_name) && (
+          {/* {user.user.role_id < 3 && (
             <>
               <MyLabel>
                 Address:&emsp;
-                <input defaultValue={user.company_address} />
+                <input defaultValue={address} />
               </MyLabel>
               <br />
               <MyLabel>
                 Business:&emsp;
                 <input 
-                  type="text"  defaultValue={user.company_name}
+                  type="text"  defaultValue={business}
                 />
               </MyLabel>
               <br />
               <MyLabel>
                 City:&emsp;
                 <input
-                  type="text" defaultValue={user.city}
+                  type="text" defaultValue={city}
                 />
               </MyLabel>
               <br />
               <MyLabel>
                 State:&emsp;
                 <input
-                  type="text" defaultValue={user.state}
+                  type="text" defaultValue={state}
                 />
               </MyLabel>
               <br />
               <MyLabel>
                 Zip:&emsp;
                 <input
-                  type="text" defaultValue={user.zip}
+                  type="text" defaultValue={zip}
                 />
               </MyLabel>
             </>
-          )} 
+          )} */}
           </CenterMe>
           <label>
             <br /> <br />

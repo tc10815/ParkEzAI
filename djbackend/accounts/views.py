@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
-from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer
+from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -40,3 +40,62 @@ class CurrentUserView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+class UpdateUserView(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserUpdateSerializer
+
+    def get_object(self):
+        return CustomUser.objects.get(email=self.request.data['email'])
+
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = self.get_object()
+        role_name = self.request.user.role.role_name
+        # check if the password is correct
+        password = request.data.pop('password', None)
+        if not password or not user.check_password(password):
+            return Response({"message": "Incorrect password."}, status=status.HTTP_403_FORBIDDEN)
+            
+        # get the current user
+        current_user = request.user
+        print('gets to update, ext line  is request data')
+        print(current_user)
+
+
+
+
+        # check if the current user has permission to edit the user
+        if user == current_user or current_user.role.role_name == 'Accountant':
+            pass  # current user is allowed to edit this user
+        elif current_user.role.role_name == 'Customer Support' and user.role.role_name in ['Lot Operator', 'Advertiser']:
+            pass  # current user is allowed to edit this user
+        elif current_user.role.role_name == 'Lot Specialist' and user.role.role_name == 'Lot Operator':
+            pass  # current user is allowed to edit this user
+        elif current_user.role.role_name == 'Advertising Specialist' and user.role.role_name == 'Advertiser':
+            pass  # current user is allowed to edit this user
+        else:
+            return Response({"message": "You do not have permission to edit this user."}, status=status.HTTP_403_FORBIDDEN)
+
+        # determine the editable fields based on the user's role
+        if user.role.role_name in ['Lot Operator', 'Advertiser']:
+            editable_fields = ['email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip']
+        else:
+            editable_fields = ['email', 'first_name', 'last_name']
+
+        # remove non-editable fields from the request data
+        for field in list(request.data.keys()):
+            if field not in editable_fields:
+                del request.data[field]
+
+        # ensure the username is updated along with the email
+        if 'email' in request.data:
+            request.data['username'] = request.data['email']
+
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=True) 
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+        # return super().update(request, *args, **kwargs)

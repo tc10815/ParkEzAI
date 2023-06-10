@@ -72,11 +72,6 @@ const HeroImage = styled.div`
 const AccountantDashboard = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const decodedToken = jwt_decode(token);
-    setUser(decodedToken);
-  }, [location]);
 
   return (
     <HomeContainer>

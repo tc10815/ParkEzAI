@@ -44,4 +44,12 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
     role_name = serializers.CharField(source='role.role_name')
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + ('role_name', 'is_uninitialized')
+        fields = UserDetailsSerializer.Meta.fields + ('role_name', 'is_uninitialized', 'company_name', 'company_address', 'city', 'state', 'zip')
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    role_name = serializers.CharField(source='role.role_name', read_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'role_name']
