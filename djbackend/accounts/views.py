@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
-from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer
+from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -100,3 +100,22 @@ class UpdateUserView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+    
+class ChangePasswordView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+    def put(self, request, *args, **kwargs):
+        self.user = self.request.user
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.user.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.user.set_password(serializer.data.get("new_password"))
+            self.user.save()
+            return Response({"success": "Password updated successfully"}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

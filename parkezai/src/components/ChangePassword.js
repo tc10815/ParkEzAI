@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/account-hero.jpg";
 
@@ -61,22 +60,8 @@ const MyLabel = styled.label`
 `;
 
 const ChangePassword = () => {
-  const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        setUser(decodedToken.data);
-      }
-    };
-
-    fetchUser();
-  }, [location]);
 
   const handleChangePasswordSubmit = async (e) => {
     e.preventDefault();
@@ -86,19 +71,21 @@ const ChangePassword = () => {
 
     if (newPassword !== confirmPassword) {
       alert("New password and confirm password do not match");
+      e.target.elements[1].value = "";
+      e.target.elements[2].value = "";
       return;
     }
 
     const requestBody = {
-      user_id: user.user_id,
       old_password: oldPassword,
       new_password: newPassword,
     };
 
-    const response = await fetch("http://gruevy.com/ezphp/change_password.php", {
-      method: "POST",
+    const response = await fetch("http://127.0.0.1:8000/accounts/change-password/", { 
+      method: "PUT", 
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem('token')}`, 
       },
       body: JSON.stringify(requestBody),
     });
@@ -119,7 +106,6 @@ const ChangePassword = () => {
     <>
       <HomeContainer>
         <FormContainer>
-          {user && (
             <ChangePasswordForm onSubmit={handleChangePasswordSubmit}>
               <TitleText>Change Password</TitleText>
               <MyLabel>
@@ -138,7 +124,6 @@ const ChangePassword = () => {
               <br />
               <button type="submit">Change Password</button>
             </ChangePasswordForm>
-          )}
         </FormContainer>
       </HomeContainer>
       <Footer>

@@ -60,3 +60,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             instance.username = validated_data['email']
             instance.save()
         return instance
+    
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
