@@ -45,8 +45,10 @@ class UpdateUserView(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserUpdateSerializer
 
+    # def get_object(self):
+    #     return CustomUser.objects.get(email=self.request.data['email'])
     def get_object(self):
-        return CustomUser.objects.get(email=self.request.data['email'])
+        return CustomUser.objects.get(email=self.request.user.email)
 
 
     def update(self, request, *args, **kwargs):
@@ -98,4 +100,3 @@ class UpdateUserView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-        # return super().update(request, *args, **kwargs)

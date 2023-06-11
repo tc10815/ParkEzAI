@@ -53,3 +53,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'role_name']
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        if 'email' in validated_data:
+            instance.username = validated_data['email']
+            instance.save()
+        return instance

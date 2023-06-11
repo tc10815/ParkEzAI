@@ -87,12 +87,6 @@ const UpdateAccount = () => {
   const handleUpdateSubmit = async (event) => {
     event.preventDefault(); 
 
-
-    // let company_address = "";
-    // let company_name = "";
-    // let city = "";
-    // let state = "";
-    // let zip = "";
     if (['Advertiser', 'Lot Operator'].includes(user.role_name)){
       let first_name = event.target.elements[0].value
       let last_name = event.target.elements[1].value
@@ -117,8 +111,9 @@ const UpdateAccount = () => {
           body: JSON.stringify(requestBody),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        navigate("/error-change");
       } else {
+        navigate("/success-change");
         const data = await response.json();
         console.log("success:", data);
       }
@@ -140,10 +135,11 @@ const UpdateAccount = () => {
           body: JSON.stringify(requestBody),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        navigate("/error-change");
       } else {
         const data = await response.json();
         console.log("success:", data);
+        navigate("/success-change");
       }
     }
 
