@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
 from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer
+from django.contrib.auth.hashers import check_password
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -119,3 +120,19 @@ class ChangePasswordView(APIView):
             return Response({"success": "Password updated successfully"}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteAccountView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, format=None):
+        user = self.request.user
+        password = request.data.get('password')
+
+        if not password:
+            return Response({'error': 'Password is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not check_password(password, user.password):
+            return Response({'error': 'Password is incorrect'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

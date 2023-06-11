@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import heroImage from "../images/account-hero.jpg";
-import jwt_decode from "jwt-decode";
-
 
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
@@ -62,37 +60,29 @@ const DeleteOwnAccount = () => {
   const navigate = useNavigate();
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    const decodedToken = jwt_decode(token);
 
     const password = e.target.elements[0].value;
-    const user_id = decodedToken.data.user_id;
 
-
-    const response = await fetch("http://gruevy.com/ezphp/delete_own_account.php", {
-      method: "POST",
+    const response = await fetch("http://127.0.0.1:8000/accounts/delete-account/", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify({ password, user_id }),
+      body: JSON.stringify({ password }),
     });
 
-
-
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      if (data.success) {
-            localStorage.removeItem("token");
-            window.dispatchEvent(new CustomEvent("logout"));
-            navigate("/login");
-        } else {
-            alert('Error delete account');
-      }
+      localStorage.removeItem("token");
+      window.dispatchEvent(new CustomEvent("logout"));
+      navigate("/login");
     } else {
-        alert('Error delete account');
+        const data = await response.json();
+        console.error(data.error);
+        alert('Error deleting account');
     }
   };
+
 
   return (
     <>

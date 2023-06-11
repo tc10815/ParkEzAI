@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PopulateDBView, UserViewSet, CreateUserView, CurrentUserView, UpdateUserView, ChangePasswordView
+from .views import PopulateDBView, UserViewSet, CreateUserView, CurrentUserView, UpdateUserView, ChangePasswordView, DeleteAccountView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -11,5 +11,7 @@ urlpatterns = [
     path('users/me/', CurrentUserView.as_view(), name='current-user'),
     path('users/edit/', UpdateUserView.as_view(), name='edit-user'),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+    path('delete-account/', DeleteAccountView.as_view(), name='delete-account'),
+
     path('', include(router.urls)),
 ]
