@@ -1,5 +1,6 @@
 ## Part 1 Build: April 4 - April 27 2023
 ### [http://plan6.com/](http://plan6.com/)
+**Note: Websites on my server are now on HTTPS instead of HTTP, so open in private window to avoid errors**
 
 Includes all features listed under 1. Account Management in Functional Requirements below. Try 6 logins/passwords for account types at bottom of Login page.
 
@@ -46,7 +47,7 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 * 2.1 Track Occupancy:	Tracking of how many spots are taken at what times, presented for individuals who manage parking lots
 * 2.2 Access Footage Archive:	Lot owners can access archived footage of their parking lots.
 * 2.3 Detect Overparking: 	Notification of whenever a space is occupied longer than a specified period of time.
-* 2.4 Track License Plates:	Tracking what license plates are registed at what times.
+* 2.4 Track License Plates:	Tracking what license plates are registered at what times.
 
 <strong>3. Parking Lot Status</strong>
 
@@ -64,4 +65,3 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 
 * 5.1 Define Payment Method:	Users decide how they pay for their subscription (ad or lot manger).
 * 5.2 Validate Payment: 	Checks that customer payment method can be billed correctly.
-x
