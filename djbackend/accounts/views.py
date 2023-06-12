@@ -6,6 +6,7 @@ from .models import CustomUser, Role
 from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.exceptions import PermissionDenied
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -193,3 +194,39 @@ class UserDeleteView(APIView):
             return Response({'detail': 'You do not have permission to delete this user.'}, status=status.HTTP_403_FORBIDDEN)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ChangePasswordRoleBasedView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email', '')
+        new_password = request.data.get('new_password', '')
+
+        if not email or not new_password:
+            return Response({'error': 'Email and new password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user_to_change = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        user_requesting = request.user
+        requesting_role_name = user_requesting.role.role_name
+
+        # Define who can change who
+        valid_role_changes = {
+            'Accountant': ['Advertiser', 'Lot Operator', 'Customer Support', 'Lot Specialist', 'Advertising Specialist'],
+            'Customer Support': ['Advertiser', 'Lot Operator'],
+            'Lot Specialist': ['Lot Operator'],
+            'Advertising Specialist': ['Advertiser'],
+        }
+
+        user_to_change_role_name = user_to_change.role.role_name
+
+        if user_to_change_role_name not in valid_role_changes.get(requesting_role_name, []):
+            raise PermissionDenied("You don't have permission to change this user's password.")
+
+        user_to_change.set_password(new_password)
+        user_to_change.save()
+        return Response({"success": "Password updated successfully"}, status=status.HTTP_200_OK)

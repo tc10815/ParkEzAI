@@ -63,7 +63,6 @@ const TicketItem = styled.li`
 `;
 
 const MyTickets = () => {
-  console.log('Did MyTickets load');
   const [tickets, setTickets] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -80,7 +79,6 @@ const MyTickets = () => {
         if (response.ok) {
           const data = await response.json();
           setTickets(data);
-          console.log(data);
         }
       
     };

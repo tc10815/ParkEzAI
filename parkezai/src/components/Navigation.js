@@ -117,8 +117,6 @@ const Navigation = () => {
         }
         const user = await response.json();
         const roleName = user.role_name;
-        console.log('Role got:');
-        console.log(roleName);
         setUserRole(roleName);
       } catch (error) {
         console.log("Request to backend failed. Please ensure the endpoint is correct and the backend is running.");

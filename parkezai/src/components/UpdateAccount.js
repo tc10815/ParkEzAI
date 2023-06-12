@@ -101,7 +101,6 @@ const UpdateAccount = () => {
         email, first_name, last_name, password, 
         company_name, company_address, city, state, zip,
       };
-      console.log("ReqSubmitted", requestBody);
       const response = await fetch(`http://127.0.0.1:8000/accounts/users/edit/`, {
         method: 'PUT',
         headers: {
@@ -115,7 +114,6 @@ const UpdateAccount = () => {
       } else {
         navigate("/success-change");
         const data = await response.json();
-        console.log("success:", data);
       }
     } else {
       let first_name = event.target.elements[0].value;
@@ -125,7 +123,6 @@ const UpdateAccount = () => {
       const requestBody = {
         email, first_name, last_name, password, 
       };
-      console.log("ReqSubmitted", requestBody);
       const response = await fetch(`http://127.0.0.1:8000/accounts/users/edit/`, {
         method: 'PUT',
         headers: {
@@ -138,7 +135,6 @@ const UpdateAccount = () => {
         navigate("/error-change");
       } else {
         const data = await response.json();
-        console.log("success:", data);
         navigate("/success-change");
       }
     }

@@ -51,7 +51,6 @@ const UsersList = () => {
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
-        console.log(data);
       } else {
         alert("Error fetching users");
       }

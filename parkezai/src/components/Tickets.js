@@ -70,7 +70,6 @@ const Tickets = () => {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       setTickets(data);
     }
   };

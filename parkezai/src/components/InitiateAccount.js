@@ -93,7 +93,6 @@ const InitiateAccount = () => {
       current_password,
       new_password,
     };
-    console.log(requestBody);
 
     const response = await fetch("http://gruevy.com/ezphp/initialize_account.php", {
       method: "POST",
@@ -105,7 +104,6 @@ const InitiateAccount = () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       if (data.success) {
         navigate("/account");
       } else {

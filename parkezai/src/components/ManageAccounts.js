@@ -83,7 +83,6 @@ const ManageAccounts = () => {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       setAccounts(data);
     }
   };
@@ -92,55 +91,37 @@ const ManageAccounts = () => {
     fetchAccounts();
   }, []);  
 
-  const handleResetPassword = async (accountId) => {
+  const handleResetPassword = async (accountEmail) => {
     const new_password = prompt("Please enter the new password:");
-    // if (!new_password) return;
-  
-    // const hashed_password = await fetch("http://gruevy.com/ezphp/password_hash.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ password: new_password }),
-    // })
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       return res.json();
-    //     } else {
-    //       throw new Error("Error hashing password");
-    //     }
-    //   })
-    //   .then((data) => {
-    //     if (data.success) {
-    //       return data.hashed_password;
-    //     } else {
-    //       throw new Error("Error hashing password: " + data.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return null;
-    //   });
-  
-    // if (!hashed_password) {
-    //   alert("Error hashing password");
-    //   return;
-    // }
-  
-    // const response = await fetch("http://gruevy.com/ezphp/reset_password.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ account_id: accountId, new_password: hashed_password }),
-    // });
-  
-    // if (response.ok) {
-    //   alert("Password reset successfully.");
-    // } else {
-    //   alert("Error resetting password.");
-    // }
+    
+    if (!new_password) return;
+    
+    const requestBody = {
+      email: accountEmail,
+      new_password
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/accounts/change-password-staff/", { 
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem('token')}`, 
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        alert("Password reset successfully.");
+      } else {
+        alert("Error resetting password.");
+      }
+    } else {
+      alert("Error resetting password.");
+    }
   };
+  
   
 
   const handleDeleteAccount = async (accountEmail) => {
@@ -157,7 +138,6 @@ const ManageAccounts = () => {
       });
     if (response.ok) {
       const data = await response;
-      console.log(data);
       alert("Account deleted successfully.");
       fetchAccounts();
     } else {
