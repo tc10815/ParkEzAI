@@ -5,6 +5,7 @@ from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
 from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer
 from django.contrib.auth.hashers import check_password
+from django.core.exceptions import ObjectDoesNotExist
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -160,3 +161,35 @@ class UserRolesView(APIView):
         serializer = UserSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+class UserDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, format=None):
+        user = self.request.user
+        role_name = user.role.role_name
+
+        # retrieve the email of the user to be deleted from the request
+        email_to_delete = request.data.get('email')
+
+        if not email_to_delete:
+            return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # retrieve the user to be deleted
+        try:
+            user_to_delete = CustomUser.objects.get(email=email_to_delete)
+        except ObjectDoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if role_name == 'Accountant':
+            user_to_delete.delete()
+        elif role_name == 'Customer Support' and user_to_delete.role.role_name in ['Advertiser', 'Lot Operator']:
+            user_to_delete.delete()
+        elif role_name == 'Lot Specialist' and user_to_delete.role.role_name == 'Lot Operator':
+            user_to_delete.delete()
+        elif role_name == 'Advertising Specialist' and user_to_delete.role.role_name == 'Advertiser':
+            user_to_delete.delete()
+        else:
+            return Response({'detail': 'You do not have permission to delete this user.'}, status=status.HTTP_403_FORBIDDEN)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
