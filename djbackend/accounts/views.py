@@ -136,3 +136,27 @@ class DeleteAccountView(APIView):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserRolesView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        role_name = user.role.role_name
+
+        # Determine the rules based on the role of the user
+        if role_name == 'Accountant':
+            queryset = CustomUser.objects.exclude(email=user.email).exclude(role__isnull=True)
+        elif role_name == 'Customer Support':
+            queryset = CustomUser.objects.filter(role__role_name__in=['Advertiser', 'Lot Operator'])
+        elif role_name == 'Lot Specialist':
+            queryset = CustomUser.objects.filter(role__role_name='Lot Operator')
+        elif role_name == 'Advertising Specialist':
+            queryset = CustomUser.objects.filter(role__role_name='Advertiser')
+        else:
+            return Response({'detail': 'You do not have permission to access this.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Serialize the queryset
+        serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)

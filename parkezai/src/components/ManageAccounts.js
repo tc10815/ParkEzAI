@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 
@@ -70,136 +70,137 @@ const Button = styled.button`
 `;
 
 const ManageAccounts = () => {
-  const [user, setUser] = useState(null);
   const [accounts, setAccounts] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
 
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        setUser(decodedToken.data);
-        console.log('decoded token')
-        console.log(decodedToken.data);
-      }
-    };
-
-
-    fetchUser();
-  }, [location]);
+  const fetchAccounts = async () => {
+    const response = await fetch("http://127.0.0.1:8000/accounts/get-accounts-staff/", {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setAccounts(data);
+    }
+  };
 
   useEffect(() => {
-    const fetchAccounts = async () => {
-      const response = await fetch("http://gruevy.com/ezphp/manage_accounts.php", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Data from manage_accounts.php: ", data);
-        if (data.success) {
-          setAccounts(data.users);
-        } else {
-          console.error("Error fetching accounts: ", data.message);
-        }
-      } else {
-        console.error("Error fetching accounts");
-      }
-    };
-  
     fetchAccounts();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchAccounts = async () => {
+  //     const response = await fetch("http://gruevy.com/ezphp/manage_accounts.php", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log("Data from manage_accounts.php: ", data);
+  //       if (data.success) {
+  //         setAccounts(data.users);
+  //       } else {
+  //         console.error("Error fetching accounts: ", data.message);
+  //       }
+  //     } else {
+  //       console.error("Error fetching accounts");
+  //     }
+  //   };
+  
+  //   fetchAccounts();
+  // }, []);
   
 
   const handleResetPassword = async (accountId) => {
     const new_password = prompt("Please enter the new password:");
-    if (!new_password) return;
+    // if (!new_password) return;
   
-    const hashed_password = await fetch("http://gruevy.com/ezphp/password_hash.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ password: new_password }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("Error hashing password");
-        }
-      })
-      .then((data) => {
-        if (data.success) {
-          return data.hashed_password;
-        } else {
-          throw new Error("Error hashing password: " + data.message);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
+    // const hashed_password = await fetch("http://gruevy.com/ezphp/password_hash.php", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ password: new_password }),
+    // })
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       return res.json();
+    //     } else {
+    //       throw new Error("Error hashing password");
+    //     }
+    //   })
+    //   .then((data) => {
+    //     if (data.success) {
+    //       return data.hashed_password;
+    //     } else {
+    //       throw new Error("Error hashing password: " + data.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     return null;
+    //   });
   
-    if (!hashed_password) {
-      alert("Error hashing password");
-      return;
-    }
+    // if (!hashed_password) {
+    //   alert("Error hashing password");
+    //   return;
+    // }
   
-    const response = await fetch("http://gruevy.com/ezphp/reset_password.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ account_id: accountId, new_password: hashed_password }),
-    });
+    // const response = await fetch("http://gruevy.com/ezphp/reset_password.php", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ account_id: accountId, new_password: hashed_password }),
+    // });
   
-    if (response.ok) {
-      alert("Password reset successfully.");
-    } else {
-      alert("Error resetting password.");
-    }
+    // if (response.ok) {
+    //   alert("Password reset successfully.");
+    // } else {
+    //   alert("Error resetting password.");
+    // }
   };
   
 
   const handleDeleteAccount = async (accountId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this account?");
-    if (!confirmDelete) return;
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this account?");
+  //   if (!confirmDelete) return;
 
-    const response = await fetch("http://gruevy.com/ezphp/delete_account.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ account_id: accountId }),
-    });
+  //   const response = await fetch("http://gruevy.com/ezphp/delete_account.php", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ account_id: accountId }),
+  //   });
 
-    if (response.ok) {
-      setAccounts(accounts.filter((account) => account.id !== accountId));
-      alert("Account deleted successfully.");
-    } else {
-      alert("Error deleting account.");
-    }
-  };
+  //   if (response.ok) {
+  //     setAccounts(accounts.filter((account) => account.id !== accountId));
+  //     alert("Account deleted successfully.");
+  //   } else {
+  //     alert("Error deleting account.");
+  //   }
+  // };
 
-  const filterAccountsByRole = (account) => {
-    if (user) {
-      if (user.role_id === 4 && account.role_id === "1") {
-        return true;
-      }
-      if (user.role_id === 5 && account.role_id === "2") {
-        return true;
-      }
-      if (user.role_id === 3 || user.role_id === 6) {
-        return true;
-      }
-    }
+  // const filterAccountsByRole = (account) => {
+  //   if (user) {
+  //     if (user.role_id === 4 && account.role_id === "1") {
+  //       return true;
+  //     }
+  //     if (user.role_id === 5 && account.role_id === "2") {
+  //       return true;
+  //     }
+  //     if (user.role_id === 3 || user.role_id === 6) {
+  //       return true;
+  //     }
+  //   }
     return false;
   };
 
@@ -210,19 +211,16 @@ const ManageAccounts = () => {
         <Table>
           <thead>
             <tr>
-              <Th>ID</Th>
               <Th>Email</Th>
               <Th>Role</Th>
               <Th>Actions</Th>
             </tr>
           </thead>
           {accounts
-          .filter(filterAccountsByRole)
           .map((account) => (
-            <tr key={account.id}>
-                <Td>{account.id}</Td>
+            <tr key={account.email}>
                 <Td>{account.email}</Td>
-                <Td>{account.role_id}</Td>
+                <Td>{account.role.role_name}</Td>
                 <Td>
                   <Button onClick={() => handleResetPassword(account.id)}>Reset Password</Button>
                   <Button onClick={() => handleDeleteAccount(account.id)}>Delete</Button>
