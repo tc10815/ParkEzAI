@@ -12,13 +12,13 @@ class Role(models.Model):
 class CustomUser(AbstractUser):
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    company_name = models.CharField(max_length=255)
-    company_address = models.CharField(max_length=255)
-    state = models.CharField(max_length=2, validators=[MinLengthValidator(2)])
-    city = models.CharField(max_length=255)
-    zip = models.CharField(max_length=5, validators=[MinLengthValidator(5)])
+    first_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, null=True, blank=True)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
+    company_address = models.CharField(max_length=255, null=True, blank=True)
+    state = models.CharField(max_length=2, validators=[MinLengthValidator(2)], null=True, blank=True)
+    city = models.CharField(max_length=255, null=True, blank=True)
+    zip = models.CharField(max_length=5, validators=[MinLengthValidator(5)], null=True, blank=True)
     is_uninitialized = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
@@ -26,3 +26,4 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+

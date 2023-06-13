@@ -230,3 +230,25 @@ class ChangePasswordRoleBasedView(APIView):
         user_to_change.set_password(new_password)
         user_to_change.save()
         return Response({"success": "Password updated successfully"}, status=status.HTTP_200_OK)
+
+class CreateEmployeeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserCreateSerializer
+
+    def post(self, request, format=None):
+        role_name = self.request.user.role.role_name
+        if role_name != 'Accountant':
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+        
+        data = request.data.copy()  # make a copy of the data
+        data['role'] = data.pop('role_name')  # replace 'role_name' with 'role'
+        data['is_uninitialized'] = True
+
+        serializer = self.serializer_class(data=data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

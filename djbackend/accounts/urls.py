@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PopulateDBView, UserViewSet, CreateUserView, CurrentUserView, UpdateUserView, ChangePasswordView, DeleteAccountView, UserRolesView, UserDeleteView, ChangePasswordRoleBasedView
+from .views import PopulateDBView, UserViewSet, CreateUserView, CurrentUserView, UpdateUserView, ChangePasswordView, DeleteAccountView, UserRolesView, UserDeleteView, ChangePasswordRoleBasedView, CreateEmployeeView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -15,5 +15,6 @@ urlpatterns = [
     path('get-accounts-staff/', UserRolesView.as_view(), name='user-roles'),
     path('delete-user/', UserDeleteView.as_view(), name='delete-user'),
     path('change-password-staff/', ChangePasswordRoleBasedView.as_view(), name='change-password-role-based'),
+    path('create_employee/', CreateEmployeeView.as_view(), name='create_employee'),
     path('', include(router.urls))
 ]

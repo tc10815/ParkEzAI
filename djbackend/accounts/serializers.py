@@ -19,11 +19,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    role = serializers.CharField()  # Change this line
+    role = serializers.CharField()
 
     class Meta:
         model = CustomUser
-        fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'password', 'is_uninitialized']
+        fields = ['role', 'email', 'password', 'first_name', 'last_name', 'company_name', 
+                  'company_address', 'state', 'city', 'zip', 'is_uninitialized']
 
     def create(self, validated_data):
         role_name = validated_data.pop('role')
@@ -34,11 +35,20 @@ class UserCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Role does not exist')
 
         validated_data['username'] = validated_data['email']
+        validated_data['first_name'] = validated_data.get('first_name', '')
+        validated_data['last_name'] = validated_data.get('last_name', '')
+        validated_data['company_name'] = validated_data.get('company_name', '')
+        validated_data['company_address'] = validated_data.get('company_address', '')
+        validated_data['state'] = validated_data.get('state', '')
+        validated_data['city'] = validated_data.get('city', '')
+        validated_data['zip'] = validated_data.get('zip', '')
+        validated_data['is_uninitialized'] = validated_data.get('is_uninitialized', False)
 
         user = CustomUser(role=role, **validated_data)
         user.set_password(password)
         user.save()
         return user
+
     
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     role_name = serializers.CharField(source='role.role_name')
@@ -64,3 +74,58 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+class CreateEmployeeSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    role_name = serializers.CharField()
+    
+
+    class Meta:
+        model = CustomUser
+        fields = ['role', 'email', 'password', 'is_uninitialized']
+
+    def validate_role_name(self, role):
+        allowed_roles = ['Customer Support', 'Lot Specialist', 'Advertising Specialist', 'Accountant']
+        if role.role_name not in allowed_roles:
+            raise serializers.ValidationError('Invalid role selected.')
+        return role.role_name
+
+    def create(self, validated_data):
+        role_name = validated_data.pop('role_name')
+        password = validated_data.pop('password')
+        role = None
+        try:
+            role = Role.objects.get(role_name=role_name)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError('Role does not exist')
+
+        validated_data['username'] = validated_data['email']
+        validated_data['role'] = role
+
+        user = CustomUser(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+    
+# class CreateEmployeeSerializer(serializers.ModelSerializer):
+#     password = serializers.CharField(write_only=True)
+#     role = serializers.CharField() 
+
+#     class Meta:
+#         model = CustomUser
+#         fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'password', 'is_uninitialized']
+
+#     def create(self, validated_data):
+#         role_name = validated_data.pop('role')
+#         password = validated_data.pop('password')
+#         try:
+#             role = Role.objects.get(role_name=role_name)
+#         except ObjectDoesNotExist:
+#             raise serializers.ValidationError('Role does not exist')
+
+#         validated_data['username'] = validated_data['email']
+
+#         user = CustomUser(role=role, **validated_data)
+#         user.set_password(password)
+#         user.save()
+#         return user

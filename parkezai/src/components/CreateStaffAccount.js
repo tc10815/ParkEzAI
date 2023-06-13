@@ -66,30 +66,26 @@ const CreateStaffAccount = () => {
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements[0].value;
-    const role_id = e.target.elements[1].value;
-    const temp_password = e.target.elements[2].value;
-
+    const role_name = e.target.elements[1].value;
+    const password = e.target.elements[2].value;
+    console.log(role_name);
     const requestBody = {
       email,
-      role_id,
-      temp_password,
+      role_name,
+      password,
     };
-
-    const response = await fetch("http://gruevy.com/ezphp/create_staff_account.php", {
+    console.log(requestBody);
+    const response = await fetch("http://127.0.0.1:8000/accounts/create_employee/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Token ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(requestBody),
     });
-
+    console.log(response);
     if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        navigate("/success-create");
-      } else {
-        navigate("/error-create");
-      }
+      navigate("/success-create");
     } else {
       navigate("/error-create");
     }
@@ -108,10 +104,10 @@ const CreateStaffAccount = () => {
             <MyLabel>
               Role:&emsp;
               <select>
-                <option value="3">Customer Support</option>
-                <option value="4">Lot Specialist</option>
-                <option value="5">Advertising Specialist</option>
-                <option value="6">Accountant</option>
+                <option value="Customer Support">Customer Support</option>
+                <option value="Lot Specialist">Lot Specialist</option>
+                <option value="Advertising Specialist">Advertising Specialist</option>
+                <option value="Accountant">Accountant</option>
               </select>
             </MyLabel>
             <MyLabel>
