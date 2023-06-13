@@ -159,16 +159,12 @@ const Login = () => {
       const { key } = await response.json();
       localStorage.setItem("token", key);
       if (typeof key !== "undefined") {
-        // const tokenUpdateEvent = new CustomEvent('tokenUpdate', { detail: key });
-        // window.dispatchEvent(tokenUpdateEvent);
-  
         const response = await fetch('http://localhost:8000/accounts/users/me/', {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },
         });
         const user = await response.json();
-        const roleName = user.role_name;
         window.dispatchEvent(new Event('login'));
         if (user.is_uninitialized == false){
           switch(user.role_name){
@@ -188,17 +184,15 @@ const Login = () => {
               navigate("/tickets"); 
               break;
             case 'Accountant':
-              alert('Account');
-              // navigate("/accountant-dashboard"); 
+              navigate("/accountant-dashboard"); 
               break;
             default:
               alert('Default');
-              // navigate("/account"); 
+              navigate("/account"); 
               break;
           }
         } else {
-            alert('Initiate');
-            // navigate("/initiate-account"); 
+            navigate("/initiate-account"); 
         }
   
       } else {

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
-from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer, InitiateUserSerializer
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import PermissionDenied
@@ -252,3 +252,25 @@ class CreateEmployeeView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class InitiateUserView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = InitiateUserSerializer
+
+    def put(self, request, *args, **kwargs):
+        self.user = self.request.user
+        print(request.data)
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.user.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.user.set_password(serializer.data.get("new_password"))
+            self.user.first_name = serializer.data.get("first_name")
+            self.user.last_name = serializer.data.get("last_name")
+            self.user.is_uninitialized = False
+            self.user.save()
+            return Response({"success": "User initiated successfully."}, status=status.HTTP_200_OK)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

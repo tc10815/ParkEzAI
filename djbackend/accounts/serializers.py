@@ -75,6 +75,12 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
+class InitiateUserSerializer(serializers.Serializer):
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
 class CreateEmployeeSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     role_name = serializers.CharField()
@@ -107,25 +113,3 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
-# class CreateEmployeeSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(write_only=True)
-#     role = serializers.CharField() 
-
-#     class Meta:
-#         model = CustomUser
-#         fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'password', 'is_uninitialized']
-
-#     def create(self, validated_data):
-#         role_name = validated_data.pop('role')
-#         password = validated_data.pop('password')
-#         try:
-#             role = Role.objects.get(role_name=role_name)
-#         except ObjectDoesNotExist:
-#             raise serializers.ValidationError('Role does not exist')
-
-#         validated_data['username'] = validated_data['email']
-
-#         user = CustomUser(role=role, **validated_data)
-#         user.set_password(password)
-#         user.save()
-#         return user

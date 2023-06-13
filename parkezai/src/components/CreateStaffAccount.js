@@ -74,7 +74,6 @@ const CreateStaffAccount = () => {
       role_name,
       password,
     };
-    console.log(requestBody);
     const response = await fetch("http://127.0.0.1:8000/accounts/create_employee/", {
       method: "POST",
       headers: {
@@ -83,7 +82,6 @@ const CreateStaffAccount = () => {
       },
       body: JSON.stringify(requestBody),
     });
-    console.log(response);
     if (response.ok) {
       navigate("/success-create");
     } else {

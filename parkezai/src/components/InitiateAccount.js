@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import heroImage from "../images/account-hero.jpg";
 
@@ -62,63 +61,42 @@ const MyLabel = styled.label`
   width: 40px;
 `;
 const InitiateAccount = () => {
-  const [user, setUser] = useState(null);
-  const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        setUser(decodedToken);
-      }
-    };
-
-    fetchUser();
-  }, [location]);
 
   const handleInitiateSubmit = async (e) => {
     e.preventDefault();
     const first_name = e.target.elements[0].value;
     const last_name = e.target.elements[1].value;
-    const current_password = e.target.elements[2].value;
+    const old_password = e.target.elements[2].value;
     const new_password = e.target.elements[3].value;
 
     const requestBody = {
-      user_id: user.data.user_id,
       first_name,
       last_name,
-      current_password,
+      old_password,
       new_password,
     };
 
-    const response = await fetch("http://gruevy.com/ezphp/initialize_account.php", {
-      method: "POST",
+    const response = await fetch("http://127.0.0.1:8000/accounts/initiate-user/", {
+      method: "PUT", 
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem('token')}`, 
       },
       body: JSON.stringify(requestBody),
     });
 
     if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
         navigate("/account");
       } else {
         alert('Error has occurred initiating account');
       }
-    } else {
-      alert('Error has occurred initiating account');
-    }
   };
 
   return (
     <>
       <HomeContainer>
         <FormContainer>
-          {user && (
             <UpdateForm onSubmit={handleInitiateSubmit}>
               <TitleText>Initiate Account</TitleText>
               <CenterMe>
@@ -149,7 +127,6 @@ const InitiateAccount = () => {
               <button type="submit">Initiate</button>
               <br />
             </UpdateForm>
-          )}
         </FormContainer>
       </HomeContainer>
       <Footer>

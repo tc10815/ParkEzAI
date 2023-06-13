@@ -15,14 +15,12 @@ const HomeContainer = styled.div`
 `;
 
 const MyButton = styled.button`
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 1.5em;
-      width: fit-content;
-      text-align: center;
-      display: block;
-      text-decortataion: none;
-      
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5em;
+  width: fit-content;
+  text-align: center;
+  display: block;      
 `;
 
 
