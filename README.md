@@ -65,4 +65,4 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 
 * 5.1 Define Payment Method:	Users decide how they pay for their subscription (ad or lot manger).
 * 5.2 Validate Payment: 	Checks that customer payment method can be billed correctly.
-x
+
