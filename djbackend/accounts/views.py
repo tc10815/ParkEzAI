@@ -31,7 +31,14 @@ class UserViewSet(viewsets.ModelViewSet):
 class CreateUserView(APIView):
     permission_classes = [permissions.AllowAny]  
     serializer_class = UserCreateSerializer
+
     def post(self, request, format=None):
+        role = request.data.get('role')
+        valid_roles = ['Lot Operator', 'Advertiser']
+
+        if role not in valid_roles:
+            return Response({"detail": "Invalid user role."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -253,7 +260,6 @@ class InitiateUserView(APIView):
 
     def put(self, request, *args, **kwargs):
         self.user = self.request.user
-        print(request.data)
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
