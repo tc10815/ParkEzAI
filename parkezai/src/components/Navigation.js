@@ -88,11 +88,21 @@ const Navigation = () => {
 
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Get the token from localStorage
+    const token = localStorage.getItem("token");
+
+    // Send a GET request to the logout endpoint
+    const response = await fetch("http://localhost:8000/accounts/logout/", {
+        method: "GET",
+        headers: {
+            "Authorization": `Token ${token}`,
+        },
+    });
     localStorage.removeItem("token");
     setUserRole(null);
     navigate("/login");
-  };
+};
 
   const scrollToTop = () => {
     window.scrollTo({

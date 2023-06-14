@@ -7,6 +7,7 @@ from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetails
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import PermissionDenied
+from django.contrib.auth import logout
 
 class PopulateDBView(APIView):
     permission_classes = [permissions.AllowAny]  
@@ -268,3 +269,9 @@ class InitiateUserView(APIView):
             return Response({"success": "User initiated successfully."}, status=status.HTTP_200_OK)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    def get(self, request):
+        request.user.auth_token.delete()
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
