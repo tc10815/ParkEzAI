@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import heroImage from '../images/about-hero.jpg';
 import about1image from '../images/about-image1.jpg';
 import about2image from '../images/about-image2.jpg';
-
+import Footer from './Footer';
 
 const HomeContainer = styled.div`
   background-color: white;
@@ -11,20 +11,6 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
-
-const Footer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
 `;
 
 const Heading = styled.h1`
@@ -193,15 +179,7 @@ const About = () => {
           <QuoteAuthor>John Doe, Advertiser</QuoteAuthor>
         </Quote>
       </ContentSection>
-
-
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
-      </Footer>
+      <Footer />
       </WhiteCon>
 
     </HomeContainer>

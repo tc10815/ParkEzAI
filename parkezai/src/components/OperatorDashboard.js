@@ -3,6 +3,7 @@ import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/operatordbhero.jpg';
 import LotStream from './LotStream';
+import Footer from "./Footer";
 
 
 const HomeContainer = styled.div`
@@ -11,7 +12,6 @@ const HomeContainer = styled.div`
   justify-content: center;
   height: 100%;
 `;
-
 const WebCamContainer = styled.div`
   background-color: white;
   margin-left: auto;
@@ -24,21 +24,6 @@ const WebCamContainer = styled.div`
   margin-bottom: 2em;
   padding-bottom: 2em;
 `;
-
-const Footer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
-`;
-
 const SubHeading = styled.h2`
   margin-left: auto;
   margin-right: auto;
@@ -47,7 +32,6 @@ const SubHeading = styled.h2`
   width: fit-content;
   color: black;
 `;
-
 const MyTable = styled.table`
   margin-left: auto;
   margin-right: auto;
@@ -136,13 +120,7 @@ const OperatorDashboard = () => {
           </MyTable>
         </WebCamContainer>
       </HeroImage>
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
-      </Footer>
+      <Footer />
     </HomeContainer>
   );
 };

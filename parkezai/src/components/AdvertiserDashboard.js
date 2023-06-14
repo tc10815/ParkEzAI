@@ -5,6 +5,7 @@ import heroImage from '../images/advertiserdbhero.jpg';
 import placeholderImage1 from '../images/ad1-jg.jpg';
 import placeholderImage2 from '../images/ad2-jg.jpg';
 import placeholderImage3 from '../images/ad3-jg.jpg';
+import Footer from "./Footer";
 
 const AdCard = styled.div`
   background-color: white;
@@ -40,20 +41,6 @@ const AdContainer = styled.div`
   text-align: center;
   margin-bottom: 2em;
   padding-bottom: 2em;
-`;
-
-const Footer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
 `;
 
 const SubHeading = styled.h2`
@@ -240,13 +227,7 @@ const AdvertiserDashboard = () => {
 
         </AdContainer>
       </HeroImage>
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
-      </Footer>
+      <Footer />
     </HomeContainer>
   );
 
