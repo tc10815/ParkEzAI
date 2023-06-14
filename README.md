@@ -1,5 +1,5 @@
 ## Part 1 Build: April 4 - April 27 2023
-### [http://plan6.com/](http://plan6.com/)
+### No deploys active; transitioning to Django
 **Note: Websites on my server are now on HTTPS instead of HTTP, so open in private window to avoid errors**
 
 Includes all features listed under 1. Account Management in Functional Requirements below. Try 6 logins/passwords for account types at bottom of Login page.
