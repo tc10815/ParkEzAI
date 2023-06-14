@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import UsersList from './components/UsersList';
 import Success from './components/Success';
 import Error from './components/Error';
-import Greeting from './components/Greeting';
 import LoginFailed from './components/LoginFailed';
 import OperatorDashboard from './components/OperatorDashboard';
 import AdvertiserDashboard from './components/AdvertiserDashboard';
@@ -64,7 +63,6 @@ const App = () => {
           <Route path="/error" element={<Error />} />
           <Route path="/error-change" element={<ErrorChange />} />
           <Route path="/users" element={<UsersList />} />
-          <Route path="/greeting" element={<Greeting />} />
           <Route path="/login-failed" element={<LoginFailed />} />
           <Route path="/operator-dashboard" element={<OperatorDashboard />} />
           <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />

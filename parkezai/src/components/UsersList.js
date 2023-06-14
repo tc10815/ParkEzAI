@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-
 const H1Header = styled.h1`
     text-align: center;
     color: white;
 `;
-
 const UsersTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -14,21 +12,18 @@ const UsersTable = styled.table`
   border-style: solid;
   border-color: white;
 `;
-
 const TableHeader = styled.th`
   padding: 1rem;
   border: 1px solid black;
   border-style: solid;
   border-color: white;
 `;
-
 const TableCell = styled.td`
   padding: 1rem;
   border: 1px solid black;
   border-style: solid;
   border-color: white;
 `;
-
 const ContentWrapper = styled.div`
   margin: auto;
   width: 75vw;

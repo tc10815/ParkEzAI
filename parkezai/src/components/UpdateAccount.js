@@ -3,8 +3,6 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 
-
-
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -28,13 +26,11 @@ const FormContainer = styled.div`
   margin-bottom: 2em;
   padding-bottom: 2em;
 `;
-
 const TitleText = styled.p`
   font-size: 2rem;
   font-weight: 600;
   color:black;
-`
-
+`;
 const Footer = styled.footer`
   background-color: black;
   color: white;
@@ -44,12 +40,11 @@ const Footer = styled.footer`
   align-items: center;
   justify-content: center;
 `;
-
 const CenterMe = styled.div`
   width:300px;
   margin-left:auto;
   margin-right:auto;
-`
+`;
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
@@ -58,10 +53,10 @@ const UpdateForm = styled.form`
   flex-direction: column;
   align-items: center;
 `;
-
 const MyLabel = styled.label`
     width: 40px;
-`
+`;
+
 const UpdateAccount = () => {
   const navigate = useNavigate();
 
@@ -219,9 +214,7 @@ const UpdateAccount = () => {
         </UpdateForm>
 
       )}
-     
     </FormContainer>
-
     </HomeContainer>
     <Footer>
         <FooterItem>ParkEz Inc.</FooterItem>

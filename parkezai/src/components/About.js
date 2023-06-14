@@ -13,13 +13,6 @@ const HomeContainer = styled.div`
   height: 100%;
 `;
 
-const OverviewSection = styled.div`
-  text-align: center;
-  font-size: 1.2rem;
-  margin: 2rem auto;
-  max-width: 80vw;
-`;
-
 const Footer = styled.footer`
   background-color: black;
   color: white;

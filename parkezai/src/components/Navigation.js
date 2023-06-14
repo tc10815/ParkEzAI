@@ -128,9 +128,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleTokenUpdate = (event) => {
-      // const updatedToken = event.detail;
-      // const decodedToken = jwt_decode(updatedToken);
-      // setUserRole(decodedToken.data.role_id);
+
     };
     const handleLogout = () => {
       setUserRole(null);

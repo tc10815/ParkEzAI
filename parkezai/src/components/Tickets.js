@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -12,16 +11,6 @@ const HomeContainer = styled.div`
   display: block;
   justify-content: space-between;
 `;
-
-const MyButton = styled.button`
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-    text-align: center;
-    display: block;
-    text-decortataion: none;
-`;
-
 
 const FormContainer = styled.div`
   background-color: white;
@@ -118,11 +107,9 @@ const Tickets = () => {
               : ticket
           )
         );
-      } else {
-        console.error("Error updating ticket status:", data.message, data.error);
-      }
+      } 
     } else {
-      console.error("Error calling update_ticket.php:", response.statusText);
+      alert("Error updating ticket:");
     }
   };
 
@@ -154,7 +141,7 @@ const Tickets = () => {
         console.error("Error updating ticket priority:", data.message, data.error);
       }
     } else {
-      console.error("Error calling update_ticket.php:", response.statusText);
+      console.error("Error updating ticket priority:", response.statusText);
     }
   };
 
@@ -203,7 +190,8 @@ const Tickets = () => {
                       <strong>Name:</strong> {ticket.user.first_name} {ticket.user.last_name}<br />
                       <strong>Email:</strong> {ticket.user.email}<br />
                       <strong>Created:</strong> {ticket.date_created}<br />
-                      <strong>Updated:</strong> {ticket.date_updated}</p>            <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
+                      <strong>Updated:</strong> {ticket.date_updated}</p>            
+                      <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>
                       Delete Ticket
                     </button>
 

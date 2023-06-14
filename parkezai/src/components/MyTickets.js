@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
@@ -62,9 +62,6 @@ const TicketItem = styled.li`
 
 const MyTickets = () => {
   const [tickets, setTickets] = useState([]);
-  const location = useLocation();
-  const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -99,36 +96,28 @@ const MyTickets = () => {
   
 
   return (
-    <>
     <HomeContainer>
-            <>
               <TitleText>My Tickets</TitleText>
               <TicketList>
-                {tickets.map((ticket) => (
-                <FormContainer>
-
-                  <TicketItem key={ticket.ticket_id}>
-                    <h3>{ticket.subject}</h3>
-                    <p>{ticket.description}</p>
-                    <p>Status: {ticket.status}</p>
-                    <p>Priority: {ticket.priority}</p>
-                    <p>Category: {ticket.category}</p>
-                    <p style={{fontSize:'10px'}}><strong>Created:</strong> {ticket.date_created}<br />
-                    <strong>Updated:</strong> {ticket.date_updated}</p>
-                    <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>Delete Ticket</button>
-                  </TicketItem>
+              {tickets.map((ticket) => (
+                <FormContainer key={ticket.ticket_id}>
+                  <TicketItem>
+                      <h3>{ticket.subject}</h3>
+                      <p>{ticket.description}</p>
+                      <p>Status: {ticket.status}</p>
+                      <p>Priority: {ticket.priority}</p>
+                      <p>Category: {ticket.category}</p>
+                      <p style={{fontSize:'10px'}}><strong>Created:</strong> {ticket.date_created}<br />
+                      <strong>Updated:</strong> {ticket.date_updated}</p>
+                      <button onClick={() => handleDeleteTicket(ticket.ticket_id)}>Delete Ticket</button>
+                    </TicketItem>
                   </FormContainer>
-
                 ))}
                 <Link to="/create-ticket">
                   <MyButton type="button">Create Ticket</MyButton>
                 </Link>
               </TicketList>
-
-            </>
       </HomeContainer>
-
-    </>
   );
 };
 

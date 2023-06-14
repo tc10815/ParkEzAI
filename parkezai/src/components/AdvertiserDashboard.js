@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/advertiserdbhero.jpg';
 import placeholderImage1 from '../images/ad1-jg.jpg';
@@ -100,7 +100,7 @@ const AdvertiserDashboard = () => {
     last7Days: { impressions: 1200, clicks: 35, conversions: 5, spend: 60 },
     thisMonth: { impressions: 2500, clicks: 68, conversions: 10, spend: 130 },
   });
-  
+
   const [ad2, setAd2] = useState({
     imageUrl: placeholderImage2,
     title: "Heads up! High Heads Hat Store is here!",
@@ -112,7 +112,7 @@ const AdvertiserDashboard = () => {
     last7Days: { impressions: 1300, clicks: 40, conversions: 6, spend: 70 },
     thisMonth: { impressions: 3500, clicks: 90, conversions: 12, spend: 180 },
   });
-  
+
   const [ad3, setAd3] = useState({
     imageUrl: placeholderImage3,
     title: "Get a-HEAD of Fashion Trends with High Heads!",
@@ -124,7 +124,7 @@ const AdvertiserDashboard = () => {
     last7Days: { impressions: 1100, clicks: 25, conversions: 7, spend: 55 },
     thisMonth: { impressions: 3000, clicks: 65, conversions: 13, spend: 155 },
   });
-  
+
 
 
   useEffect(() => {
@@ -152,87 +152,92 @@ const AdvertiserDashboard = () => {
           ) : (
             <SubHeading>Welcome back</SubHeading>
           )}
-        <p>Current Ads and Analysis</p>
-        <div>
-        <AdCard>
-            <AdImage src={ad1.imageUrl} alt={ad1.title} />
-            <h3>{ad1.title}</h3>
-            <p>{ad1.description}</p>
-            <p>Daily Impressions: {ad1.impressions}</p>
-            <p>Clicks: {ad1.clicks}</p>
-            <p>Conversions: {ad1.conversions}</p>
-            <p>Ad Spend: ${ad1.spend}</p>
-            <p>Last 7 Days: {ad1.last7Days.impressions} Impressions, {ad1.last7Days.clicks} Clicks, {ad1.last7Days.conversions} Conversions, ${ad1.last7Days.spend} Spend</p>
-            <p>This Month: {ad1.thisMonth.impressions} Impressions, {ad1.thisMonth.clicks} Clicks, {ad1.thisMonth.conversions} Conversions, ${ad1.thisMonth.spend} Spend</p>
-        </AdCard>
-        <AdCard>
-            <AdImage src={ad2.imageUrl} alt={ad2.title} />
-            <h3>{ad2.title}</h3>
-            <p>{ad2.description}</p>
-            <p>Impressions: {ad2.impressions}</p>
-            <p>Clicks: {ad2.clicks}</p>
-            <p>Conversions: {ad2.conversions}</p>
-            <p>Ad Spend: ${ad2.spend}</p>
-            <p>Last 7 Days: {ad2.last7Days.impressions} Impressions, {ad2.last7Days.clicks} Clicks, {ad2.last7Days.conversions} Conversions, ${ad2.last7Days.spend} Spend</p>
-            <p>This Month: {ad2.thisMonth.impressions} Impressions, {ad2.thisMonth.clicks} Clicks, {ad2.thisMonth.conversions} Conversions, ${ad2.thisMonth.spend} Spend</p>
-        </AdCard>
-        <AdCard>
-            <AdImage src={ad3.imageUrl} alt={ad3.title} />
-            <h3>{ad3.title}</h3>
-            <p>{ad3.description}</p>
-            <p>Impressions: {ad3.impressions}</p>
-            <p>Clicks: {ad3.clicks}</p>
-            <p>Conversions: {ad3.conversions}</p>
-            <p>Ad Spend: ${ad3.spend}</p>
-            <p>Last 7 Days: {ad3.last7Days.impressions} Impressions, {ad3.last7Days.clicks} Clicks, {ad3.last7Days.conversions} Conversions, ${ad3.last7Days.spend} Spend</p>
-            <p>This Month: {ad3.thisMonth.impressions} Impressions, {ad3.thisMonth.clicks} Clicks, {ad3.thisMonth.conversions} Conversions, ${ad3.thisMonth.spend} Spend</p>
-        </AdCard>
-        </div>
+          <p>Current Ads and Analysis</p>
+          <div>
+            <AdCard>
+              <AdImage src={ad1.imageUrl} alt={ad1.title} />
+              <h3>{ad1.title}</h3>
+              <p>{ad1.description}</p>
+              <p>Daily Impressions: {ad1.impressions}</p>
+              <p>Clicks: {ad1.clicks}</p>
+              <p>Conversions: {ad1.conversions}</p>
+              <p>Ad Spend: ${ad1.spend}</p>
+              <p>Last 7 Days: {ad1.last7Days.impressions} Impressions, {ad1.last7Days.clicks} Clicks, {ad1.last7Days.conversions} Conversions, ${ad1.last7Days.spend} Spend</p>
+              <p>This Month: {ad1.thisMonth.impressions} Impressions, {ad1.thisMonth.clicks} Clicks, {ad1.thisMonth.conversions} Conversions, ${ad1.thisMonth.spend} Spend</p>
+            </AdCard>
+            <AdCard>
+              <AdImage src={ad2.imageUrl} alt={ad2.title} />
+              <h3>{ad2.title}</h3>
+              <p>{ad2.description}</p>
+              <p>Impressions: {ad2.impressions}</p>
+              <p>Clicks: {ad2.clicks}</p>
+              <p>Conversions: {ad2.conversions}</p>
+              <p>Ad Spend: ${ad2.spend}</p>
+              <p>Last 7 Days: {ad2.last7Days.impressions} Impressions, {ad2.last7Days.clicks} Clicks, {ad2.last7Days.conversions} Conversions, ${ad2.last7Days.spend} Spend</p>
+              <p>This Month: {ad2.thisMonth.impressions} Impressions, {ad2.thisMonth.clicks} Clicks, {ad2.thisMonth.conversions} Conversions, ${ad2.thisMonth.spend} Spend</p>
+            </AdCard>
+            <AdCard>
+              <AdImage src={ad3.imageUrl} alt={ad3.title} />
+              <h3>{ad3.title}</h3>
+              <p>{ad3.description}</p>
+              <p>Impressions: {ad3.impressions}</p>
+              <p>Clicks: {ad3.clicks}</p>
+              <p>Conversions: {ad3.conversions}</p>
+              <p>Ad Spend: ${ad3.spend}</p>
+              <p>Last 7 Days: {ad3.last7Days.impressions} Impressions, {ad3.last7Days.clicks} Clicks, {ad3.last7Days.conversions} Conversions, ${ad3.last7Days.spend} Spend</p>
+              <p>This Month: {ad3.thisMonth.impressions} Impressions, {ad3.thisMonth.clicks} Clicks, {ad3.thisMonth.conversions} Conversions, ${ad3.thisMonth.spend} Spend</p>
+            </AdCard>
+          </div>
           <p>Ad Performance Statistics</p>
           <MyTable>
-          <tr>
+            <thead>
+              <tr>
                 <th></th>
                 <th>Impressions</th>
                 <th>Last 7 Days</th>
                 <th>This Month</th>
-            </tr>
-            <tr>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
                 <td>Total Impressions</td>
                 <td>1,200</td>
                 <td>6,500</td>
                 <td>21,000</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>Click-through Rate</td>
                 <td>2.5%</td>
                 <td>2.8%</td>
                 <td>3.0%</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>Conversions</td>
                 <td>12</td>
                 <td>65</td>
                 <td>210</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>Average Ad Spend</td>
                 <td>$500</td>
                 <td>$3,000</td>
                 <td>$10,500</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>Cost per Click</td>
                 <td>$1.25</td>
                 <td>$1.20</td>
                 <td>$1.10</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>Cost per Conversion</td>
                 <td>$41.67</td>
                 <td>$46.15</td>
                 <td>$50.00</td>
-            </tr>
-            </MyTable>
+              </tr>
+            </tbody>
+          </MyTable>
+
         </AdContainer>
       </HeroImage>
       <Footer>

@@ -103,8 +103,7 @@ const Select = styled.select`
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(null);
-
+  
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const role = e.target.elements[0].value;
@@ -144,7 +143,6 @@ const Signup = () => {
       navigate('/success');
     } else {
       const errorText = await response.text();
-      setErrorMessage(errorText);
       navigate('/error', { state: { errorMessage: errorText } });
     }
   };

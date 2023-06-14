@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
+import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 
@@ -73,18 +72,33 @@ const AccountantDashboard = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch('http://127.0.0.1:8000/accounts/users/me/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => setUser(data));
+    }
+  }, [location]);
+  
   return (
     <HomeContainer>
       <HeroImage>
         <TableContainer>
-          {user ? (
+        {user ? (
             <>
-              <SubHeading>Welcome back, {user.data.first_name}</SubHeading>
+              <SubHeading>Welcome back, {user ? user.first_name : ''}</SubHeading>
             </>
           ) : (
             <SubHeading>Welcome back</SubHeading>
           )}
-          <p><strong>Income Statistics</strong></p>
+          <p><strong><br />Income Statistics</strong></p>
             <MyTable>
                 <tr>
                     <th></th>
@@ -204,9 +218,6 @@ const AccountantDashboard = () => {
             <td>987 Birch St, Springfield</td>
           </tr> 
         </MyTable>
-
-
-
         </TableContainer>
       </HeroImage>
       <Footer>

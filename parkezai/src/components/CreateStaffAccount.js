@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
@@ -13,7 +13,6 @@ const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
-
 const FormContainer = styled.div`
   margin-top: 18vh;
   background-color: white;
@@ -27,13 +26,11 @@ const FormContainer = styled.div`
   margin-bottom: 2em;
   padding-bottom: 2em;
 `;
-
 const TitleText = styled.p`
   font-size: 2rem;
   font-weight: 600;
   color:black;
 `;
-
 const Footer = styled.footer`
   background-color: black;
   color: white;
@@ -43,17 +40,13 @@ const Footer = styled.footer`
   align-items: center;
   justify-content: center;
 `;
-
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
-
 const MyLabel = styled.label`
   width: 400px;
   padding: 8px;
-  
 `;
-
 const CreateStaffForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -68,7 +61,6 @@ const CreateStaffAccount = () => {
     const email = e.target.elements[0].value;
     const role_name = e.target.elements[1].value;
     const password = e.target.elements[2].value;
-    console.log(role_name);
     const requestBody = {
       email,
       role_name,

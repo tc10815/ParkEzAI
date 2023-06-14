@@ -118,7 +118,6 @@ const Home = () => {
     <HomeContainer>
       <WhiteCon>
       <HeroImage>
-        {/* Add the Heading and SubHeading components inside the HeroImage */}
         <Heading>Welcome to ParkEZ</Heading>
         <SubHeading>Smart Parking Solutions for Businesses and Drivers</SubHeading>
       </HeroImage>

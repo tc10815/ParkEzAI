@@ -18,11 +18,7 @@ class CreateTicketView(generics.CreateAPIView):
             'Lot Operator': 'Lot Owners',
             'Advertiser': 'Advertisers'
         }
-
         category = role_category_mapping.get(role_name, 'General')
-        print('role_name: ' + role_name)
-        print('category: ' + category)
-
         request.data['category'] = category
         request.data['user'] = user.id
 
@@ -110,8 +106,6 @@ class UpdateTicketView(generics.UpdateAPIView):
     queryset = Ticket.objects.all()
 
     def update(self, request, *args, **kwargs):
-        print('gets to update, ext line  is request data')
-        print(request.data)
         instance = self.get_object()
         role_name = self.request.user.role.role_name
 
@@ -121,12 +115,9 @@ class UpdateTicketView(generics.UpdateAPIView):
         }
 
         if role_name in ['Customer Support', 'Accountant']:
-            print('can edit all')
             serializer = self.get_serializer(instance, data=request.data, partial=True)
         elif role_name in ['Lot Specialist', 'Advertising Specialist']:
             category = role_category_mapping.get(role_name, "")
-            print('category is ' + category)
-            print('instance cat is ' + category)
             if instance.category != category:
                 return Response({'message': 'You do not have the permissions to update this ticket'}, status=status.HTTP_403_FORBIDDEN)
             serializer = self.get_serializer(instance, data=request.data, partial=True)

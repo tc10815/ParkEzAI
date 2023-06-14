@@ -3,14 +3,12 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
 
-
 const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
   margin-top: 3em;
 `;
-
 const Footer = styled.footer`
   background-color: black;
   color: white;
@@ -20,11 +18,9 @@ const Footer = styled.footer`
   align-items: center;
   justify-content: center;
 `;
-
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
-
 const Heading = styled.h1`
   font-size: 2.5rem;
   margin-bottom: 0; // Remove bottom margin
@@ -34,7 +30,6 @@ const Heading = styled.h1`
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
 `;
-
 const SubHeading = styled.h2`
   font-size: 2rem;
   width: fit-content;
@@ -42,7 +37,6 @@ const SubHeading = styled.h2`
   background-color: rgba(0, 0, 0, 1); // No transparency
   padding: 0.5rem 1rem;
 `;
-
 const HeroImage = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -57,13 +51,11 @@ const HeroImage = styled.div`
   font-size: 1.5rem;
   margin-bottom: 2rem;
 `;
-
 const SignInForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-
 const Input = styled.input`
   font-size: 1rem;
   padding: 0.5rem;
@@ -71,7 +63,6 @@ const Input = styled.input`
   width: 100%;
   max-width: 300px;
 `;
-
 const LoginButton = styled.button`
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -84,7 +75,6 @@ const LoginButton = styled.button`
     background-color: #0072ff;
   }
 `;
-
 const ForgotPasswordLink = styled.a`
   font-size: 0.8rem;
   color: white;
@@ -95,7 +85,6 @@ const ForgotPasswordLink = styled.a`
     color: #e7f1ff;
   }
 `;
-
 const SignInOrganizer = styled.div`
   display: flex;
   flex-direction: column;
@@ -229,7 +218,7 @@ const Login = () => {
           <UsersTable>
         <thead>
           <tr>
-          <td colspan="3"><strong>Demo Logins (not for production)</strong> Click Reset at bottom if accounts don't work.</td>
+          <td colSpan="3"><strong>Demo Logins (not for production)</strong> Click Reset at bottom if accounts don't work.</td>
           </tr>
           <tr>
             <TableHeader>Role</TableHeader>

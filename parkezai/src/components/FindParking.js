@@ -32,9 +32,7 @@ const SubHeading = styled.h2`
   background-color: rgba(0, 0, 0, 1); 
   padding: 0.5rem 1rem;
 `;
-// position: absolute;
-// top: 10vh;
-// padding-left: 0;
+
 const ListOrganize = styled.div`
     display: flex;
     flex-direction: column;
@@ -56,7 +54,6 @@ const HeroImage = styled.div`
   margin-bottom: 2rem;
 `;
 
-// Add new styled components
 const LocationList = styled.ul`
   list-style-type: none;
   list-style-position: inside;

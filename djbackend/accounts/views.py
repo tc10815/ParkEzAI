@@ -65,11 +65,6 @@ class UpdateUserView(generics.UpdateAPIView):
             
         # get the current user
         current_user = request.user
-        print('gets to update, ext line  is request data')
-        print(current_user)
-
-
-
 
         # check if the current user has permission to edit the user
         if user == current_user or current_user.role.role_name == 'Accountant':
@@ -98,7 +93,6 @@ class UpdateUserView(generics.UpdateAPIView):
         if 'email' in request.data:
             request.data['username'] = request.data['email']
 
-        print(request.data)
         serializer = self.get_serializer(instance, data=request.data, partial=True) 
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)

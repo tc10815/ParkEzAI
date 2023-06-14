@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import heroImage from '../images/help-hero.jpg';
 
-
 const HomeContainer = styled.div`
   background-color: white;
   align-items: center;
@@ -112,7 +111,6 @@ const HelpCenter = () => {
     <HomeContainer>
       
       <HeroImage>
-        {/* Add the Heading and SubHeading components inside the HeroImage */}
         <Heading>Help Center</Heading>
         <SubHeading>How can we assist you?</SubHeading>
       </HeroImage>

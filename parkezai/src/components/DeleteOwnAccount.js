@@ -52,9 +52,7 @@ const MyLabel = styled.label`
   width: 40px;
 `;
 
-const DeleteOwnAccountForm = styled.form`
-
-`;
+const DeleteOwnAccountForm = styled.form``;
 
 const DeleteOwnAccount = () => {
   const navigate = useNavigate();

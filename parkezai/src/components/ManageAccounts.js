@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-// import jwt_decode from "jwt-decode";
 import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 
@@ -27,13 +25,11 @@ const FormContainer = styled.div`
   margin-bottom: 2em;
   padding-bottom: 2em;
 `;
-
 const TitleText = styled.p`
   font-size: 2rem;
   font-weight: 600;
   color:black;
 `;
-
 const Footer = styled.footer`
   background-color: black;
   color: white;
@@ -43,37 +39,29 @@ const Footer = styled.footer`
   align-items: center;
   justify-content: center;
 `;
-
 const FooterItem = styled.p`
   margin: 0.2rem;
 `;
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-`;
-
+`
 const Th = styled.th`
   border: 1px solid black;
   padding: 0.5rem;
   text-align: left;
 `;
-
 const Td = styled.td`
   border: 1px solid black;
   padding: 0.5rem;
   text-align: left;
 `;
-
 const Button = styled.button`
   margin-left: 1rem;
 `;
 
 const ManageAccounts = () => {
   const [accounts, setAccounts] = useState([]);
-  const location = useLocation();
-  const navigate = useNavigate();
-
 
   const fetchAccounts = async () => {
     const response = await fetch("http://127.0.0.1:8000/accounts/get-accounts-staff/", {
@@ -122,8 +110,6 @@ const ManageAccounts = () => {
     }
   };
   
-  
-
   const handleDeleteAccount = async (accountEmail) => {
     const email = accountEmail;
     const confirmDelete = window.confirm("Are you sure you want to delete this account?");
