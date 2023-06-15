@@ -6,7 +6,7 @@ Included all features listed under _1. Account Management_ in Functional Require
 Working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life.
 
 ### Part 2 (Functional Requirements 2, 3 and 4): June 1 - Present
-Current working model: [plan9.com](https://plan9.com)
+Current working model: [plan6.com](https://plan6.com)
 
 Remade Part 1's PHP backend in Django. Django is more scalable and secure, almost production ready. Python backend will be useful for Machine Learning in this part of the project.
 
