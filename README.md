@@ -23,6 +23,7 @@ Changes between Part 1 (April 4 - April 27 2023) and Part 2 (June 1 - now)
 | Backend Server| Apache       | Gunicorn |
 | Backend Language   | PHP          | Python |
 | Backend Framework  | None         | Django |
+| React Router  | HashRouter      | BrowserRouter |
 | Frontend Framework  | ReactJS      | ReactJS |
 
 # ParkEzAI
