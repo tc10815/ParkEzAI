@@ -41,7 +41,7 @@ const UsersList = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("http://localhost:8000/accounts/users/", { method: "GET" });
+      const response = await fetch("https://backend.plan6.com/accounts/users/", { method: "GET" });
 
       if (response.ok) {
         const data = await response.json();

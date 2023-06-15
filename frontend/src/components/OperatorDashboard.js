@@ -63,7 +63,7 @@ const OperatorDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch('http://127.0.0.1:8000/accounts/users/me/', {
+      fetch('https://backend.plan6.com/accounts/users/me/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

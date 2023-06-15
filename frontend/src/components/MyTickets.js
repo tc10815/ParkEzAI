@@ -65,7 +65,7 @@ const MyTickets = () => {
 
   useEffect(() => {
     const fetchTickets = async () => {
-        const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets", {
+        const response = await fetch("https://backend.plan6.com/tickets/get_tickets", {
           headers: {
             Authorization: `Token ${localStorage.getItem("token")}`,
           },
@@ -81,7 +81,7 @@ const MyTickets = () => {
   }, []);
 
   const handleDeleteTicket = async (ticketId) => {
-    const response = await fetch(`http://127.0.0.1:8000/tickets/delete_ticket/${ticketId}/`, {
+    const response = await fetch(`https://backend.plan6.com/tickets/delete_ticket/${ticketId}/`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Token ${localStorage.getItem("token")}`,

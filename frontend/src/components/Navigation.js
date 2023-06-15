@@ -93,7 +93,7 @@ const Navigation = () => {
     const token = localStorage.getItem("token");
 
     // Send a GET request to the logout endpoint
-    const response = await fetch("http://localhost:8000/accounts/logout/", {
+    const response = await fetch("https://backend.plan6.com/accounts/logout/", {
         method: "GET",
         headers: {
             "Authorization": `Token ${token}`,
@@ -117,7 +117,7 @@ const Navigation = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await fetch('http://localhost:8000/accounts/users/me/', {
+        const response = await fetch('https://backend.plan6.com/accounts/users/me/', {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },

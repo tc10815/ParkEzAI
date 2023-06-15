@@ -115,7 +115,7 @@ const TableCell = styled.td`
 `;
 
 const resetAndPrepopulate = async () => {
-  const response = await fetch("http://localhost:8000/accounts/populate_db/", { method: "POST" });
+  const response = await fetch("https://backend.plan6.com/accounts/populate_db/", { method: "POST" });
 
   if (response.ok) {
       const data = await response.json();
@@ -134,7 +134,7 @@ const Login = () => {
     const email = e.target.elements[0].value;
     const password = e.target.elements[1].value;
 
-    const response = await fetch("http://localhost:8000/dj-rest-auth/login/", {
+    const response = await fetch("https://backend.plan6.com/dj-rest-auth/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Login = () => {
       const { key } = await response.json();
       localStorage.setItem("token", key);
       if (typeof key !== "undefined") {
-        const response = await fetch('http://localhost:8000/accounts/users/me/', {
+        const response = await fetch('https://backend.plan6.com/accounts/users/me/', {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },

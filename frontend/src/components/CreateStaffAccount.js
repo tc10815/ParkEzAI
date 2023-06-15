@@ -56,7 +56,7 @@ const CreateStaffAccount = () => {
       role_name,
       password,
     };
-    const response = await fetch("http://127.0.0.1:8000/accounts/create_employee/", {
+    const response = await fetch("https://backend.plan6.com/accounts/create_employee/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

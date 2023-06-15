@@ -54,7 +54,7 @@ const ManageAccounts = () => {
   const [accounts, setAccounts] = useState([]);
 
   const fetchAccounts = async () => {
-    const response = await fetch("http://127.0.0.1:8000/accounts/get-accounts-staff/", {
+    const response = await fetch("https://backend.plan6.com/accounts/get-accounts-staff/", {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },
@@ -79,7 +79,7 @@ const ManageAccounts = () => {
       new_password
     };
 
-    const response = await fetch("http://127.0.0.1:8000/accounts/change-password-staff/", { 
+    const response = await fetch("https://backend.plan6.com/accounts/change-password-staff/", { 
       method: "POST", 
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const ManageAccounts = () => {
     const email = accountEmail;
     const confirmDelete = window.confirm("Are you sure you want to delete this account?");
     if (!confirmDelete) return;
-    const response = await fetch("http://127.0.0.1:8000/accounts/delete-user/", {
+    const response = await fetch("https://backend.plan6.com/accounts/delete-user/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

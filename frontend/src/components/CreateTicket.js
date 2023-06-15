@@ -51,7 +51,7 @@ const CreateTicket = () => {
     const description = event.target.elements[1].value;
     const priority = event.target.elements[2].value;
 
-    const response = await fetch("http://127.0.0.1:8000/tickets/create_ticket/", {
+    const response = await fetch("https://backend.plan6.com/tickets/create_ticket/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

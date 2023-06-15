@@ -65,7 +65,7 @@ const InitiateAccount = () => {
       new_password,
     };
 
-    const response = await fetch("http://127.0.0.1:8000/accounts/initiate-user/", {
+    const response = await fetch("https://backend.plan6.com/accounts/initiate-user/", {
       method: "PUT", 
       headers: {
         "Content-Type": "application/json",

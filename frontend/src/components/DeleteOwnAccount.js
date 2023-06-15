@@ -48,7 +48,7 @@ const DeleteOwnAccount = () => {
 
     const password = e.target.elements[0].value;
 
-    const response = await fetch("http://127.0.0.1:8000/accounts/delete-account/", {
+    const response = await fetch("https://backend.plan6.com/accounts/delete-account/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

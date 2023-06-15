@@ -119,7 +119,7 @@ const Signup = () => {
   
     const role_id = role === "parking_lot_owner" ? "Lot Operator" : "Advertiser";
   
-    const response = await fetch("http://localhost:8000/accounts/create_user/", {
+    const response = await fetch("https://backend.plan6.com/accounts/create_user/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Signup = () => {
   };
   
   const resetAndPrepopulate = async () => {
-    const response = await fetch("http://localhost:8000/accounts/populate_db/", { method: "POST" });
+    const response = await fetch("https://backend.plan6.com/accounts/populate_db/", { method: "POST" });
   
     if (response.ok) {
         const data = await response.json();

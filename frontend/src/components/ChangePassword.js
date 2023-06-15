@@ -68,7 +68,7 @@ const ChangePassword = () => {
       new_password: newPassword,
     };
 
-    const response = await fetch("http://127.0.0.1:8000/accounts/change-password/", { 
+    const response = await fetch("https://backend.plan6.com/accounts/change-password/", { 
       method: "PUT", 
       headers: {
         "Content-Type": "application/json",

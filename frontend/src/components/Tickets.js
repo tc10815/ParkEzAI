@@ -52,7 +52,7 @@ const Tickets = () => {
   const [tickets, setTickets] = useState([]);
 
   const fetchStaffTickets = async () => {
-    const response = await fetch("http://127.0.0.1:8000/tickets/get_tickets", {
+    const response = await fetch("https://backend.plan6.com/tickets/get_tickets", {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },
@@ -68,7 +68,7 @@ const Tickets = () => {
   }, []);
 
   const handleDeleteTicket = async (ticketId) => {
-    const response = await fetch(`http://127.0.0.1:8000/tickets/delete_ticket/${ticketId}/`, {
+    const response = await fetch(`https://backend.plan6.com/tickets/delete_ticket/${ticketId}/`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Token ${localStorage.getItem("token")}`,
@@ -89,7 +89,7 @@ const Tickets = () => {
       status,
     };
 
-    const response = await fetch(`http://127.0.0.1:8000/tickets/update_ticket/${ticketId}/`, {
+    const response = await fetch(`https://backend.plan6.com/tickets/update_ticket/${ticketId}/`, {
       method: "PATCH",
       headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const Tickets = () => {
       priority,
     };
 
-    const response = await fetch(`http://127.0.0.1:8000/tickets/update_ticket/${ticketId}/`, {
+    const response = await fetch(`https://backend.plan6.com/tickets/update_ticket/${ticketId}/`, {
       method: "PATCH",
       headers: {
           "Content-Type": "application/json",
