@@ -1,15 +1,29 @@
 ## Part 1 Build: April 4 - April 27 2023
-### No deploys active; transitioning to Django
-**Note: Websites on my server are now on HTTPS instead of HTTP, so open in private window to avoid errors**
+[Deploy archived](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
 
-Includes all features listed under 1. Account Management in Functional Requirements below. Try 6 logins/passwords for account types at bottom of Login page.
+Included all features listed under _1. Account Management_ in Functional Requirements below.
+
+Working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life.
 
 ### Part 2 (Functional Requirements 2, 3 and 4): June 1 - Present
+Current working model: [plan9.com](https://plan9.com)
 
-Currently remaking PHP backend in Django, before proceeding with 
-Requirements 2, 3 and 4. Django is more simple and more secure. Also, a 
-Python backend will be useful for Machine Learning in this part of 
-the project.
+Remade Part 1's PHP backend in Django. Django is more scalable and secure, almost production ready. Python backend will be useful for Machine Learning in this part of the project.
+
+Migrating the sites model PHP backend to a more serious Django backend took me about 2 weeks, working about 1-3 hours a day
+
+Changes between Part 1 (April 4 - April 27 2023) and Part 2 (June 1 - now)
+
+|  Service Type | Part 1       | Part 2  |
+| ------------- |:------------:| -----:|
+| Hosting       | Shared       | VPS |
+| HTTP Protocol | HTTP         | HTTPS |
+| Database      | MariaDB      | SQLite |
+| Web Server    | Apache       | Nginx |
+| Backend Server| Apache       | Gunicorn |
+| B. Language   | PHP          | Python |
+| B. Framework  | None         | Django |
+| F. Framework  | ReactJS      | ReactJS |
 
 # ParkEzAI
 
