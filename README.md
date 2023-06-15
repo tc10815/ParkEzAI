@@ -16,14 +16,14 @@ Changes between Part 1 (April 4 - April 27 2023) and Part 2 (June 1 - now)
 
 |  Service Type | Part 1       | Part 2  |
 | ------------- |:------------:| -----:|
-| Hosting       | Shared       | VPS |
+| Hosting       | Shared       | Virtual Private Server |
 | HTTP Protocol | HTTP         | HTTPS |
 | Database      | MariaDB      | SQLite |
 | Web Server    | Apache       | Nginx |
 | Backend Server| Apache       | Gunicorn |
-| B. Language   | PHP          | Python |
-| B. Framework  | None         | Django |
-| F. Framework  | ReactJS      | ReactJS |
+| Backend Language   | PHP          | Python |
+| Backend Framework  | None         | Django |
+| Frontend Framework  | ReactJS      | ReactJS |
 
 # ParkEzAI
 
