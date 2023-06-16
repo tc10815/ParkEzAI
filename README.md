@@ -1,28 +1,25 @@
-# ParkEz AI: Part 2
-### June 1 - Present
-Functional Requirements 2, 3, 4, 5 and 6 
-Current working model: [plan6.com](https://plan6.com)
+# ParkEz: Part 2 (deploy: [plan6.com](https://plan6.com))
+In progress: June 1 - Present
+## Task List
+- [x] **Step 1:** Remake Part 1 with Django REST framework~~
+  - [x] Increase security by using Django's standard authentication method and HTTPS instead of HTTP.
+  - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
+  - [x] Remove hashs from  URLs by correctly configuring Nginx for React
+- [ ]  **Step 2:** Develop independent Python scripts that: 
+  - [ ] takes images from livestreams of parking lots every 15-30
+  - [ ] identify cars
+  - [ ] count cars
+  - [ ] identify open spaces
+  - [ ] recommend best spaces 
+  - [ ] identify overparked cars
+- [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
+- [ ] **Step 4:** Implement Functional Requirements 2.1, 2.3  and 2.3 by integrating Step 2's scripts with Django (Requirement 2.4 will be done later)
+- [ ] **Step 5:** Implement Advertisement system (Functional requirement 4.1, 4.2, 4.3)
+- [ ] **Step 6:** Implement model email and payment systems (Functional Requirements 5.1 and 5.2), which are integrated for all account types
+- [ ] **Step 7:** Implement sample license plate tracking
+- [ ] **Step 8:** Finishing touches
 
-**Steps in Part 2**
-1. ~~Remake Part 1 with Django REST framework~~
-  - ~~Increase security by using Django's standard authentication method and HTTPS instead of HTTP.~~
-  - ~~Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.~~
-  - ~~Remove hashs from  URLs by correctly configuring Nginx for React~~
-2. Develop independent Python scripts that: 
-  - takes images from livestreams of parking lots every 15-30
-  - identify cars
-  - count cars
-  - identify open spaces
-  - recommend best spaces 
-  - identify overparked cars
-3. Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
-4. Implement Functional Requirements 2.1, 2.3  and 2.3 by integrating Step 2's scripts with Django (Requirement 2.4 will be done later)
-5. Implement Advertisement system (Functional requirement 4.1, 4.2, 4.3)
-6. Implement model email and payment systems (Functional Requirements 5.1 and 5.2), which are integrated for all account types
-7. Implement sample license plate tracking
-8. Finishing touches
-
-## Step 1: PHP to Django migration retrospective
+## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
 - ~20% of the ~4000 lines React frontend code was rewritten and refactored, Part 2's frontend has about 400 fewer lines of code due to refactoring. 
@@ -41,7 +38,7 @@ Current working model: [plan6.com](https://plan6.com)
 | Backend  | PHP         | Python, Django |
 
 
-# ParkEz AI: Part 1 (complete)
+# ParkEz AI: Part 1 (April 4 - April 27, 2023)
 ### Functional Requirement 1
 ### June 1 - Present
 [Archive location, including last build](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
@@ -51,8 +48,7 @@ This is a functioning build of the ParkEz website, including all features listed
 It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. 
 About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
 
-# ParkEzAI
-### Project Overview
+# ParkEzAI (Project Overview)
 How people code is changing. Over the last year (2022-2023) AI has become powerful and accessible enough to provide real productivity gains for programmers. This Web Application is an exploration of what coding may be like when AI assistance becomes the norm. 
 
 In this project, functional requirements taken from a large class project are being implemented with AI assistance in coding, writing ('copy'), design and images.
