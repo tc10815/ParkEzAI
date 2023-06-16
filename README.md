@@ -1,30 +1,28 @@
-## Part 1 Build: April 4 - April 27 2023
-[Deploy archived](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
-
-Included all features listed under _1. Account Management_ in Functional Requirements below.
-
-Working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life.
-
 ### Part 2 (Functional Requirements 2, 3 and 4): June 1 - Present
 Current working model: [plan6.com](https://plan6.com)
 
-Remade Part 1's PHP backend in Django. Django is more scalable and secure, almost production ready. Python backend will be useful for Machine Learning in this part of the project.
+**Progress:** Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.
 
-Migrating the sites model PHP backend to a more serious Django backend took me about 2 weeks, working about 1-3 hours a day
-
-Changes between Part 1 (April 4 - April 27 2023) and Part 2 (June 1 - now)
+Changes between **Part 1** (4/4/23 - 4/27/23) and **Part 2** (6/1/23 - now)
 
 |  Service Type | Part 1       | Part 2  |
 | ------------- |:------------:| -----:|
 | Hosting       | Shared       | Virtual Private Server |
-| HTTP Protocol | HTTP         | HTTPS |
 | Database      | MariaDB      | SQLite |
-| Web Server    | Apache       | Nginx |
-| Backend Server| Apache       | Gunicorn |
-| Backend Language   | PHP          | Python |
-| Backend Framework  | None         | Django |
-| React Router  | HashRouter      | BrowserRouter |
+| Servers    | Apache       | Nginx, Gunicorn |
+| Backend  | PHP         | Python, Django |
 | Frontend Framework  | ReactJS      | ReactJS |
+
+**PHP to Django migration facts**
+- Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
+- ~20% of the ~4000 lines React frontend code was rewritten and refactored, Part 2's fronted has about 400 fewer lines of code due to refactoring. 
+- 100% of ~900 lines of PHP backend was rewritten in Django with Python. Roughly the same amount of code was needed in both languages.
+- Thanks to VPS and having control over the server for Part 2:
+ - HTTPS support for React and the API in deployments (Installing Certbot with Let's Encrypt was possible)
+ - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
+- Part II's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
+
+**Next Steps**
 
 # ParkEzAI
 
@@ -81,3 +79,10 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 * 5.1 Define Payment Method:	Users decide how they pay for their subscription (ad or lot manger).
 * 5.2 Validate Payment: 	Checks that customer payment method can be billed correctly.
 
+### Archive: Part 1 Build: April 4 - April 27 2023
+[Archive location, including last build](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
+
+This is a functioning build of the ParkEz website, including all features listed under _1. Account Management_ in Functional Requirements above.
+
+It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. 
+About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
