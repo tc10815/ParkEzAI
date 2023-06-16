@@ -15,11 +15,11 @@ Changes between **Part 1** (4/4/23 - 4/27/23) and **Part 2** (6/1/23 - now)
 
 **PHP to Django migration facts**
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
-- ~20% of the ~4000 lines React frontend code was rewritten and refactored, Part 2's fronted has about 400 fewer lines of code due to refactoring. 
+- ~20% of the ~4000 lines React frontend code was rewritten and refactored, Part 2's frontend has about 400 fewer lines of code due to refactoring. 
 - 100% of ~900 lines of PHP backend was rewritten in Django with Python. Roughly the same amount of code was needed in both languages.
 - Thanks to VPS and having control over the server for Part 2:
- - HTTPS support for React and the API in deployments (Installing Certbot with Let's Encrypt was possible)
- - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
+  - HTTPS support for React and the API in deployments (Installing Certbot with Let's Encrypt was possible)
+  - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
 - Part II's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
 
 **Next Steps**
