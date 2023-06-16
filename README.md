@@ -1,5 +1,5 @@
 # ParkEz: Part 2 (deploy: [plan6.com](https://plan6.com))
-In progress: June 1 - Present
+**In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework~~
   - [x] Increase security by using Django's standard authentication method and HTTPS instead of HTTP.
@@ -39,7 +39,8 @@ In progress: June 1 - Present
 
 
 ## Part 1 
-### April 4 - April 27, 2023
+**April 4 - April 27, 2023**
+
 [Archive location, including last build](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
 
 All Functional Requirements listed under _1. Account Management_ in Functional Requirements below were completed.
