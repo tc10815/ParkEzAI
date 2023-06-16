@@ -38,16 +38,15 @@ In progress: June 1 - Present
 | Backend  | PHP         | Python, Django |
 
 
-# ParkEz AI: Part 1 (April 4 - April 27, 2023)
-### Functional Requirement 1
-### June 1 - Present
+## Part 1 
+### April 4 - April 27, 2023
 [Archive location, including last build](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
 
-This is a functioning build of the ParkEz website, including all features listed under _1. Account Management_ in Functional Requirements above.
+All Functional Requirements listed under _1. Account Management_ in Functional Requirements below were completed.
 
 It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. 
 About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
-
+April 4 - April 27, 2023)
 # ParkEzAI (Project Overview)
 How people code is changing. Over the last year (2022-2023) AI has become powerful and accessible enough to provide real productivity gains for programmers. This Web Application is an exploration of what coding may be like when AI assistance becomes the norm. 
 
