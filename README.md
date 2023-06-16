@@ -1,6 +1,6 @@
 # ParkEz AI: Part 2
-### Functional Requirements 2, 3 and 4 
 ### June 1 - Present
+Functional Requirements 2, 3, 4, 5 and 6 
 Current working model: [plan6.com](https://plan6.com)
 
 **Steps in Part 2**
