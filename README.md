@@ -1,17 +1,15 @@
 ### Part 2 (Functional Requirements 2, 3 and 4): June 1 - Present
 Current working model: [plan6.com](https://plan6.com)
 
-**Progress:** Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.
+**Progress:** Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
 
-Changes between **Part 1** (4/4/23 - 4/27/23) and **Part 2** (6/1/23 - now)
-
-|               | Part 1       | Part 2  |
+|               | Part 1 (4/4-4/27) | Part 2 (6/1-now)  |
 | ------------- |:------------:| -----:|
-| Hosting       | Shared       | Virtual Private Server |
+| Hosting       | Shared       | VPS |
 | Database      | MariaDB      | SQLite |
 | Servers    | Apache       | Nginx, Gunicorn |
 | Backend  | PHP         | Python, Django |
-| Frontend Framework  | ReactJS      | ReactJS |
+| Frontend  | ReactJS      | ReactJS |
 
 **PHP to Django migration facts**
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
