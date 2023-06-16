@@ -5,7 +5,7 @@ Current working model: [plan6.com](https://plan6.com)
 
 Changes between **Part 1** (4/4/23 - 4/27/23) and **Part 2** (6/1/23 - now)
 
-|  Service Type | Part 1       | Part 2  |
+|               | Part 1       | Part 2  |
 | ------------- |:------------:| -----:|
 | Hosting       | Shared       | Virtual Private Server |
 | Database      | MariaDB      | SQLite |
@@ -23,6 +23,7 @@ Changes between **Part 1** (4/4/23 - 4/27/23) and **Part 2** (6/1/23 - now)
 - Part II's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
 
 **Next Steps**
+- Determine next steps. Maybe beginning machine learning work(?)
 
 # ParkEzAI
 
