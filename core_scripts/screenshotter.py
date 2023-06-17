@@ -20,6 +20,8 @@
 
 import cv2
 import pafy
+import datetime
+import time
 
 def capture_frame(video_url):
     # get video and construct stream URL
@@ -29,13 +31,15 @@ def capture_frame(video_url):
 
     # open video stream
     cap = cv2.VideoCapture(video_stream_url)
-
     ret, frame = cap.read()
-
     if ret:  # if frame read successfully
         # save frame to image file
-        cv2.imwrite('frame.jpg', frame)
-
+        now = datetime.datetime.now()
+        filename = now.strftime("%Y%m%d%H%M.jpg")
+        filename = 'coldwatermi_' + filename
+        cv2.imwrite(filename, frame)
+        taken_time = now.strftime("%Y-%m-%d %H:%M")
+        print('Screenshot taken ' + taken_time)
         # print message
     else:
         print("Error reading frame from video stream")
@@ -43,5 +47,8 @@ def capture_frame(video_url):
     cap.release()
     cv2.destroyAllWindows()
 
-# Change URL to *live* YouTube video of which you want a screenshot
-capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
+
+while True:
+    # Change URL to *live* YouTube video of which you want a screenshot
+    capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
+    time.sleep(30 * 60)
