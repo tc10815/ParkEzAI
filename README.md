@@ -19,6 +19,13 @@
 - [ ] **Step 7:** Implement sample license plate tracking
 - [ ] **Step 8:** Finishing touches
 
+## Step 2 progress
+### Current step
+Python scripts have been successfully written that locate vehicles (using YOLO recognition), and report what parkings spots they're in:
+
+Python scripts have![Python output](./core_scripts/example.jpg)
+
+
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
