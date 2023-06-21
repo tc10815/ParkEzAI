@@ -6,10 +6,7 @@
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React
 - [ ]  **Step 2:** Develop independent Python scripts that: 
-  - [ ] takes images from livestreams of parking lots every 15-30
-  - [ ] identify cars
-  - [ ] count cars
-  - [ ] identify open spaces
+  - [ ] identify cars and open spaces.
   - [ ] recommend best spaces 
   - [ ] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
@@ -21,7 +18,7 @@
 
 ## Step 2 progress
 ### Current step
-Python scripts have been successfully written that locate vehicles (using YOLO recognition), and report what parkings spots they're in:
+Working script locates vehicles (using YOLO recognition), and report what parkings spots they're in:
 
 ![Python output](./core_scripts/example.jpg)
 
