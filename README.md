@@ -23,7 +23,7 @@
 ### Current step
 Python scripts have been successfully written that locate vehicles (using YOLO recognition), and report what parkings spots they're in:
 
-Python scripts have![Python output](./core_scripts/example.jpg)
+[Python output](./core_scripts/example.jpg)
 
 
 ## Step 1 retrospective: PHP to Django migration 
