@@ -6,7 +6,7 @@
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React
 - [ ]  **Step 2:** Develop independent Python scripts that: 
-  - [ ] identify cars and open spaces.
+  - [x] identify cars and open spaces.
   - [ ] recommend best spaces 
   - [ ] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
@@ -18,10 +18,11 @@
 
 ## Step 2 progress
 ### Current step
-Working script locates vehicles (using YOLO recognition), and report what parkings spots they're in:
+Currently locates vehicles (using YOLO recognition), and reports what parking spots they're in:
 
 ![Python output](./core_scripts/example.jpg)
 
+Currently working on overparking detection (tricky) and will work on recommending best space after (should be trivial).
 
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
