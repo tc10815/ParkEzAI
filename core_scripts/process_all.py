@@ -44,7 +44,7 @@ input_folder = './examples/coldwater_mi/'
 output_folder = './examples/output/'
 input_files = sorted([f for f in os.listdir(input_folder) if os.path.isfile(os.path.join(input_folder, f))])
 
-# Define parking spots
+# Define parking spot locations, different  for every lot
 parking_spots = {
     'A1': [372, 846, 698, 1075],
     'A2': [344, 619, 464, 710],
@@ -56,6 +56,9 @@ parking_spots = {
     'B5': [970, 1171, 335, 468],
     'B6': [877, 1056, 325, 428],
 }
+
+# Ranks spots best to worst, different for every lot, for finding best spots
+best_spots = ['B6','B5','B4', 'A3','B3', 'B2', 'A2', 'B1', 'A1']
 
 # Keeps track of how long spots occupied in real time
 spots_min_occupied = {key: 0 for key in parking_spots} 
@@ -175,24 +178,27 @@ for file_num, input_file in enumerate(input_files):
     space_between_rows = 50
     space_between_columns = 400
     text_color = (0,0,0)
-
+    best_spot = best_spots[len(best_spots)-1]
     for i, spot in enumerate(parking_spots.keys()):
         spot_status = "Free"
         if spot in occupied_spots:
             spot_status = 'Occupied'
             spots_min_occupied[spot] += abs_diff
-            spot_status += ' (' + str(spots_min_occupied[spot]) + ')'
+            spot_status += ' (' + str(spots_min_occupied[spot] // 60) + ':' + "{:02d}".format(spots_min_occupied[spot] % 60)+ ')'
             if spots_min_occupied[spot] > overparking_limit:
                 text_color = (0, 0, 230)
         else:
             spots_min_occupied[spot] = 0
+            if best_spots.index(best_spot) > best_spots.index(spot):
+                best_spot = spot
 
         occupied_height = round(height * 0.8) + ((i % spots_per_column) * space_between_rows)
         occupied_width = 100 + ((i // spots_per_column) * space_between_columns)
 
         cv2.putText(frame, f'{spot} {spot_status}', (occupied_width, occupied_height), cv2.FONT_HERSHEY_SIMPLEX, 1.3, text_color, 3)
+    cv2.putText(frame, ("Best spot: " +  best_spot), (width // 2 - 50, height - 20), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 100, 0), 3)
+    print('Best spot: ' + best_spot)
 
-    print(str(spots_min_occupied))
     # Save the output image
     cv2.imwrite(output_folder + input_file, frame)
 

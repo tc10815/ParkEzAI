@@ -5,10 +5,10 @@
   - [x] Increase security by using Django's standard authentication method and HTTPS instead of HTTP.
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React
-- [ ]  **Step 2:** Develop independent Python scripts that: 
+- [x]  **Step 2:** Develop independent Python scripts that: 
   - [x] identify cars and open spaces.
-  - [ ] recommend best spaces 
-  - [ ] identify overparked cars
+  - [x] recommend best spaces 
+  - [x] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
 - [ ] **Step 4:** Implement Functional Requirements 2.1, 2.3  and 2.3 by integrating Step 2's scripts with Django (Requirement 2.4 will be done later)
 - [ ] **Step 5:** Implement Advertisement system (Functional requirement 4.1, 4.2, 4.3)
@@ -18,11 +18,13 @@
 
 ## Step 2 progress
 ### Current step
-Currently locates vehicles (using YOLO recognition), and reports what parking spots they're in:
+Python scripts that will be integrated to the backend can now (with an employee configured camera feed):
+1. Identify cars and open spaces
+2. Recommend best space 
+3. Identify overparked cars (shows how long space has been continuously occupied, over fixed amount of time triggers alert and human review of camera footage to confirm)
 
 ![Python output](./core_scripts/example.jpg)
-
-Currently working on overparking detection (tricky) and will work on recommending best space after (should be trivial).
+See all features illustrated here with a real Camera Feed from Michigan; all drawing on image is automatic from process_all.py
 
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
