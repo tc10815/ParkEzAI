@@ -4,7 +4,37 @@ import os
 import json
 from datetime import datetime
 
-# Load Yolo
+def process_time(filename):
+    date_str = filename.split('_')[1].split('.jpg')[0]
+    ret = {}
+    ret['year'] = int(date_str[0:4])
+    ret['month'] = int(date_str[4:6])
+    ret['day'] = int(date_str[6:8])
+    ret['hour'] = int(date_str[8:10])
+    ret['min'] = int(date_str[10:12])
+
+    # An absolute time which can always be subtracted from any other time to get minute difference
+    ret['abs_time'] = ((ret['year']-2023)*525600) + (ret['month']*43800) + (ret['day']*1440) + (ret['hour'] *60) + ret['min']
+
+    # Makes a human readable time accessible through returned dictionary
+    human_time = ''
+    if ret['hour'] == 0 : human_time = '12'
+    elif ret['hour'] > 12 : human_time = str(ret['hour'] - 12)
+    else : human_time = str(ret['hour'])
+    human_time = human_time + ':' + str(ret['min'])
+    if ret['hour'] > 12 : human_time = human_time + 'pm'
+    else : human_time = human_time + 'am'
+    ret['human_time'] = human_time
+
+    # A string so a programmer can see all data clearly
+    ret['debug'] = filename + ' -> ' + str(ret['month']) + '/' + str(ret['month']) + '/' +  str(ret['year']) + ' ' + human_time
+    
+    return ret
+
+# Load Yolo (External files not included in Git since too big; available to download at these address)
+# yolov3.weights - https://pjreddie.com/media/files/yolov3.weights
+# yolov3.cfg - https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg
+
 net = cv2.dnn.readNet("../../ml_data/yolov3.weights", "../../ml_data/yolov3.cfg")
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers().flatten()]
@@ -27,11 +57,14 @@ parking_spots = {
     'B6': [877, 1056, 325, 428],
 }
 
+# Keeps track of how long spots occupied in real time
+spots_min_occupied = {key: 0 for key in parking_spots} 
+
 # Minimum intersection area to be considered as parked in the spot
 min_intersection = 0.5
 
 # Define the overparking limit in hours
-overparking_limit = 1
+overparking_limit = 360
 
 # Initialize the 'overparking' dictionary to store when each spot was last seen occupied
 overparking = {spot: None for spot in parking_spots.keys()}
@@ -49,12 +82,21 @@ def calculate_intersection(x1, y1, w1, h1, x2, y2, w2, h2):
 lot_data = {}
 
 # Process each image
-for input_file in input_files:
+for file_num, input_file in enumerate(input_files):
+    # Computes time since last picture taken for overparking tracking
+    abs_time = process_time(input_file)['abs_time']
+    previous_abs_time = -1
+    if file_num > 0: previous_abs_time = process_time(input_files[file_num - 1])['abs_time']
+    if previous_abs_time != -1:
+        abs_diff =  abs_time - previous_abs_time
+    else:
+        abs_diff = 0
+    print(process_time(input_file)['debug'])
+    print(str(file_num) + '. ' + str(previous_abs_time)  + ' - ' + str(abs_time) + ' = ' + str(abs_diff))
     # Load image
     frame = cv2.imread(input_folder + input_file)
     height, width, channels = frame.shape
 
-    print('\nFilename: ' + input_file)
     # Add white space at the bottom
     bottom_padding = int(height * 0.3)
     frame = cv2.copyMakeBorder(frame, 0, bottom_padding, 0, 0, cv2.BORDER_CONSTANT, value=[255, 255, 255])
@@ -64,15 +106,10 @@ for input_file in input_files:
     lot_data[input_file] = []
 
     # Extract date and time from the filename and add to the image
-    date_str = input_file[12:16] + "-" + input_file[16:18] + "-" + input_file[18:20]
-    date_str2 =   input_file[16:18] + "-" + input_file[18:20] + "-" + input_file[12:16]
-    time_str = input_file[20:22] + ":" + input_file[22:24]
-    datetime_str = date_str + " " + time_str
-    cv2.rectangle(frame, (width // 2 - 300, 0), (width // 2 + 350, 50+10), (255,255,255), -1)
-    cv2.putText(frame, (date_str2 + " " + time_str), (width // 2 - 300, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0),3)
-
-    datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M')
-
+    time_dict = process_time(input_file)
+    datetime_str = str(time_dict['month']) + '/' + str(time_dict['day']) + '/' +  str(time_dict['year']) + ' ' + time_dict['human_time'] 
+    cv2.rectangle(frame, (width // 2 - 300, 0), (width // 2 + 400, 50+10), (255,255,255), -1)
+    cv2.putText(frame, (datetime_str), (width // 2 - 300, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0),3)
     # Detecting objects
     blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
     net.setInput(blob)
@@ -131,42 +168,31 @@ for input_file in input_files:
                     'box': [x, y, w, h],
                     'spot': max_spot,
                 })
-    # # Write occupied and unoccupied spots
-    # y_offset = 200
-    # num_spots = len(parking_spots)
-    # spots_per_column = 5
-    # x_offset = 50
-    # col_dist = 250
-
-    # for i, spot in enumerate(reversed(list(parking_spots.keys()))):
-    #     # Increase the divisor to 4 for 4 columns and multiply the offset by 3 to position the columns further apart
-    #     column_offset = ((i // spots_per_column) * col_dist) - x_offset
-    #     row_offset = (i % spots_per_column) * 50
-    #     print('\n Spot ' + str(spot))
-    #     if spot in occupied_spots:
-    #         cv2.putText(frame, f'{spot} Occupied', (10 + column_offset, height - y_offset - row_offset), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0,0,0), 2)
-    #     else:
-    #         cv2.putText(frame, f'{spot} Free', (10 + column_offset, height - y_offset - row_offset), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0,0,0), 2)
-
-    # # Save the output image
-    # cv2.imwrite(output_folder + input_file, frame)
 
     # Write occupied and unoccupied spots
     num_spots = len(parking_spots)
     spots_per_column = 5
     space_between_rows = 50
     space_between_columns = 400
+    text_color = (0,0,0)
 
     for i, spot in enumerate(parking_spots.keys()):
         spot_status = "Free"
         if spot in occupied_spots:
             spot_status = 'Occupied'
+            spots_min_occupied[spot] += abs_diff
+            spot_status += ' (' + str(spots_min_occupied[spot]) + ')'
+            if spots_min_occupied[spot] > overparking_limit:
+                text_color = (0, 0, 230)
+        else:
+            spots_min_occupied[spot] = 0
 
         occupied_height = round(height * 0.8) + ((i % spots_per_column) * space_between_rows)
         occupied_width = 100 + ((i // spots_per_column) * space_between_columns)
 
-        cv2.putText(frame, f'{spot} {spot_status}', (occupied_width, occupied_height), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0,0,0), 3)
+        cv2.putText(frame, f'{spot} {spot_status}', (occupied_width, occupied_height), cv2.FONT_HERSHEY_SIMPLEX, 1.3, text_color, 3)
 
+    print(str(spots_min_occupied))
     # Save the output image
     cv2.imwrite(output_folder + input_file, frame)
 
