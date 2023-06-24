@@ -5,8 +5,8 @@
   - [x] Increase security by using Django's standard authentication method and HTTPS instead of HTTP.
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React
-- [x]  **Step 2:** Develop independent Python scripts that: 
-  - [x] identify cars and open spaces.
+- [ ]  **Step 2:** Develop independent Python scripts that: 
+  - [ ] identify cars and open spaces.
   - [x] recommend best spaces 
   - [x] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
@@ -18,13 +18,12 @@
 
 ## Step 2 progress
 ### Current step
-Python scripts that will be integrated to the backend can now (with an employee configured camera feed):
-1. Identify cars and open spaces
-2. Recommend best space 
-3. Identify overparked cars (shows how long space has been continuously occupied, over fixed amount of time triggers alert and human review of camera footage to confirm)
+Final testing of YOLOv3 model failed: Features work but core system (currently YOLO for vehicle detection) has too many false negatives in identifying cars to be good in production.
+
+Rebuilding car detection using trained autoencoders and Pytorch instead of YOLO, so model can work well enough for real use. 
 
 ![Python output](./core_scripts/example.jpg)
-See all features illustrated here with a real Camera Feed from Michigan; all drawing on image is automatic from process_all.py
+The above YOLO detection misses cars pretty frequently, and is being replaced.
 
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
