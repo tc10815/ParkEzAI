@@ -28,7 +28,7 @@ Analysis:
 - Accuracy: (274 + 1127) / (274 + 194 + 7 + 1127) = ~87.38%
 - Precision: 274 / (274 + 7) = ~97.52%
 - **Recall: 274 / (274 + 194) = ~58.55%**
-= F1 Score: 2 * (0.9752 * 0.5855) / (0.9752 + 0.5855) = ~73.09%
+- F1 Score: 2 * (0.9752 * 0.5855) / (0.9752 + 0.5855) = ~73.09%
 
 The recall shows that if a car is parked in space, it only registers it 60% of the time. Not good; will run the same tests on new system, without using any images in this test as training data.
 
