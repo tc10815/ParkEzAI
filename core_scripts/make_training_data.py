@@ -7,7 +7,28 @@ from datetime import datetime
 from PIL import Image, ImageTk
 import tkinter as tk
 
+def process_time(filename):
+    date_str = filename.split('_')[1].split('.jpg')[0]
+    ret = {}
+    ret['year'] = int(date_str[0:4])
+    ret['month'] = int(date_str[4:6])
+    ret['day'] = int(date_str[6:8])
+    ret['hour'] = int(date_str[8:10])
+    ret['min'] = int(date_str[10:12])
 
+    # Makes a human readable time accessible through returned dictionary
+    human_time = ''
+    if ret['hour'] == 0 : human_time = '12'
+    elif ret['hour'] > 12 : human_time = "{:02d}".format(ret['hour'] - 12)
+    else : human_time = "{:02d}".format(ret['hour'])
+    human_time = human_time + ':' +  "{:02d}".format(ret['min'])
+    if ret['hour'] > 12 : human_time = human_time + 'pm'
+    else : human_time = human_time + 'am'
+    ret['human_time'] = human_time
+
+    # A string so a programmer can see all data clearly
+    return "{:02d}".format(ret['month']) + '/' + "{:02d}".format(ret['month']) + '/' +  str(ret['year']) + ' ' + human_time
+    
 class ImageLoader:
     def __init__(self, folder, parking_spots):
         self.images = sorted([img for img in os.listdir(folder) if img.endswith(".jpg")])
@@ -20,7 +41,9 @@ class ImageLoader:
         filepath = os.path.join(self.folder, self.images[self.index])
         image = cv2.imread(filepath)
         these_spots = self.labels[self.images[self.index]]
-
+        height, width, channels = image.shape
+        cv2.rectangle(image, (width // 2 - 450, 0), (width // 2 + 600, 50+10), (255,255,255), -1)
+        cv2.putText(image, process_time(self.images[self.index]) + ' ' + "{:03d}".format(self.index + 1) + '/' + "{:03d}".format(len(self.images)), (width // 2 - 450, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0),3)
         for key in these_spots.keys():
             spot_coords = self.parking_spots[key]
             x_spot, x_spot_w, y_spot, y_spot_h = spot_coords
@@ -33,6 +56,10 @@ class ImageLoader:
 
     
     def mark_spot(self, image, all_buttons):
+        height, width, channels = image.shape
+        cv2.rectangle(image, (width // 2 - 450, 0), (width // 2 + 600, 50+10), (255,255,255), -1)
+        cv2.putText(image, process_time(self.images[self.index]) + ' ' + "{:03d}".format(self.index + 1) + '/' + "{:03d}".format(len(self.images)), (width // 2 - 450, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0),3)
+
         for key in all_buttons.keys():
             spot_coords = self.parking_spots[key]
             x_spot, x_spot_w, y_spot, y_spot_h = spot_coords
