@@ -18,19 +18,19 @@
 
 ## Step 2 progress
 ### Current step
-Final testing of YOLOv3 model before integration didn't yield good results. Here are testing results (178 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
-- True Positive (TP) = 274
+Final testing of YOLOv3 model before integration didn't yield good results. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
+- True Positive (TP) = 272
 - False Negative (FN) = 194
 - False Positive (FP) = 7
-- True Negative (TN) = 1127
+- True Negative (TN) = 958
 
 Analysis:
-- Accuracy: (274 + 1127) / (274 + 194 + 7 + 1127) = ~87.38%
-- Precision: 274 / (274 + 7) = ~97.52%
-- **Recall: 274 / (274 + 194) = ~58.55%**
-- F1 Score: 2 * (0.9752 * 0.5855) / (0.9752 + 0.5855) = ~73.09%
+- Accuracy: (274 + 1127) / (274 + 194 + 7 + 1127) = 85.9%
+- Precision: 274 / (274 + 7) = 97.49%
+- **Recall: 274 / (274 + 194) = 58.37%**
+- F1 Score: 2 * (0.9749 * 0.5836) / (0.9749 + 0.5836) = ~73.02%
 
-The recall shows that if a car is parked in space, it only registers it 60% of the time. Not good; will run the same tests on new system, without using any images in this test as training data.
+The recall shows that if a car is parked in space, it only registers it 58% of the time. Not good; will run the same tests on new system, without using any images in this test as training data.
 
 New car detection system will use anomoloy dectection with trained autoencoders and Pytorch instead of YOLO. This is a more typical approach for a system like this.
 
