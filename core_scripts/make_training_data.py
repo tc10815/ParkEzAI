@@ -92,6 +92,9 @@ class ImageViewer:
         self.next_button = tk.Button(button_frame, text="Next", command=self.show_next, padx=10, pady=10, font=('Arial', 16))
         self.next_button.pack(side=tk.LEFT)
 
+        self.copy_prev_button = tk.Button(button_frame, text="Prev Label", command=self.copy_prev_labels, padx=10, pady=10, font=('Arial', 16))
+        self.copy_prev_button.pack(side=tk.RIGHT)
+
         self.checkbuttons = {}
         checkbox_frame = tk.Frame(self.window)
         checkbox_frame.pack(side=tk.BOTTOM, fill=tk.X)
@@ -109,6 +112,8 @@ class ImageViewer:
         self.show_image(self.loader.load_image())
         self.window.bind('<Left>', lambda e: self.show_prev())
         self.window.bind('<Right>', lambda e: self.show_next())
+        self.window.bind('z', lambda e: self.copy_prev_labels())
+
 
     
     def update_image(self):
@@ -161,6 +166,12 @@ class ImageViewer:
         for spot, label in labels.items():
             self.checkbuttons[spot].set(label)
 
+    def copy_prev_labels(self):
+        if self.loader.index > 0:
+            prev_labels = self.loader.labels[self.loader.images[self.loader.index - 1]]
+            for spot, label in prev_labels.items():
+                self.checkbuttons[spot].set(label)
+            self.update_image()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parking lot analyzer')
