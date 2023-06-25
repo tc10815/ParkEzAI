@@ -65,12 +65,10 @@ class ImageLoader:
             with open(labels_filepath, 'r') as f:
                 self.labels = json.load(f)
         else:
-            self.labels = [
-                {
-                    "filename": image,
-                    "spots": {spot: False for spot in self.parking_spots.keys()}
-                } for image in self.images
-            ]
+            self.labels = {
+                image: {spot: False for spot in self.parking_spots.keys()}
+                for image in self.images
+            }
             with open(labels_filepath, 'w') as f:
                 json.dump(self.labels, f)
 
@@ -130,10 +128,7 @@ class ImageViewer:
         self.save_labels()
         self.show_image(image)
 
-    def save_labels(self):
-        labels = {spot: bool(var.get()) for spot, var in self.checkbuttons.items()}
-        self.loader.labels[self.loader.index]['spots'] = labels
-        self.loader.save_labels()
+
 
     def create_checkbutton_toggle_callback(self, var):
         def callback(event):
@@ -167,8 +162,13 @@ class ImageViewer:
     def run(self):
         self.window.mainloop()
 
+    def save_labels(self):
+        labels = {spot: bool(var.get()) for spot, var in self.checkbuttons.items()}
+        self.loader.labels[self.loader.images[self.loader.index]] = labels
+        self.loader.save_labels()
+
     def load_labels(self):
-        labels = self.loader.labels[self.loader.index]['spots']
+        labels = self.loader.labels[self.loader.images[self.loader.index]]
         for spot, label in labels.items():
             self.checkbuttons[spot].set(label)
 
