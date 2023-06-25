@@ -14,14 +14,38 @@ class ImageLoader:
         self.index = 0
         self.folder = folder
         self.parking_spots = parking_spots
+        self.load_labels()
 
+    # def load_image(self):
+    #     filepath = os.path.join(self.folder, self.images[self.index])
+    #     image = cv2.imread(filepath)
+    #     for spot, (x_spot, x_spot_w, y_spot, y_spot_h) in self.parking_spots.items():
+    #         cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), (255, 0, 0), 2)
+    #         cv2.putText(image, f'Spot {spot}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert color space for PIL
+    #     return Image.fromarray(image)
+    
     def load_image(self):
         filepath = os.path.join(self.folder, self.images[self.index])
         image = cv2.imread(filepath)
+        print(self.labels)
+
+        # for key in all_buttons.keys():
+        #     spot_coords = self.parking_spots[key]
+        #     x_spot, x_spot_w, y_spot, y_spot_h = spot_coords
+        #     color = (255, 255, 255) if bool(all_buttons[key].get()) else (255, 0, 0)
+        #     cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), color, 2)
+        #     cv2.putText(image, f'Spot {key}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+            
+        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # return Image.fromarray(image)
+
+
         for spot, (x_spot, x_spot_w, y_spot, y_spot_h) in self.parking_spots.items():
             cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), (255, 0, 0), 2)
             cv2.putText(image, f'Spot {spot}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert color space for PIL
+        
         return Image.fromarray(image)
     
     def mark_spot(self, image, all_buttons):
@@ -34,6 +58,26 @@ class ImageLoader:
             
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return Image.fromarray(image)
+
+    def load_labels(self):
+        labels_filepath = os.path.join(self.folder, 'labels.json')
+        if os.path.exists(labels_filepath):
+            with open(labels_filepath, 'r') as f:
+                self.labels = json.load(f)
+        else:
+            self.labels = [
+                {
+                    "filename": image,
+                    "spots": {spot: False for spot in self.parking_spots.keys()}
+                } for image in self.images
+            ]
+            with open(labels_filepath, 'w') as f:
+                json.dump(self.labels, f)
+
+    def save_labels(self):
+        labels_filepath = os.path.join(self.folder, 'labels.json')
+        with open(labels_filepath, 'w') as f:
+            json.dump(self.labels, f)
 
 
     def next_image(self):
@@ -83,7 +127,13 @@ class ImageViewer:
     def update_image(self):
         image = cv2.imread(os.path.join(self.loader.folder, self.loader.images[self.loader.index]))
         image = self.loader.mark_spot(image, self.checkbuttons)
+        self.save_labels()
         self.show_image(image)
+
+    def save_labels(self):
+        labels = {spot: bool(var.get()) for spot, var in self.checkbuttons.items()}
+        self.loader.labels[self.loader.index]['spots'] = labels
+        self.loader.save_labels()
 
     def create_checkbutton_toggle_callback(self, var):
         def callback(event):
@@ -99,13 +149,16 @@ class ImageViewer:
         image = self.loader.next_image()
         if image is not None:
             self.show_image(image)
+            self.load_labels()
         self.check_buttons()
 
     def show_prev(self):
         image = self.loader.prev_image()
         if image is not None:
             self.show_image(image)
+            self.load_labels()
         self.check_buttons()
+
 
     def check_buttons(self):
         self.next_button.config(state=tk.NORMAL if self.loader.index < len(self.loader.images) - 1 else tk.DISABLED)
@@ -113,6 +166,12 @@ class ImageViewer:
 
     def run(self):
         self.window.mainloop()
+
+    def load_labels(self):
+        labels = self.loader.labels[self.loader.index]['spots']
+        for spot, label in labels.items():
+            self.checkbuttons[spot].set(label)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parking lot analyzer')
