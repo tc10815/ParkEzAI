@@ -107,6 +107,9 @@ class ImageViewer:
         self.check_buttons()
 
         self.show_image(self.loader.load_image())
+        self.window.bind('<Left>', lambda e: self.show_prev())
+        self.window.bind('<Right>', lambda e: self.show_next())
+
     
     def update_image(self):
         image = cv2.imread(os.path.join(self.loader.folder, self.loader.images[self.loader.index]))
