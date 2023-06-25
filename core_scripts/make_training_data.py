@@ -18,22 +18,22 @@ class ImageLoader:
     def load_image(self):
         filepath = os.path.join(self.folder, self.images[self.index])
         image = cv2.imread(filepath)
-        print(parking_spots)
         for spot, (x_spot, x_spot_w, y_spot, y_spot_h) in self.parking_spots.items():
             cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), (255, 0, 0), 2)
             cv2.putText(image, f'Spot {spot}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert color space for PIL
         return Image.fromarray(image)
     
-    def mark_spot(self, image, spot_key, occupied):
-        spot_coords = self.parking_spots[spot_key]
-        x_spot, x_spot_w, y_spot, y_spot_h = spot_coords
-        color = (255, 255, 255) if occupied else (255, 0, 0)
-        
-        cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), color, 2)
-        cv2.putText(image, f'Spot {spot_key}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
-        
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert color space for PIL
+    def mark_spot(self, image, spot_key, occupied, all_buttons):
+        for key in all_buttons.keys():
+            spot_coords = self.parking_spots[key]
+            x_spot, x_spot_w, y_spot, y_spot_h = spot_coords
+            color = (255, 255, 255) if bool(all_buttons[key].get()) else (255, 0, 0)
+            print(color)
+            cv2.rectangle(image, (x_spot, y_spot), (x_spot_w, y_spot_h), color, 2)
+            cv2.putText(image, f'Spot {key}', (x_spot, y_spot-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+            
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return Image.fromarray(image)
 
 
@@ -73,14 +73,19 @@ class ImageViewer:
 
         for i, spot in enumerate(parking_spots, 1):
             var = tk.IntVar()  # This variable tracks whether the checkbox is selected or not
-            checkbox = tk.Checkbutton(checkbox_frame, text=spot, variable=var, font=('Arial', 16))
+            checkbox = tk.Checkbutton(checkbox_frame, text=spot, variable=var, font=('Arial', 16), command=lambda s=spot, v=var: self.toggle_spot(s, v))
             checkbox.pack(side=tk.LEFT)
             self.checkbuttons[spot] = var
             self.window.bind(str(i), self.create_checkbutton_toggle_callback(var))
 
+
         self.show_image(self.loader.load_image())
     
-    
+    def toggle_spot(self, spot, var):
+        image = cv2.imread(os.path.join(self.loader.folder, self.loader.images[self.loader.index]))
+        image = self.loader.mark_spot(image, spot, bool(var.get()), self.checkbuttons)
+        self.show_image(image)
+
     def create_checkbutton_toggle_callback(self, var):
         def callback(event):
             var.set(1 - var.get())  # Toggle between 0 and 1
