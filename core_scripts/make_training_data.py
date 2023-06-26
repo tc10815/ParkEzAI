@@ -27,7 +27,7 @@ def process_time(filename):
     ret['human_time'] = human_time
 
     # A string so a programmer can see all data clearly
-    return "{:02d}".format(ret['month']) + '/' + "{:02d}".format(ret['month']) + '/' +  str(ret['year']) + ' ' + human_time
+    return "{:02d}".format(ret['month']) + '/' + "{:02d}".format(ret['day']) + '/' +  str(ret['year']) + ' ' + human_time
     
 class ImageLoader:
     def __init__(self, folder, parking_spots):
