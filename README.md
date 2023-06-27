@@ -1,12 +1,12 @@
 # ParkEz: Part 2 (deploy: [plan6.com](https://plan6.com))
 **In progress: June 1 - Present**
 ## Task List
-- [x] **Step 1:** Remake Part 1 with Django REST framework~~
+- [x] **Step 1:** Remake Part 1 with Django REST framework
   - [x] Increase security by using Django's standard authentication method and HTTPS instead of HTTP.
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx.
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React
-- [ ]  **Step 2:** Develop independent Python scripts that: 
-  - [ ] identify cars and open spaces.
+- [x]  **Step 2:** Develop independent Python scripts that: 
+  - [x] identify cars and open spaces.
   - [x] recommend best spaces 
   - [x] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django.
@@ -18,24 +18,21 @@
 
 ## Step 2 progress
 ### Current step
-Final testing of YOLOv3 model before integration didn't yield good results. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
-- True Positive (TP) = 272
-- False Negative (FN) = 194
-- False Positive (FP) = 7
-- True Negative (TN) = 958
+Final testing of YOLOv3 model before integration didn't yield good results.  The Pytorch CNNs were tested on the same images and did very well. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
 
 Analysis:
-- Accuracy: (274 + 1127) / (274 + 194 + 7 + 1127) = 85.9%
-- Precision: 274 / (274 + 7) = 97.49%
-- **Recall: 274 / (274 + 194) = 58.37%**
-- F1 Score: 2 * (0.9749 * 0.5836) / (0.9749 + 0.5836) = ~73.02%
+| **Model**     | **Accuracy** | **Precision** | **Recall** | **F1 Score** |
+| ------------- | ------------ | ------------- | ---------- | ------------ |
+| **YOLO Weights** | 85.9%        | 97.49%         | 58.37%     | 73.02%       |
+| **Pytorch CNN**   | 98.30%       | 99.04%         | 98.30%     | 98.67%       |
 
-The recall shows that if a car is parked in space, it only registers it 58% of the time. Not good; will run the same tests on new system, without using any images in this test as training data.
 
-New car detection system will use anomoloy dectection with trained autoencoders and Pytorch instead of YOLO. This is a more typical approach for a system like this.
+The recall shows that if a car is parked in space, it only registers it 58% of the time. Not good. But the new system registers 98.4% of cars in spaces, which is acceptably good in my opinion, especially since the test data includes tricky things like motorcycles, and cars taking up multiple spaces.
+
+New car detection system will use training data (made with easy to use tools) and a Pytorch CNN instead of YOLO. This is a more typical approach for a system like this.
 
 ![Python output](./core_scripts/example.jpg)
-The above YOLO detection misses cars pretty frequently, and is being replaced.
+The above YOLO detection misses cars pretty frequently, but the new CNN system very rarely makes mistakes.
 
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
