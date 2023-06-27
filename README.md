@@ -27,12 +27,10 @@ Analysis:
 | **Pytorch CNN**   | 98.30%       | 99.04%         | 98.30%     | 98.67%       |
 
 
-The recall shows that if a car is parked in space, it only registers it 58% of the time. Not good. But the new system registers 98.4% of cars in spaces, which is acceptably good in my opinion, especially since the test data includes tricky things like motorcycles, and cars taking up multiple spaces.
+The recall shows that if a car is parked in space, it only registers it 58% of the time. Not good. But the new system registers 98.4% of cars in spaces, which is acceptably good in my opinion, especially since the test data includes tricky things like motorcycles, and cars taking up multiple spaces. Using the CNN is a more typical approach for a system like this, so it makes sense it works better. 
 
-New car detection system will use training data (made with easy to use tools) and a Pytorch CNN instead of YOLO. This is a more typical approach for a system like this.
-
-![Python output](./core_scripts/example.jpg)
-The above YOLO detection misses cars pretty frequently, but the new CNN system very rarely makes mistakes.
+![Python output](./archive/img/example.jpg)
+An example of car detection (in this case with YOLO)
 
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
