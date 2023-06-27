@@ -35,13 +35,13 @@ def process_time(filename):
 # yolov3.weights - https://pjreddie.com/media/files/yolov3.weights
 # yolov3.cfg - https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg
 
-net = cv2.dnn.readNet("../../ml_data/yolov3.weights", "../../ml_data/yolov3.cfg")
+net = cv2.dnn.readNet("./yolov3.weights", "./yolov3.cfg")
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers().flatten()]
 
 # List all files in the input directory
-input_folder = './examples/coldwater_mi/'
-output_folder = './examples/output/'
+input_folder = './input/'
+output_folder = './output/'
 input_files = sorted([f for f in os.listdir(input_folder) if os.path.isfile(os.path.join(input_folder, f))])
 
 # Define parking spot locations, different  for every lot
