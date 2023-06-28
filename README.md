@@ -16,9 +16,13 @@
 - [ ] **Step 7:** Implement sample license plate tracking
 - [ ] **Step 8:** Finishing touches
 
-## Step 2 progress
+## Step 3: Progress
 ### Current step
-Final testing of YOLOv3 model before integration didn't yield good results.  The Pytorch CNNs were tested on the same images and did very well. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
+Step 2 staff tools have been documented and organized. Will now integrate those tools in Django.
+
+## Step 2 retrospective: Machine Learning and Core Logic 
+### Created working parking detection ML models with real lot data, and a system for integrating future parking lots.
+Implemented both Pytorch CNNs and pretrained YOLOv3 on lot. While final testing of YOLOv3 model before integration didn't yield good results, the Pytorch CNNs were tested on the same images and did very well. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
 
 Analysis:
 | **Model**     | **Accuracy** | **Precision** | **Recall** | **F1 Score** |
@@ -31,7 +35,7 @@ The recall shows that if a car is parked in space, it only registers it 58% of t
 
 ![Python output](./archive/img/example.jpg)
 An example of car detection (in this case with YOLO)
-
+parking
 ## Step 1 retrospective: PHP to Django migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3.S
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
