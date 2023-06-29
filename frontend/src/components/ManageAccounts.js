@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -54,7 +56,7 @@ const ManageAccounts = () => {
   const [accounts, setAccounts] = useState([]);
 
   const fetchAccounts = async () => {
-    const response = await fetch("https://backend.plan6.com/accounts/get-accounts-staff/", {
+    const response = await fetch(API_URL + "accounts/get-accounts-staff/", {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },
@@ -79,7 +81,7 @@ const ManageAccounts = () => {
       new_password
     };
 
-    const response = await fetch("https://backend.plan6.com/accounts/change-password-staff/", { 
+    const response = await fetch(API_URL + "accounts/change-password-staff/", { 
       method: "POST", 
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +106,7 @@ const ManageAccounts = () => {
     const email = accountEmail;
     const confirmDelete = window.confirm("Are you sure you want to delete this account?");
     if (!confirmDelete) return;
-    const response = await fetch("https://backend.plan6.com/accounts/delete-user/", {
+    const response = await fetch(API_URL + "accounts/delete-user/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

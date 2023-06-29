@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
@@ -65,7 +66,7 @@ const MyTickets = () => {
 
   useEffect(() => {
     const fetchTickets = async () => {
-        const response = await fetch("https://backend.plan6.com/tickets/get_tickets", {
+        const response = await fetch(API_URL + "tickets/get_tickets", {
           headers: {
             Authorization: `Token ${localStorage.getItem("token")}`,
           },
@@ -81,7 +82,7 @@ const MyTickets = () => {
   }, []);
 
   const handleDeleteTicket = async (ticketId) => {
-    const response = await fetch(`https://backend.plan6.com/tickets/delete_ticket/${ticketId}/`, {
+    const response = await fetch(API_URL + `tickets/delete_ticket/${ticketId}/`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Token ${localStorage.getItem("token")}`,

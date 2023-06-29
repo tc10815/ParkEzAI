@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-color: black;
   align-items: center;
@@ -62,7 +64,7 @@ const AccountantDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch('https://backend.plan6.com/accounts/users/me/', {
+      fetch(API_URL + 'accounts/users/me/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

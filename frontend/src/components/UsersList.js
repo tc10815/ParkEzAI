@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const H1Header = styled.h1`
     text-align: center;
     color: white;
@@ -41,7 +43,7 @@ const UsersList = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("https://backend.plan6.com/accounts/users/", { method: "GET" });
+      const response = await fetch(API_URL + "accounts/users/", { method: "GET" });
 
       if (response.ok) {
         const data = await response.json();

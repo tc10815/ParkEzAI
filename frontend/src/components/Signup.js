@@ -4,7 +4,7 @@ import heroImage from '../images/signup-hero.jpg';
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 
-
+const API_URL = process.env.REACT_APP_API_URL;
 
 const HomeContainer = styled.div`
   background-color: black;
@@ -119,7 +119,7 @@ const Signup = () => {
   
     const role_id = role === "parking_lot_owner" ? "Lot Operator" : "Advertiser";
   
-    const response = await fetch("https://backend.plan6.com/accounts/create_user/", {
+    const response = await fetch(API_URL + "accounts/create_user/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Signup = () => {
   };
   
   const resetAndPrepopulate = async () => {
-    const response = await fetch("https://backend.plan6.com/accounts/populate_db/", { method: "POST" });
+    const response = await fetch(API_URL + "accounts/populate_db/", { method: "POST" });
   
     if (response.ok) {
         const data = await response.json();

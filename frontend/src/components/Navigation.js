@@ -4,6 +4,8 @@ import logo from '../images/parkezlogosmall2.png';
 import styled from 'styled-components';
 import theme from '../theme';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -93,7 +95,7 @@ const Navigation = () => {
     const token = localStorage.getItem("token");
 
     // Send a GET request to the logout endpoint
-    const response = await fetch("https://backend.plan6.com/accounts/logout/", {
+    const response = await fetch(API_URL + "accounts/logout/", {
         method: "GET",
         headers: {
             "Authorization": `Token ${token}`,
@@ -117,7 +119,7 @@ const Navigation = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await fetch('https://backend.plan6.com/accounts/users/me/', {
+        const response = await fetch(API_URL + 'accounts/users/me/', {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },

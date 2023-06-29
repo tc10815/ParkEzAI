@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -56,7 +58,7 @@ const UpdateAccount = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch('https://backend.plan6.com/accounts/users/me/', {
+      fetch(API_URL + 'accounts/users/me/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
@@ -84,7 +86,7 @@ const UpdateAccount = () => {
         email, first_name, last_name, password, 
         company_name, company_address, city, state, zip,
       };
-      const response = await fetch(`https://backend.plan6.com/accounts/users/edit/`, {
+      const response = await fetch(API_URL + `accounts/users/edit/`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +108,7 @@ const UpdateAccount = () => {
       const requestBody = {
         email, first_name, last_name, password, 
       };
-      const response = await fetch(`https://backend.plan6.com/accounts/users/edit/`, {
+      const response = await fetch(API_URL + `accounts/users/edit/`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",

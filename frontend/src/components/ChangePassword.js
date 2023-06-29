@@ -4,6 +4,8 @@ import styled from "styled-components";
 import heroImage from "../images/account-hero.jpg";
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -68,7 +70,7 @@ const ChangePassword = () => {
       new_password: newPassword,
     };
 
-    const response = await fetch("https://backend.plan6.com/accounts/change-password/", { 
+    const response = await fetch(API_URL + "accounts/change-password/", { 
       method: "PUT", 
       headers: {
         "Content-Type": "application/json",

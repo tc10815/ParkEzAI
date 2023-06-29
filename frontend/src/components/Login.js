@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
@@ -115,7 +117,7 @@ const TableCell = styled.td`
 `;
 
 const resetAndPrepopulate = async () => {
-  const response = await fetch("https://backend.plan6.com/accounts/populate_db/", { method: "POST" });
+  const response = await fetch(API_URL + 'accounts/populate_db/', { method: "POST" });
 
   if (response.ok) {
       const data = await response.json();
@@ -134,7 +136,7 @@ const Login = () => {
     const email = e.target.elements[0].value;
     const password = e.target.elements[1].value;
 
-    const response = await fetch("https://backend.plan6.com/dj-rest-auth/login/", {
+    const response = await fetch(API_URL + 'dj-rest-auth/login/', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +150,7 @@ const Login = () => {
       const { key } = await response.json();
       localStorage.setItem("token", key);
       if (typeof key !== "undefined") {
-        const response = await fetch('https://backend.plan6.com/accounts/users/me/', {
+        const response = await fetch(API_URL + 'accounts/users/me/', {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },

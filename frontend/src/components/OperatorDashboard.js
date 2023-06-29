@@ -5,6 +5,7 @@ import heroImage from '../images/operatordbhero.jpg';
 import LotStream from './LotStream';
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const HomeContainer = styled.div`
   background-color: black;
@@ -63,7 +64,7 @@ const OperatorDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch('https://backend.plan6.com/accounts/users/me/', {
+      fetch(API_URL + 'accounts/users/me/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

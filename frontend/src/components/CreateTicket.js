@@ -4,6 +4,8 @@ import styled from "styled-components";
 import heroImage from "../images/support-hero.jpg";
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -51,7 +53,7 @@ const CreateTicket = () => {
     const description = event.target.elements[1].value;
     const priority = event.target.elements[2].value;
 
-    const response = await fetch("https://backend.plan6.com/tickets/create_ticket/", {
+    const response = await fetch(API_URL + "tickets/create_ticket/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

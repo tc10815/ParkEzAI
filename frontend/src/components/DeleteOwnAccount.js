@@ -4,6 +4,8 @@ import styled from "styled-components";
 import heroImage from "../images/account-hero.jpg";
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -48,7 +50,7 @@ const DeleteOwnAccount = () => {
 
     const password = e.target.elements[0].value;
 
-    const response = await fetch("https://backend.plan6.com/accounts/delete-account/", {
+    const response = await fetch(API_URL + "accounts/delete-account/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -7,6 +7,8 @@ import placeholderImage2 from '../images/ad2-jg.jpg';
 import placeholderImage3 from '../images/ad3-jg.jpg';
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AdCard = styled.div`
   background-color: white;
   border: 1px solid #ccc;
@@ -117,7 +119,7 @@ const AdvertiserDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch('https://backend.plan6.com/accounts/users/me/', {
+      fetch(API_URL + 'accounts/users/me/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

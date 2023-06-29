@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import heroImage from '../images/account-hero.jpg';
 import Footer from "./Footer";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const HomeContainer = styled.div`
   background-image: url(${heroImage});
   background-size: cover;
@@ -56,7 +58,7 @@ const CreateStaffAccount = () => {
       role_name,
       password,
     };
-    const response = await fetch("https://backend.plan6.com/accounts/create_employee/", {
+    const response = await fetch(API_URL + "accounts/create_employee/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
