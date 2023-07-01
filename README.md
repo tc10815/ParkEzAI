@@ -10,6 +10,11 @@
   - [x] recommend best spaces 
   - [x] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django
+  - [ ] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
+  - [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
+  - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
+  - [ ] Create view with search that shows all available parking lots (including placeholders) to public (3.1)
+  - [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
 - [ ] **Step 4:** Implement Functional Requirements 2.1, 2.3  and 2.3 by integrating Step 2's scripts with Django (Requirement 2.4 will be done later)
 - [ ] **Step 5:** Implement Advertisement system (Functional requirement 4.1, 4.2, 4.3)
 - [ ] **Step 6:** Implement model email and payment systems (Functional Requirements 5.1 and 5.2), which are integrated for all account types
@@ -18,15 +23,17 @@
 
 ## Step 3: Progress
 ### Current step
-Tasks in step 3:
-- [ ] Create a JPEG upload receiver for camera feeds (currently just Michigan, but should be scalable to many uploads)
+Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
+- [ ] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
   - [ ] Should authenticate somehow that JPEGs are coming from authorized source
-  - [ ] Should parse filename to database datedime for organization
+  - [ ] Should parse filename to database datetime for organization
   - [ ] Should send to Machine Learning model to determine what spaces are occupied and not
   - [ ] Should record machine learning results in database, in addition to human overrides in case of mistakes
   - [ ] Holds last 5 images in folder
 - [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
-- [ ] Create view that shows Coldwater, MI to public, included ML results and best space
+- [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
+- [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
+- [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
   
 ## Step 2 retrospective: Machine Learning and Core Logic 
 ### Created working parking detection ML models with real lot data, and a system for integrating future parking lots with ParkEzAi's webapp.
