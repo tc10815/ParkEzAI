@@ -18,8 +18,16 @@
 
 ## Step 3: Progress
 ### Current step
-Step 2 staff tools have been documented and organized. Will now integrate those tools in Django.
-
+Tasks in step 3:
+- [ ] Create a JPEG upload receiver for camera feeds (currently just Michigan, but should be scalable to many uploads)
+  - [ ] Should authenticate somehow that JPEGs are coming from authorized source
+  - [ ] Should parse filename to database datedime for organization
+  - [ ] Should send to Machine Learning model to determine what spaces are occupied and not
+  - [ ] Should record machine learning results in database, in addition to human overrides in case of mistakes
+  - [ ] Holds last 5 images in folder
+- [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
+- [ ] Create view that shows Coldwater, MI to public, included ML results and best space
+  
 ## Step 2 retrospective: Machine Learning and Core Logic 
 ### Created working parking detection ML models with real lot data, and a system for integrating future parking lots with ParkEzAi's webapp.
 Implemented both Pytorch CNNs and pretrained YOLOv3 on lot. While final testing of YOLOv3 model before integration didn't yield good results, the Pytorch CNNs were tested on the same images and did very well. Here are testing results (159 images with 9 parking spots, taken each half hour in Coldwater, MI, 6/17 2:12am to 6/20 6:43pm):
