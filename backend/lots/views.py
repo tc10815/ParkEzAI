@@ -4,8 +4,12 @@ from rest_framework import status
 from django.core.files.images import ImageFile
 from .models import ImageUpload
 from django.core.exceptions import ValidationError
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 class ImageUploadView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [AllowAny]
 
     def post(self, request, format=None):
         passcode = request.data.get('passcode')
