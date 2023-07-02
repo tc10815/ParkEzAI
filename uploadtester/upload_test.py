@@ -1,7 +1,7 @@
 import sys
 import requests
 
-url = "http://localhost:8000/lots/upload_image/"  # Replace with your API endpoint URL
+url = "http://localhost:8000/lots/upload_image/"  
 
 payload = {
     "passcode": "lightsecurity"
