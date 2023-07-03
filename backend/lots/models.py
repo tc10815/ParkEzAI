@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.dateformat import format as dateformat
+from django.core.files.storage import default_storage
 
 def image_upload_path(instance, filename):
     return f'camfeeds/{instance.folder_name}/{filename}'
@@ -19,3 +20,8 @@ class ImageUpload(models.Model):
 
     def __str__(self):
         return dateformat(self.timestamp, 'm-d-y H:i')
+
+    def delete(self, using=None, keep_parents=False):
+        # Delete the old file before saving the new one
+        default_storage.delete(self.image.name)
+        super().delete(using=using, keep_parents=keep_parents)
