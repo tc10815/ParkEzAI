@@ -25,8 +25,8 @@
 ### Current step
 Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
 - [ ] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
-  - [ ] Should authenticate somehow that JPEGs are coming from authorized source
-  - [ ] Should parse filename to database datetime for organization
+  - [x] Should authenticate somehow that JPEGs are coming from authorized source
+  - [x] Should parse filename to database datetime for organization
   - [ ] Should send to Machine Learning model to determine what spaces are occupied and not
   - [ ] Should record machine learning results in database, in addition to human overrides in case of mistakes
   - [ ] Holds last 5 images in folder
