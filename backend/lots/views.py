@@ -1,4 +1,5 @@
 import os
+import json
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -31,6 +32,18 @@ class ImageUploadView(APIView):
         # Save the new image
         lot_image.image = uploaded_file
         lot_image.folder_name = folder_name
+
+
+        # Load data from spots.json
+        spots_file_path = os.path.join('models', folder_name, 'spots.json')
+        with open(spots_file_path, 'r') as spots_file:
+            spots_data = json.load(spots_file)
+        # Get the keys from spots.json and set them in human_labels and model_labels
+        keys = spots_data.keys()
+        labels = {key: False for key in keys}
+        lot_image.human_labels = json.dumps(labels)
+        lot_image.model_labels = json.dumps(labels)
+
         lot_image.save()
 
         return Response({'detail': 'Image successfully stored.'}, status=status.HTTP_201_CREATED)
