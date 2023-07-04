@@ -6,10 +6,12 @@ from django.core.files.storage import default_storage
 def image_upload_path(instance, filename):
     return f'camfeeds/{instance.folder_name}/{filename}'
 
-class ImageUpload(models.Model):
+class LotImage(models.Model):
     image = models.ImageField(upload_to=image_upload_path)
     timestamp = models.DateTimeField()
     folder_name = models.CharField(max_length=255)
+    human_labels = models.TextField(blank=True, null=True)
+    model_labels = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.timestamp:
