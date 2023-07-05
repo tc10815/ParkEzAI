@@ -3,6 +3,9 @@ import json
 import cv2
 from PIL import Image
 import numpy as np
+import torch
+from torch import nn, optim
+import torchvision.transforms as transforms
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -11,20 +14,63 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 from .models import LotImage
 
-def process_images(self, output_folder):
-    for img_file in self.images:
-        img_path = os.path.join(self.folder, img_file)
-        image = cv2.imread(img_path)
-        img_labels = self.labels[img_file]
+
+# CNN model good at determining if car in spot, from notebook, will separate to another file eventually for organization
+class CNN(nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
         
-        for spot, is_occupied in img_labels.items():
-            x, x_w, y, y_h = self.parking_spots[spot]
-            cropped_image = image[y:y_h, x:x_w]
-            status = 'occupied' if is_occupied else 'vacant'
-            output_path = os.path.join(output_folder, spot, status)
-            os.makedirs(output_path, exist_ok=True)
-            output_filename = os.path.join(output_path, img_file)
-            cv2.imwrite(output_filename, cropped_image)
+        # Convolutional layer 1
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)
+        self.bn1 = nn.BatchNorm2d(32)
+        self.relu1 = nn.ReLU()
+        
+        # Max pool layer
+        self.pool = nn.MaxPool2d(kernel_size=2)
+
+        # Convolutional layer 2
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(64)
+        self.relu2 = nn.ReLU()
+
+        # Fully connected layers
+        self.fc1 = nn.Linear(64 * 32 * 32, 128)
+        self.fc2 = nn.Linear(128, 2)
+
+    def forward(self, x):
+        # Convolutional layer 1
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu1(out)
+
+        # Max pool layer
+        out = self.pool(out)
+
+        # Convolutional layer 2
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu2(out)
+
+        # Max pool layer
+        out = self.pool(out)
+
+        # Flatten for fully connected layer
+        out = out.view(out.size(0), -1)
+
+        # Fully connected layer 1
+        out = self.fc1(out)
+
+        # Fully connected layer 2
+        out = self.fc2(out)
+        return out
+
+# Originally in Model_Maker notebook, this preps cropped parking spaces for ML processing
+transform = transforms.Compose([
+    transforms.ToPILImage(),  # Convert the cv2 image to a PIL image; not in original notebook 
+    transforms.Resize((128, 128)),  # Resize images to 128x128
+    transforms.ToTensor(),  # Convert images to PyTorch tensor
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize pixel values in the range [-1, 1]
+])
 
 class ImageUploadView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -66,10 +112,28 @@ class ImageUploadView(APIView):
         for spot in spots_data.keys():
             x, x_w, y, y_h = spots_data[spot]
             cropped_image = cv2_image[y:y_h, x:x_w]
-            output_path = os.path.join(folder_name, spot)
-            os.makedirs(output_path, exist_ok=True)
-            output_filename = os.path.join(output_path, filename)
-            cv2.imwrite(output_filename, cropped_image)
+
+            #convert cropped image of spot to form usable by ML model using transform defined above
+            input_tensor = transform(cropped_image)
+            input_tensor = input_tensor.unsqueeze(0)  # Add a batch dimension
+
+            model = CNN()  # Replace YourModelClass with the actual class name of your model
+            model_path = os.path.join('models', folder_name, spot + '.pth')
+            model.load_state_dict(torch.load(model_path)) 
+            model.eval()  # Set the model to evaluation mode
+
+            with torch.no_grad():
+                output = model(input_tensor)
+                _, predicted = torch.max(output, 1)
+
+            # Access the prediction result
+            prediction = predicted.item()
+            print('Prediction for ' + spot + ' is ' + str(prediction))
+            # for testing
+            # output_path = os.path.join(folder_name, spot)
+            # os.makedirs(output_path, exist_ok=True)
+            # output_filename = os.path.join(output_path, filename)
+            # cv2.imwrite(output_filename, cropped_image)
 
 
         labels = {key: False for key in spots_data.keys()}
