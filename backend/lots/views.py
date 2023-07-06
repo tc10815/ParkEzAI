@@ -108,6 +108,10 @@ class ImageUploadView(APIView):
         spots_file_path = os.path.join('models', folder_name, 'spots.json')
         with open(spots_file_path, 'r') as spots_file:
             spots_data = json.load(spots_file)
+
+
+        labels = {key: False for key in spots_data.keys()}
+
         # Get the keys from spots.json and set them in human_labels and model_labels
         for spot in spots_data.keys():
             x, x_w, y, y_h = spots_data[spot]
@@ -128,15 +132,9 @@ class ImageUploadView(APIView):
 
             # Access the prediction result
             prediction = predicted.item()
-            print('Prediction for ' + spot + ' is ' + str(prediction))
-            # for testing
-            # output_path = os.path.join(folder_name, spot)
-            # os.makedirs(output_path, exist_ok=True)
-            # output_filename = os.path.join(output_path, filename)
-            # cv2.imwrite(output_filename, cropped_image)
+            if prediction == 0: labels[spot] = True  
 
 
-        labels = {key: False for key in spots_data.keys()}
         lot_image.human_labels = json.dumps(labels)
         lot_image.model_labels = json.dumps(labels)
 
