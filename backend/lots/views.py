@@ -102,6 +102,23 @@ class ImageUploadView(APIView):
         # Save the new image
         lot_image.image = uploaded_file
         lot_image.folder_name = folder_name
+        save_folder = os.path.abspath('./camfeeds/' + folder_name)
+
+        if os.path.exists(save_folder):
+
+            files = os.listdir(save_folder)
+            file_count = len(files)
+
+            print("Number of files in the " + str(file_count) + ":", file_count)
+
+            print('Folder:' + str(save_folder))
+
+            # Print the total number of megabytes in the folder
+            total_megabytes = int(os.popen(f"du -sm {save_folder} | awk '{{print $1}}'").read())
+            print(f"Total Megabytes in the Folder: {total_megabytes} MB")
+
+
+            print('filename: ' + filename)
 
 
         # Load data from spots.json

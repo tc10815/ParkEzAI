@@ -17,8 +17,10 @@ class LotImage(models.Model):
         if not self.timestamp:
             filename = self.image.name
             date_code = filename.split("_")[-1].split(".")[0]
-            self.timestamp = timezone.datetime.strptime(date_code, '%Y%m%d%H%M')
+            naive_datetime = timezone.datetime.strptime(date_code, '%Y%m%d%H%M')
+            self.timestamp = timezone.make_aware(naive_datetime)
         super().save(*args, **kwargs)
+
 
     def __str__(self):
         return dateformat(self.timestamp, 'm-d-y H:i')
