@@ -10,7 +10,7 @@
   - [x] recommend best spaces 
   - [x] identify overparked cars
 - [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django
-  - [ ] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
+  - [x] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
   - [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
   - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
   - [ ] Create view with search that shows all available parking lots (including placeholders) to public (3.1)
@@ -24,12 +24,12 @@
 ## Step 3: Progress
 ### Current step
 Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
-- [ ] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
+- [x] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
   - [x] Should authenticate somehow that JPEGs are coming from authorized source
   - [x] Should parse filename to database datetime for organization
   - [x] Should send to Machine Learning model to determine what spaces are occupied and not
   - [x] Should record machine learning results in database, in addition to human overrides in case of mistakes
-  - [ ] Holds last 5 images in folder
+  - [x] Deletes old images when folder exceeds a specified MB size limit or image number limit
 - [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
 - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
 - [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
