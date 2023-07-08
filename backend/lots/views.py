@@ -1,4 +1,5 @@
 import os
+import datetime
 import json
 import cv2
 from PIL import Image
@@ -13,6 +14,44 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 from .models import LotImage
+
+MAX_FOLDER_MB = 50
+
+def get_mb_folder(folder_name):
+    if os.path.exists(folder_name):
+        return int(os.popen(f"du -sm {folder_name} | awk '{{print $1}}'").read())
+
+# This can limit folder size by image counts instead of folder MB if you choose, this is otherwise not used
+def get_file_count_folder(folder_name):
+    if os.path.exists(folder_name):
+        files = os.listdir(folder_name)
+        return len(files)
+
+def get_oldest_image_filename(folder_name):
+    oldest_file = None
+    oldest_datestamp = datetime.datetime.now()
+
+    if os.path.exists(folder_name):
+        for filename in os.listdir(folder_name):
+            if filename.endswith('.jpg'):  # Adjust the file extension as per your filename format
+                date_code = filename.split("_")[-1].split(".")[0]
+                file_datestamp = datetime.datetime.strptime(date_code, '%Y%m%d%H%M')
+
+                if file_datestamp < oldest_datestamp:
+                    oldest_datestamp = file_datestamp
+                    oldest_file = filename
+    return oldest_file
+
+def delete_file_and_lot_image(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+
+    try:
+        lot_image = LotImage.objects.get(image__icontains=os.path.basename(filename))
+        lot_image.delete()
+        print(f'~Successfully deleted {filename}')
+    except LotImage.DoesNotExist:
+        pass
 
 
 # CNN model good at determining if car in spot, from notebook, will separate to another file eventually for organization
@@ -104,21 +143,6 @@ class ImageUploadView(APIView):
         lot_image.folder_name = folder_name
         save_folder = os.path.abspath('./camfeeds/' + folder_name)
 
-        if os.path.exists(save_folder):
-
-            files = os.listdir(save_folder)
-            file_count = len(files)
-
-            print("Number of files in the " + str(file_count) + ":", file_count)
-
-            print('Folder:' + str(save_folder))
-
-            # Print the total number of megabytes in the folder
-            total_megabytes = int(os.popen(f"du -sm {save_folder} | awk '{{print $1}}'").read())
-            print(f"Total Megabytes in the Folder: {total_megabytes} MB")
-
-
-            print('filename: ' + filename)
 
 
         # Load data from spots.json
@@ -156,6 +180,10 @@ class ImageUploadView(APIView):
         lot_image.model_labels = json.dumps(labels)
 
         lot_image.save()
+        
+        print(f'Image Count: {get_file_count_folder(save_folder)} | Folder MB: {get_mb_folder(save_folder)}  | Oldest image: {get_oldest_image_filename(save_folder)}')
+        while (get_mb_folder(save_folder) > MAX_FOLDER_MB):
+            delete_file_and_lot_image(get_oldest_image_filename(save_folder))
 
         return Response({'detail': 'Image successfully stored.'}, status=status.HTTP_201_CREATED)
 
