@@ -22,7 +22,7 @@ convert_to_training_data.py creates labeled, cropped training/testing data image
 Usage is:
 
 ```
-python convert_to_training_data.py [folder with images and label.json from previous step] [JSON file identifying parking space boundaries] [training data destination folder]
+python convert_to_training_data.py [folder with images and label.json from previous step] [JSeON file identifying parking space boundaries] [training data destination folder]
 ```
 
 To use with example data:
