@@ -15,7 +15,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 from .models import LotImage
 
-MAX_FOLDER_MB = 50
+MAX_FOLDER_MB = 950
 
 def get_mb_folder(folder_name):
     if os.path.exists(folder_name):

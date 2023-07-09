@@ -1,4 +1,4 @@
-# ParkEz: Part 2 (deploy: [plan6.com](https://plan6.com))
+# ParkEz: Part 2 (deploy: ~~plan6.com~~ currently deploying "parking lot camera feed receiver" and machine learning... Backend currently down while reconfiguring server)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework
