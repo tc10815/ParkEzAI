@@ -1,4 +1,4 @@
-# ParkEz: Part 2 (deploy: ~~plan6.com~~ currently deploying "parking lot camera feed receiver" and machine learning... Backend currently down while reconfiguring server)
+# ParkEz: Part 2 (plan6.com - deployed: 6/12/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework
@@ -34,6 +34,35 @@ Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
 - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
 - [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
 - [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
+
+
+**Notes on Deploying Computer Vision and Machine Learning (6/9-6/12)**
+
+It took me 3 days to deploy Machine Learning and Computer Vision to the
+live Django server backend. My VPS (IONOS.com, $2 monthly for 10gb) only had 5.3G remaining
+after the server operating system and my other webpages. That's plenty of space
+for plain Django (Python + Libraries for Django are only ***80mb***), but when you 
+add Machine Learning and Computer Vision (PyTorch, TorchVision and OpenCV) the libraries 
+add up to ***4.8gb***. Add folders for lot images and saved Torch Models and its impossible 
+to run the backend on $2 monthly hosting. 
+
+
+My solution was to backup an old laptop, reformat the entire hard drive,  install Ubuntu 
+Server LTS, install a similar server environment (Nginx and Gunicorn), use Google
+Domains Dynamic DNS capabilities to link the domain backend.plan6.com to my new
+server, register it with  Certbot to support SSL encryption and deploy the latest
+version of the backend there. I never needed to touch the front end since the domain
+is the same (although the server is different)
+
+
+The benefit of this 3 day procedure is huge: My new dedicated backend server stats:
+- Harddrive 256GB SSD ***(25x more than previous server)***
+- AMD Ryzen 5 4500U, 6 cores 2.3 GHz (turbo 4.0 GHz) ***(6x more than previous server)***
+- 8gb RAM ***(8x more than previous server)***
+
+
+The website's backend is not only able to do Computer Vision / Machine Learn easily now, but 
+the whole website runs much faster and has tons of space for Lot cam footage.
   
 ## Step 2 retrospective: Machine Learning and Core Logic 
 ### Created working parking detection ML models with real lot data, and a system for integrating future parking lots with ParkEzAi's webapp.
@@ -80,9 +109,8 @@ parking
 
 All Functional Requirements listed under _1. Account Management_ in Functional Requirements below were completed.
 
-It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. 
-About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
-April 4 - April 27, 2023)
+It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
+
 # ParkEzAI (Project Overview)
 How people code is changing. Over the last year (2022-2023) AI has become powerful and accessible enough to provide real productivity gains for programmers. This Web Application is an exploration of what coding may be like when AI assistance becomes the norm. 
 
