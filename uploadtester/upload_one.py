@@ -1,7 +1,7 @@
 import sys
 import requests
 
-url = "http://localhost:8000/lots/upload_image/"  
+url = "https://backend.plan6.com/lots/upload_image/"  
 
 payload = {
     "passcode": "lightsecurity"

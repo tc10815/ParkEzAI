@@ -30,7 +30,7 @@ Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
   - [x] Should send to Machine Learning model to determine what spaces are occupied and not
   - [x] Should record machine learning results in database, in addition to human overrides in case of mistakes
   - [x] Deletes old images when folder exceeds a specified MB size limit or image number limit
-- [ ] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
+- [x] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
 - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
 - [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
 - [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)

@@ -143,13 +143,10 @@ class ImageUploadView(APIView):
         lot_image.folder_name = folder_name
         save_folder = os.path.abspath('./camfeeds/' + folder_name)
 
-
-
         # Load data from spots.json
         spots_file_path = os.path.join('models', folder_name, 'spots.json')
         with open(spots_file_path, 'r') as spots_file:
             spots_data = json.load(spots_file)
-
 
         labels = {key: False for key in spots_data.keys()}
 
@@ -173,17 +170,13 @@ class ImageUploadView(APIView):
 
             # Access the prediction result
             prediction = predicted.item()
-            if prediction == 0: labels[spot] = True  
-
+            if prediction == 0: labels[spot] = False
 
         lot_image.human_labels = json.dumps(labels)
         lot_image.model_labels = json.dumps(labels)
-
         lot_image.save()
-        
         print(f'Image Count: {get_file_count_folder(save_folder)} | Folder MB: {get_mb_folder(save_folder)}  | Oldest image: {get_oldest_image_filename(save_folder)}')
         while (get_mb_folder(save_folder) > MAX_FOLDER_MB):
             delete_file_and_lot_image(get_oldest_image_filename(save_folder))
-
         return Response({'detail': 'Image successfully stored.'}, status=status.HTTP_201_CREATED)
 
