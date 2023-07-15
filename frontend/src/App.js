@@ -29,6 +29,8 @@ import CreateTicket from './components/CreateTicket';
 import MyTickets from './components/MyTickets';
 import Tickets from './components/Tickets';
 import Coldwater from './components/Coldwater';
+import SpecificImage from './components/SpecificImage';
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,6 +80,8 @@ const App = () => {
           <Route path="/my-tickets" element={<MyTickets />} />
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/Coldwater" element={<Coldwater />} />
+          <Route path="/image/:camera/:imageName" element={<SpecificImage />} />
+
         </Routes>
       </ContentWrapper>
     </Router>

@@ -184,8 +184,6 @@ class ImageUploadView(APIView):
         return Response({'detail': 'Image successfully stored.'}, status=status.HTTP_201_CREATED)
 
 
-
-
 class LatestImageView(APIView):
     permission_classes = [AllowAny]
 
@@ -198,6 +196,35 @@ class LatestImageView(APIView):
             lot_image = LotImage.objects.filter(folder_name=camera_name).latest('timestamp')
         except LotImage.DoesNotExist:
             return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get the URL of the image file
+        image_url = default_storage.url(lot_image.image.name)
+
+        # Construct the response data
+        response_data = {
+            'image_url': image_url,
+            'timestamp': lot_image.timestamp,
+            'human_labels': lot_image.human_labels,
+            'model_labels': lot_image.model_labels,
+        }
+
+        return Response(response_data)
+
+class SpecificImageView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        camera_name = request.GET.get('camera')
+        image_name_part = request.GET.get('image')
+        if not camera_name or not image_name_part:
+            return Response({'detail': 'Camera or image not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        image_name = f'camfeeds/{camera_name}/{camera_name}_{image_name_part}.jpg'
+
+        try:
+            lot_image = LotImage.objects.get(folder_name=camera_name, image__endswith=image_name)
+        except LotImage.DoesNotExist:
+            return Response({'detail': 'No image found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Get the URL of the image file
         image_url = default_storage.url(lot_image.image.name)

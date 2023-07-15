@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import ImageUploadView, LatestImageView
+from .views import ImageUploadView, LatestImageView, SpecificImageView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('upload_image/', ImageUploadView.as_view(), name='upload_image'),
     path('lot_latest/', LatestImageView.as_view(), name='lot_latest'),
+    path('lot_specific', SpecificImageView.as_view(), name='lot_specific'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
