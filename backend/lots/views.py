@@ -173,7 +173,7 @@ class ImageUploadView(APIView):
 
             # Access the prediction result
             prediction = predicted.item()
-            if prediction == 0: labels[spot] = False
+            if prediction == 0: labels[spot] = True
 
         lot_image.human_labels = json.dumps(labels)
         lot_image.model_labels = json.dumps(labels)
