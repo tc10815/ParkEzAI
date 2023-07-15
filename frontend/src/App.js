@@ -28,7 +28,7 @@ import InitiateAccount from './components/InitiateAccount';
 import CreateTicket from './components/CreateTicket';
 import MyTickets from './components/MyTickets';
 import Tickets from './components/Tickets';
-
+import Coldwater from './components/Coldwater';
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -77,6 +77,7 @@ const App = () => {
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<MyTickets />} />
           <Route path="/tickets" element={<Tickets />} />
+          <Route path="/Coldwater" element={<Coldwater />} />
         </Routes>
       </ContentWrapper>
     </Router>

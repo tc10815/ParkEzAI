@@ -7,11 +7,14 @@ import numpy as np
 import torch
 from torch import nn, optim
 import torchvision.transforms as transforms
+from django.http import FileResponse
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.core.files.storage import default_storage
+from django.conf import settings
 
 from .models import LotImage
 
@@ -180,3 +183,31 @@ class ImageUploadView(APIView):
             delete_file_and_lot_image(get_oldest_image_filename(save_folder))
         return Response({'detail': 'Image successfully stored.'}, status=status.HTTP_201_CREATED)
 
+
+
+
+class LatestImageView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        camera_name = request.GET.get('camera')
+        if not camera_name:
+            return Response({'detail': 'Camera not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            lot_image = LotImage.objects.filter(folder_name=camera_name).latest('timestamp')
+        except LotImage.DoesNotExist:
+            return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get the URL of the image file
+        image_url = default_storage.url(lot_image.image.name)
+
+        # Construct the response data
+        response_data = {
+            'image_url': image_url,
+            'timestamp': lot_image.timestamp,
+            'human_labels': lot_image.human_labels,
+            'model_labels': lot_image.model_labels,
+        }
+
+        return Response(response_data)
