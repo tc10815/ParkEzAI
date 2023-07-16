@@ -1,4 +1,4 @@
-# ParkE: Part 2 (~~plan6.com~~ - backend down, replacing ethernet port on server)
+# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/15/2024)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework
