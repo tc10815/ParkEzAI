@@ -12,12 +12,45 @@ const PStyle = styled.p`
   padding: 0.5rem 1rem;
 `;
 
+const ImageDiv = styled.div`
+  display: flex;
+  margin-top:75px;
+  margin-bottom: 15px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  padding: 1rem 2rem; 
+  font-size: 1.5rem;  
+  margin: 0.5rem; 
+`;
+
+const ButtonsDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LabelsDiv = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  max-width: 70vw;
+`;
+
+const CamImage = styled.img`
+  max-width: 70vw;
+  height: auto; 
+`;
+
 const Coldwater = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
   const [modelLabels, setModelLabels] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const endpoint = new URL('lots/lot_latest/', API_URL);
@@ -38,18 +71,22 @@ const Coldwater = () => {
         });
 }, []);
 
-
-
   const handlePrevious = () => {
     navigate(`/image/coldwatermi/${previousImageName}`);
   };
 
   return (
     <div>
-      <button onClick={handlePrevious}>Previous Image</button>
-      <img src={imageSrc} alt="Latest image" />
-      <PStyle>Human Labels: {humanLabels}</PStyle>
-      <PStyle>Model Labels: {modelLabels}</PStyle>
+      <ImageDiv>
+        <CamImage src={imageSrc} alt="Latest image" />
+      </ImageDiv>
+      <ButtonsDiv>
+        <Button onClick={handlePrevious}>Previous</Button>
+      </ButtonsDiv>
+      <LabelsDiv>
+        <PStyle>Human Labels: {humanLabels}</PStyle>
+        <PStyle>Model Labels: {modelLabels}</PStyle>
+      </LabelsDiv>
     </div>
   );
 };

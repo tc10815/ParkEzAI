@@ -30,7 +30,7 @@ Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
 - [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
 - [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
 
-
+ 
 ### Notes on Deploying Computer Vision and Machine Learning (6/9-6/12)
 It took me 3 days to deploy Machine Learning and Computer Vision to the
 live Django server backend. My VPS (IONOS.com, $2 monthly for 10gb) only had 5.3G remaining

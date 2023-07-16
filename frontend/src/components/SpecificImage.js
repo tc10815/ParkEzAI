@@ -12,6 +12,39 @@ const PStyle = styled.p`
   padding: 0.5rem 1rem;
 `;
 
+const ImageDiv = styled.div` 
+  margin-top:75px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  padding: 1rem 2rem; 
+  font-size: 1.5rem;  
+  margin: 0.5rem; 
+`;
+
+const ButtonsDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LabelsDiv = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  max-width: 70vw;
+
+`;
+
+const CamImage = styled.img`
+  max-width: 70vw;
+  height: auto; 
+`;
+
 const SpecificImage = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
@@ -54,11 +87,17 @@ const SpecificImage = () => {
 
   return (
     <div>
-      <button onClick={handlePrevious}>Previous</button>
-      <button onClick={handleNext}>Next</button>
-      <img src={imageSrc} alt="Specified image" />
-      <PStyle>Human Labels: {humanLabels}</PStyle>
-      <PStyle>Model Labels: {modelLabels}</PStyle>
+      <ImageDiv>
+        <CamImage src={imageSrc} alt="Specified image" />
+      </ImageDiv>
+      <ButtonsDiv>
+        <Button onClick={handlePrevious}>Previous</Button>
+        <Button onClick={handleNext}>Next</Button>
+      </ButtonsDiv>
+      <LabelsDiv>
+        <PStyle>Human Labels: {humanLabels}</PStyle>
+        <PStyle>Model Labels: {modelLabels}</PStyle>
+      </LabelsDiv>
     </div>
   );
 };
