@@ -17,8 +17,14 @@ const Coldwater = () => {
   const [modelLabels, setModelLabels] = useState('');
 
   useEffect(() => {
+    var url = 'lots/lot_latest/';
+    console.log(API_URL)
+    if(API_URL == 'http://127.0.0.1:8000') {
+      var url = '/lots/lot_latest';
+    }
+
     // Fetch image and labels from API
-    fetch(API_URL + '/lots/lot_latest?camera=coldwatermi')
+    fetch(API_URL + url + '?camera=coldwatermi')
         .then(response => response.json())
         .then(data => {
             console.log(data);  // log the received data

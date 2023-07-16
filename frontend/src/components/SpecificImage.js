@@ -20,7 +20,15 @@ const SpecificImage = () => {
 
   useEffect(() => {
     // Fetch image and labels from API
-    fetch(`${API_URL}/lots/lot_specific?camera=${camera}&image=${imageName}`)
+    var url = 'lots/lot_specific';
+    if(API_URL == 'http://127.0.0.1:8000') {
+      var url = '/lots/lot_specific';
+    }
+
+    // Fetch image and labels from API
+
+
+    fetch(`${API_URL}` + url + `?camera=${camera}&image=${imageName}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);  // log the received data
