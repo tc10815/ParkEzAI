@@ -200,15 +200,25 @@ class LatestImageView(APIView):
         # Get the URL of the image file
         image_url = default_storage.url(lot_image.image.name)
 
+        # Get the image name part of the previous image
+        try:
+            previous_image = LotImage.objects.filter(folder_name=camera_name, timestamp__lt=lot_image.timestamp).latest('timestamp')
+            previous_image_name_part = previous_image.image.name.split('_')[-1].replace('.jpg', '')
+        except LotImage.DoesNotExist:
+            # If there is no previous image, use the current image name part
+            previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
+
         # Construct the response data
         response_data = {
             'image_url': image_url,
             'timestamp': lot_image.timestamp,
             'human_labels': lot_image.human_labels,
             'model_labels': lot_image.model_labels,
+            'previous_image_name_part': previous_image_name_part,
         }
 
         return Response(response_data)
+
 
 class SpecificImageView(APIView):
     permission_classes = [AllowAny]
@@ -216,18 +226,27 @@ class SpecificImageView(APIView):
     def get(self, request, format=None):
         camera_name = request.GET.get('camera')
         image_name_part = request.GET.get('image')
+
         if not camera_name or not image_name_part:
             return Response({'detail': 'Camera or image not specified.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        image_name = f'camfeeds/{camera_name}/{camera_name}_{image_name_part}.jpg'
+        image_name = f"camfeeds/{camera_name}/{camera_name}_{image_name_part}.jpg"
 
         try:
-            lot_image = LotImage.objects.get(folder_name=camera_name, image__endswith=image_name)
+            lot_image = LotImage.objects.get(image__icontains=image_name)
         except LotImage.DoesNotExist:
-            return Response({'detail': 'No image found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Get the URL of the image file
         image_url = default_storage.url(lot_image.image.name)
+
+        # Find the previous and next images by timestamp
+        previous_image = LotImage.objects.filter(folder_name=camera_name, timestamp__lt=lot_image.timestamp).order_by('-timestamp').first()
+        next_image = LotImage.objects.filter(folder_name=camera_name, timestamp__gt=lot_image.timestamp).order_by('timestamp').first()
+
+        # Extract the image name part from the previous and next image names
+        previous_image_name_part = previous_image.image.name.split('_')[-1].split('.')[0] if previous_image else image_name_part
+        next_image_name_part = next_image.image.name.split('_')[-1].split('.')[0] if next_image else image_name_part
 
         # Construct the response data
         response_data = {
@@ -235,6 +254,8 @@ class SpecificImageView(APIView):
             'timestamp': lot_image.timestamp,
             'human_labels': lot_image.human_labels,
             'model_labels': lot_image.model_labels,
+            'previous_image_name_part': previous_image_name_part,
+            'next_image_name_part': next_image_name_part,
         }
 
         return Response(response_data)
