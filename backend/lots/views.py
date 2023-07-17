@@ -108,7 +108,6 @@ class CNN(nn.Module):
 
 # Originally in Model_Maker notebook, this preps cropped parking spaces for ML processing
 transform = transforms.Compose([
-    transforms.ToPILImage(),  # Convert the cv2 image to a PIL image; not in original notebook 
     transforms.Resize((128, 128)),  # Resize images to 128x128
     transforms.ToTensor(),  # Convert images to PyTorch tensor
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize pixel values in the range [-1, 1]
@@ -128,8 +127,6 @@ class ImageUploadView(APIView):
 
         # Convert django.core.files.uploadedfile.InMemoryUploadedFile to a cv2 image for ML processing
         pil_image = Image.open(uploaded_file)
-        np_image = np.array(pil_image)
-        cv2_image = cv2.cvtColor(np_image, cv2.COLOR_RGB2BGR)        
         filename = uploaded_file.name
         folder_name, date_code = os.path.splitext(filename)[0].split("_")
 
@@ -156,7 +153,7 @@ class ImageUploadView(APIView):
         # Get the keys from spots.json and set them in human_labels and model_labels
         for spot in spots_data.keys():
             x, x_w, y, y_h = spots_data[spot]
-            cropped_image = cv2_image[y:y_h, x:x_w]
+            cropped_image = pil_image.crop((x, y, x_w, y_h))
 
             #convert cropped image of spot to form usable by ML model using transform defined above
             input_tensor = transform(cropped_image)
