@@ -68,8 +68,9 @@ function formatDate(inputdate){
   } 
   
 
-  return timestampEST.getMonth() + '/' + timestampEST.getDay() + '/' + timestampEST.getFullYear() + ' ' 
+  return (timestampEST.getMonth() + 1) + '/' + timestampEST.getDate() + '/' + timestampEST.getFullYear() + ' ' 
     + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
+    
 
 }
 
