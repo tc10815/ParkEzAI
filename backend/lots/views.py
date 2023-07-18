@@ -205,6 +205,15 @@ class LatestImageView(APIView):
             # If there is no previous image, use the current image name part
             previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
 
+        spots_path = os.path.join('models', camera_name, 'spots.json')
+        bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
+        
+        # Load the contents of the JSON files
+        with open(spots_path, 'r') as spots_file:
+            spots_data = json.load(spots_file)
+        with open(bestspots_path, 'r') as bestspots_file:
+            bestspots_data = json.load(bestspots_file)
+
         # Construct the response data
         response_data = {
             'image_url': image_url,
@@ -212,6 +221,8 @@ class LatestImageView(APIView):
             'human_labels': lot_image.human_labels,
             'model_labels': lot_image.model_labels,
             'previous_image_name_part': previous_image_name_part,
+            'spots': spots_data,
+            'bestspots': bestspots_data,
         }
 
         return Response(response_data)
@@ -245,6 +256,15 @@ class SpecificImageView(APIView):
         previous_image_name_part = previous_image.image.name.split('_')[-1].split('.')[0] if previous_image else image_name_part
         next_image_name_part = next_image.image.name.split('_')[-1].split('.')[0] if next_image else image_name_part
 
+        spots_path = os.path.join('models', camera_name, 'spots.json')
+        bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
+
+        # Load the contents of the JSON files
+        with open(spots_path, 'r') as spots_file:
+            spots_data = json.load(spots_file)
+        with open(bestspots_path, 'r') as bestspots_file:
+            bestspots_data = json.load(bestspots_file)
+
         # Construct the response data
         response_data = {
             'image_url': image_url,
@@ -253,6 +273,8 @@ class SpecificImageView(APIView):
             'model_labels': lot_image.model_labels,
             'previous_image_name_part': previous_image_name_part,
             'next_image_name_part': next_image_name_part,
+            'spots': spots_data,
+            'bestspots': bestspots_data,
         }
 
         return Response(response_data)

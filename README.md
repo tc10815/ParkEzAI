@@ -1,4 +1,4 @@
-# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/16/2023)
+# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/17/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework

@@ -89,7 +89,7 @@ const Coldwater = () => {
     fetch(endpoint.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);  // log the received data
+            console.log(data); 
             setHumanTime(formatDate(data.timestamp));
             setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
             setHumanLabels(data.human_labels);
