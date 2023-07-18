@@ -214,12 +214,15 @@ class LatestImageView(APIView):
         with open(bestspots_path, 'r') as bestspots_file:
             bestspots_data = json.load(bestspots_file)
 
+
+        human_labels = json.loads(lot_image.human_labels)
+        model_labels = json.loads(lot_image.model_labels)
         # Construct the response data
         response_data = {
             'image_url': image_url,
             'timestamp': lot_image.timestamp,
-            'human_labels': lot_image.human_labels,
-            'model_labels': lot_image.model_labels,
+            'human_labels': human_labels,
+            'model_labels': model_labels,
             'previous_image_name_part': previous_image_name_part,
             'spots': spots_data,
             'bestspots': bestspots_data,
@@ -265,12 +268,14 @@ class SpecificImageView(APIView):
         with open(bestspots_path, 'r') as bestspots_file:
             bestspots_data = json.load(bestspots_file)
 
+        human_labels = json.loads(lot_image.human_labels)
+        model_labels = json.loads(lot_image.model_labels)
         # Construct the response data
         response_data = {
             'image_url': image_url,
             'timestamp': lot_image.timestamp,
-            'human_labels': lot_image.human_labels,
-            'model_labels': lot_image.model_labels,
+            'human_labels': human_labels,
+            'model_labels': model_labels,
             'previous_image_name_part': previous_image_name_part,
             'next_image_name_part': next_image_name_part,
             'spots': spots_data,

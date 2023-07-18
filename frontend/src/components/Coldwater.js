@@ -75,7 +75,10 @@ function formatDate(inputdate){
 const Coldwater = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
-  const [modelLabels, setModelLabels] = useState('');
+  const [humanLabelsJson, setHumanLabelsJson] = useState({});
+  const [spots, setSpots] = useState({});
+  const [bestSpots, setBestSpots] = useState({});
+  const [bestSpot, setBestSpot] = useState('');
   const [humanTime, setHumanTime] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
   const navigate = useNavigate();
@@ -89,11 +92,26 @@ const Coldwater = () => {
     fetch(endpoint.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data); 
+            setSpots(data.spots);
+            setBestSpots(data.bestspots);
+            setHumanLabelsJson(data.human_labels);
+            const trueLabels = Object.entries(data.human_labels)
+                        .filter(([key, value]) => value === true)
+                        .map(([key]) => key)
+                        .join(", ");
+
+            let bestSpotString = 'None available';
+            let BestSpotSoFarKey = 99999;
+            for (let spot in Object.keys(data.bestspots)){
+              if(!data.human_labels[data.bestspots[spot]] & Number(spot) < BestSpotSoFarKey){
+                bestSpotString = data.bestspots[spot];
+                BestSpotSoFarKey = Number(spot);
+              }
+            }
+            setBestSpot(bestSpotString);
+            setHumanLabels(trueLabels);
             setHumanTime(formatDate(data.timestamp));
             setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
-            setHumanLabels(data.human_labels);
-            setModelLabels(data.model_labels);
             setPreviousImageName(data.previous_image_name_part);
         })
         .catch((error) => {
@@ -117,8 +135,8 @@ const Coldwater = () => {
         <Button onClick={handlePrevious}>Previous</Button>
       </ButtonsDiv>
       <LabelsDiv>
-        <PStyle>Human Labels: {humanLabels}</PStyle>
-        <PStyle>Model Labels: {modelLabels}</PStyle>
+        <PStyle>Best Open Spot: {bestSpot}</PStyle>
+        <PStyle>Spots occupied: {humanLabels}</PStyle>
       </LabelsDiv>
     </div>
   );

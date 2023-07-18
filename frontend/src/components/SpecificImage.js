@@ -66,8 +66,6 @@ function formatDate(inputdate){
     hour = hour - 12;
     ampm = 'pm'
   } 
-  
-
   return (timestampEST.getMonth() + 1) + '/' + timestampEST.getDate() + '/' + timestampEST.getFullYear() + ' ' 
     + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
     
@@ -78,7 +76,10 @@ const SpecificImage = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [humanTime, setHumanTime] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
-  const [modelLabels, setModelLabels] = useState('');
+  const [humanLabelsJson, setHumanLabelsJson] = useState({});
+  const [spots, setSpots] = useState({});
+  const [bestSpots, setBestSpots] = useState({});
+  const [bestSpot, setBestSpot] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
   const [nextImageName, setNextImageName] = useState('');
   const { camera, imageName } = useParams();
@@ -95,13 +96,29 @@ const SpecificImage = () => {
     fetch(endpoint.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            setHumanTime(formatDate(data.timestamp));
-            setImageSrc(API_URL + 'lots' + data.image_url);
-            setHumanLabels(data.human_labels);
-            setModelLabels(data.model_labels);
-            setPreviousImageName(data.previous_image_name_part);
-            setNextImageName(data.next_image_name_part);
+          setSpots(data.spots);
+          setBestSpots(data.bestspots);
+          setHumanLabelsJson(data.human_labels);
+          const trueLabels = Object.entries(data.human_labels)
+                      .filter(([key, value]) => value === true)
+                      .map(([key]) => key)
+                      .join(", ");
+          let bestSpotString = 'None available';
+          let BestSpotSoFarKey = 99999;
+          for (let spot in Object.keys(data.bestspots)){
+            if(!data.human_labels[data.bestspots[spot]] & Number(spot) < BestSpotSoFarKey){
+              bestSpotString = data.bestspots[spot];
+              BestSpotSoFarKey = Number(spot);
+            }
+          }
+          setBestSpot(bestSpotString);            
+          setHumanLabels(trueLabels);
+          setHumanTime(formatDate(data.timestamp));
+          setImageSrc(API_URL + 'lots' + data.image_url);
+          setPreviousImageName(data.previous_image_name_part);
+          setNextImageName(data.next_image_name_part);
+          console.log(Object.keys(bestSpots));
+          console.log(humanLabelsJson);
         })
         .catch((error) => {
             console.error('Error fetching data:', error);
@@ -130,8 +147,8 @@ const SpecificImage = () => {
         <Button onClick={handleNext}>Next</Button>
       </ButtonsDiv>
       <LabelsDiv>
-        <PStyle>Human Labels: {humanLabels}</PStyle>
-        <PStyle>Model Labels: {modelLabels}</PStyle>
+        <PStyle>Best Open Spot: {bestSpot}</PStyle>
+        <PStyle>Spots occupied: {humanLabels}</PStyle>
       </LabelsDiv>
     </div>
   );
