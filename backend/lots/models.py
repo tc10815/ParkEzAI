@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.dateformat import format as dateformat
 from django.core.files.storage import default_storage
+from accounts.models import CustomUser
 
 def image_upload_path(instance, filename):
     return f'camfeeds/{instance.folder_name}/{filename}'
@@ -29,3 +30,15 @@ class LotImage(models.Model):
         # Delete the old file before saving the new one
         default_storage.delete(self.image.name)
         super().delete(using=using, keep_parents=keep_parents)
+
+class LotMetadata(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=255)
+    owner = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    gps_coordinates = models.CharField(max_length=255, null=True, blank=True)
+    state = models.CharField(max_length=2, null=True, blank=True)
+    zip = models.CharField(max_length=5, null=True, blank=True)
+    city = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

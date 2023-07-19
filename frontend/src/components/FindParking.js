@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/park-hero.jpg';
 import theme from '../theme';
 import Footer from "./Footer";
+
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const HomeContainer = styled.div`
   background-color: white;
@@ -80,9 +84,26 @@ const locations = [
   { name: "Chili Conundrum", address: "987 Pepper Pl", city: "NY", zip: "10004" },
 ];
 
+
+
 const FindParking = () => {
-  const handleLocationClick = (location) => {
-    console.log(`Selected location: ${location.name}`);
+  const [lots, setLots] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const endpoint = new URL('lots/menu', API_URL);
+    fetch(endpoint.toString())
+      .then(response => response.json())
+      .then(data => {
+          setLots(data);
+          console.log(data)
+        })
+      .catch((error) => {
+          console.error('Error fetching data:', error);
+      });
+  },[]);
+  const handleMenuClick = (lots) => {
+    navigate(`/lot/${lots.id}`);
   };
 
   return (
@@ -91,9 +112,9 @@ const FindParking = () => {
         <ListOrganize>
           <SubHeading>Choose Lot to Find Parking</SubHeading>
           <LocationList>
-            {locations.map((location, index) => (
-              <LocationItem key={index} onClick={() => handleLocationClick(location)}>
-                {location.name} - {location.address}, {location.city}, {location.zip}              
+            {lots.map((lots, index) => (
+              <LocationItem key={index} onClick={() => handleMenuClick(lots)}>
+                {lots.name} {lots.zip}            
               </LocationItem>
             ))}
           </LocationList>

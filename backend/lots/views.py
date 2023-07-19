@@ -7,7 +7,8 @@ import numpy as np
 import torch
 from torch import nn, optim
 import torchvision.transforms as transforms
-from django.http import FileResponse
+from django.http import FileResponse, JsonResponse
+from django.views.generic import ListView
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -16,7 +17,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.core.files.storage import default_storage
 from django.conf import settings
 
-from .models import LotImage
+from .models import LotImage, LotMetadata
 
 MAX_FOLDER_MB = 950
 
@@ -283,3 +284,14 @@ class SpecificImageView(APIView):
         }
 
         return Response(response_data)
+
+class LotMenuView(ListView):
+    model = LotMetadata
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.values('id', 'name', 'gps_coordinates', 'state', 'zip', 'city')
+
+    def render_to_response(self, context, **response_kwargs):
+        # We override this method to change the output format to JSON.
+        return JsonResponse(list(context['object_list']), safe=False)

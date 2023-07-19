@@ -1,4 +1,4 @@
-# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/18/2023)
+# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/19/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework
@@ -9,12 +9,12 @@
   - [x] identify cars and open spaces.
   - [x] recommend best spaces 
   - [x] identify overparked cars
-- [ ] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django
+- [x] **Step 3:** Implement Functional Requirements 3.1, 3.2, and 3.3 by integrating Step 2's scripts with Django
   - [x] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
   - [x] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
-  - [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
-  - [ ] Create view with search that shows all available parking lots (including placeholders) to public (3.1)
-  - [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
+  - [x] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
+  - [x] Create view shows all available parking lots (including placeholders) to public (3.1)
+  - [x] Create a API endpoint that usable for general external websites and apps that shows public lot data (3.3)
 - [ ] **Step 4:** Implement Functional Requirements 2.1, 2.3  and 2.3 by integrating Step 2's scripts with Django (Requirement 2.4 will be done later)
 - [ ] **Step 5:** Implement Advertisement system (Functional requirement 4.1, 4.2, 4.3)
 - [ ] **Step 6:** Implement model email and payment systems (Functional Requirements 5.1 and 5.2), which are integrated for all account types
@@ -26,9 +26,13 @@
 Tasks in step 3 (Functional Requirements 3.1, 3.2, and 3.3):
 - [x] Create a API JPEG upload receiver for camera feeds (currently just to receive Coldwater, Michigan, but should be scalable to receive many uploads from different lots)
 - [x] Create auto uploader for Coldwater, MI lot, uploads to ParkEz every 30 minutes
-- [ ] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
-- [ ] Create view with search that shows all available parking lots  (including placeholders) to public (3.1)
-- [ ] Create a API endpoint that usable for general external websites and apps that shows public lot data, and make a demo (3.3)
+- [x] Create view that shows Coldwater, MI to public, included ML results and best space (3.2)
+- [x] Create view that shows all available parking lots  (including placeholders) to public (3.1)
+- [x] Create a API endpoint that usable for general external websites and apps that shows public lot data (3.3)
+
+#### Step 3 is technically done, but I'm doing these extra tasks before proceeding to step 4:
+- **Visual spaces on lot page (show squares where spots are, show exact taken spaces, show best spot on JPEG)**
+- **Train significantly better car detection model for Coldwater Lot**
 
  
 ### Notes on Deploying Computer Vision and Machine Learning (6/9-6/12)
