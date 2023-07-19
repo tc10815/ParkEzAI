@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../images/parkezlogosmall2.png';
 import styled from 'styled-components';
 import theme from '../theme';
+import { FiMenu } from 'react-icons/fi';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,7 +13,21 @@ const LogoContainer = styled.div`
   padding-left: 1.5rem;
 `;
 
+const Hamburger = styled.div`
+  display: flex;
+  align-items: Left;
+`;
+
+const HamburgerMenuItems = styled.div`
+  margin-top:45px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+`
+
 const StyledNav = styled.nav`
+@media (min-width: 768px) {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,8 +40,20 @@ const StyledNav = styled.nav`
   right: 0;
   z-index: 100;
   transition: background-color 0.3s;
+}
+@media (max-width: 768px) {
+  display: none;
+}
 `;
 
+const PhoneNav = styled.nav`
+@media (min-width: 768px) {
+  display: none;
+}
+@media (max-width: 768px) {
+  font-size:2rem;
+}
+`;
 
 const StyledUl = styled.ul`
   display: flex;
@@ -37,37 +64,52 @@ const StyledUl = styled.ul`
 `;
 
 const StyledLi = styled.li`
+@media (min-width: 768px) {
   display: flex;
   margin-right: 1rem;
   height: 100%;
+}
 `;
 
 
 const StyledNavLink = styled(NavLink)`
-  text-decoration: none;
-  color: ${theme.accent};
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 1rem 0.5rem; 
+  @media (min-width: 768px) {
 
-  &.active {
-    background-color: rgba(57,130,142,0.35);
-    
+    text-decoration: none;
+    color: ${theme.accent};
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0.5rem; 
+
+    &.active {
+      background-color: rgba(57,130,142,0.35);
+      
+    }
   }
+  @media (max-width: 768px) {
+    color:white;
+  }
+
 `;
 
 const StyledButton = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  height: 100%;
-  transition: background-color 0.3s;
+  @media (min-width: 768px) {
 
-  &:hover {
-    background-color: ${theme.secondary};
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    height: 100%;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: ${theme.secondary};
+    }
+  }
+  @media (min-width: 768px) {
+    color:white;
   }
 `;
 
@@ -81,6 +123,10 @@ const Logo = styled.div`
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
   const location = useLocation();
 
   const isBlackNavbarPage = () => {
@@ -111,6 +157,7 @@ const Navigation = () => {
       top: 0,
       behavior: 'smooth',
     });
+    setIsOpen(false);
   };
 
 
@@ -381,10 +428,10 @@ const Navigation = () => {
                 <StyledNavLink to="/create-staff-account">Create Employees</StyledNavLink>
               </StyledButton>
               <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
+                <StyledButton onClick={scrollToTop}>
+                  <StyledNavLink to="/tickets">Support tickets</StyledNavLink>
+                </StyledButton>
+              </StyledLi>
             </StyledLi>
           </>
         ),
@@ -404,18 +451,30 @@ const Navigation = () => {
     }
   };
 
+
   return (
+    <>
     <StyledNav scrolled={scrolled || isBlackNavbarPage()}>
-      <LogoContainer>
-        <img
-          src={logo}
-          alt="ParkEzAI Logo"
-          style={{ height: '40px', width: '40px', marginRight: '0px' }}
-        />
-        <Logo>ParkEz</Logo>
-      </LogoContainer>
-      <StyledUl>{renderLinksByRole()}</StyledUl>
+        <LogoContainer>
+          <img
+            src={logo}
+            alt="ParkEzAI Logo"
+            style={{ height: '40px', width: '40px', marginRight: '0px' }}
+          />
+          <Logo>ParkEz</Logo>
+        </LogoContainer>
+        <StyledUl>{renderLinksByRole()}</StyledUl>
     </StyledNav>
+    <PhoneNav>
+      <Hamburger>
+        <div><FiMenu style={{color: 'white', marginLeft: '15px', height: '50px'}}  onClick={handleToggle} /></div>
+        {isOpen && <HamburgerMenuItems style={{
+            textSize: "50px",
+          
+        }}>{renderLinksByRole()}</HamburgerMenuItems>}
+      </Hamburger>
+    </PhoneNav>
+    </>
   );
 };
 
