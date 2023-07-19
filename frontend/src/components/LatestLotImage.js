@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -72,7 +72,7 @@ function formatDate(inputdate){
     
 }
 
-const Coldwater = () => {
+const LatestLotImage = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
   const [humanLabelsJson, setHumanLabelsJson] = useState({});
@@ -81,13 +81,18 @@ const Coldwater = () => {
   const [bestSpot, setBestSpot] = useState('');
   const [humanTime, setHumanTime] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
+  const { camera } = useParams();
   const navigate = useNavigate();
 
 
   useEffect(() => {
     const endpoint = new URL('lots/lot_latest/', API_URL);
-    endpoint.searchParams.append('camera', 'coldwatermi');
-    
+    if(typeof camera == 'string'){
+      endpoint.searchParams.append('camera', camera);
+    } else {
+      endpoint.searchParams.append('camera', 'coldwatermi');
+    }
+
     // Fetch image and labels from API
     fetch(endpoint.toString())
         .then(response => response.json())
@@ -121,6 +126,12 @@ const Coldwater = () => {
 
   const handlePrevious = () => {
     navigate(`/image/coldwatermi/${previousImageName}`);
+    if(typeof camera == 'string'){
+      navigate(`/image/${camera}/${previousImageName}`);
+    } else {
+      navigate(`/image/coldwatermi/${previousImageName}`);
+    }
+
   };
 
   return (
@@ -142,4 +153,4 @@ const Coldwater = () => {
   );
 };
 
-export default Coldwater;
+export default LatestLotImage;

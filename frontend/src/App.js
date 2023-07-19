@@ -28,7 +28,7 @@ import InitiateAccount from './components/InitiateAccount';
 import CreateTicket from './components/CreateTicket';
 import MyTickets from './components/MyTickets';
 import Tickets from './components/Tickets';
-import Coldwater from './components/Coldwater';
+import LatestLotImage from './components/LatestLotImage';
 import SpecificImage from './components/SpecificImage';
 
 const ContentWrapper = styled.div`
@@ -79,7 +79,8 @@ const App = () => {
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<MyTickets />} />
           <Route path="/tickets" element={<Tickets />} />
-          <Route path="/Coldwater" element={<Coldwater />} />
+          <Route path="/coldwater" element={<LatestLotImage />} />
+          <Route path="/lot/:camera" element={<LatestLotImage />} />
           <Route path="/image/:camera/:imageName" element={<SpecificImage />} />
 
         </Routes>

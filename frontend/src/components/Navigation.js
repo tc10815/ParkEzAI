@@ -19,7 +19,7 @@ const Hamburger = styled.div`
 `;
 
 const HamburgerMenuItems = styled.div`
-  margin-top:45px;
+  margin-top:30px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -51,7 +51,7 @@ const PhoneNav = styled.nav`
   display: none;
 }
 @media (max-width: 768px) {
-  font-size:2rem;
+  font-size:1.3rem;
 }
 `;
 
