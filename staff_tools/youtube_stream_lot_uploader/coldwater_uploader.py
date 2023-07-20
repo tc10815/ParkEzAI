@@ -74,5 +74,8 @@ def capture_frame(video_url):
 
 while True:
     # Change URL to *live* YouTube video of which you want a screenshot
-    capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
-    time.sleep(30 * 60)
+    try:
+	    time.sleep(30 * 60)
+	    capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
+    except:
+    	    print('Failed, trying again in 30')
