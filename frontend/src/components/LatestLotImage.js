@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -38,10 +38,10 @@ const LabelsDiv = styled.div`
   max-width: 70vw;
 `;
 
-const CamImage = styled.img`
+const LotCanvas = styled.canvas`
   max-width: 70vw;
   height: auto; 
-`;
+`
 
 const TimeH2 = styled.h2` 
   margin-top:75px;
@@ -73,6 +73,7 @@ function formatDate(inputdate){
 }
 
 const LatestLotImage = () => {
+  const canvasRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
   const [humanLabelsJson, setHumanLabelsJson] = useState({});
@@ -86,6 +87,8 @@ const LatestLotImage = () => {
 
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
     const endpoint = new URL('lots/lot_latest/', API_URL);
     if(typeof camera == 'string'){
       endpoint.searchParams.append('camera', camera);
@@ -118,6 +121,34 @@ const LatestLotImage = () => {
             setHumanTime(formatDate(data.timestamp));
             setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
             setPreviousImageName(data.previous_image_name_part);
+            const image = new Image();
+            image.src = API_URL + "lots" + data.image_url;
+            image.onload = () => {
+              canvas.width = image.width;
+              canvas.height = image.height;
+              context.drawImage(image, 0, 0, canvas.width, canvas.height);
+              context.lineWidth = 5;
+              context.font = "bold 40px Arial";
+              Object.entries(data.spots).forEach(([key, value]) => {
+                const [x1, x2, y1, y2] = value;
+                const width = x2 - x1;
+                const height = y2 - y1;
+            
+                if(key === bestSpotString){
+                    context.strokeStyle = 'green';
+                    context.fillStyle = 'green';
+                  }else if(data.human_labels[key]){
+                    context.strokeStyle = 'red';
+                    context.fillStyle = 'red';
+                }else{
+                    context.strokeStyle = 'blue';
+                    context.fillStyle = 'blue';
+                }
+            
+                context.strokeRect(x1, y1, width, height);
+                context.fillText(key, x1, y1 - 5); 
+            });
+            }
         })
         .catch((error) => {
             console.error('Error fetching data:', error);
@@ -140,7 +171,7 @@ const LatestLotImage = () => {
         {humanTime}
       </TimeH2>
       <ImageDiv>
-        <CamImage src={imageSrc} alt="Latest image" />
+        <LotCanvas ref={canvasRef} />
       </ImageDiv>
       <ButtonsDiv>
         <Button onClick={handlePrevious}>Previous</Button>

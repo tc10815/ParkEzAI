@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,6 +12,10 @@ const PStyle = styled.p`
   padding: 0.5rem 1rem;
 `;
 
+const LotCanvas = styled.canvas`
+  max-width: 70vw;
+  height: auto; 
+`
 const TimeH2 = styled.h2` 
   margin-top:75px;
   margin-left: auto;
@@ -49,11 +53,6 @@ const LabelsDiv = styled.div`
 
 `;
 
-const CamImage = styled.img`
-  max-width: 70vw;
-  height: auto; 
-`;
-
 function formatDate(inputdate){
   // setHumanTime(data.timestamp);
   const timestampUTC = new Date(inputdate); // parse the ISO string into a Date object
@@ -73,11 +72,10 @@ function formatDate(inputdate){
 }
 
 const SpecificImage = () => {
-  const [imageSrc, setImageSrc] = useState('');
+  const canvasRef = useRef(null);
   const [humanTime, setHumanTime] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
   const [humanLabelsJson, setHumanLabelsJson] = useState({});
-  const [spots, setSpots] = useState({});
   const [bestSpots, setBestSpots] = useState({});
   const [bestSpot, setBestSpot] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
@@ -87,7 +85,8 @@ const SpecificImage = () => {
 
 
   useEffect(() => {
-
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
     const endpoint = new URL('lots/lot_specific', API_URL);
     endpoint.searchParams.append('camera', camera);
     endpoint.searchParams.append('image', imageName);
@@ -96,7 +95,6 @@ const SpecificImage = () => {
     fetch(endpoint.toString())
         .then(response => response.json())
         .then(data => {
-          setSpots(data.spots);
           setBestSpots(data.bestspots);
           setHumanLabelsJson(data.human_labels);
           const trueLabels = Object.entries(data.human_labels)
@@ -114,15 +112,40 @@ const SpecificImage = () => {
           setBestSpot(bestSpotString);            
           setHumanLabels(trueLabels);
           setHumanTime(formatDate(data.timestamp));
-          setImageSrc(API_URL + 'lots' + data.image_url);
           setPreviousImageName(data.previous_image_name_part);
           setNextImageName(data.next_image_name_part);
-          console.log(Object.keys(bestSpots));
-          console.log(humanLabelsJson);
+          const image = new Image();
+          image.src = API_URL + "lots" + data.image_url;
+          image.onload = () => {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            context.lineWidth = 5;
+            context.font = "bold 40px Arial";
+            Object.entries(data.spots).forEach(([key, value]) => {
+              const [x1, x2, y1, y2] = value;
+              const width = x2 - x1;
+              const height = y2 - y1;
+          
+              if(key === bestSpotString){
+                  context.strokeStyle = 'green';
+                  context.fillStyle = 'green';
+              }else if(data.human_labels[key]){
+                  context.strokeStyle = 'red';
+                  context.fillStyle = 'red';
+              }else{
+                  context.strokeStyle = 'blue';
+                  context.fillStyle = 'blue';
+              }
+          
+              context.strokeRect(x1, y1, width, height);
+              context.fillText(key, x1, y1 - 5); 
+          });
+          }
         })
         .catch((error) => {
             console.error('Error fetching data:', error);
-        });
+        });    
 }, [camera, imageName]);
 
 
@@ -140,7 +163,7 @@ const SpecificImage = () => {
         {humanTime}
       </TimeH2>
       <ImageDiv>
-        <CamImage src={imageSrc} alt="Specified image" />
+        <LotCanvas ref={canvasRef} />
       </ImageDiv>
       <ButtonsDiv>
         <Button onClick={handlePrevious}>Previous</Button>
