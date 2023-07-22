@@ -1,4 +1,4 @@
-# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/19/2023)
+# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/20/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Remake Part 1 with Django REST framework
@@ -72,8 +72,9 @@ Analysis:
 | **YOLOv3 Model** | 85.9%        | 97.49%         | 58.37%     | 73.02%       |
 | **Pytorch CNN**   | 98.30%       | 99.04%         | 98.30%     | 98.67%       |
 
+***Note: After deploying the Pytorch CNN model for a few days, it became clear that the super high performance of the Pytorch CNN seen here is mainly due to overfitting (I quizzed it with images that were too similar to what I trained it on). The true F-Score of Pytorch CNN is 86.5%, so even though it was actually pretty flawed, even in that state it beat YOLOv3.***
 
-The recall shows that with YOLOv3 if a car is parked in space, it only registers it 58% of the time. Not good. But the Pytorch CNN system registers 98.4% of cars in spaces, which is acceptably good in my opinion, especially since the test data includes tricky things like motorcycles, and cars taking up multiple spaces. Using the CNN is a more typical approach for a system like this, so it makes sense it works better. 
+The recall shows that with YOLOv3 if a car is parked in space, it only registers it 58% of the time. Not good. But the Pytorch CNN system registers 98.4% of cars in spaces, which is acceptably good in my opinion, especially since the test data includes tricky things like motorcycles, and cars taking up multiple spaces. 
 
 
 Note: training data is required for the Pytorch CNN, where as it wouldn't have been necessary if YOLOv3 worked. That is part of the reason YOLOv3 was attempted first before trying Pytorch CNN.  
@@ -91,7 +92,7 @@ parking
   - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
 - Part II's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
 
-|               | Part 1 (4/4-4/27) | Part 2 (6/1-now)  |
+|               | Part 1 (4/4-4/27) | Part 2 (6/1-now)  |l
 | ------------- |:------------:| -----:|
 | Hosting       | Shared       | VPS |
 | Server    | Apache       | Nginx, Gunicorn |
