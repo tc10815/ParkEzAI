@@ -4,6 +4,7 @@ import requests
 
 #url = "http://127.0.0.1:8000/lots/upload_image/"
 url = "https://backend.plan6.com/lots/upload_image/"
+#url = "http://192.168.0.35/lots/upload_image/"
 
 payload = {
     "passcode": "lightsecurity"
