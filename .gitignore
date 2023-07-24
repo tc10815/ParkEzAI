@@ -1,2 +1,15 @@
 **/__pycache__/
-djbackend/db.sqlite3
+**/migrations
+frontend/.env.development
+frontend/.env.production
+backend/db.sqlite3
+uploadtester/coldwatermi
+uploadtester/coldwaterrecent
+uploadtester/images
+uploadtester/coldwater_giant_input
+staff_tools/build_modelsoffline_data
+staff_tools/build_training_data/offline_input
+staff_tools/build_models/offline_data
+staff_tools/build_training_data/offline_output
+backend/camfeeds/coldwatermi
+archive/part2/old_training_data_format/old_data

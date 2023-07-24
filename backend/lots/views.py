@@ -202,7 +202,7 @@ class ImageUploadView(APIView):
 
             model = CNN()  # Replace YourModelClass with the actual class name of your model
             model_path = os.path.join('models', folder_name, spot + '.pth')
-            model.load_state_dict(torch.load(model_path), map_location=torch.device('cpu')) 
+            model.load_state_dict(torch.load(model_path)) 
             model.eval()  # Set the model to evaluation mode
 
             with torch.no_grad():
