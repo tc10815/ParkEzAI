@@ -71,23 +71,29 @@ const LocationItem = styled.li`
   }
 `;
 
-const locations = [
-  { name: "Burger Gnome", address: "123 Munchkin Lane", city: "NY", zip: "10001" },
-  { name: "The Thrifty Owl", address: "456 Feather St", city: "NJ", zip: "07001" },
-  { name: "Pasta Playground", address: "789 Noodle Ave", city: "CT", zip: "06001" },
-  { name: "Fruity Pebbles Market", address: "321 Rainbow Rd", city: "NY", zip: "10002" },
-  { name: "Meatball Emporium", address: "654 Spaghetti St", city: "NJ", zip: "07002" },
-  { name: "Veggie Voyager", address: "987 Carrot Blvd", city: "CT", zip: "06002" },
-  { name: "Quirky Quinoa", address: "135 Grain Ct", city: "NY", zip: "10003" },
-  { name: "The Hummingbird Bakery", address: "246 Sugar Dr", city: "NJ", zip: "07003" },
-  { name: "Cosmic Cantina", address: "369 Starry Way", city: "CT", zip: "06003" },
-  { name: "Chili Conundrum", address: "987 Pepper Pl", city: "NY", zip: "10004" },
-];
-
+const SearchBar = styled.input`
+  margin: 1rem 0;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  background-color: black;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+  &:focus {
+    outline: none;
+    border-color: ${theme.secondary};
+  }
+  ::placeholder {
+    color: lightgray;
+  }
+`;
 
 
 const FindParking = () => {
   const [lots, setLots] = useState([]);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,6 +101,7 @@ const FindParking = () => {
     fetch(endpoint.toString())
       .then(response => response.json())
       .then(data => {
+          data.sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
           setLots(data);
           console.log(data)
         })
@@ -102,8 +109,13 @@ const FindParking = () => {
           console.error('Error fetching data:', error);
       });
   },[]);
+
   const handleMenuClick = (lots) => {
     navigate(`/lot/${lots.id}`);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
 
   return (
@@ -111,13 +123,26 @@ const FindParking = () => {
       <HeroImage>
         <ListOrganize>
           <SubHeading>Choose Lot to Find Parking</SubHeading>
+          <SearchBar
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Search"
+          />
           <LocationList>
-            {lots.map((lots, index) => (
+            {lots.filter(lots => 
+                lots.name.toLowerCase().includes(search.toLowerCase()) ||
+                lots.city.toLowerCase().includes(search.toLowerCase()) ||
+                lots.state.toLowerCase().includes(search.toLowerCase()) ||
+                lots.zip.toLowerCase().includes(search.toLowerCase())
+            ).map((lots, index) => (
               <LocationItem key={index} onClick={() => handleMenuClick(lots)}>
-                {lots.name} {lots.zip}            
+                {lots.name}, {lots.city} {lots.state}  {lots.zip}            
               </LocationItem>
             ))}
           </LocationList>
+          <p style={{color:'white'}}><strong>Note:</strong> Monroe St, Coldwater is the only working demo parking lot at this time</p>
+          <p style={{color:'white'}}>Other lots are to demonstrate lot search</p>
         </ListOrganize>
       </HeroImage>
       <Footer />
