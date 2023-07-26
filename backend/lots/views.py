@@ -370,11 +370,11 @@ class LatestJPGImageFileView(APIView):
         w_percent = (base_width / float(image.size[0]))
         h_size = int((float(image.size[1]) * float(w_percent)))
         
-        #Production code
-        # image = image.resize((base_width, h_size), Image.LANCZOS)
+        #Production env
+        image = image.resize((base_width, h_size), Image.LANCZOS)
 
-        #Dev code
-        image = image.resize((base_width, h_size), Image.ANTIALIAS)
+        #Development env
+        # image = image.resize((base_width, h_size), Image.ANTIALIAS)
 
         # Create a draw object
         draw = ImageDraw.Draw(image)
@@ -404,6 +404,14 @@ class LatestJPGImageFileView(APIView):
         byte_arr = io.BytesIO()
         image.save(byte_arr, format='JPEG')
 
+        # Create a response
+        response = FileResponse(byte_arr, content_type='image/jpeg')
+
+        # Add anti-caching headers
+        response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response['Pragma'] = 'no-cache'
+        response['Expires'] = '0'
+
         # Return the image data as a response
-        byte_arr.seek(0)
-        return FileResponse(byte_arr, content_type='image/jpeg')
+        byte_arr.seek(0)  
+        return response

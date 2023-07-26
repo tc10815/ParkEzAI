@@ -12,4 +12,6 @@ staff_tools/build_training_data/offline_input
 staff_tools/build_models/offline_data
 staff_tools/build_training_data/offline_output
 backend/camfeeds/coldwatermi
+backend/lots/viewspy_production_model_code
+backend/models/coldwatermi/*.pth
 archive/part2/old_training_data_format/old_data
