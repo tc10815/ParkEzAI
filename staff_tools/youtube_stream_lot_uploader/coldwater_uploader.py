@@ -71,11 +71,12 @@ def capture_frame(video_url):
         print("Please provide the image filename as a command line argument.")
 
 
-
+capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
 while True:
     # Change URL to *live* YouTube video of which you want a screenshot
     try:
-	    time.sleep(30 * 60)
-	    capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
+        time.sleep(30 * 60)
+        capture_frame('https://www.youtube.com/watch?v=mwN6l3O1MNI')
+
     except:
     	    print('Failed, trying again in 30')

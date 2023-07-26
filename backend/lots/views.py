@@ -200,11 +200,11 @@ class ImageUploadView(APIView):
             model_path = os.path.join('models', folder_name, spot + '.pth')
 
             #Code for development env
-            # model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
-            # model.load_state_dict(model_state_dict)
+            model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+            model.load_state_dict(model_state_dict)
 
             #Code for production env
-            model.load_state_dict(torch.load(model_path)) 
+            # model.load_state_dict(torch.load(model_path)) 
 
             model.eval()  # Set the model to evaluation mode
 
@@ -246,7 +246,7 @@ class LatestImageView(APIView):
             previous_image = LotImage.objects.filter(folder_name=camera_name, timestamp__lt=lot_image.timestamp).latest('timestamp')
             previous_image_name_part = previous_image.image.name.split('_')[-1].replace('.jpg', '')
         except LotImage.DoesNotExist:
-            # If there is no previous image, use the current image name part
+            # If there is no previous imag;,e, use the current image name part
             previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
 
         spots_path = os.path.join('models', camera_name, 'spots.json')
@@ -369,12 +369,7 @@ class LatestJPGImageFileView(APIView):
         base_width = 900
         w_percent = (base_width / float(image.size[0]))
         h_size = int((float(image.size[1]) * float(w_percent)))
-        
-        #Production env
         image = image.resize((base_width, h_size), Image.LANCZOS)
-
-        #Development env
-        # image = image.resize((base_width, h_size), Image.ANTIALIAS)
 
         # Create a draw object
         draw = ImageDraw.Draw(image)
