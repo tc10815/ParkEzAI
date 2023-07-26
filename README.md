@@ -25,7 +25,7 @@ Remake Part 1's PHP backend with Django REST framework
 - [ ] **Step 8:** Finishing touches
 
 ## Live Parking Spot Detection Demo
-
+[![Liveshot](https://backend.plan6.com/lots/github_preview?camera=coldwatermi)](https://plan6.com/lot/coldwatermi)
 Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwatermi).
