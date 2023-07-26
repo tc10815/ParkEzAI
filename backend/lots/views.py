@@ -403,6 +403,7 @@ class LatestJPGImageFileView(APIView):
         # Save the image to a BytesIO object
         byte_arr = io.BytesIO()
         image.save(byte_arr, format='JPEG')
+        byte_arr.seek(0)  # seek back to the start after saving
 
         # Create a response
         response = FileResponse(byte_arr, content_type='image/jpeg')
@@ -413,5 +414,4 @@ class LatestJPGImageFileView(APIView):
         response['Expires'] = '0'
 
         # Return the image data as a response
-        byte_arr.seek(0)  
         return response

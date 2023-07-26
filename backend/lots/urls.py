@@ -7,6 +7,6 @@ urlpatterns = [
     path('upload_image/', ImageUploadView.as_view(), name='upload_image'),
     path('lot_latest/', LatestImageView.as_view(), name='lot_latest'),
     path('lot_specific', SpecificImageView.as_view(), name='lot_specific'),
-    path('github_preview', LatestJPGImageFileView.as_view(), name='github_preview'),
+    path('github_view', LatestJPGImageFileView.as_view(), name='github_view'),
     path('menu', LotMenuView.as_view(), name='menu'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
