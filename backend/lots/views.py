@@ -1,10 +1,6 @@
-import os
-import datetime
-import json
-import cv2
-from PIL import Image
+import os, io, datetime, torch, json, cv2
+from PIL import Image, ImageDraw, ImageFont    
 import numpy as np
-import torch
 from torch import nn, optim
 import torchvision.transforms as transforms
 from django.http import FileResponse, JsonResponse
@@ -202,7 +198,14 @@ class ImageUploadView(APIView):
 
             model = CNN()  # Replace YourModelClass with the actual class name of your model
             model_path = os.path.join('models', folder_name, spot + '.pth')
+
+            #Code for development env
+            # model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+            # model.load_state_dict(model_state_dict)
+
+            #Code for production env
             model.load_state_dict(torch.load(model_path)) 
+
             model.eval()  # Set the model to evaluation mode
 
             with torch.no_grad():
@@ -335,3 +338,72 @@ class LotMenuView(ListView):
     def render_to_response(self, context, **response_kwargs):
         # We override this method to change the output format to JSON.
         return JsonResponse(list(context['object_list']), safe=False)
+
+class LatestJPGImageFileView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        camera_name = request.GET.get('camera')
+        if not camera_name:
+            return Response({'detail': 'Camera not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Filter by '.jpg' extension
+            lot_image = LotImage.objects.filter(folder_name=camera_name, image__endswith='.jpg').latest('timestamp')
+        except LotImage.DoesNotExist:
+            return Response({'detail': 'No JPG images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get the path of the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, lot_image.image.name)
+
+        # Open the image file and create an Image object
+        image = Image.open(image_path)
+
+        human_labels = json.loads(lot_image.human_labels)
+
+        spots_path = os.path.join('models', camera_name, 'spots_view.json')
+        with open(spots_path, 'r') as spots_file:
+            spots_data_view = json.load(spots_file)
+
+        # Resize the image
+        base_width = 900
+        w_percent = (base_width / float(image.size[0]))
+        h_size = int((float(image.size[1]) * float(w_percent)))
+        
+        #Production code
+        # image = image.resize((base_width, h_size), Image.LANCZOS)
+
+        #Dev code
+        image = image.resize((base_width, h_size), Image.ANTIALIAS)
+
+        # Create a draw object
+        draw = ImageDraw.Draw(image)
+
+        # Define the text and position
+        text = lot_image.timestamp.strftime("%Y-%m-%d %H:%M:%S")  # Change the format as needed
+        text_position = (image.width - 450, image.height - 50)  # Change the position as needed
+
+        # Define the font (change the font file and size as needed)
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
+
+        # Draw the text on the image
+        draw.text(text_position, text, font=font)
+
+        # Draw a rectangle for each spot in the spots_data_view
+        for spot, coordinates in spots_data_view.items():
+            x1, y1, x2, y2 = coordinates
+            correct_coordinates = [x1, x2, y1, y2]             
+            correct_coordinates = [x1 * w_percent, x2 * w_percent, y1 * w_percent, y2 * w_percent]  # Swap y1 and y2 and scale coordinates
+
+            # Choose the color of the rectangle based on the value in human_labels
+            color = 'red' if human_labels.get(spot, False) else 'green'
+
+            draw.rectangle(correct_coordinates, outline=color, width=5)
+
+        # Save the image to a BytesIO object
+        byte_arr = io.BytesIO()
+        image.save(byte_arr, format='JPEG')
+
+        # Return the image data as a response
+        byte_arr.seek(0)
+        return FileResponse(byte_arr, content_type='image/jpeg')

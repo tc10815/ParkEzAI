@@ -24,12 +24,11 @@ Remake Part 1's PHP backend with Django REST framework
 - [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** sample license plate tracking
 - [ ] **Step 8:** Finishing touches
 
-## Progress on Step 4 (current step)
-- [ ] **Step 4:** Implement **Functional Requirements 2.1, 2.3  and 2.3** by integrating Step 2's scripts with Django
-  - [ ] **Functional Requirement 2.1**: Integrate track occupancy with Lot Owner Interface with bonus features 
-  - [ ] **Function Requirement 2.2**: Integrate lot image / occupancy data archive in a way that provides lot owners with useful information 
-  - [ ] **Function Requirement 2.3**: Create overparking detection, alert and review system and provide interface for lot owners
+## Live Parking Spot Detection Demo
+[![Alt text](https://backend.plan6.com/lots/github_preview?camera=coldwatermi)](https://plan6.com/lot/coldwatermi)
+Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
 
+Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwatermi).
 
 ## Notes on Deploying Computer Vision and Machine Learning on Backend Server
 *(6/9/23-6/12/23)* It took me 3 days to deploy Machine Learning and Computer Vision to the Django server backend. My VPS (IONOS.com, \$2 bucks monthly for 10gb) only had 5.3G remaining after the server operating system and my other webpages. That's plenty of space for plain Django (Python + Libraries for Django are only ***80mb***), but when you add Machine Learning and Computer Vision (PyTorch, TorchVision and OpenCV) the libraries  add up to ***4.8gb***. Add folders for lot images and saved Torch Models and its impossible to run the backend on $2 monthly hosting. 
@@ -54,9 +53,6 @@ That wasn't good enough so I worked with GPT4 to build models like cat-dog class
 The current model is based on 350 images, 5 CNN layers and uses Adam optimizer and early stopping to improve training results. It still makes mistakes, but mistakes are somewhat rare. 
 
 The models will be periodically improved as more data comes in.
-
-![Python output](./archive/img/example.jpg)
-An example of car detection (in this case with YOLO) parking
 
 ## Notes on PHP to Django API migration 
 ### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3
