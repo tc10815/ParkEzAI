@@ -120,9 +120,11 @@ const SpecificImage = () => {
             canvas.width = image.width;
             canvas.height = image.height;
             context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            context.lineWidth = 5;
-            context.font = "bold 40px Arial";
-            Object.entries(data.spots).forEach(([key, value]) => {
+            context.lineWidth = 9;
+            context.font = "bold 50px Arial";
+            
+            const entries = Object.entries(data.spots);
+            entries.reverse().forEach(([key, value]) => {
               const [x1, x2, y1, y2] = value;
               const width = x2 - x1;
               const height = y2 - y1;

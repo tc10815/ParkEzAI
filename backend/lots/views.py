@@ -200,11 +200,11 @@ class ImageUploadView(APIView):
             model_path = os.path.join('models', folder_name, spot + '.pth')
 
             #Code for development env
-            model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
-            model.load_state_dict(model_state_dict)
+            # model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+            # model.load_state_dict(model_state_dict)
 
             #Code for production env
-            # model.load_state_dict(torch.load(model_path)) 
+            model.load_state_dict(torch.load(model_path)) 
 
             model.eval()  # Set the model to evaluation mode
 
@@ -249,7 +249,7 @@ class LatestImageView(APIView):
             # If there is no previous imag;,e, use the current image name part
             previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
 
-        spots_path = os.path.join('models', camera_name, 'spots.json')
+        spots_path = os.path.join('models', camera_name, 'spots_view.json')
         bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
         
         # Load the contents of the JSON files
@@ -303,7 +303,7 @@ class SpecificImageView(APIView):
         previous_image_name_part = previous_image.image.name.split('_')[-1].split('.')[0] if previous_image else image_name_part
         next_image_name_part = next_image.image.name.split('_')[-1].split('.')[0] if next_image else image_name_part
 
-        spots_path = os.path.join('models', camera_name, 'spots.json')
+        spots_path = os.path.join('models', camera_name, 'spots_view.json')
         bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
 
         # Load the contents of the JSON files
@@ -375,7 +375,8 @@ class LatestJPGImageFileView(APIView):
         draw = ImageDraw.Draw(image)
 
         # Define the text and position
-        text = lot_image.timestamp.strftime("%Y-%m-%d %H:%M:%S")  # Change the format as needed
+        text = lot_image.timestamp.strftime("%l:%M%p %-m/%-d/%Y").lower().strip()
+        print('Chomp: ' + text)
         text_position = (image.width - 450, image.height - 50)  # Change the position as needed
 
         # Define the font (change the font file and size as needed)
@@ -385,7 +386,7 @@ class LatestJPGImageFileView(APIView):
         draw.text(text_position, text, font=font)
 
         # Draw a rectangle for each spot in the spots_data_view
-        for spot, coordinates in spots_data_view.items():
+        for spot, coordinates in reversed(list(spots_data_view.items())):
             x1, y1, x2, y2 = coordinates
             correct_coordinates = [x1, x2, y1, y2]             
             correct_coordinates = [x1 * w_percent, x2 * w_percent, y1 * w_percent, y2 * w_percent]  # Swap y1 and y2 and scale coordinates

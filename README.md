@@ -1,8 +1,8 @@
-#ParkEz AI
+# ParkEz AI
 
 In this project, functional requirements taken from a 7 person, 2 semester class project (ParkEz) are being implemented by a single student, with AI assistance in coding, writing ('copy'), design and images (ParkEz AI). 
 
-The goal of the code of the both projects is to monitor parking lots for businesses using AI. *The larger goal of ParkEz group class project is to learn documentation and Software Engineering methodologies on a team*. ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective program***. 
+The goal of the product in both projects is to monitor parking lots for businesses using AI. *The larger goal of the ParkEz group class project is to learn documentation and Software Engineering methodologies on a team.* ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective of the programmer***. 
 
 - [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
 - [Overview](#parkezai-project-overview), focusing on the AI process
