@@ -1,8 +1,30 @@
-# ParkE: Part 2 ([plan6.com](https://plan6.com) - updated 7/24/2023)
+#ParkEz AI
+
+In this project, functional requirements taken from a 7 person, 2 semester class project (ParkEz) are being implemented by a single student, with AI assistance in coding, writing ('copy'), design and images (ParkEz AI). 
+
+The goal of the code of the both projects is to monitor parking lots for businesses using AI. *The larger goal of ParkEz group class project is to learn documentation and Software Engineering methodologies on a team*. ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective program***. 
+
+- [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
+- [Overview](#parkezai-project-overview), focusing on the AI process
+- [Task List](#task-list) from this semester's tasks to project completion
+- [Semester 1 AI Prompts](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1/prompt_logs_part1), [Semester 2 AI prompts](https://github.com/tc10815/ParkEzAI/tree/main/prompt_logs) used thus far 
+- Notes:
+  - [PHP to Django migration](#notes-on-php-to-django-api-migration)
+  - [Parking Spot Occupancy Detection](#notes-on-parking-spot-occupancy-detection)
+  - [Deploying Computer Vision and Machine Learning on Backend Server](#notes-on-deploying-computer-vision-and-machine-learning-on-backend-server)
+  - [Semester 1: complete first semester project](#semester-1), where [Functional Requirements](#functional-requirements) 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6 were completed with PHP 
+
+## Live Parking Spot Detection Demo
+[![Liveshot](https://backend.plan6.com/lots/github_view?camera=coldwatermi)](https://plan6.com/lot/coldwatermi)
+Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
+
+Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwatermi).
+
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 7/27/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
-Remake Part 1's PHP backend with Django REST framework
+Remake Semester 1's PHP backend with Django REST framework
   - [x] Migrate database to SQLite, app server to Gunicorn, and webserver to Nginx
   - [x] Remove hashs from  URLs by correctly configuring Nginx for React, use HTTPS instead of HTTP with Certbot + Let's Encrypt
 - [x]  **Step 2:** Develop independent Python scripts that: 
@@ -24,12 +46,6 @@ Remake Part 1's PHP backend with Django REST framework
 - [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** sample license plate tracking
 - [ ] **Step 8:** Finishing touches
 
-## Live Parking Spot Detection Demo
-[![Liveshot](https://backend.plan6.com/lots/github_view?camera=coldwatermi)](https://plan6.com/lot/coldwatermi)
-Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
-
-Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwatermi).
-
 ## Notes on Deploying Computer Vision and Machine Learning on Backend Server
 *(6/9/23-6/12/23)* It took me 3 days to deploy Machine Learning and Computer Vision to the Django server backend. My VPS (IONOS.com, \$2 bucks monthly for 10gb) only had 5.3G remaining after the server operating system and my other webpages. That's plenty of space for plain Django (Python + Libraries for Django are only ***80mb***), but when you add Machine Learning and Computer Vision (PyTorch, TorchVision and OpenCV) the libraries  add up to ***4.8gb***. Add folders for lot images and saved Torch Models and its impossible to run the backend on $2 monthly hosting. 
 
@@ -44,7 +60,7 @@ The benefit of this 3 day procedure is huge: My new dedicated backend server sta
 The website's backend is not only able to do Computer Vision / Machine Learn easily now, but 
 the whole website runs much faster and has tons of space for Lot cam footage.
   
-## Notes on Park Spot Occupancy Detection 
+## Notes on Parking Spot Occupancy Detection 
 
 When I explained to GPT4 what I wanted to do, it recommended I use the YOLOv3 model to detect cars in parking spacess. YOLO is a model for detecting cars and other objects that doesn't require any training (you just tell it to look for cars and it does its thing). However, at night and in unusual weather it struggled. On 24 hour footage, it only had .58 recall, meaning it only registered cars in spaces 58% of time. 
 
@@ -55,16 +71,16 @@ The current model is based on 350 images, 5 CNN layers and uses Adam optimizer a
 The models will be periodically improved as more data comes in.
 
 ## Notes on PHP to Django API migration 
-### Remade Part 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3
+### Remade Semester 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3
 - Migrating PHP to Django took 2 weeks, working about 1-3 hours a day
-- ~20% of the ~4000 lines React frontend code was rewritten and refactored, Part 2's frontend has about 400 fewer lines of code due to refactoring. 
+- ~20% of the ~4000 lines React frontend code was rewritten and refactored, Semester 2's frontend has about 400 fewer lines of code due to refactoring. 
 - 100% of ~900 lines of PHP backend was rewritten in Django with Python. Roughly the same amount of code was needed in both languages.
-- Thanks to VPS and having control over the server for Part 2:
+- Thanks to VPS and having control over the server for Semester 2:
   - HTTPS support for React and the API in deployments (Installing Certbot with Let's Encrypt was possible)
   - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
-- Part II's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
+- Semester 1's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
 
-|               | Part 1 (4/4-4/27) | Part 2 (6/1-now)  |
+|               | Semester 1 (4/4-4/27) | Semester 2 (6/1-now)  |
 | ------------- |:------------:| -----:|
 | Hosting       | Shared       | VPS (frontend) <br> Home Server (backend)|
 | Server    | Apache       | Nginx, Gunicorn |
@@ -73,7 +89,7 @@ The models will be periodically improved as more data comes in.
 | Backend  | PHP         | Python, Django |
 
 
-## Part 1 
+## Semester 1 
 **April 4 - April 27, 2023**
 
 [Archive location, including last build](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1),  
