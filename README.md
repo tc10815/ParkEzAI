@@ -15,12 +15,12 @@ The goal of the product in both projects is to monitor parking lots for business
   - [Semester 1: complete first semester project](#semester-1), where [Functional Requirements](#functional-requirements) 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6 were completed with PHP 
 
 ## Live Parking Spot Detection Demo
-[![Liveshot](https://backend.plan6.com/lots/github_view?camera=coldwatermi)](https://plan6.com/lot/coldwatermi)
+[![Liveshot](https://backend.plan6.com/lots/github_view?camera=coldwatermi)](https://plan6.com/lot/coldwater)
 Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
 
-Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwatermi).
+Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 7/27/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 7/29/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 

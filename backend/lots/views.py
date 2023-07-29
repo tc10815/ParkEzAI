@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from django.http import FileResponse, JsonResponse
 from django.views.generic import ListView
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -425,3 +425,66 @@ class LatestJPGImageFileView(APIView):
 
         # Return the image data as a response
         return response
+    
+class LotOwnerDashboardView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        email = user.get_email_field_name()
+        role_name = user.role.role_name        
+        if role_name != 'Lot Operator':
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Retrieve the lots associated with the user
+        lots = []
+        for x in LotMetadata.objects.all():
+            if str(x.owner) == request.user.email:
+                lots.append(x) 
+        lot_cams = {}
+        for lot in lots:
+            cameras = CamMetadata.objects.filter(lot=lot)
+            lot_cams[str(lot)] = cameras
+        
+
+        camera_names = [camera.name for camera in lot_cams[str(lots[0])]]
+        try:
+            lot_image = CamImage.objects.filter(camera_name=camera_names[0]).latest('timestamp')
+        except CamImage.DoesNotExist:
+            return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get the URL of the image file
+        image_url = default_storage.url(lot_image.image.name)
+
+        try:
+            previous_image = CamImage.objects.filter(camera_name=camera_names[0], timestamp__lt=lot_image.timestamp).latest('timestamp')
+            previous_image_name_part = previous_image.image.name.split('_')[-1].replace('.jpg', '')
+        except CamImage.DoesNotExist:
+            # If there is no previous image, use the current image name part
+            previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
+
+        spots_path = os.path.join('models', camera_names[0], 'spots_view.json')
+        bestspots_path = os.path.join('models', camera_names[0], 'bestspots.json')
+        
+        # Load the contents of the JSON files
+        with open(spots_path, 'r') as spots_file:
+            spots_data = json.load(spots_file)
+        with open(bestspots_path, 'r') as bestspots_file:
+            bestspots_data = json.load(bestspots_file)
+
+
+        human_labels = json.loads(lot_image.human_labels)
+        model_labels = json.loads(lot_image.model_labels)
+        # Construct the response data
+        response_data = {
+            'image_url': image_url,
+            'timestamp': lot_image.timestamp,
+            'human_labels': human_labels,
+            'model_labels': model_labels,
+            'previous_image_name_part': previous_image_name_part,
+            'spots': spots_data,
+            'bestspots': bestspots_data,
+        }
+        print(response_data)
+        return Response(response_data)
+

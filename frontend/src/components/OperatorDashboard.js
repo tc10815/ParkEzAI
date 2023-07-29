@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/operatordbhero.jpg';
-import LotStream from './LotStream';
 import Footer from "./Footer";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -12,6 +11,18 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+
+const LotCanvas = styled.canvas`
+  max-width: 70vw;
+  height: auto; 
+`
+const ImageDiv = styled.div` 
+  margin-top:2;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const WebCamContainer = styled.div`
   background-color: white;
@@ -54,14 +65,40 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 `;
 
+function formatDate(inputdate){
+  // setHumanTime(data.timestamp);
+  const timestampUTC = new Date(inputdate); // parse the ISO string into a Date object
+  const timestampEST = new Date(timestampUTC.getTime() + (4 * 60 * 60 * 1000)); // subtract 5 hours from UTC to get EST
+  let hour = timestampEST.getHours();
+  let ampm = 'am'
+  if (hour == 0){
+    hour = 12;
+  } else if (hour > 12){
+    hour = hour - 12;
+    ampm = 'pm'
+  } 
+  
+  return (timestampEST.getMonth() + 1) + '/' + timestampEST.getDate() + '/' + timestampEST.getFullYear() + ' ' 
+    + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
+}
 
 const OperatorDashboard = () => {
 
   const [user, setUser] = useState(null);
   const location = useLocation();
-
+  const canvasRef = useRef(null);
+  const [imageSrc, setImageSrc] = useState('');
+  const [humanLabels, setHumanLabels] = useState('');
+  const [humanLabelsJson, setHumanLabelsJson] = useState({});
+  const [spots, setSpots] = useState({});
+  const [bestSpots, setBestSpots] = useState({});
+  const [bestSpot, setBestSpot] = useState('');
+  const [humanTime, setHumanTime] = useState('');
+  const [previousImageName, setPreviousImageName] = useState('');
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
     const token = localStorage.getItem("token");
     if (token) {
       fetch(API_URL + 'accounts/users/me/', {
@@ -73,6 +110,68 @@ const OperatorDashboard = () => {
         .then(response => response.json())
         .then(data => setUser(data));
     }
+    if (token) {
+      fetch(API_URL + 'lots/lot_dashboard/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+          setSpots(data.spots);
+          setBestSpots(data.bestspots);
+          setHumanLabelsJson(data.human_labels);
+          const trueLabels = Object.entries(data.human_labels)
+                      .filter(([key, value]) => value === true)
+                      .map(([key]) => key)
+                      .join(", ");
+
+          let bestSpotString = 'None available';
+          let BestSpotSoFarKey = 99999;
+          for (let spot in Object.keys(data.bestspots)){
+            if(!data.human_labels[data.bestspots[spot]] & Number(spot) < BestSpotSoFarKey){
+              bestSpotString = data.bestspots[spot];
+              BestSpotSoFarKey = Number(spot);
+            }
+          }
+          setBestSpot(bestSpotString);
+          setHumanLabels(trueLabels);
+          setHumanTime(formatDate(data.timestamp));
+          setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
+          setPreviousImageName(data.previous_image_name_part);
+          const image = new Image();
+          image.src = API_URL + "lots" + data.image_url;
+          image.onload = () => {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            context.lineWidth = 9;
+            context.font = "bold 50px Arial";
+            const entries = Object.entries(data.spots);
+            entries.reverse().forEach(([key, value]) => {
+            const [x1, x2, y1, y2] = value;
+              const width = x2 - x1;
+              const height = y2 - y1;
+          
+              if(key === bestSpotString){
+                  context.strokeStyle = 'green';
+                  context.fillStyle = 'green';
+                }else if(data.human_labels[key]){
+                  context.strokeStyle = 'red';
+                  context.fillStyle = 'red';
+              }else{
+                  context.strokeStyle = 'blue';
+                  context.fillStyle = 'blue';
+              }
+          
+              context.strokeRect(x1, y1, width, height);
+              context.fillText(key, x1, y1 - 5); 
+          });
+          }
+      })
+      }
+
   }, [location]);
   
   return (
@@ -87,7 +186,9 @@ const OperatorDashboard = () => {
             <SubHeading>Welcome back</SubHeading>
           )}
           <p>Parking Lot Cameras Livefeed</p>
-          <p><LotStream /></p>
+          <ImageDiv>
+            <LotCanvas ref={canvasRef} />
+          </ImageDiv>
           <p>Parking Analysis</p>
           <MyTable>
             <tr>
@@ -120,6 +221,7 @@ const OperatorDashboard = () => {
             </tr>
           </MyTable>
         </WebCamContainer>
+
       </HeroImage>
       <Footer />
     </HomeContainer>
