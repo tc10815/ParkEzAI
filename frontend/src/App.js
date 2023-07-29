@@ -80,8 +80,8 @@ const App = () => {
           <Route path="/my-tickets" element={<MyTickets />} />
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/coldwater" element={<LatestLotImage />} />
-          <Route path="/lot/:camera" element={<LatestLotImage />} />
-          <Route path="/image/:camera/:imageName" element={<SpecificImage />} />
+          <Route path="/lot/:lot" element={<LatestLotImage />} />
+          <Route path="/image/:lot/:imageName" element={<SpecificImage />} />
 
         </Routes>
       </ContentWrapper>

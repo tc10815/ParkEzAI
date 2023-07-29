@@ -80,7 +80,7 @@ const SpecificImage = () => {
   const [bestSpot, setBestSpot] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
   const [nextImageName, setNextImageName] = useState('');
-  const { camera, imageName } = useParams();
+  const { lot, imageName } = useParams();
   const navigate = useNavigate();
 
 
@@ -88,7 +88,7 @@ const SpecificImage = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     const endpoint = new URL('lots/lot_specific', API_URL);
-    endpoint.searchParams.append('camera', camera);
+    endpoint.searchParams.append('lot', lot);
     endpoint.searchParams.append('image', imageName);
 
     // Fetch image and labels from API
@@ -148,15 +148,15 @@ const SpecificImage = () => {
         .catch((error) => {
             console.error('Error fetching data:', error);
         });    
-}, [camera, imageName]);
+}, [lot, imageName]);
 
 
   const handlePrevious = () => {
-    navigate(`/image/${camera}/${previousImageName}`);
+    navigate(`/image/${lot}/${previousImageName}`);
   };
 
   const handleNext = () => {
-    navigate(`/image/${camera}/${nextImageName}`);
+    navigate(`/image/${lot}/${nextImageName}`);
   };
 
   return (

@@ -13,26 +13,26 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.core.files.storage import default_storage
 from django.conf import settings
 
-from .models import LotImage, LotMetadata
+from .models import CamImage, LotMetadata, CamMetadata
 
 MAX_FOLDER_MB = 950
 
-def get_mb_folder(folder_name):
-    if os.path.exists(folder_name):
-        return int(os.popen(f"du -sm {folder_name} | awk '{{print $1}}'").read())
+def get_mb_folder(camera_name):
+    if os.path.exists(camera_name):
+        return int(os.popen(f"du -sm {camera_name} | awk '{{print $1}}'").read())
 
 # This can limit folder size by image counts instead of folder MB if you choose, this is otherwise not used
-def get_file_count_folder(folder_name):
-    if os.path.exists(folder_name):
-        files = os.listdir(folder_name)
+def get_file_count_folder(camera_name):
+    if os.path.exists(camera_name):
+        files = os.listdir(camera_name)
         return len(files)
 
-def get_oldest_image_filename(folder_name):
+def get_oldest_image_filename(camera_name):
     oldest_file = None
     oldest_datestamp = datetime.datetime.now()
 
-    if os.path.exists(folder_name):
-        for filename in os.listdir(folder_name):
+    if os.path.exists(camera_name):
+        for filename in os.listdir(camera_name):
             if filename.endswith('.jpg'):  # Adjust the file extension as per your filename format
                 date_code = filename.split("_")[-1].split(".")[0]
                 file_datestamp = datetime.datetime.strptime(date_code, '%Y%m%d%H%M')
@@ -47,10 +47,10 @@ def delete_file_and_lot_image(filename):
         os.remove(filename)
 
     try:
-        lot_image = LotImage.objects.get(image__icontains=os.path.basename(filename))
+        lot_image = CamImage.objects.get(image__icontains=os.path.basename(filename))
         lot_image.delete()
         print(f'~Successfully deleted {filename}')
-    except LotImage.DoesNotExist:
+    except CamImage.DoesNotExist:
         pass
 
 
@@ -165,23 +165,23 @@ class ImageUploadView(APIView):
         # Convert django.core.files.uploadedfile.InMemoryUploadedFile to a cv2 image for ML processing
         pil_image = Image.open(uploaded_file)
         filename = uploaded_file.name
-        folder_name, date_code = os.path.splitext(filename)[0].split("_")
+        camera_name, date_code = os.path.splitext(filename)[0].split("_")
 
         # Check if an image with the same filename already exists
         try:
-            lot_image = LotImage.objects.get(image__icontains=filename)
+            lot_image = CamImage.objects.get(image__icontains=filename)
             # Delete the old file before saving the new one
             lot_image.image.delete()
-        except LotImage.DoesNotExist:
-            lot_image = LotImage()
+        except CamImage.DoesNotExist:
+            lot_image = CamImage()
 
         # Save the new image
         lot_image.image = uploaded_file
-        lot_image.folder_name = folder_name
-        save_folder = os.path.abspath('./camfeeds/' + folder_name)
+        lot_image.camera_name = camera_name
+        save_folder = os.path.abspath('./camfeeds/' + camera_name)
 
         # Load data from spots.json
-        spots_file_path = os.path.join('models', folder_name, 'spots.json')
+        spots_file_path = os.path.join('models', camera_name, 'spots.json')
         with open(spots_file_path, 'r') as spots_file:
             spots_data = json.load(spots_file)
 
@@ -197,7 +197,7 @@ class ImageUploadView(APIView):
             input_tensor = input_tensor.unsqueeze(0)  # Add a batch dimension
 
             model = CNN()  # Replace YourModelClass with the actual class name of your model
-            model_path = os.path.join('models', folder_name, spot + '.pth')
+            model_path = os.path.join('models', camera_name, spot + '.pth')
 
             #Code for development env
             # model_state_dict = torch.load(model_path, map_location=torch.device('cpu'))
@@ -229,28 +229,35 @@ class LatestImageView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        camera_name = request.GET.get('camera')
-        if not camera_name:
-            return Response({'detail': 'Camera not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+        lot_name = request.GET.get('lot')
+
+        if not lot_name:
+            return Response({'detail': 'Lot or image not specified.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            lot_image = LotImage.objects.filter(folder_name=camera_name).latest('timestamp')
-        except LotImage.DoesNotExist:
+            lot = LotMetadata.objects.get(id=lot_name)
+            cameras = CamMetadata.objects.filter(lot=lot)
+        except LotMetadata.DoesNotExist:
+            return Response({'detail': 'No such lot found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        camera_names = [camera.name for camera in cameras]
+        try:
+            lot_image = CamImage.objects.filter(camera_name=camera_names[0]).latest('timestamp')
+        except CamImage.DoesNotExist:
             return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Get the URL of the image file
         image_url = default_storage.url(lot_image.image.name)
 
-        # Get the image name part of the previous image
         try:
-            previous_image = LotImage.objects.filter(folder_name=camera_name, timestamp__lt=lot_image.timestamp).latest('timestamp')
+            previous_image = CamImage.objects.filter(camera_name=camera_names[0], timestamp__lt=lot_image.timestamp).latest('timestamp')
             previous_image_name_part = previous_image.image.name.split('_')[-1].replace('.jpg', '')
-        except LotImage.DoesNotExist:
-            # If there is no previous imag;,e, use the current image name part
+        except CamImage.DoesNotExist:
+            # If there is no previous image, use the current image name part
             previous_image_name_part = lot_image.image.name.split('_')[-1].replace('.jpg', '')
 
-        spots_path = os.path.join('models', camera_name, 'spots_view.json')
-        bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
+        spots_path = os.path.join('models', camera_names[0], 'spots_view.json')
+        bestspots_path = os.path.join('models', camera_names[0], 'bestspots.json')
         
         # Load the contents of the JSON files
         with open(spots_path, 'r') as spots_file:
@@ -279,32 +286,40 @@ class SpecificImageView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        camera_name = request.GET.get('camera')
+        lot_name = request.GET.get('lot')
         image_name_part = request.GET.get('image')
 
-        if not camera_name or not image_name_part:
-            return Response({'detail': 'Camera or image not specified.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        image_name = f"camfeeds/{camera_name}/{camera_name}_{image_name_part}.jpg"
+        if not lot_name or not image_name_part:
+            return Response({'detail': 'Lot or image not specified.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            lot_image = LotImage.objects.get(image__icontains=image_name)
-        except LotImage.DoesNotExist:
+            lot = LotMetadata.objects.get(id=lot_name)
+            cameras = CamMetadata.objects.filter(lot=lot)
+        except LotMetadata.DoesNotExist:
+            return Response({'detail': 'No such lot found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        camera_names = [camera.name for camera in cameras]
+
+        image_name = f"camfeeds/{camera_names[0]}/{camera_names[0]}_{image_name_part}.jpg"
+
+        try:
+            lot_image = CamImage.objects.get(image__icontains=image_name)
+        except CamImage.DoesNotExist:
             return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Get the URL of the image file
         image_url = default_storage.url(lot_image.image.name)
 
         # Find the previous and next images by timestamp
-        previous_image = LotImage.objects.filter(folder_name=camera_name, timestamp__lt=lot_image.timestamp).order_by('-timestamp').first()
-        next_image = LotImage.objects.filter(folder_name=camera_name, timestamp__gt=lot_image.timestamp).order_by('timestamp').first()
+        previous_image = CamImage.objects.filter(camera_name=camera_names[0], timestamp__lt=lot_image.timestamp).order_by('-timestamp').first()
+        next_image = CamImage.objects.filter(camera_name=camera_names[0], timestamp__gt=lot_image.timestamp).order_by('timestamp').first()
 
         # Extract the image name part from the previous and next image names
         previous_image_name_part = previous_image.image.name.split('_')[-1].split('.')[0] if previous_image else image_name_part
         next_image_name_part = next_image.image.name.split('_')[-1].split('.')[0] if next_image else image_name_part
 
-        spots_path = os.path.join('models', camera_name, 'spots_view.json')
-        bestspots_path = os.path.join('models', camera_name, 'bestspots.json')
+        spots_path = os.path.join('models', camera_names[0], 'spots_view.json')
+        bestspots_path = os.path.join('models', camera_names[0], 'bestspots.json')
 
         # Load the contents of the JSON files
         with open(spots_path, 'r') as spots_file:
@@ -346,11 +361,10 @@ class LatestJPGImageFileView(APIView):
         camera_name = request.GET.get('camera')
         if not camera_name:
             return Response({'detail': 'Camera not specified.'}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
             # Filter by '.jpg' extension
-            lot_image = LotImage.objects.filter(folder_name=camera_name, image__endswith='.jpg').latest('timestamp')
-        except LotImage.DoesNotExist:
+            lot_image = CamImage.objects.filter(camera_name=camera_name, image__endswith='.jpg').latest('timestamp')
+        except CamImage.DoesNotExist:
             return Response({'detail': 'No JPG images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Get the path of the image file

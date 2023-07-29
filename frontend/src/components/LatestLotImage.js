@@ -82,7 +82,7 @@ const LatestLotImage = () => {
   const [bestSpot, setBestSpot] = useState('');
   const [humanTime, setHumanTime] = useState('');
   const [previousImageName, setPreviousImageName] = useState('');
-  const { camera } = useParams();
+  const { lot } = useParams();
   const navigate = useNavigate();
 
 
@@ -90,10 +90,10 @@ const LatestLotImage = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     const endpoint = new URL('lots/lot_latest/', API_URL);
-    if(typeof camera == 'string'){
-      endpoint.searchParams.append('camera', camera);
+    if(typeof lot == 'string'){
+      endpoint.searchParams.append('lot', lot);
     } else {
-      endpoint.searchParams.append('camera', 'coldwatermi');
+      endpoint.searchParams.append('lot', 'coldwater');
     }
 
     // Fetch image and labels from API
@@ -157,11 +157,11 @@ const LatestLotImage = () => {
 }, []);
 
   const handlePrevious = () => {
-    navigate(`/image/coldwatermi/${previousImageName}`);
+    navigate(`/image/coldwater/${previousImageName}`);
     if(typeof camera == 'string'){
-      navigate(`/image/${camera}/${previousImageName}`);
+      navigate(`/image/${lot}/${previousImageName}`);
     } else {
-      navigate(`/image/coldwatermi/${previousImageName}`);
+      navigate(`/image/coldwater/${previousImageName}`);
     }
 
   };

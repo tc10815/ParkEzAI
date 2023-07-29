@@ -5,12 +5,12 @@ from django.core.files.storage import default_storage
 from accounts.models import CustomUser
 
 def image_upload_path(instance, filename):
-    return f'camfeeds/{instance.folder_name}/{filename}'
+    return f'camfeeds/{instance.camera_name}/{filename}'
 
-class LotImage(models.Model):
+class CamImage(models.Model):
     image = models.ImageField(upload_to=image_upload_path)
     timestamp = models.DateTimeField()
-    folder_name = models.CharField(max_length=255)
+    camera_name = models.CharField(max_length=255)
     human_labels = models.TextField(blank=True, null=True)
     model_labels = models.TextField(blank=True, null=True)
 
@@ -39,6 +39,13 @@ class LotMetadata(models.Model):
     state = models.CharField(max_length=2, null=True, blank=True)
     zip = models.CharField(max_length=5, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class CamMetadata(models.Model):
+    name = models.CharField(max_length=255, primary_key=True)
+    lot = models.ForeignKey(LotMetadata, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
