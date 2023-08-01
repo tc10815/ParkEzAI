@@ -82,6 +82,7 @@ function formatDate(inputdate){
     + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
 };
 
+
 const OperatorDashboard = () => {
 
   const [user, setUser] = useState(null);
@@ -92,7 +93,8 @@ const OperatorDashboard = () => {
   const [currentCarsParked, setCurrentCarsParked] = useState('');
   const [maxCarsParked, setMaxCarsParked] = useState('');
   const [avgCarsParked, setAvgCarsParked] = useState('');
-
+  const [carsParked7Days, setCarsParked7Days] = useState('');
+  const [carsParked7DaysAvg, setCarsParked7DaysAvg] = useState('');
   const [carsParkedToday, setCarsParkedToday] = useState('');
 
   const [spots, setSpots] = useState({});
@@ -146,12 +148,72 @@ const OperatorDashboard = () => {
           setCurrentCarsParked(totalSpotsFull);
 
           const date = new Date();
+          const last7DaysList = [];
+
+          for (let i = 1; i <= 7; i++) {
+            const newDate = new Date(date);
+            newDate.setDate(date.getDate() - i);
+            const formattedDate = (newDate.getMonth() + 1) + '/' + newDate.getDate();
+            last7DaysList.push(formattedDate);
+          }
+
+          const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
           const options = { weekday: 'long' };
           const dayOfWeek = date.toLocaleDateString('en-US', options);
+          const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+          'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+          let sliced =  daysOfWeek.slice(daysOfWeek.indexOf(dayOfWeek) + 1, daysOfWeek.indexOf(dayOfWeek) + 8);
+          let last7DayNameList = sliced.reverse();
+          
           const hours = Array.from({ length: 24 }, (_, i) => i);
           const half_hours = ['00', '30']
           let totalCarsParkedEachHour = 0;
           let totalImagesCounted = 0;
+          let total_days_of_week = {};
+          let total_images_counted_week = {};
+          for (let allWeekdays of days){
+            total_days_of_week[allWeekdays] = 0;
+            total_images_counted_week[allWeekdays] = 0;
+          }
+
+          for (let allWeekdays of days){
+            for (let hour in hours){
+              for (let half_hour in half_hours){
+                const key = allWeekdays + ' ' + hour + ':' + half_hours[half_hour];
+                if (data.week_history[key]['cars'] != -1){
+                  const keys = Object.keys(data.week_history[key]['cars']);
+                  for (let inner_key of keys){
+                    if(data.week_history[key]['cars'][inner_key]){
+                      total_days_of_week[allWeekdays] = total_days_of_week[allWeekdays] + 1;
+                    }
+                    total_images_counted_week[allWeekdays] = total_images_counted_week[allWeekdays] + 1; 
+                  }
+                }
+              }  
+            }
+          }
+
+          for (let theDay in total_images_counted_week){
+            console.log(total_images_counted_week[theDay]);
+          }
+
+          for (let key of Object.keys(total_days_of_week)){
+            total_days_of_week[key] = total_days_of_week[key] / 2;
+          }
+          // last7DayNameList, last7DaysList
+          let carsParked7DaysString = '';
+          let carsParked7DaysAvgString = '';
+          let count = 0;
+          for (let key of last7DayNameList){
+            if (count != 0 ){
+                carsParked7DaysString = carsParked7DaysString + total_days_of_week[key] + ' ('  + last7DaysList[count] + ')'+ ', ';
+                carsParked7DaysAvgString = carsParked7DaysAvgString + ' ' + ((total_days_of_week[key]/total_images_counted_week[key])*100).toFixed(1) + '% ('  + last7DaysList[count] + ')'+ ', ';
+              }
+              count = count + 1;
+          }
+          setCarsParked7Days(carsParked7DaysString.slice(0, -2));
+          setCarsParked7DaysAvg(carsParked7DaysAvgString.slice(0, -2));
+          // setCarsParked7Days(getWeekdays(total_days_of_week, dayOfWeek));
           for (let hour in hours){
             for (let half_hour in half_hours){
               const key = dayOfWeek + ' ' + hour + ':' + half_hours[half_hour];
@@ -164,7 +226,6 @@ const OperatorDashboard = () => {
                   totalImagesCounted = totalImagesCounted + 1;
                 }
               } 
-
             }  
           }
           setCarsParkedToday(totalCarsParkedEachHour);
@@ -231,7 +292,7 @@ const OperatorDashboard = () => {
               <td>{currentCarsParked}/{maxCarsParked}</td>
             </tr>
             <tr>
-              <td>Total Cars Parked Today Each Hour</td>
+              <td>Total Cars Parked Today Tallied Each Hour</td>
               <td>{carsParkedToday/2}</td>
             </tr>
             <tr>
@@ -239,20 +300,16 @@ const OperatorDashboard = () => {
               <td>{(avgCarsParked * 100).toFixed(1)}%</td>
             </tr>
             <tr>
-              <td>Total Cars Parked Today</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;123, 143, 142, 120, 101, 141, 150, 140 (yesterday)</td>
+              <td>7-Day Average Occupancy</td>
+              <td>{carsParked7DaysAvg}</td>
             </tr>
             <tr>
-              <td>Past 7-Day Average Occupancy</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;10.5, 9.3, 11.3, 7.3, 10.2, 9.5, 10.3, 10.2 (yesterday)</td>
-            </tr>
-            <tr>
-              <td>Past 7-Day Total Cars Parked</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123, 143, 142, 120, 101, 141, 150, 140 (yesterday)</td>
+              <td>7-Day Total Cars Parked</td>
+              <td>{carsParked7Days}</td>
             </tr>
             <tr>
               <td>Current Overparking Spaces</td>
-              <td>Spot 4 (28 minutes overparked)</td>
+              <td>Spot 4 (28 minutes overparked) (placeholder)</td>
             </tr>
           </MyTable>
         </WebCamContainer>
