@@ -65,8 +65,20 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 `;
 
+function findOverparking(lotData, currentDate){
+
+  // console.log(Object.keys(lotData[Object.keys(lotData)[0]]));
+  for (let key of Object.keys(lotData).reverse()){
+
+    if(key.split(' ')[0] === currentDate[0]){
+      // console.log(key + ': ');
+      // console.log(lotData[key]);
+    }
+  }
+  // console.log(currentDate);
+}
+
 function formatDate(inputdate){
-  // setHumanTime(data.timestamp);
   const timestampUTC = new Date(inputdate); // parse the ISO string into a Date object
   const timestampEST = new Date(timestampUTC.getTime() + (4 * 60 * 60 * 1000)); // subtract 5 hours from UTC to get EST
   let hour = timestampEST.getHours();
@@ -88,8 +100,6 @@ const OperatorDashboard = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
   const canvasRef = useRef(null);
-  const [imageSrc, setImageSrc] = useState('');
-  const [humanLabels, setHumanLabels] = useState('');
   const [currentCarsParked, setCurrentCarsParked] = useState('');
   const [maxCarsParked, setMaxCarsParked] = useState('');
   const [avgCarsParked, setAvgCarsParked] = useState('');
@@ -97,16 +107,24 @@ const OperatorDashboard = () => {
   const [carsParked7DaysAvg, setCarsParked7DaysAvg] = useState('');
   const [carsParkedToday, setCarsParkedToday] = useState('');
 
-  const [spots, setSpots] = useState({});
-  const [bestSpots, setBestSpots] = useState({});
-  const [bestSpot, setBestSpot] = useState('');
-  const [humanTime, setHumanTime] = useState('');
-  const [previousImageName, setPreviousImageName] = useState('');
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     const token = localStorage.getItem("token");
+    if (token) {
+      fetch(API_URL + 'lots/get_lot_history/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('GETS the to');
+          console.log(data);
+        });
+
+    }
     if (token) {
       fetch(API_URL + 'accounts/users/me/', {
         headers: {
@@ -126,9 +144,6 @@ const OperatorDashboard = () => {
       })
       .then(response => response.json())
       .then(data => {
-          setSpots(data.spots);
-          setBestSpots(data.bestspots);
-
           let bestSpotString = 'None available';
           let BestSpotSoFarKey = 99999;
           for (let spot in Object.keys(data.bestspots)){
@@ -137,7 +152,6 @@ const OperatorDashboard = () => {
               BestSpotSoFarKey = Number(spot);
             }
           }
-          setBestSpot(bestSpotString);
           let totalSpotsFull = 0;
           for (let key in data.human_labels) {
             if (data.human_labels[key]){
@@ -189,12 +203,8 @@ const OperatorDashboard = () => {
                     total_images_counted_week[allWeekdays] = total_images_counted_week[allWeekdays] + 1; 
                   }
                 }
-              }  
+              }
             }
-          }
-
-          for (let theDay in total_images_counted_week){
-            console.log(total_images_counted_week[theDay]);
           }
 
           for (let key of Object.keys(total_days_of_week)){
@@ -226,16 +236,12 @@ const OperatorDashboard = () => {
                   totalImagesCounted = totalImagesCounted + 1;
                 }
               } 
-            }  
+            }
           }
+          findOverparking(data.week_history, last7DayNameList);
           setCarsParkedToday(totalCarsParkedEachHour);
           setAvgCarsParked(totalCarsParkedEachHour / totalImagesCounted);
-                
-
           setMaxCarsParked(Object.keys(data.human_labels).length)
-          setHumanTime(formatDate(data.timestamp));
-          setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
-          setPreviousImageName(data.previous_image_name_part);
           const image = new Image();
           image.src = API_URL + "lots" + data.image_url;
           image.onload = () => {
@@ -260,13 +266,13 @@ const OperatorDashboard = () => {
                   context.strokeStyle = 'blue';
                   context.fillStyle = 'blue';
               }
-          
               context.strokeRect(x1, y1, width, height);
               context.fillText(key, x1, y1 - 5); 
           });
           }
       })
       }
+
 
   }, [location]);
   
@@ -287,31 +293,34 @@ const OperatorDashboard = () => {
           </ImageDiv>
           <p>Parking Analysis</p>
           <MyTable>
-            <tr>
-              <td>Current Occupancy</td>
-              <td>{currentCarsParked}/{maxCarsParked}</td>
-            </tr>
-            <tr>
-              <td>Total Cars Parked Today Tallied Each Hour</td>
-              <td>{carsParkedToday/2}</td>
-            </tr>
-            <tr>
-              <td>Average Occupancy Today</td>
-              <td>{(avgCarsParked * 100).toFixed(1)}%</td>
-            </tr>
-            <tr>
-              <td>7-Day Average Occupancy</td>
-              <td>{carsParked7DaysAvg}</td>
-            </tr>
-            <tr>
-              <td>7-Day Total Cars Parked</td>
-              <td>{carsParked7Days}</td>
-            </tr>
-            <tr>
-              <td>Current Overparking Spaces</td>
-              <td>Spot 4 (28 minutes overparked) (placeholder)</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>Current Occupancy</td>
+                <td>{currentCarsParked}/{maxCarsParked}</td>
+              </tr>
+              <tr>
+                <td>Total Cars Parked Today Tallied Each Hour</td>
+                <td>{carsParkedToday/2}</td>
+              </tr>
+              <tr>
+                <td>Average Occupancy Today</td>
+                <td>{(avgCarsParked * 100).toFixed(1)}%</td>
+              </tr>
+              <tr>
+                <td>7-Day Average Occupancy</td>
+                <td>{carsParked7DaysAvg}</td>
+              </tr>
+              <tr>
+                <td>7-Day Total Cars Parked</td>
+                <td>{carsParked7Days}</td>
+              </tr>
+              <tr>
+                <td>Current Overparking Spaces</td>
+                <td>Spot 4 (28 minutes overparked) (placeholder)</td>
+              </tr>
+            </tbody>
           </MyTable>
+
         </WebCamContainer>
 
       </HeroImage>

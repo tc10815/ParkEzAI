@@ -1,8 +1,5 @@
-import os, io, datetime, torch, json, cv2
+import os, io, datetime, torch, json
 from PIL import Image, ImageDraw, ImageFont    
-import numpy as np
-from datetime import timedelta
-from torch import nn, optim
 import torchvision.transforms as transforms
 from django.http import FileResponse, JsonResponse
 from django.views.generic import ListView
@@ -13,6 +10,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.core.files.storage import default_storage
 from django.conf import settings
+from .serializers import CamImageSerializer
 
 from .models import CamImage, LotMetadata, CamMetadata
 
@@ -505,7 +503,6 @@ class LotOwnerDashboardView(APIView):
             # Update the week_data entry
             week_data[time_key]['cars'] = json.loads(image.human_labels)
 
-        print(week_data)
         # Construct the response data
         response_data = {
             'image_url': image_url,
@@ -519,3 +516,24 @@ class LotOwnerDashboardView(APIView):
         }
         return Response(response_data)
 
+
+class GetLotHistory(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        role_name = user.role.role_name        
+        if role_name != 'Lot Operator':
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Retrieve the lots associated with the user
+        lots = LotMetadata.objects.filter(owner=user)
+        cam_names = CamMetadata.objects.filter(lot__in=lots).values_list('name', flat=True)
+        cam_images = CamImage.objects.filter(camera_name__in=cam_names)
+
+        # Serialize the cam_images using CamImageSerializer
+        serializer = CamImageSerializer(cam_images, many=True)
+        response_data = {
+            'image_data': serializer.data
+        }
+        return Response(response_data)
