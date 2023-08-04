@@ -20,7 +20,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 7/30/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/04/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -38,7 +38,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] **[Functional Requirement 3.1](#3-parking-lot-status)**: Create view with search that shows all available parking lots (including placeholders) to public
   - [x] **[Functional Requirement 3.3](#3-parking-lot-status)**: Create a API endpoint that usable for general external websites and apps that shows public lot data 
 - [ ] **Step 4:** Implement **[Functional Requirements 2.1, 2.3  and 2.3](#2-parking-lot-management)** by integrating Step 2's scripts with Django
-  - [ ] **[Functional Requirement 2.1](#2-parking-lot-management)**: Integrate track occupancy with Lot Owner Interface with bonus features 
+  - [x] **[Functional Requirement 2.1](#2-parking-lot-management)**: Integrate track occupancy with Lot Owner Interface with bonus features 
   - [ ] **[Function Requirement 2.2](#2-parking-lot-management)**: Integrate lot image / occupancy data archive in a way that provides lot owners with useful information 
   - [ ] **[Function Requirement 2.3](#2-parking-lot-management)**: Create overparking detection, alert and review system and provide interface for lot owners
 - [ ] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system

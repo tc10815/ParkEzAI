@@ -65,17 +65,36 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 `;
 
-function findOverparking(lotData, currentDate){
+const overparkingStyle = {
+  margin: "auto", // Centers the table horizontally
+  textAlign: "center", // Centers the text within table cells
+};
 
-  // console.log(Object.keys(lotData[Object.keys(lotData)[0]]));
-  for (let key of Object.keys(lotData).reverse()){
+function findOverparking(allData){
+  const sortedData = allData.slice().sort((a, b) => {
+    const dateA = new Date(a.timestamp);
+    const dateB = new Date(b.timestamp);
+    return dateA - dateB; // For ascending order
+  });
+  const spotNames = Object.keys(JSON.parse(sortedData[0].human_labels));
 
-    if(key.split(' ')[0] === currentDate[0]){
-      // console.log(key + ': ');
-      // console.log(lotData[key]);
+  let spotOccupancyTime = {};
+  spotNames.forEach(spotNames => {
+    spotOccupancyTime[spotNames] = 0;
+  });
+
+  for (let x = 0; x < sortedData.length-1; x++){
+    for (let keyName of spotNames){
+      let time_diff = (new Date(sortedData[x+1].timestamp) - new Date(sortedData[x].timestamp))/60000 / 60;
+    
+      if(JSON.parse(sortedData[x+1].human_labels)[keyName]){
+        spotOccupancyTime[keyName] = spotOccupancyTime[keyName] + time_diff;
+      } else {
+        spotOccupancyTime[keyName] = 0;
+      }
     }
   }
-  // console.log(currentDate);
+  return spotOccupancyTime;
 }
 
 function formatDate(inputdate){
@@ -83,7 +102,7 @@ function formatDate(inputdate){
   const timestampEST = new Date(timestampUTC.getTime() + (4 * 60 * 60 * 1000)); // subtract 5 hours from UTC to get EST
   let hour = timestampEST.getHours();
   let ampm = 'am'
-  if (hour == 0){
+  if (hour === 0){
     hour = 12;
   } else if (hour > 12){
     hour = hour - 12;
@@ -101,12 +120,13 @@ const OperatorDashboard = () => {
   const location = useLocation();
   const canvasRef = useRef(null);
   const [currentCarsParked, setCurrentCarsParked] = useState('');
+  const [dateOfMostRecentImage, setDateOfMostRecentImage] = useState('');
   const [maxCarsParked, setMaxCarsParked] = useState('');
   const [avgCarsParked, setAvgCarsParked] = useState('');
   const [carsParked7Days, setCarsParked7Days] = useState('');
   const [carsParked7DaysAvg, setCarsParked7DaysAvg] = useState('');
   const [carsParkedToday, setCarsParkedToday] = useState('');
-
+  const [overparkingData, setOverparkingData] = useState({});
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -120,8 +140,7 @@ const OperatorDashboard = () => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('GETS the to');
-          console.log(data);
+          setOverparkingData(findOverparking(data.image_data));
         });
 
     }
@@ -144,6 +163,7 @@ const OperatorDashboard = () => {
       })
       .then(response => response.json())
       .then(data => {
+          setDateOfMostRecentImage(data.timestamp);
           let bestSpotString = 'None available';
           let BestSpotSoFarKey = 99999;
           for (let spot in Object.keys(data.bestspots)){
@@ -194,7 +214,7 @@ const OperatorDashboard = () => {
             for (let hour in hours){
               for (let half_hour in half_hours){
                 const key = allWeekdays + ' ' + hour + ':' + half_hours[half_hour];
-                if (data.week_history[key]['cars'] != -1){
+                if (data.week_history[key]['cars'] !== -1){
                   const keys = Object.keys(data.week_history[key]['cars']);
                   for (let inner_key of keys){
                     if(data.week_history[key]['cars'][inner_key]){
@@ -210,24 +230,22 @@ const OperatorDashboard = () => {
           for (let key of Object.keys(total_days_of_week)){
             total_days_of_week[key] = total_days_of_week[key] / 2;
           }
-          // last7DayNameList, last7DaysList
           let carsParked7DaysString = '';
           let carsParked7DaysAvgString = '';
           let count = 0;
           for (let key of last7DayNameList){
-            if (count != 0 ){
-                carsParked7DaysString = carsParked7DaysString + total_days_of_week[key] + ' ('  + last7DaysList[count] + ')'+ ', ';
-                carsParked7DaysAvgString = carsParked7DaysAvgString + ' ' + ((total_days_of_week[key]/total_images_counted_week[key])*100).toFixed(1) + '% ('  + last7DaysList[count] + ')'+ ', ';
+            if (count !== 0 ){
+                carsParked7DaysString = carsParked7DaysString + total_days_of_week[key] + ' ('  + last7DaysList[count] + '), ';
+                carsParked7DaysAvgString = carsParked7DaysAvgString + ' ' + ((total_days_of_week[key]/total_images_counted_week[key])*100).toFixed(1) + '% ('  + last7DaysList[count] + '), ';
               }
               count = count + 1;
           }
           setCarsParked7Days(carsParked7DaysString.slice(0, -2));
           setCarsParked7DaysAvg(carsParked7DaysAvgString.slice(0, -2));
-          // setCarsParked7Days(getWeekdays(total_days_of_week, dayOfWeek));
           for (let hour in hours){
             for (let half_hour in half_hours){
               const key = dayOfWeek + ' ' + hour + ':' + half_hours[half_hour];
-              if (data.week_history[key]['cars'] != -1){
+              if (data.week_history[key]['cars'] !== -1){
                 const keys = Object.keys(data.week_history[key]['cars']);
                 for (let inner_key of keys){
                   if(data.week_history[key]['cars'][inner_key]){
@@ -238,7 +256,6 @@ const OperatorDashboard = () => {
               } 
             }
           }
-          findOverparking(data.week_history, last7DayNameList);
           setCarsParkedToday(totalCarsParkedEachHour);
           setAvgCarsParked(totalCarsParkedEachHour / totalImagesCounted);
           setMaxCarsParked(Object.keys(data.human_labels).length)
@@ -287,7 +304,7 @@ const OperatorDashboard = () => {
           ) : (
             <SubHeading>Welcome back</SubHeading>
           )}
-          <p>Parking Lot Cameras Livefeed</p>
+          <p>Parking Lot {formatDate(dateOfMostRecentImage)}</p>
           <ImageDiv>
             <LotCanvas ref={canvasRef} />
           </ImageDiv>
@@ -315,11 +332,26 @@ const OperatorDashboard = () => {
                 <td>{carsParked7Days}</td>
               </tr>
               <tr>
-                <td>Current Overparking Spaces</td>
-                <td>Spot 4 (28 minutes overparked) (placeholder)</td>
               </tr>
             </tbody>
           </MyTable>
+          <br />
+          <table style={overparkingStyle}>
+                  <thead>
+                    <tr>
+                      <th>Spot Name |</th>
+                      <th>Hours Parked</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(overparkingData).map((key) => (
+                      <tr key={key}>
+                        <td>{key}</td>
+                        <td style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}>{parseFloat(overparkingData[key].toFixed(1))}</td> 
+                      </tr>
+                    ))}
+                  </tbody>
+            </table>
 
         </WebCamContainer>
 

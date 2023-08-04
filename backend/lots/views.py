@@ -1,6 +1,7 @@
 import os, io, datetime, torch, json
 from PIL import Image, ImageDraw, ImageFont    
 import torchvision.transforms as transforms
+from torch import nn, optim
 from django.http import FileResponse, JsonResponse
 from django.views.generic import ListView
 from rest_framework.views import APIView
