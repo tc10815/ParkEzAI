@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {useLocation} from 'react-router-dom';
+import {useLocation, Link} from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/operatordbhero.jpg';
 import Footer from "./Footer";
@@ -79,8 +79,11 @@ function findOverparking(allData){
   const spotNames = Object.keys(JSON.parse(sortedData[0].human_labels));
 
   let spotOccupancyTime = {};
+  let lastFreeSpace = {};
+
   spotNames.forEach(spotNames => {
     spotOccupancyTime[spotNames] = 0;
+    lastFreeSpace[spotNames] = '';
   });
 
   for (let x = 0; x < sortedData.length-1; x++){
@@ -91,10 +94,28 @@ function findOverparking(allData){
         spotOccupancyTime[keyName] = spotOccupancyTime[keyName] + time_diff;
       } else {
         spotOccupancyTime[keyName] = 0;
+        let match = sortedData[x+1].image.match(/_(\d+)\./);
+        if (match) {
+          lastFreeSpace[keyName] = match[1];
+        }
       }
     }
   }
-  return spotOccupancyTime;
+  let current_datetime = '';
+  let match = sortedData[sortedData.length-1].image.match(/_(\d+)\./);
+  console.log();
+  if (match) {
+    current_datetime = match[1];
+  }
+
+  let occupancyCheckLink = {};
+  spotNames.forEach(spotNames => {
+    occupancyCheckLink[spotNames] = 'lot/' + sortedData[0].camera_name + '/' + spotNames + '/' + lastFreeSpace[spotNames] + '/' + current_datetime + '/';
+    // overparking_confirm/<str:lot>/<str:cam>/<str:spot>/<str:startdatetime>/<str:enddatetime>/
+  });
+  console.log("making confirm links")
+  console.log(occupancyCheckLink);
+  return [spotOccupancyTime, occupancyCheckLink];
 }
 
 function formatDate(inputdate){
@@ -127,6 +148,7 @@ const OperatorDashboard = () => {
   const [carsParked7DaysAvg, setCarsParked7DaysAvg] = useState('');
   const [carsParkedToday, setCarsParkedToday] = useState('');
   const [overparkingData, setOverparkingData] = useState({});
+  const [overparkingConfirmLinks, setOverparkingConfirmLinks] = useState({});
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -140,7 +162,9 @@ const OperatorDashboard = () => {
       })
         .then(response => response.json())
         .then(data => {
-          setOverparkingData(findOverparking(data.image_data));
+          let doubleret = findOverparking(data.image_data);
+          setOverparkingData(doubleret[0]);
+          setOverparkingConfirmLinks(doubleret[1]);
         });
 
     }
@@ -331,30 +355,37 @@ const OperatorDashboard = () => {
                 <td>7-Day Total Cars Parked</td>
                 <td>{carsParked7Days}</td>
               </tr>
-              <tr>
-              </tr>
             </tbody>
           </MyTable>
           <br />
           <table style={overparkingStyle}>
-                  <thead>
-                    <tr>
-                      <th>Spot Name |</th>
-                      <th>Hours Parked</th>
+            <thead>
+              <tr>
+                <th>Spot Name |</th>
+                <th>Hours Parked</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(overparkingData).map((key) => 
+                overparkingData[key] !== 0 && (
+                    <tr key={key}>
+                      <td>
+                      <Link to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}>
+                          {key}
+                      </Link>
+                      </td>
+                      <td style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}>
+                      <Link to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}>
+                        {parseFloat(overparkingData[key].toFixed(1))}
+                      </Link>
+                      </td> 
+
                     </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(overparkingData).map((key) => (
-                      <tr key={key}>
-                        <td>{key}</td>
-                        <td style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}>{parseFloat(overparkingData[key].toFixed(1))}</td> 
-                      </tr>
-                    ))}
-                  </tbody>
-            </table>
-
+                )
+              )}
+            </tbody>
+          </table>
         </WebCamContainer>
-
       </HeroImage>
       <Footer />
     </HomeContainer>

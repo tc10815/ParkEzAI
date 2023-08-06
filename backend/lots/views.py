@@ -12,7 +12,6 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.core.files.storage import default_storage
 from django.conf import settings
 from .serializers import CamImageSerializer
-
 from .models import CamImage, LotMetadata, CamMetadata
 
 MAX_FOLDER_MB = 950
@@ -536,5 +535,20 @@ class GetLotHistory(APIView):
         serializer = CamImageSerializer(cam_images, many=True)
         response_data = {
             'image_data': serializer.data
+        }
+        return Response(response_data)
+
+class OverparkingConfirm(APIView):
+    def get(self, request, lot, cam, spot, startdatetime, enddatetime, format=None):
+        # Here you can add logic for handling the parameters and generating the response
+
+        # For now, we'll just return them in the response
+        response_data = {
+            'lot': lot,
+            'cam': cam,
+            'spot': spot,
+            'startdatetime': startdatetime,
+            'enddatetime': enddatetime,
+            'temp': 'text',
         }
         return Response(response_data)

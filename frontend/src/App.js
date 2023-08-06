@@ -30,6 +30,7 @@ import MyTickets from './components/MyTickets';
 import Tickets from './components/Tickets';
 import LatestLotImage from './components/LatestLotImage';
 import SpecificImage from './components/SpecificImage';
+import OverparkingConfirm from './components/OverparkingConfirm';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -82,7 +83,7 @@ const App = () => {
           <Route path="/coldwater" element={<LatestLotImage />} />
           <Route path="/lot/:lot" element={<LatestLotImage />} />
           <Route path="/image/:lot/:imageName" element={<SpecificImage />} />
-
+          <Route path="/overpark-confirm/:lot/:cam/:space/:starttime/:endtime" element={<OverparkingConfirm />} />
         </Routes>
       </ContentWrapper>
     </Router>
