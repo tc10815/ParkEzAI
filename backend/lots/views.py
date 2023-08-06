@@ -1,4 +1,4 @@
-import os, io, datetime, torch, json
+import os, io, torch, json
 from PIL import Image, ImageDraw, ImageFont    
 import torchvision.transforms as transforms
 from torch import nn, optim
@@ -13,6 +13,8 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from .serializers import CamImageSerializer
 from .models import CamImage, LotMetadata, CamMetadata
+from django.utils import timezone
+from datetime import datetime
 
 MAX_FOLDER_MB = 950
 
@@ -537,18 +539,33 @@ class GetLotHistory(APIView):
             'image_data': serializer.data
         }
         return Response(response_data)
-
+    
 class OverparkingConfirm(APIView):
     def get(self, request, lot, cam, spot, startdatetime, enddatetime, format=None):
-        # Here you can add logic for handling the parameters and generating the response
+        # Convert startdatetime and enddatetime from string to datetime
+        naive_startdatetime = datetime.strptime(startdatetime, '%Y%m%d%H%M')
+        naive_enddatetime = datetime.strptime(enddatetime, '%Y%m%d%H%M')
 
-        # For now, we'll just return them in the response
+        # Make the datetime objects timezone aware
+        startdatetime = timezone.make_aware(naive_startdatetime)
+        enddatetime = timezone.make_aware(naive_enddatetime)
+
+        # Query the CamImage model to get all instances that meet the conditions
+        cam_images = CamImage.objects.filter(
+            timestamp__range=(startdatetime, enddatetime),
+            camera_name=cam
+        )
+
+        spots_file_path = os.path.join('models', cam, 'spots_view.json')
+        with open(spots_file_path, 'r') as spots_file:
+            spots_data = json.load(spots_file)
+
+        # Serialize the cam_images queryset to JSON
+        serializer = CamImageSerializer(cam_images, many=True)
+
+        # Include the serialized cam_images in the response
         response_data = {
-            'lot': lot,
-            'cam': cam,
-            'spot': spot,
-            'startdatetime': startdatetime,
-            'enddatetime': enddatetime,
-            'temp': 'text',
+            'crop': spots_data[spot],
+            'cam_images': serializer.data
         }
         return Response(response_data)

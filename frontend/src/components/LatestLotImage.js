@@ -119,7 +119,7 @@ const LatestLotImage = () => {
             setBestSpot(bestSpotString);
             setHumanLabels(trueLabels);
             setHumanTime(formatDate(data.timestamp));
-            setImageSrc(API_URL + 'lots' + data.image_url);  // prefix the image URL with the server base URL and 'lots'
+            setImageSrc(API_URL + 'lots' + data.image_url); 
             setPreviousImageName(data.previous_image_name_part);
             const image = new Image();
             image.src = API_URL + "lots" + data.image_url;
