@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, useNavigate, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import FindParking from './components/FindParking';
@@ -31,6 +31,7 @@ import Tickets from './components/Tickets';
 import LatestLotImage from './components/LatestLotImage';
 import SpecificImage from './components/SpecificImage';
 import OverparkingConfirm from './components/OverparkingConfirm';
+import Archive from './components/Archive';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -47,6 +48,15 @@ const App = () => {
 
   const handleLogout = () => {
     setUser(null);
+  };
+  const ArchiveRedirect = () => {
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      navigate('/archive/default/default');
+    }, [navigate]);
+  
+    return null; // This component doesn't render anything to the DOM
   };
 
   return (
@@ -83,6 +93,8 @@ const App = () => {
           <Route path="/coldwater" element={<LatestLotImage />} />
           <Route path="/lot/:lot" element={<LatestLotImage />} />
           <Route path="/image/:lot/:imageName" element={<SpecificImage />} />
+          <Route path="/archive" element={<ArchiveRedirect />} />
+          <Route path="/archive/:lot/:imageName" element={<Archive />} />
           <Route path="/overpark-confirm/:lot/:cam/:space/:starttime/:endtime" element={<OverparkingConfirm />} />
         </Routes>
       </ContentWrapper>

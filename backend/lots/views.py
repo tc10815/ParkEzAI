@@ -30,13 +30,13 @@ def get_file_count_folder(camera_name):
 
 def get_oldest_image_filename(camera_name):
     oldest_file = None
-    oldest_datestamp = datetime.datetime.now()
+    oldest_datestamp = datetime.now()
 
     if os.path.exists(camera_name):
         for filename in os.listdir(camera_name):
             if filename.endswith('.jpg'):  # Adjust the file extension as per your filename format
                 date_code = filename.split("_")[-1].split(".")[0]
-                file_datestamp = datetime.datetime.strptime(date_code, '%Y%m%d%H%M')
+                file_datestamp = datetime.strptime(date_code, '%Y%m%d%H%M')
 
                 if file_datestamp < oldest_datestamp:
                     oldest_datestamp = file_datestamp
@@ -567,5 +567,31 @@ class OverparkingConfirm(APIView):
         response_data = {
             'crop': spots_data[spot],
             'cam_images': serializer.data
+        }
+        return Response(response_data)
+
+class GetArchiveView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        user_email = str(user)
+        lots = LotMetadata.objects.filter(owner__email=user_email)
+        cams = CamMetadata.objects.filter(lot=lots[0])
+        try:
+            image = CamImage.objects.filter(camera_name=cams[0]).latest('timestamp')
+        except CamImage.DoesNotExist:
+            return Response({'detail': 'No images found for this camera.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Separate date string from full path of latest image
+        full_image_path = str(image.image)
+        parts = full_image_path.split("_")
+        last_part = parts[-1]
+        image_date = last_part.split(".")[0]
+        response_data = {
+            'email': user_email,
+            'lot': lots[0].id,
+            'cam': cams[0].name,
+            'image': image_date
         }
         return Response(response_data)

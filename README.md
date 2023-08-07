@@ -20,7 +20,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/06/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/07/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -62,7 +62,7 @@ the whole website runs much faster and has tons of space for Lot cam footage.
   
 ## Notes on Parking Spot Occupancy Detection 
 
-When I explained to GPT4 what I wanted to do, it recommended I use the YOLOv3 model to detect cars in parking spacess. YOLO is a model for detecting cars and other objects that doesn't require any training (you just tell it to look for cars and it does its thing). However, at night and in unusual weather it struggled. On 24 hour footage, it only had .58 recall, meaning it only registered cars in spaces 58% of time. 
+When I explained to GPT4 what I wanted to do, it recommended I use the YOLOv3 model to detect cars in parking spaces. YOLO is a model for detecting cars and other objects that doesn't require any training (you just tell it to look for cars and it does its thing). However, at night and in unusual weather it struggled. On 24 hour footage, it only had .58 recall, meaning it only registered cars in spaces 58% of time. 
 
 That wasn't good enough so I worked with GPT4 to build models like cat-dog classifiers, using CNNs with PyTorch, to be applied to a cropped image of the space. I assigned a rectangle of the parking lot to each space, programmatically cropped the images and shaped them to 128x128 (now 256x256) and trained a model for each space based off of examples of cropped spaces containing a car, and without a car. 
 
@@ -78,7 +78,7 @@ The models will be periodically improved as more data comes in.
 - Thanks to VPS and having control over the server for Semester 2:
   - HTTPS support for React and the API in deployments (Installing Certbot with Let's Encrypt was possible)
   - Browser Router made it so hashes (#) weren't necessary in the URL (required for my previous shared hosting)
-- Semester 1's version is professional, secure and works, but the server is a slightly slower than PHP.  I will look into optimizations to improve this.
+- Semester 2's version is professional, secure and works, but was originally slower than PHP. It performs better after now [that the server has been upgraded](#notes-on-deploying-computer-vision-and-machine-learning-on-backend-server)
 
 |               | Semester 1 (4/4-4/27) | Semester 2 (6/1-now)  |
 | ------------- |:------------:| -----:|
@@ -119,7 +119,7 @@ When ParkEzAI began development, the ParkEz school project was mostly unimplemen
 ## Functional Requirements 
 **Note: identical for ParkEzAi (this project) and group ParkEz class project**
 
-ParkEzAI allows parking lot owners to see how many spaces are occupied in their lot, identify overparkers and record security to the cloud to revisit it later. It allows would be parkers to see how occupied a lot is and see the best spot. Advertisors can also place advertisements on the park lot page for the general public. 
+ParkEzAI allows parking lot owners to see how many spaces are occupied in their lot, identify overparkers and record security to the cloud to revisit it later. It allows would be parkers to see how occupied a lot is and see the best spot. Advertisers can also place advertisements on the park lot page for the general public. 
 
 #### 1. Account Management
 
@@ -140,7 +140,7 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 #### 3. Parking Lot Status
 
 * **3.1 Search and Select Lot:**	Unsubscribed users can browse and search parking lots using ParkEZ. 
-* **3.2 View Occupancy Shows:** unsubscribed users most optimal space available and occupancy of selected parkng lot. View includes ads.
+* **3.2 View Occupancy Shows:** unsubscribed users most optimal space available and occupancy of selected parking lot. View includes ads.
 * **3.3 Access Occupancy Remotely:**	A non GUI element offers occupancy status data through an interface Parking Lot Managers can use with their website.
 
 #### 4. Advertising Management

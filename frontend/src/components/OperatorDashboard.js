@@ -366,25 +366,31 @@ const OperatorDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {Object.keys(overparkingData).map((key) => 
-                overparkingData[key] !== 0 && (
-                    <tr key={key}>
-                      <td>
-                      <Link to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}>
-                          {key}
-                      </Link>
-                      </td>
-                      <td style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}>
-                      <Link to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}>
-                        {parseFloat(overparkingData[key].toFixed(1))}
-                      </Link>
-                      </td> 
-
-                    </tr>
-                )
-              )}
+                {Object.keys(overparkingData).map((key) => 
+                    overparkingData[key] !== 0 && (
+                        <tr key={key}>
+                            <td>
+                                <Link 
+                                    to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}
+                                    style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}
+                                >
+                                    {key}
+                                </Link>
+                            </td>
+                            <td>
+                                <Link 
+                                    to={`/overpark-confirm/${overparkingConfirmLinks[key]}`}
+                                    style={{ color: overparkingData[key] > 5 ? "red" : "black", fontWeight: overparkingData[key] > 5 ? "bold" : "normal" }}
+                                >
+                                    {parseFloat(overparkingData[key].toFixed(1))}
+                                </Link>
+                            </td> 
+                        </tr>
+                    )
+                )}
             </tbody>
           </table>
+          <p>*Red indicates overparking alert.</p>
         </WebCamContainer>
       </HeroImage>
       <Footer />
