@@ -16,7 +16,7 @@ from .models import CamImage, LotMetadata, CamMetadata
 from django.utils import timezone
 from datetime import datetime
 
-MAX_FOLDER_MB = 950
+MAX_FOLDER_MB = 1950
 
 def get_mb_folder(camera_name):
     if os.path.exists(camera_name):

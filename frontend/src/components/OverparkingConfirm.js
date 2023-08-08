@@ -131,7 +131,7 @@ const OverparkingConfirm = () => {
           {images.map((imageObj, index) => (
               <div key={index}>
                   <p><strong>{`${space} at ${formatDate(imageObj.timestamp)} `}</strong> <br />
-                  {`${timeDifferenceInMinutes(mostRecentTime,imageObj.timestamp)} hours after ${formatDate(mostRecentTime)}` }</p>
+                  {`${timeDifferenceInMinutes(mostRecentTime,imageObj.timestamp)} hours before ${formatDate(mostRecentTime)}` }</p>
                   <CroppedImage 
                       src={`${API_URL}${'lots/' + imageObj.image.slice(1)}`}
                       alt={`Image from ${imageObj.camera_name} at ${imageObj.timestamp}`}

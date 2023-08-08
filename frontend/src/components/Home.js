@@ -64,7 +64,6 @@ const BenefitSectionsContainer = styled.div`
   align-items: center;
   padding-bottom: 2rem;
   background-color: white;
-
   @media (min-width: 768px) {
     flex-direction: row;
     justify-content: center;
@@ -76,6 +75,7 @@ const BenefitSection = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
+  min-height: 20vh;
   flex: 1;
   padding: 0 1rem;
 
@@ -90,7 +90,7 @@ const BenefitTitle = styled.h3`
 `;
 
 const BenefitList = styled.ul`
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: left;
   max-width: 800px;
   list-style-type: disc;

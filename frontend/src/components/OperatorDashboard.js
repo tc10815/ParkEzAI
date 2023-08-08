@@ -91,7 +91,9 @@ function findOverparking(allData){
       let time_diff = (new Date(sortedData[x+1].timestamp) - new Date(sortedData[x].timestamp))/60000 / 60;
     
       if(JSON.parse(sortedData[x+1].human_labels)[keyName]){
-        spotOccupancyTime[keyName] = spotOccupancyTime[keyName] + time_diff;
+        // Makes it so first picture of car in spot counts as minute 0 in determining overparking
+        if (x !== sortedData.length-2) spotOccupancyTime[keyName] = spotOccupancyTime[keyName] + time_diff;
+        
       } else {
         spotOccupancyTime[keyName] = 0;
         let match = sortedData[x+1].image.match(/_(\d+)\./);

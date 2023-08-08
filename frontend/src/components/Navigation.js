@@ -295,11 +295,6 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/analysis">Analysis</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
-            <StyledLi>
-              <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/billing">Billing</StyledNavLink>
               </StyledButton>
             </StyledLi>
@@ -320,11 +315,6 @@ const Navigation = () => {
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/my-tickets">Support</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
-            <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/analysis">Analysis</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
