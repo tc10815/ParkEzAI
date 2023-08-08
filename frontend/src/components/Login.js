@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/signin-hero.jpg';
@@ -96,10 +96,13 @@ const SignInOrganizer = styled.div`
 `;
 const UsersTable = styled.table`
   text-align: center;
+  padding 10px;
   border-collapse: collapse;
   color:white;
   border-style: solid;
   border-color: white;
+  background-color: black;
+  margin: 20px;
 `;
 
 const TableHeader = styled.th`
@@ -116,6 +119,12 @@ const TableCell = styled.td`
   border-color: white;
 `;
 
+const TableCellClickable = styled(TableCell)`
+  cursor: pointer;
+`;
+
+
+
 const resetAndPrepopulate = async () => {
   const response = await fetch(API_URL + 'accounts/populate_db/', { method: "POST" });
 
@@ -128,8 +137,15 @@ const resetAndPrepopulate = async () => {
 };
 
 
+const handleCellClick = (email, password, setEmail, setPassword) => {
+  setEmail(email);
+  setPassword(password);
+};
+
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -197,30 +213,21 @@ const Login = () => {
 
 
   return (
-        <HomeContainer>
-        <HeroImage>
-          <SignInOrganizer>
-            <Heading>Welcome back</Heading>
-            <SubHeading>Please sign in</SubHeading>
-            <SignInForm onSubmit={handleSignInSubmit}>
-              <Input type="email" placeholder="Email" required />
-              <Input type="password" placeholder="Password" required />
-              <LoginButton type="submit">Login</LoginButton>
-              <ForgotPasswordLink>Forgot my password</ForgotPasswordLink>
-            </SignInForm>
-          </SignInOrganizer>
-        </HeroImage>
-        <Footer>
-          <FooterItem>ParkEz Inc.</FooterItem>
-          <FooterItem>1234 Park Street, Suite 567</FooterItem>
-          <FooterItem>Stamford, CT 06902</FooterItem>
-          <FooterItem>Phone: (203) 123-4567</FooterItem>
-          <FooterItem>Email: support@parkez.ai</FooterItem>
-          <br />
+    <HomeContainer>
+      <HeroImage>
+        <SignInOrganizer>
+          <Heading>Welcome back</Heading>
+          <SubHeading>Please sign in</SubHeading>
+          <SignInForm onSubmit={handleSignInSubmit}>
+            <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+            <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+            <LoginButton type="submit">Login</LoginButton>
+            <ForgotPasswordLink>Forgot my password</ForgotPasswordLink>
+          </SignInForm>
           <UsersTable>
         <thead>
           <tr>
-          <td colSpan="3"><strong>Demo Logins (not for production)</strong> Click Reset at bottom if accounts don't work.</td>
+          <td colSpan="3"><strong>Demo Logins <br /></strong> (not for production)<br /><br />Click Reset at bottom if accounts don't work.</td>
           </tr>
           <tr>
             <TableHeader>Role</TableHeader>
@@ -231,36 +238,44 @@ const Login = () => {
         <tbody>
           <tr>
             <TableCell>Lot Operator</TableCell>
-            <TableCell>funky.chicken@example.com</TableCell>
-            <TableCell>funky123</TableCell>
-          </tr>
+            <TableCellClickable onClick={() => handleCellClick('funky.chicken@example.com', 'funky123', setEmail, setPassword)}>funky.chicken@example.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('funky.chicken@example.com', 'funky123', setEmail, setPassword)}>funky123</TableCellClickable>          </tr>
           <tr>
             <TableCell>Advertiser</TableCell>
-            <TableCell>jolly.giraffe@example.com</TableCell>
-            <TableCell>jolly123</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('jolly.giraffe@example.com', 'jolly123', setEmail, setPassword)}>jolly.giraffe@example.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('jolly.giraffe@example.com', 'jolly123', setEmail, setPassword)}>jolly123</TableCellClickable>
           </tr>
           <tr>
             <TableCell>Customer Support</TableCell>
-            <TableCell>curious.cat@parkez.com</TableCell>
-            <TableCell>curious123</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('curious.cat@parkez.com', 'curious123', setEmail, setPassword)}>curious.cat@parkez.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('curious.cat@parkez.com', 'curious123', setEmail, setPassword)}>curious123</TableCellClickable>
           </tr>
           <tr>
             <TableCell>Lot Specialist</TableCell>
-            <TableCell>chatty.penguin@parkez.com</TableCell>
-            <TableCell>chatty123</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('chatty.penguin@parkez.com', 'chatty123', setEmail, setPassword)}>chatty.penguin@parkez.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('chatty.penguin@parkez.com', 'chatty123', setEmail, setPassword)}>chatty123</TableCellClickable>
           </tr>
           <tr>
             <TableCell>Advertising Specialist</TableCell>
-            <TableCell>happy.hippo@parkez.com</TableCell>
-            <TableCell>happy123</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('happy.hippo@parkez.com', 'happy123', setEmail, setPassword)}>happy.hippo@parkez.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('happy.hippo@parkez.com', 'happy123', setEmail, setPassword)}>happy123</TableCellClickable>
           </tr>
           <tr>
             <TableCell>Accountant	</TableCell>
-            <TableCell>lively.lemur@parkez.com</TableCell>
-            <TableCell>lively123</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('lively.lemur@parkez.com', 'lively123', setEmail, setPassword)}>lively.lemur@parkez.com</TableCellClickable>
+            <TableCellClickable onClick={() => handleCellClick('lively.lemur@parkez.com', 'lively123', setEmail, setPassword)}>lively123</TableCellClickable>
           </tr>
         </tbody>
       </UsersTable>
+          </SignInOrganizer>
+        </HeroImage>
+        <Footer>
+          <FooterItem>ParkEz Inc.</FooterItem>
+          <FooterItem>1234 Park Street, Suite 567</FooterItem>
+          <FooterItem>Stamford, CT 06902</FooterItem>
+          <FooterItem>Phone: (203) 123-4567</FooterItem>
+          <FooterItem>Email: support@parkez.ai</FooterItem>
+          <br />
       <br />
       <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Demonstration Data</button>
       <br />
