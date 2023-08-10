@@ -237,31 +237,31 @@ const Login = () => {
         </thead>
         <tbody>
           <tr>
-            <TableCell>Lot Operator</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('funky.chicken@example.com', 'funky123', setEmail, setPassword)}>Lot Operator</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('funky.chicken@example.com', 'funky123', setEmail, setPassword)}>funky.chicken@example.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('funky.chicken@example.com', 'funky123', setEmail, setPassword)}>funky123</TableCellClickable>          </tr>
           <tr>
-            <TableCell>Advertiser</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('jolly.giraffe@example.com', 'jolly123', setEmail, setPassword)}>Advertiser</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('jolly.giraffe@example.com', 'jolly123', setEmail, setPassword)}>jolly.giraffe@example.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('jolly.giraffe@example.com', 'jolly123', setEmail, setPassword)}>jolly123</TableCellClickable>
           </tr>
           <tr>
-            <TableCell>Customer Support</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('curious.cat@parkez.com', 'curious123', setEmail, setPassword)}>Customer Support</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('curious.cat@parkez.com', 'curious123', setEmail, setPassword)}>curious.cat@parkez.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('curious.cat@parkez.com', 'curious123', setEmail, setPassword)}>curious123</TableCellClickable>
           </tr>
           <tr>
-            <TableCell>Lot Specialist</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('chatty.penguin@parkez.com', 'chatty123', setEmail, setPassword)}>Lot Specialist</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('chatty.penguin@parkez.com', 'chatty123', setEmail, setPassword)}>chatty.penguin@parkez.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('chatty.penguin@parkez.com', 'chatty123', setEmail, setPassword)}>chatty123</TableCellClickable>
           </tr>
           <tr>
-            <TableCell>Advertising Specialist</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('happy.hippo@parkez.com', 'happy123', setEmail, setPassword)}>Advertising Specialist</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('happy.hippo@parkez.com', 'happy123', setEmail, setPassword)}>happy.hippo@parkez.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('happy.hippo@parkez.com', 'happy123', setEmail, setPassword)}>happy123</TableCellClickable>
           </tr>
           <tr>
-            <TableCell>Accountant	</TableCell>
+            <TableCellClickable onClick={() => handleCellClick('lively.lemur@parkez.com', 'lively123', setEmail, setPassword)}>Accountant	</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('lively.lemur@parkez.com', 'lively123', setEmail, setPassword)}>lively.lemur@parkez.com</TableCellClickable>
             <TableCellClickable onClick={() => handleCellClick('lively.lemur@parkez.com', 'lively123', setEmail, setPassword)}>lively123</TableCellClickable>
           </tr>
