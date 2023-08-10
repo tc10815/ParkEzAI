@@ -105,7 +105,6 @@ function findOverparking(allData){
   }
   let current_datetime = '';
   let match = sortedData[sortedData.length-1].image.match(/_(\d+)\./);
-  console.log();
   if (match) {
     current_datetime = match[1];
   }
@@ -115,8 +114,6 @@ function findOverparking(allData){
     occupancyCheckLink[spotNames] = 'lot/' + sortedData[0].camera_name + '/' + spotNames + '/' + lastFreeSpace[spotNames] + '/' + current_datetime + '/';
     // overparking_confirm/<str:lot>/<str:cam>/<str:spot>/<str:startdatetime>/<str:enddatetime>/
   });
-  console.log("making confirm links")
-  console.log(occupancyCheckLink);
   return [spotOccupancyTime, occupancyCheckLink];
 }
 
@@ -145,12 +142,69 @@ const OperatorDashboard = () => {
   const [currentCarsParked, setCurrentCarsParked] = useState('');
   const [dateOfMostRecentImage, setDateOfMostRecentImage] = useState('');
   const [maxCarsParked, setMaxCarsParked] = useState('');
-  const [avgCarsParked, setAvgCarsParked] = useState('');
-  const [carsParked7Days, setCarsParked7Days] = useState('');
-  const [carsParked7DaysAvg, setCarsParked7DaysAvg] = useState('');
   const [carsParkedToday, setCarsParkedToday] = useState('');
+  const [averageOccupancyToday, setAverageOccupancyToday] = useState('');
   const [overparkingData, setOverparkingData] = useState({});
   const [overparkingConfirmLinks, setOverparkingConfirmLinks] = useState({});
+  const [sevenDayNames, setSevenDayNames] = useState([]);
+  const [sevenTotalSpaceCounts, setSevenTotalSpaceCounts] = useState([]);
+  const [sevenTotalCarCounts, setSevenTotalCarCounts] = useState([]);
+
+  const calculateTableData = (data) => {
+    const sortedData = data.slice().sort((a, b) => {
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+      return dateA - dateB;// For ascending order 
+    });
+    let iteration = 0;
+    let days_changed_so_far = 0;
+    let last_day = '';
+    let car_counter = 0;
+    let car_array = [];
+    let photo_counter = 0;
+    let photo_array = [];
+    let previous_time = 0;
+    let day_array = [];
+    day_array.push('');
+
+    for( let x of sortedData.reverse()){
+      let today = new Date((new Date(x.timestamp).getTime() + (4 * 60 * 60 * 1000)));
+      let today_string = (today.getMonth()+1) + '/' + today.getDate();
+      let dictionary = JSON.parse(x.human_labels);
+      const total_cars = Object.values(dictionary).reduce((acc, curr) => curr ? acc + 1 : acc, 0);
+      const total_spaces = Object.keys(dictionary).length;
+      // console.log(total_cars + '/' + total_spaces + ' = ' + (total_cars/total_spaces));
+      if (today_string !== last_day){
+        last_day = today_string;
+        days_changed_so_far++;
+        day_array.push(today_string);
+        car_array.push(car_counter);
+        photo_array.push(photo_counter);
+        car_counter = 0;
+        photo_counter = 0;
+      } 
+      if (previous_time === 0){
+        previous_time = today.getTime();
+      } else {
+        car_counter += (previous_time - today.getTime()) / (60 * 60 * 1000)
+        previous_time = today.getTime();
+      }
+      car_counter += total_cars;
+      photo_counter = photo_counter + total_spaces;
+      iteration++;
+      if (days_changed_so_far > 8) break;
+    }
+    // setCarsParkedToday(str(car_array[0]/photo_array[0]));
+    setCarsParkedToday(car_array[1]/2);
+    setAverageOccupancyToday(((car_array[1]/photo_array[1])*100).toFixed(1));
+    car_array.shift();
+    photo_array.shift();
+    day_array.shift();
+    setSevenDayNames(day_array);
+    setSevenTotalSpaceCounts(photo_array);
+    setSevenTotalCarCounts(car_array);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -164,6 +218,8 @@ const OperatorDashboard = () => {
       })
         .then(response => response.json())
         .then(data => {
+          calculateTableData(data.image_data);
+
           let doubleret = findOverparking(data.image_data);
           setOverparkingData(doubleret[0]);
           setOverparkingConfirmLinks(doubleret[1]);
@@ -207,83 +263,7 @@ const OperatorDashboard = () => {
 
           setCurrentCarsParked(totalSpotsFull);
 
-          const date = new Date();
-          const last7DaysList = [];
 
-          for (let i = 1; i <= 7; i++) {
-            const newDate = new Date(date);
-            newDate.setDate(date.getDate() - i);
-            const formattedDate = (newDate.getMonth() + 1) + '/' + newDate.getDate();
-            last7DaysList.push(formattedDate);
-          }
-
-          const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-          const options = { weekday: 'long' };
-          const dayOfWeek = date.toLocaleDateString('en-US', options);
-          const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-          'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-          let sliced =  daysOfWeek.slice(daysOfWeek.indexOf(dayOfWeek) + 1, daysOfWeek.indexOf(dayOfWeek) + 8);
-          let last7DayNameList = sliced.reverse();
-          
-          const hours = Array.from({ length: 24 }, (_, i) => i);
-          const half_hours = ['00', '30']
-          let totalCarsParkedEachHour = 0;
-          let totalImagesCounted = 0;
-          let total_days_of_week = {};
-          let total_images_counted_week = {};
-          for (let allWeekdays of days){
-            total_days_of_week[allWeekdays] = 0;
-            total_images_counted_week[allWeekdays] = 0;
-          }
-
-          for (let allWeekdays of days){
-            for (let hour in hours){
-              for (let half_hour in half_hours){
-                const key = allWeekdays + ' ' + hour + ':' + half_hours[half_hour];
-                if (data.week_history[key]['cars'] !== -1){
-                  const keys = Object.keys(data.week_history[key]['cars']);
-                  for (let inner_key of keys){
-                    if(data.week_history[key]['cars'][inner_key]){
-                      total_days_of_week[allWeekdays] = total_days_of_week[allWeekdays] + 1;
-                    }
-                    total_images_counted_week[allWeekdays] = total_images_counted_week[allWeekdays] + 1; 
-                  }
-                }
-              }
-            }
-          }
-
-          for (let key of Object.keys(total_days_of_week)){
-            total_days_of_week[key] = total_days_of_week[key] / 2;
-          }
-          let carsParked7DaysString = '';
-          let carsParked7DaysAvgString = '';
-          let count = 0;
-          for (let key of last7DayNameList){
-            if (count !== 0 ){
-                carsParked7DaysString = carsParked7DaysString + total_days_of_week[key] + ' ('  + last7DaysList[count] + '), ';
-                carsParked7DaysAvgString = carsParked7DaysAvgString + ' ' + ((total_days_of_week[key]/total_images_counted_week[key])*100).toFixed(1) + '% ('  + last7DaysList[count] + '), ';
-              }
-              count = count + 1;
-          }
-          setCarsParked7Days(carsParked7DaysString.slice(0, -2));
-          setCarsParked7DaysAvg(carsParked7DaysAvgString.slice(0, -2));
-          for (let hour in hours){
-            for (let half_hour in half_hours){
-              const key = dayOfWeek + ' ' + hour + ':' + half_hours[half_hour];
-              if (data.week_history[key]['cars'] !== -1){
-                const keys = Object.keys(data.week_history[key]['cars']);
-                for (let inner_key of keys){
-                  if(data.week_history[key]['cars'][inner_key]){
-                    totalCarsParkedEachHour = totalCarsParkedEachHour + 1;
-                  }
-                  totalImagesCounted = totalImagesCounted + 1;
-                }
-              } 
-            }
-          }
-          setCarsParkedToday(totalCarsParkedEachHour);
-          setAvgCarsParked(totalCarsParkedEachHour / totalImagesCounted);
           setMaxCarsParked(Object.keys(data.human_labels).length)
           const image = new Image();
           image.src = API_URL + "lots" + data.image_url;
@@ -339,23 +319,51 @@ const OperatorDashboard = () => {
             <tbody>
               <tr>
                 <td>Current Occupancy</td>
-                <td>{currentCarsParked}/{maxCarsParked}</td>
+                <th>{currentCarsParked}/{maxCarsParked}</th>
               </tr>
               <tr>
-                <td>Total Cars Parked Today Tallied Each Hour</td>
-                <td>{carsParkedToday/2}</td>
+                <th>Total Cars Parked Today Tallied Each Hour</th>
+                <td>{Math.round(carsParkedToday)}</td>
               </tr>
               <tr>
-                <td>Average Occupancy Today</td>
-                <td>{(avgCarsParked * 100).toFixed(1)}%</td>
+                <th>Average Occupancy Today</th>
+                <td>{averageOccupancyToday}%</td>
               </tr>
+              </tbody>
+          </MyTable>
+          <br />
+          <MyTable>
+            <thead>
               <tr>
-                <td>7-Day Average Occupancy</td>
-                <td>{carsParked7DaysAvg}</td>
+                <th></th>
+                <th>{sevenDayNames[0]}</th>
+                <th>{sevenDayNames[1]}</th>
+                <th>{sevenDayNames[2]}</th>
+                <th>{sevenDayNames[3]}</th>
+                <th>{sevenDayNames[4]}</th>
+                <th>{sevenDayNames[5]}</th>
+                <th>{sevenDayNames[6]}</th>
               </tr>
+            </thead>
+            <tbody>
               <tr>
-                <td>7-Day Total Cars Parked</td>
-                <td>{carsParked7Days}</td>
+                <th>7-Day Average Occupancy &nbsp;&nbsp;&nbsp;</th>
+                <td>{((sevenTotalCarCounts[0]/sevenTotalSpaceCounts[0])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[1]/sevenTotalSpaceCounts[1])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[2]/sevenTotalSpaceCounts[2])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[3]/sevenTotalSpaceCounts[3])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[4]/sevenTotalSpaceCounts[4])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[5]/sevenTotalSpaceCounts[5])*100).toFixed(1)}%&nbsp;</td>
+                <td>{((sevenTotalCarCounts[6]/sevenTotalSpaceCounts[6])*100).toFixed(1)}%&nbsp;</td>              </tr>
+              <tr>
+                <th>7-Day Total Cars Parked</th>
+                <td>{Math.round(sevenTotalCarCounts[0]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[1]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[2]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[3]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[4]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[5]/2)}</td>
+                <td>{Math.round(sevenTotalCarCounts[6]/2)}</td>
               </tr>
             </tbody>
           </MyTable>

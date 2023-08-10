@@ -476,35 +476,6 @@ class LotOwnerDashboardView(APIView):
         human_labels = json.loads(lot_image.human_labels)
         model_labels = json.loads(lot_image.model_labels)
 
-        week_data = {}
-        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        hours = range(24)
-        half_hours = [0, 30]
-
-        for day in days:
-            for hour in hours:
-                for half_hour in half_hours:
-                    time_key = f"{day} {hour}:{half_hour:02}"
-                    week_data[time_key] = {'cars': -1}
-
-        images = CamImage.objects.all()
-        for image in images:
-            timestamp = image.timestamp
-            day_name = timestamp.strftime("%A")  # Get the day of the week
-            hour = timestamp.hour
-            minute = timestamp.minute
-            half_hour_block = 0 if minute < 30 else 30
-
-            # Create the key for the week_data dictionary
-            time_key = f"{day_name} {hour}:{half_hour_block:02}"
-
-            # Extract human_labels and process it (assuming it's JSON data)
-            # human_labels = json.loads(image.human_labels)
-            # integer_value = sum(human_labels.values())  # Sum of True values
-
-            # Update the week_data entry
-            week_data[time_key]['cars'] = json.loads(image.human_labels)
-
         # Construct the response data
         response_data = {
             'image_url': image_url,
@@ -513,8 +484,7 @@ class LotOwnerDashboardView(APIView):
             'model_labels': model_labels,
             'previous_image_name_part': previous_image_name_part,
             'spots': spots_data,
-            'bestspots': bestspots_data,
-            'week_history': week_data
+            'bestspots': bestspots_data
         }
         return Response(response_data)
 

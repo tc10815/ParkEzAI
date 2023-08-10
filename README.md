@@ -44,7 +44,10 @@ Remake Semester 1's PHP backend with Django REST framework
 - [ ] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system
 - [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types
 - [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** sample license plate tracking
+  - [ ] Create small simple separate application that reads license plates. No online demo possible due to privacy concerns (not ethnical to read/share plates of unknowing people) 
 - [ ] **Step 8:** Finishing touches
+  - [ ] Ensure all appropriate roles can access same Lot information as Lot Operator.
+  - [ ] Ensure all appropriate roles can access same Advertisement  information as Advertiser.
 
 ## Notes on Deploying Computer Vision and Machine Learning on Backend Server
 *(6/9/23-6/12/23)* It took me 3 days to deploy Machine Learning and Computer Vision to the Django server backend. My VPS (IONOS.com, \$2 bucks monthly for 10gb) only had 5.3G remaining after the server operating system and my other webpages. That's plenty of space for plain Django (Python + Libraries for Django are only ***80mb***), but when you add Machine Learning and Computer Vision (PyTorch, TorchVision and OpenCV) the libraries  add up to ***4.8gb***. Add folders for lot images and saved Torch Models and its impossible to run the backend on $2 monthly hosting. 
