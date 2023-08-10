@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import make_password
 from accounts.models import CustomUser, Role
 from tickets.models import Ticket
+from lots.models import LotMetadata
 
 class Command(BaseCommand):
     help = 'Populate the database with example data'
@@ -118,3 +119,8 @@ class Command(BaseCommand):
 
         for ticket in demo_tickets:
             Ticket.objects.create(**ticket)
+        
+        # Associate the LotMetadata with ID "coldwater" to the 'funky.chicken@example.com' Lot Operator account
+        lot_metadata = LotMetadata.objects.get(id='coldwater')
+        lot_metadata.owner = CustomUser.objects.get(email='funky.chicken@example.com')
+        lot_metadata.save()
