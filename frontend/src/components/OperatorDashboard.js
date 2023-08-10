@@ -314,12 +314,12 @@ const OperatorDashboard = () => {
           <ImageDiv>
             <LotCanvas ref={canvasRef} />
           </ImageDiv>
-          <p>Parking Analysis</p>
+          <h3 style={{textDecoration: "underline"}}>Parking Analysis</h3>
           <MyTable>
             <tbody>
               <tr>
-                <td>Current Occupancy</td>
-                <th>{currentCarsParked}/{maxCarsParked}</th>
+                <th>Current Occupancy</th>
+                <td>{currentCarsParked}/{maxCarsParked}</td>
               </tr>
               <tr>
                 <th>Total Cars Parked Today Tallied Each Hour</th>
