@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import generics
+from lots.models import LotMetadata
+from .serializers import LotMetadataSerializer
 
-# Create your views here.
+class LotMetadataListView(generics.ListAPIView):
+    queryset = LotMetadata.objects.all()
+    serializer_class = LotMetadataSerializer

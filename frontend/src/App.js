@@ -32,6 +32,7 @@ import LatestLotImage from './components/LatestLotImage';
 import SpecificImage from './components/SpecificImage';
 import OverparkingConfirm from './components/OverparkingConfirm';
 import Archive from './components/Archive';
+import CreateAd from './components/CreateAd';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -89,6 +90,7 @@ const App = () => {
           <Route path="/initiate-account" element={<InitiateAccount />} />
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<MyTickets />} />
+          <Route path="/create-ad" element={<CreateAd />} />
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/coldwater" element={<LatestLotImage />} />
           <Route path="/lot/:lot" element={<LatestLotImage />} />

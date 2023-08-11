@@ -1,5 +1,6 @@
 **/__pycache__/
 **/migrations
+backend/ads/ad_data
 frontend/.env.development
 frontend/.env.production
 backend/db.sqlite3

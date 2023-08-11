@@ -130,7 +130,7 @@ const Navigation = () => {
   const location = useLocation();
 
   const isBlackNavbarPage = () => {
-    const blackNavbarPages = ['/login', '/advertiser-dashboard'];
+    const blackNavbarPages = ['/login', '/advertiser-dashboard', '/create-ad'];
     return blackNavbarPages.includes(location.pathname);
   };
 
@@ -309,7 +309,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/archive">Archive</StyledNavLink>
+                <StyledNavLink to="/create-ad">Create Ad</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>

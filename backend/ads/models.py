@@ -17,7 +17,7 @@ def ad_image_upload_path_side2(instance, filename):
     return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/side/2/{filename}'
 
 def ad_image_upload_path_side3(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.adver_id}/side/3/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/side/3/{filename}'
 
 
 class Ad(models.Model):
