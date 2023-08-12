@@ -137,8 +137,8 @@ const OverparkingConfirm = () => {
                       alt={`Image from ${imageObj.camera_name} at ${imageObj.timestamp}`}
                       top={crop[2]}
                       left={crop[0]}
-                      width={crop[1]- crop[0]}
-                      height={crop[3] - crop[2]}
+                      height={crop[1]- crop[0]}
+                      width={crop[3] - crop[2]}
                   />
               </div>
           ))}
