@@ -7,6 +7,21 @@ from rest_framework import status
 from lots.models import LotMetadata
 from .models import Ad
 from .serializers import LotMetadataSerializer, AdSerializer
+import os
+
+def get_directory_size(directory):
+    total = 0
+    try:
+        for entry in os.scandir(directory):
+            if entry.is_file():
+                total += entry.stat().st_size
+            elif entry.is_dir():
+                total += get_directory_size(entry.path)
+    except NotADirectoryError:
+        pass
+    except PermissionError:
+        pass
+    return total
 
 class LotMetadataListView(generics.ListAPIView):
     queryset = LotMetadata.objects.all()
@@ -16,7 +31,10 @@ class LotMetadataListView(generics.ListAPIView):
 @permission_classes([IsAuthenticated])
 def create_ad(request):
     if request.method == 'POST':
-        # Add the authenticated user to the data
+        dir_size = get_directory_size('ads/ad_data/')
+        if dir_size > 1 * 1024 * 1024 * 1024:  # 1GB
+            return Response({"error": "Maximum storage limit exceeded."}, status=status.HTTP_400_BAD_REQUEST)
+
         data = request.data.copy()
         data['user'] = request.user.pk
         serializer = AdSerializer(data=data)

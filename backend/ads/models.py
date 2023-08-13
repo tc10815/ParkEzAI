@@ -1,5 +1,15 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.core.exceptions import ValidationError
+
+def validate_file_size(value):
+    filesize = value.size
+
+    if filesize > 500 * 1024:
+        raise ValidationError("The maximum file size that can be uploaded is 500KB")
+    else:
+        return value
+
 
 def ad_image_upload_path_top1(instance, filename):
     return f'ads/ad_data/{instance.user.username}/{instance.name}/top/1/{filename}'
@@ -35,15 +45,15 @@ class Ad(models.Model):
     impressions = models.PositiveIntegerField(default=0)
     clicks = models.PositiveIntegerField(default=0)
 
-    # Top banner images (Vertical)
-    top_banner_image1 = models.ImageField(upload_to=ad_image_upload_path_top1)
-    top_banner_image2 = models.ImageField(upload_to=ad_image_upload_path_top2)
-    top_banner_image3 = models.ImageField(upload_to=ad_image_upload_path_top3)
+        # Top banner images (Vertical)
+    top_banner_image1 = models.ImageField(upload_to=ad_image_upload_path_top1, validators=[validate_file_size])
+    top_banner_image2 = models.ImageField(upload_to=ad_image_upload_path_top2, validators=[validate_file_size])
+    top_banner_image3 = models.ImageField(upload_to=ad_image_upload_path_top3, validators=[validate_file_size])
 
     # Side banner images (Horizontal)
-    side_banner_image1 = models.ImageField(upload_to=ad_image_upload_path_side1)
-    side_banner_image2 = models.ImageField(upload_to=ad_image_upload_path_side2)
-    side_banner_image3 = models.ImageField(upload_to=ad_image_upload_path_side3)
+    side_banner_image1 = models.ImageField(upload_to=ad_image_upload_path_side1, validators=[validate_file_size])
+    side_banner_image2 = models.ImageField(upload_to=ad_image_upload_path_side2, validators=[validate_file_size])
+    side_banner_image3 = models.ImageField(upload_to=ad_image_upload_path_side3, validators=[validate_file_size])
 
     # Interval for image change in seconds
     image_change_interval = models.PositiveIntegerField(default=10, help_text='Interval (in seconds) to switch between images')

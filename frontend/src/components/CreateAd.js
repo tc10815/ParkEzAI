@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/advertiserdbhero.jpg';
 import Footer from "./Footer";
@@ -120,6 +121,7 @@ const CreateAd = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [targetURL, setTargetURL] = useState('');
   const [secondsBetweenImages, setSecondsBetweenImages] = useState('');
@@ -148,7 +150,29 @@ const CreateAd = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const validateImage = (file, width, height, imageName) => {
+    return new Promise((resolve, reject) => {
+        if (file && file.type === 'image/jpeg' && file.size <= 500000) { // 500KB
+            const img = new Image();
+            img.onload = function() {
+                if (this.width === width && this.height === height) {
+                    resolve(true);
+                } else {
+                    reject(`For ${imageName}: Expected dimensions: ${width}x${height}, but got: ${this.width}x${this.height}`);
+                }
+            };
+            img.onerror = function() {
+                reject(`Error while reading ${imageName}.`);
+            };
+            img.src = URL.createObjectURL(file);
+        } else {
+            reject(`Invalid file type or size for ${imageName}. Ensure it is a JPEG and under 500KB.`);
+        }
+    });
+};
+
+
+  const handleSubmit = async () => {
     if (!isValidURL(targetURL)) {
       alert("Please ensure the URL is valid and includes 'http://' or 'https://'.");
       return;
@@ -157,6 +181,20 @@ const CreateAd = () => {
       alert("Ad name should:\n- Be less than 256 characters.\n- Not contain any of the following characters: /\\:*?\"<>|\n- Not be a reserved name like 'CON', 'PRN', etc.");
       return;
     }
+
+    try {
+      await validateImage(document.getElementById('topBanner1').files[0], 728, 90, 'Top Banner Image 1');
+      await validateImage(document.getElementById('topBanner2').files[0], 728, 90, 'Top Banner Image 2');
+      await validateImage(document.getElementById('topBanner3').files[0], 728, 90, 'Top Banner Image 3');
+
+      await validateImage(document.getElementById('sideBanner1').files[0], 160, 600, 'Side Banner Image 1');
+      await validateImage(document.getElementById('sideBanner2').files[0], 160, 600, 'Side Banner Image 2');
+      await validateImage(document.getElementById('sideBanner3').files[0], 160, 600, 'Side Banner Image 3');
+
+  } catch (error) {
+      alert(error);
+      return;
+  }
 
     // Construct FormData object
     const formData = new FormData();
@@ -192,11 +230,12 @@ const CreateAd = () => {
     })
     .then(response => response.json())
     .then(data => {
-        if(data && data.advert_id) {
-            alert('Advertisement created successfully!');
-        } else {
-            alert('Error creating advertisement. Please check your input.');
-        }
+      if(data && data.advert_id) {
+          alert('Advertisement created successfully!');
+          navigate("/advertiser-dashboard");
+      } else {
+          alert('Error creating advertisement. Please check your input.');
+      }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -251,7 +290,7 @@ const CreateAd = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="startDate">Start Date (leave blank for start now):</StyledLabel></td>
+                  <td><StyledLabel htmlFor="startDate">Start Date (leave blank to start run now):</StyledLabel></td>
                   <td>
                     <StyledInput 
                       id="startDate"
@@ -328,31 +367,32 @@ const CreateAd = () => {
                 ))}
               </tbody>
             </StyledTable>
-            <SubHeading style={{fontSize:'1em', width:'50%'}}>All ads are 3 images appearing in banners on top of lot and on side of lot. They change images at the above specified number of seconds</SubHeading>
+            <SubHeading style={{fontSize:'1em', width:'50%'}}>All ads are 3 images appearing in banners on top of lot and on side of lot. They change images at the above specified number of seconds.</SubHeading>
+            <p>(each image must be less than 0.5mb)</p>
             <StyledDetailsTable>
               <tbody>
                 <tr>
-                  <td><StyledLabel htmlFor="topBanner1">Top Banner Image 1:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="topBanner1">Top Banner Image 1 (728px by 90px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="topBanner1" /></td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="topBanner2">Top Banner Image 2:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="topBanner2">Top Banner Image 2 (728px by 90px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="topBanner2" /></td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="topBanner3">Top Banner Image 3:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="topBanner3">Top Banner Image 3 (728px by 90px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="topBanner3" /></td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="sideBanner1">Side Banner Image 1:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="sideBanner1">Side Banner Image 1 (160px by 600px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="sideBanner1" /></td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="sideBanner2">Side Banner Image 2:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="sideBanner2">Side Banner Image 2 (160px by 600px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="sideBanner2" /></td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="sideBanner3">Side Banner Image 3:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="sideBanner3">Side Banner Image 3 (160px by 600px):</StyledLabel></td>
                   <td><StyledInput type="file" accept=".jpg" id="sideBanner3" /></td>
                 </tr>
               </tbody>
