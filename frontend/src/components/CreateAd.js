@@ -123,6 +123,22 @@ const CreateAd = () => {
   const token = localStorage.getItem("token");
   const [targetURL, setTargetURL] = useState('');
   const [secondsBetweenImages, setSecondsBetweenImages] = useState('');
+  
+  const isValidURL = (str) => {
+    const pattern = new RegExp('^(https?:\\/\\/)?' + 
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + 
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + 
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + 
+      '(\\#[-a-z\\d_]*)?$', 'i');
+    return !!pattern.test(str);
+  };
+
+  const isValidAdName = (name) => {
+    const illegalChars = /[\/:*?"<>|]/;
+    const reservedNames = ["CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"];
+    return !illegalChars.test(name) && !reservedNames.includes(name.toUpperCase()) && name.length <= 255;
+  };
 
   const handleCheckboxChange = (lotName, isChecked) => {
     if (isChecked) {
@@ -130,6 +146,61 @@ const CreateAd = () => {
     } else {
       setSelectedLots(prevSelectedLots => prevSelectedLots.filter(lot => lot !== lotName));
     }
+  };
+
+  const handleSubmit = () => {
+    if (!isValidURL(targetURL)) {
+      alert("Please ensure the URL is valid and includes 'http://' or 'https://'.");
+      return;
+    }
+    if (!isValidAdName(adName)) {
+      alert("Ad name should:\n- Be less than 256 characters.\n- Not contain any of the following characters: /\\:*?\"<>|\n- Not be a reserved name like 'CON', 'PRN', etc.");
+      return;
+    }
+
+    // Construct FormData object
+    const formData = new FormData();
+    formData.append('name', adName);
+    formData.append('start_date', startDate);
+    formData.append('end_date', endDate);
+    formData.append('url', targetURL);
+    formData.append('image_change_interval', secondsBetweenImages);
+    selectedLots.forEach(lot => formData.append('lots', lot));
+
+    // Append image files
+    const topBanner1 = document.getElementById('topBanner1').files[0];
+    const topBanner2 = document.getElementById('topBanner2').files[0];
+    const topBanner3 = document.getElementById('topBanner3').files[0];
+    const sideBanner1 = document.getElementById('sideBanner1').files[0];
+    const sideBanner2 = document.getElementById('sideBanner2').files[0];
+    const sideBanner3 = document.getElementById('sideBanner3').files[0];
+
+    formData.append('top_banner_image1', topBanner1);
+    formData.append('top_banner_image2', topBanner2);
+    formData.append('top_banner_image3', topBanner3);
+    formData.append('side_banner_image1', sideBanner1);
+    formData.append('side_banner_image2', sideBanner2);
+    formData.append('side_banner_image3', sideBanner3);
+
+    // Send POST request to Django backend
+    fetch(API_URL + 'ads/create-ad/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data && data.advert_id) {
+            alert('Advertisement created successfully!');
+        } else {
+            alert('Error creating advertisement. Please check your input.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
   };
 
 
@@ -180,7 +251,7 @@ const CreateAd = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="startDate">Start Date:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="startDate">Start Date (leave blank for start now):</StyledLabel></td>
                   <td>
                     <StyledInput 
                       id="startDate"
@@ -191,7 +262,7 @@ const CreateAd = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="endDate">End Date:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="endDate">End Date (leave blank to run indefinitely):</StyledLabel></td>
                   <td>
                     <StyledInput 
                       id="endDate"
@@ -214,7 +285,7 @@ const CreateAd = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="secondsBetweenImages">Seconds Between Images:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="secondsBetweenImages">Seconds Between Ad Images:</StyledLabel></td>
                   <td>
                     <StyledInput 
                       id="secondsBetweenImages"
@@ -244,9 +315,9 @@ const CreateAd = () => {
                   <tr key={lot.name}>
                     <td>
                       <StyledCheckbox 
-                        id={lot.name}
-                        checked={selectedLots.includes(lot.name)}
-                        onChange={(e) => handleCheckboxChange(lot.name, e.target.checked)}
+                        id={lot.id}
+                        checked={selectedLots.includes(lot.id)}
+                        onChange={(e) => handleCheckboxChange(lot.id, e.target.checked)}
                       />
                     </td>
                     <td>{lot.name}</td>
@@ -257,6 +328,7 @@ const CreateAd = () => {
                 ))}
               </tbody>
             </StyledTable>
+            <SubHeading style={{fontSize:'1em', width:'50%'}}>All ads are 3 images appearing in banners on top of lot and on side of lot. They change images at the above specified number of seconds</SubHeading>
             <StyledDetailsTable>
               <tbody>
                 <tr>
@@ -286,7 +358,7 @@ const CreateAd = () => {
               </tbody>
             </StyledDetailsTable>
             <div style={{ textAlign: 'center' }}>
-              <StyledSubmitButton type="button" onClick={() => { /* Your function here */ }}>
+              <StyledSubmitButton type="button" onClick={() => { handleSubmit() }}>
                 Create Ad
               </StyledSubmitButton>
             </div>

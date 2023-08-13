@@ -2,22 +2,22 @@ from django.db import models
 from accounts.models import CustomUser
 
 def ad_image_upload_path_top1(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/top/1/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/top/1/{filename}'
 
 def ad_image_upload_path_top2(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/top/2/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/top/2/{filename}'
 
 def ad_image_upload_path_top3(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/top/3/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/top/3/{filename}'
 
 def ad_image_upload_path_side1(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/side/1/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/side/1/{filename}'
 
 def ad_image_upload_path_side2(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/side/2/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/side/2/{filename}'
 
 def ad_image_upload_path_side3(instance, filename):
-    return f'ads/ad_data/{instance.user.username}/{instance.advert_id}/side/3/{filename}'
+    return f'ads/ad_data/{instance.user.username}/{instance.name}/side/3/{filename}'
 
 
 class Ad(models.Model):
