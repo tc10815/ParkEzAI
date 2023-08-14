@@ -20,7 +20,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/13/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/14/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -44,7 +44,7 @@ Remake Semester 1's PHP backend with Django REST framework
 - [ ] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system
   - [x] **[Functional Requirement 4.1](#4-advertising-management)**: Create ad, upload ad
   - [ ] **[Function Requirement 4.2](#4-advertising-management)**: Modify ad, edits existing ad's content
-  - [ ] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
+  - [x] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
   - [ ] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
 - [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types
 - [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** sample license plate tracking
