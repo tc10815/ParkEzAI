@@ -45,7 +45,7 @@ class Ad(models.Model):
     impressions = models.PositiveIntegerField(default=0)
     clicks = models.PositiveIntegerField(default=0)
 
-        # Top banner images (Vertical)
+    # Top banner images (Vertical)
     top_banner_image1 = models.ImageField(upload_to=ad_image_upload_path_top1, validators=[validate_file_size])
     top_banner_image2 = models.ImageField(upload_to=ad_image_upload_path_top2, validators=[validate_file_size])
     top_banner_image3 = models.ImageField(upload_to=ad_image_upload_path_top3, validators=[validate_file_size])

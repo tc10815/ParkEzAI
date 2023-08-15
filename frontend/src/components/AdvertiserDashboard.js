@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link} from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import heroImage from '../images/advertiserdbhero.jpg';
 import sampleLotImage from '../images/samplelot.jpg';
@@ -20,6 +20,18 @@ const AdCard = styled.div`
 
 const AdImage = styled.img`
   height: auto;
+`;
+
+const NoAdsMessage = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
+  padding-tom:10rem;
+  padding-bottom: 40rem;
+  text-align: center;
+  font-size: 1.2rem;
 `;
 
 const HomeContainer = styled.div`
@@ -156,18 +168,20 @@ const AdvertiserDashboard = () => {
 
   const getImageSrc = (ad, type, index) => {
     const baseName = `${type}_banner_image`;
-    return ad[`${baseName}${index}_path`];
+    return ad[`${baseName}${index}`];
   };
+
 
   return (
     <HomeContainer>
       <HeroImage>
         <AdContainer>
-          {user ? (
+        {user ? (
             <>
-              {ads.map((ad, i) => (
+              {ads.length > 0 ? (
+                ads.map((ad, i) => (
                 <AdCard key={ad.advert_id}>
-                  <h3>Advertisement Name: <em>{ad.name}</em></h3>
+                  <h3>Advertisement Name: <em>{ad.name}</em> <Link to={"/edit-ad/" + ad.advert_id}>(edit)</Link></h3>
                   <ImageContainer>
                     <a href={ad.url} target="_blank" rel="noopener noreferrer">
                       <AdImage src={getImageSrc(ad, 'top', topImageIndices[i])} alt="Top Banner" />
@@ -186,13 +200,20 @@ const AdvertiserDashboard = () => {
                   <p>End Date: {ad.end_date}</p>
                   <p>Seconds between frames: {ad.image_change_interval}</p>
                 </AdCard>
-              ))}
-          </>
-          ) : (
-            <SubHeading>Welcome back</SubHeading>
-          )}
-        </AdContainer>
-      </HeroImage>
+                ))
+                ) : (
+                  <NoAdsMessage>
+                    <h3>No ads yet</h3>
+                    No ads have been created for your account yet. <br /><br />
+                    Select 'Create Ad' from the menu above to create an ad.
+                  </NoAdsMessage>
+                )}
+              </>
+            ) : (
+              <SubHeading>Welcome back</SubHeading>
+            )}
+          </AdContainer>
+        </HeroImage>
       <Footer />
     </HomeContainer>
   );

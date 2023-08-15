@@ -40,6 +40,7 @@ def create_ad(request):
         data['user'] = request.user.pk
         serializer = AdSerializer(data=data)
         if not serializer.is_valid():
+            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         if serializer.is_valid():
@@ -57,11 +58,63 @@ def user_ads_list_view(request):
 
     # Convert image paths to Base64 encoded data
     for ad in serialized_data:
-        for key in ['top_banner_image1_path', 'top_banner_image2_path', 'top_banner_image3_path',
-                    'side_banner_image1_path', 'side_banner_image2_path', 'side_banner_image3_path']:
+        for key in ['top_banner_image1', 'top_banner_image2', 'top_banner_image3',
+                    'side_banner_image1', 'side_banner_image2', 'side_banner_image3']:
+
             image_path = ad[key]
             with open(image_path, "rb") as image_file:
                 base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')
             ad[key] = f"data:image/jpeg;base64,{base64_encoded}"
 
     return Response(serialized_data, status=status.HTTP_200_OK)
+
+class AdDetailView(generics.RetrieveUpdateAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'advert_id'
+
+    def get_queryset(self):
+        # Ensure a user can only access their own Ad
+        return self.queryset.filter(user=self.request.user)
+    
+    def retrieve(self, request, *args, **kwargs):
+        print('--- Request Info ---')
+        print('Method:', request.method)
+        print('Headers:', request.headers)
+        print('Data:', request.data)
+        print('GET Params:', request.GET)
+        print('User:', request.user)
+        print('Path:', request.path_info)
+        print('Full URL:', request.build_absolute_uri())
+        print('---------------------')
+
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        serialized_data = serializer.data
+        
+        # Convert image paths to Base64 encoded data
+        for key in ['top_banner_image1', 'top_banner_image2', 'top_banner_image3',
+                    'side_banner_image1', 'side_banner_image2', 'side_banner_image3']:
+            
+            image_path = serialized_data[key]
+            if image_path:  # Ensure the image_path is not None or empty
+                with open(image_path, "rb") as image_file:
+                    base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')
+                serialized_data[key] = f"data:image/jpeg;base64,{base64_encoded}"
+
+        print(serialized_data)  # For debugging
+        return Response(serialized_data)
+
+    def update(self, request, *args, **kwargs):
+        print('--- PUT Request Info ---')
+        print('Method:', request.method)
+        print('Headers:', request.headers)
+        print('Data:', request.data)
+        print('GET Params:', request.GET)
+        print('User:', request.user)
+        print('Path:', request.path_info)
+        print('Full URL:', request.build_absolute_uri())
+        print('---------------------')
+        
+        return super().update(request, *args, **kwargs)

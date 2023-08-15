@@ -33,6 +33,7 @@ import SpecificImage from './components/SpecificImage';
 import OverparkingConfirm from './components/OverparkingConfirm';
 import Archive from './components/Archive';
 import CreateAd from './components/CreateAd';
+import EditAd from './components/EditAd';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -94,6 +95,7 @@ const App = () => {
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/coldwater" element={<LatestLotImage />} />
           <Route path="/lot/:lot" element={<LatestLotImage />} />
+          <Route path="/edit-ad/:advert_id" element={<EditAd />} />
           <Route path="/image/:lot/:imageName" element={<SpecificImage />} />
           <Route path="/archive" element={<ArchiveRedirect />} />
           <Route path="/archive/:lot/:imageName" element={<Archive />} />
