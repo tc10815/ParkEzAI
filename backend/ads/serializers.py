@@ -17,7 +17,12 @@ class AdSerializer(serializers.ModelSerializer):
     side_banner_image2 = serializers.ImageField(use_url=False)
     side_banner_image3 = serializers.ImageField(use_url=False)
 
-
     class Meta:
         model = Ad
         fields = '__all__'
+
+class AdUpdateWithoutImagesSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Ad
+        fields = ['name']

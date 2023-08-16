@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from lots.models import LotMetadata
 from .models import Ad
-from .serializers import LotMetadataSerializer, AdSerializer
+from .serializers import LotMetadataSerializer, AdSerializer, AdUpdateWithoutImagesSerializer
 import base64, os
 
 def get_directory_size(directory):
@@ -80,9 +80,10 @@ class AdDetailView(generics.RetrieveUpdateAPIView):
     
     def retrieve(self, request, *args, **kwargs):
         print('--- Request Info ---')
+        # print('Uploaded Files:', request.FILES)
         print('Method:', request.method)
         print('Headers:', request.headers)
-        print('Data:', request.data)
+        # print('Data:', request.data)
         print('GET Params:', request.GET)
         print('User:', request.user)
         print('Path:', request.path_info)
@@ -103,18 +104,96 @@ class AdDetailView(generics.RetrieveUpdateAPIView):
                     base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')
                 serialized_data[key] = f"data:image/jpeg;base64,{base64_encoded}"
 
-        print(serialized_data)  # For debugging
+        # print(serialized_data)  # For debugging
         return Response(serialized_data)
 
     def update(self, request, *args, **kwargs):
         print('--- PUT Request Info ---')
         print('Method:', request.method)
         print('Headers:', request.headers)
-        print('Data:', request.data)
+        # print('Data:', request.data)
         print('GET Params:', request.GET)
         print('User:', request.user)
         print('Path:', request.path_info)
         print('Full URL:', request.build_absolute_uri())
         print('---------------------')
         
-        return super().update(request, *args, **kwargs)
+        response = super().update(request, *args, **kwargs)
+        if not response.data:
+            print("Serializer errors:", serializer.errors)
+        return response
+    
+
+class AdUpdateWithoutImagesView(generics.UpdateAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdUpdateWithoutImagesSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'advert_id'
+
+    def get_queryset(self):
+        # Ensure a user can only access their own Ad
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        old_name = instance.name
+        new_name = serializer.validated_data.get('name')
+        
+        # Check if the name has changed
+        if old_name != new_name:
+            old_folder_path = os.path.join('ads', 'ad_data', str(instance.user.username), old_name)
+            new_folder_path = os.path.join('ads', 'ad_data', str(instance.user.username), new_name)
+            
+            print('old path: ' + old_folder_path)
+            print('new path: ' + new_folder_path)
+
+            # Check if the old folder exists
+            if os.path.exists(old_folder_path):
+                os.rename(old_folder_path, new_folder_path)
+
+                # Update the paths in the ImageFields
+                image_path_mappings = {
+                    'top_banner_image1': 'top/1/',
+                    'top_banner_image2': 'top/2/',
+                    'top_banner_image3': 'top/3/',
+                    'side_banner_image1': 'side/1/',
+                    'side_banner_image2': 'side/2/',
+                    'side_banner_image3': 'side/3/'
+                }
+
+                for field_name, sub_directory in image_path_mappings.items():
+                    print('starting: ' + field_name)
+                    old_image_path = getattr(instance, field_name).path
+                    print('old path: ' + old_image_path)
+                    filename = os.path.basename(old_image_path)
+                    print('filename: ' + filename)
+                    
+                    # Construct the new image path using the sub_directory
+                    new_image_path = os.path.join('ads', 'ad_data', str(instance.user.username), new_name, sub_directory, filename)
+                    print('new_image_path: ' + new_image_path)
+                    
+                    print('Setting "' + field_name + '" to "' + new_image_path + '"')
+                    setattr(instance, field_name, new_image_path)
+
+        instance.name = new_name
+        instance.save()
+
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        
+        if response.status_code == 200:  # 200 status code indicates a successful update
+            instance = self.get_object()
+            return Response({
+                'advert_id': instance.advert_id,
+                'name': instance.name
+            }, status=status.HTTP_200_OK)
+        
+        elif response.status_code == 400:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=False)  # This will not raise an exception if invalid
+            if serializer.errors:
+                print("Serializer errors:", serializer.errors)  # This will print the specific errors if any
+
+        return response  # Ensure a response is always returned for other cases
+

@@ -222,88 +222,50 @@ useEffect(() => {
   }
 }, [token, advert_id]);
 
-  const handleUpdate = async () => {
-    if (!isValidURL(targetURL)) {
-        alert("Please ensure the URL is valid and includes 'http://' or 'https://'.");
-        return;
-      }
-      if (!isValidAdName(adName)) {
-        alert("Ad name should:\n- Be less than 256 characters.\n- Not contain any of the following characters: /\\:*?\"<>|\n- Not be a reserved name like 'CON', 'PRN', etc.");
-        return;
-      }
-  
-      try {
-        if (document.getElementById('topBanner1').files[0]) {
-          await validateImage(document.getElementById('topBanner1').files[0], 728, 90, 'Top Banner Image 1');
-        }
-        if (document.getElementById('topBanner2').files[0]) {
-          await validateImage(document.getElementById('topBanner2').files[0], 728, 90, 'Top Banner Image 2');
-        }
-        if (document.getElementById('topBanner3').files[0]) {
-          await validateImage(document.getElementById('topBanner3').files[0], 728, 90, 'Top Banner Image 3');
-        }
-        if (document.getElementById('sideBanner1').files[0]) {
-          await validateImage(document.getElementById('sideBanner1').files[0], 160, 600, 'Side Banner Image 1');
-        }
-        if (document.getElementById('sideBanner2').files[0]) {
-          await validateImage(document.getElementById('sideBanner2').files[0], 160, 600, 'Side Banner Image 2');
-        }
-        if (document.getElementById('sideBanner3').files[0]) {
-          await validateImage(document.getElementById('sideBanner3').files[0], 160, 600, 'Side Banner Image 3');
-        }
-      } catch (error) {
-          alert(error);
-          return;
-      }
+const handleUpdate = async () => {
+  if (!isValidURL(targetURL)) {
+      alert("Please ensure the URL is valid and includes 'http://' or 'https://'.");
+      return;
+  }
+  if (!isValidAdName(adName)) {
+      alert("Ad name should:\n- Be less than 256 characters.\n- Not contain any of the following characters: /\\:*?\"<>|\n- Not be a reserved name like 'CON', 'PRN', etc.");
+      return;
+  }
 
-    // Construct FormData object for updating
-    const formData = new FormData();
-    formData.append('name', adName);
-    formData.append('start_date', startDate);
-    formData.append('end_date', endDate);
-    formData.append('url', targetURL);
-    formData.append('image_change_interval', secondsBetweenImages);
-    selectedLots.forEach(lot => formData.append('lots', lot));
+  // Construct FormData object for updating
+  const formData = new FormData();
+  formData.append('name', adName);
+  formData.append('start_date', startDate);
+  formData.append('end_date', endDate);
+  formData.append('url', targetURL);
+  formData.append('image_change_interval', secondsBetweenImages);
+  selectedLots.forEach(lot => formData.append('lots', lot));
 
-    // Append image files
-    const appendImageToFormData = (inputId, formDataKey) => {
-      const file = document.getElementById(inputId).files[0];
-      if (file) {
-        formData.append(formDataKey, file);
-      }
-    };
-    
-    
+  // Since we're not dealing with images in this update, there's no need to append image files to the FormData
 
-    appendImageToFormData('topBanner1', 'top_banner_image1');
-    appendImageToFormData('topBanner2', 'top_banner_image2');
-    appendImageToFormData('topBanner3', 'top_banner_image3');
-    appendImageToFormData('sideBanner1', 'side_banner_image1');
-    appendImageToFormData('sideBanner2', 'side_banner_image2');
-    appendImageToFormData('sideBanner3', 'side_banner_image3');
-    
+  // Send PUT request to Django backend (Make sure the endpoint is correct)
+  fetch(API_URL + `ads/edit_without_images/${advert_id}/`, {  // <--- Updated endpoint
+      method: 'PUT',
+      headers: {
+          'Authorization': `Token ${token}`,
+      },
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Server response:', data);
+    if(data && data.advert_id) {
+        alert('Advertisement updated successfully!');
+        navigate("/advertiser-dashboard");
+    } else {
+        alert('Error updating advertisement. Please check your input.');
+    }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+};
 
-    // Send PUT request to Django backend
-    fetch(API_URL + `ads/edit/${advert_id}/`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Token ${token}`,
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if(data && data.advert_id) {
-          alert('Advertisement updated successfully!');
-          navigate("/advertiser-dashboard");
-      } else {
-          alert('Error updating advertisement. Please check your input.');
-      }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-  };
 
   useEffect(() => {
     if (token) {
