@@ -22,7 +22,8 @@ class AdSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AdUpdateWithoutImagesSerializer(serializers.ModelSerializer):
-    
+    start_date = serializers.DateField(required=False, allow_null=True)
+    end_date = serializers.DateField(required=False, allow_null=True)
     class Meta:
         model = Ad
-        fields = ['name']
+        fields = ['name', 'start_date', 'end_date', 'url', 'image_change_interval']

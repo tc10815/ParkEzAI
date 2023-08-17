@@ -312,7 +312,8 @@ const CreateAd = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td><StyledLabel htmlFor="targetURL">Target URL:</StyledLabel></td>
+                  <td><StyledLabel htmlFor="targetURL">Target URL: (must include <strong><em>http://</em></strong> or <strong><em>https://</em></strong>)</StyledLabel></td>
+
                   <td>
                     <StyledInput 
                       id="targetURL"

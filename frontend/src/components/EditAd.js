@@ -242,7 +242,7 @@ const handleUpdate = async () => {
   selectedLots.forEach(lot => formData.append('lots', lot));
 
   // Since we're not dealing with images in this update, there's no need to append image files to the FormData
-
+  console.log(formData);
   // Send PUT request to Django backend (Make sure the endpoint is correct)
   fetch(API_URL + `ads/edit_without_images/${advert_id}/`, {  // <--- Updated endpoint
       method: 'PUT',
@@ -327,7 +327,7 @@ const handleUpdate = async () => {
             </StyledLabel>
 
             <StyledLabel>
-              Target URL:
+              Target URL: (must include <strong><em>http://</em></strong> or <strong><em>https://</em></strong>)
               <StyledInput
                 type="url"
                 value={targetURL}

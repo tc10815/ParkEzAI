@@ -120,7 +120,7 @@ class AdDetailView(generics.RetrieveUpdateAPIView):
         
         response = super().update(request, *args, **kwargs)
         if not response.data:
-            print("Serializer errors:", serializer.errors)
+            print("Serializer errors:")
         return response
     
 
@@ -162,20 +162,18 @@ class AdUpdateWithoutImagesView(generics.UpdateAPIView):
                 }
 
                 for field_name, sub_directory in image_path_mappings.items():
-                    print('starting: ' + field_name)
                     old_image_path = getattr(instance, field_name).path
-                    print('old path: ' + old_image_path)
                     filename = os.path.basename(old_image_path)
-                    print('filename: ' + filename)
                     
                     # Construct the new image path using the sub_directory
                     new_image_path = os.path.join('ads', 'ad_data', str(instance.user.username), new_name, sub_directory, filename)
-                    print('new_image_path: ' + new_image_path)
-                    
-                    print('Setting "' + field_name + '" to "' + new_image_path + '"')
                     setattr(instance, field_name, new_image_path)
 
         instance.name = new_name
+        instance.start_date = serializer.validated_data.get('start_date')
+        instance.end_date = serializer.validated_data.get('end_date')
+        instance.url = serializer.validated_data.get('url')
+        instance.image_change_interval = serializer.validated_data.get('image_change_interval')
         instance.save()
 
 
