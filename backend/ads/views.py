@@ -9,6 +9,8 @@ from lots.models import LotMetadata
 from .models import Ad
 from .serializers import LotMetadataSerializer, AdSerializer, AdUpdateWithoutImagesSerializer
 import base64, os
+from django.http import Http404
+from shutil import rmtree 
 
 def get_directory_size(directory):
     total = 0
@@ -103,23 +105,6 @@ class AdDetailView(generics.RetrieveUpdateAPIView):
         # print(serialized_data)  # For debugging
         return Response(serialized_data)
 
-    def update(self, request, *args, **kwargs):
-        print('--- PUT Request Info ---')
-        print('Method:', request.method)
-        print('Headers:', request.headers)
-        # print('Data:', request.data)
-        print('GET Params:', request.GET)
-        print('User:', request.user)
-        print('Path:', request.path_info)
-        print('Full URL:', request.build_absolute_uri())
-        print('---------------------')
-        
-        response = super().update(request, *args, **kwargs)
-        if not response.data:
-            print("Serializer errors:")
-        return response
-    
-
 class AdUpdateWithoutImagesView(generics.UpdateAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdUpdateWithoutImagesSerializer
@@ -180,6 +165,23 @@ class AdUpdateWithoutImagesView(generics.UpdateAPIView):
             # Update the lots for the Ad instance
             instance.lots.set(lots_to_associate)
 
+        image_fields = [
+            'top_banner_image1', 'top_banner_image2', 'top_banner_image3',
+            'side_banner_image1', 'side_banner_image2', 'side_banner_image3'
+        ]
+
+        for field in image_fields:
+            # Check if a new image is provided in the request
+            if field in serializer.validated_data:
+                # Delete the current image from the drive
+                current_image = getattr(instance, field)
+                if current_image:
+                    if os.path.exists(current_image.path):
+                        os.remove(current_image.path)
+
+                # Set the new image and the corresponding path will be automatically updated in the model
+                setattr(instance, field, serializer.validated_data[field])
+                
         instance.save()
 
 
@@ -201,3 +203,24 @@ class AdUpdateWithoutImagesView(generics.UpdateAPIView):
 
         return response  # Ensure a response is always returned for other cases
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_ad(request, advert_id):
+    try:
+        ad = Ad.objects.get(advert_id=advert_id)
+    except Ad.DoesNotExist:
+        raise Http404("Ad not found.")
+
+    # Check if the authenticated user is associated with the ad
+    if ad.user != request.user:
+        return Response({"error": "You don't have permission to delete this ad."}, status=status.HTTP_403_FORBIDDEN)
+
+    # Delete the associated files and folders
+    folder_path = os.path.join('ads', 'ad_data', str(ad.user.username), ad.name)
+    if os.path.exists(folder_path):
+        rmtree(folder_path)  # This deletes the entire directory
+
+    # Delete the ad from the database
+    ad.delete()
+
+    return Response({"success": "Ad deleted successfully."}, status=status.HTTP_200_OK)

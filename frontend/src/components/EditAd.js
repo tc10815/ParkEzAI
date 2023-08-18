@@ -27,14 +27,6 @@ const AdContainer = styled.div`
   padding-bottom: 2em;
 `;
 
-const StyledDetailsTable = styled.table`
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-`;
-
 const StyledLabel = styled.label`
   font-size: 1rem;
   display: block;
@@ -250,10 +242,15 @@ const handleUpdate = async () => {
   formData.append('image_change_interval', secondsBetweenImages);
   selectedLots.forEach(lot => formData.append('lot_names', lot));
 
-  // Since we're not dealing with images in this update, there's no need to append image files to the FormData
+  const imageFields = ['top_banner_image1', 'top_banner_image2', 'top_banner_image3', 'side_banner_image1', 'side_banner_image2', 'side_banner_image3'];
+  imageFields.forEach(field => {
+    if (uploadedFiles[advert_id] && uploadedFiles[advert_id][field]) {
+      formData.append(field, uploadedFiles[advert_id][field]);
+    }
+  });
+
   console.log(formData);
-  // Send PUT request to Django backend (Make sure the endpoint is correct)
-  fetch(API_URL + `ads/edit_without_images/${advert_id}/`, {  // <--- Updated endpoint
+  fetch(API_URL + `ads/edit_without_images/${advert_id}/`, { 
       method: 'PUT',
       headers: {
           'Authorization': `Token ${token}`,

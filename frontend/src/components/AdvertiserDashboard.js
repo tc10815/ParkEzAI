@@ -171,7 +171,30 @@ const AdvertiserDashboard = () => {
     return ad[`${baseName}${index}`];
   };
 
-
+  const deleteAd = (advertId) => {
+    const token = localStorage.getItem("token");
+    fetch(API_URL + 'ads/delete/' + advertId + '/', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`,
+      },
+    })
+    .then(response => {
+      if (response.ok) {
+        // Remove the deleted ad from the state
+        const updatedAds = ads.filter(ad => ad.advert_id !== advertId);
+        setAds(updatedAds);
+        window.location.reload();
+      } else {
+        console.error('Failed to delete the ad');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+  
   return (
     <HomeContainer>
       <HeroImage>
@@ -181,7 +204,9 @@ const AdvertiserDashboard = () => {
               {ads.length > 0 ? (
                 ads.map((ad, i) => (
                 <AdCard key={ad.advert_id}>
-                  <h3>Advertisement Name: <em>{ad.name}</em> <Link to={"/edit-ad/" + ad.advert_id}>(edit)</Link></h3>
+                  <h3>Advertisement Name: <em>{ad.name}</em> <Link to={"/edit-ad/" + ad.advert_id}>(edit)</Link><a href="#" onClick={() => { if (window.confirm('Are you sure you want to delete this ad?')) deleteAd(ad.advert_id) }}>(delete)</a></h3>
+
+
                   <ImageContainer>
                     <a href={ad.url} target="_blank" rel="noopener noreferrer">
                       <AdImage src={getImageSrc(ad, 'top', topImageIndices[i])} alt="Top Banner" />

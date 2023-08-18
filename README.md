@@ -43,7 +43,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] **[Function Requirement 2.3](#2-parking-lot-management)**: Create overparking detection, alert and review system and provide interface for lot owners
 - [ ] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system
   - [x] **[Functional Requirement 4.1](#4-advertising-management)**: Create ad, upload ad
-  - [ ] **[Function Requirement 4.2](#4-advertising-management)**: Modify ad, edits existing ad's content
+  - [x] **[Function Requirement 4.2](#4-advertising-management)**: Modify ad, edits existing ad's content
   - [x] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
   - [ ] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
 - [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types
