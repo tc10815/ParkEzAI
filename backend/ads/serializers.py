@@ -22,8 +22,9 @@ class AdSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AdUpdateWithoutImagesSerializer(serializers.ModelSerializer):
+    lot_names = serializers.ListField(child=serializers.CharField(), required=False)
     start_date = serializers.DateField(required=False, allow_null=True)
     end_date = serializers.DateField(required=False, allow_null=True)
     class Meta:
         model = Ad
-        fields = ['name', 'start_date', 'end_date', 'url', 'image_change_interval']
+        fields = ['name', 'start_date', 'end_date', 'url', 'image_change_interval', 'lot_names']

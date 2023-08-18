@@ -79,20 +79,16 @@ class AdDetailView(generics.RetrieveUpdateAPIView):
         return self.queryset.filter(user=self.request.user)
     
     def retrieve(self, request, *args, **kwargs):
-        print('--- Request Info ---')
-        # print('Uploaded Files:', request.FILES)
-        print('Method:', request.method)
-        print('Headers:', request.headers)
-        # print('Data:', request.data)
-        print('GET Params:', request.GET)
-        print('User:', request.user)
-        print('Path:', request.path_info)
-        print('Full URL:', request.build_absolute_uri())
-        print('---------------------')
-
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         serialized_data = serializer.data
+        all_lots = serialized_data['lots']
+        
+        # Query the LotMetadata model using the IDs in all_lots
+        lot_names = LotMetadata.objects.filter(id__in=all_lots).values_list('name', flat=True)
+        
+        # Convert the queryset result into a list of names
+        serialized_data['lot_names'] = list(lot_names)
         
         # Convert image paths to Base64 encoded data
         for key in ['top_banner_image1', 'top_banner_image2', 'top_banner_image3',
@@ -174,6 +170,16 @@ class AdUpdateWithoutImagesView(generics.UpdateAPIView):
         instance.end_date = serializer.validated_data.get('end_date')
         instance.url = serializer.validated_data.get('url')
         instance.image_change_interval = serializer.validated_data.get('image_change_interval')
+        
+        # Handle updating the lots based on the provided lot_names
+        lot_names = serializer.validated_data.get('lot_names', [])
+        if lot_names:
+            # Query the LotMetadata model using the provided names
+            lots_to_associate = LotMetadata.objects.filter(name__in=lot_names)
+
+            # Update the lots for the Ad instance
+            instance.lots.set(lots_to_associate)
+
         instance.save()
 
 

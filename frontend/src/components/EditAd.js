@@ -112,7 +112,6 @@ const StyledTable = styled.table`
 const EditAd = () => {
   const { advert_id } = useParams();
   const token = localStorage.getItem("token");
-  console.log('EditAd component rendered with', advert_id, token);
   const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -155,6 +154,7 @@ const EditAd = () => {
     } else {
       setSelectedLots(prevSelectedLots => prevSelectedLots.filter(lot => lot !== lotName));
     }
+    console.log(selectedLots);
   };
 
   const handleFileChange = (e, adId, type, index) => {
@@ -193,9 +193,7 @@ const EditAd = () => {
 };
 
 useEffect(() => {
-  console.log('useEffect triggered');
   if (token && advert_id) {
-    console.log('useEffect triggered');
     fetch(API_URL + `ads/edit/${advert_id}/`, {
       headers: {
         'Content-Type': 'application/json',
@@ -210,6 +208,7 @@ useEffect(() => {
         setTargetURL(data.url);
         setSecondsBetweenImages(data.image_change_interval);
         data.lots.map(lot => lot.name);
+        setSelectedLots(data.lot_names);
         setCurrentImages({
           topBanner1: data.top_banner_image1,
           topBanner2: data.top_banner_image2,
@@ -232,14 +231,24 @@ const handleUpdate = async () => {
       return;
   }
 
+  if (selectedLots.length < 1){
+    alert("Please select at least one lot to show ad");
+    return;
+  }
+
   // Construct FormData object for updating
   const formData = new FormData();
   formData.append('name', adName);
-  formData.append('start_date', startDate);
-  formData.append('end_date', endDate);
+  console.log('is startdateNull?');
+  if(startDate !== null){
+    formData.append('start_date', startDate);
+  }
+  if(endDate !== null){
+    formData.append('end_date', endDate);
+  }
   formData.append('url', targetURL);
   formData.append('image_change_interval', secondsBetweenImages);
-  selectedLots.forEach(lot => formData.append('lots', lot));
+  selectedLots.forEach(lot => formData.append('lot_names', lot));
 
   // Since we're not dealing with images in this update, there's no need to append image files to the FormData
   console.log(formData);

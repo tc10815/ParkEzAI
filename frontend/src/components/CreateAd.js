@@ -181,6 +181,11 @@ const CreateAd = () => {
       alert("Ad name should:\n- Be less than 256 characters.\n- Not contain any of the following characters: /\\:*?\"<>|\n- Not be a reserved name like 'CON', 'PRN', etc.");
       return;
     }
+    if (selectedLots.length < 1){
+      alert("Please select at least one lot to show ad");
+      return;
+    }
+  
 
     try {
       await validateImage(document.getElementById('topBanner1').files[0], 728, 90, 'Top Banner Image 1');

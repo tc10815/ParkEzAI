@@ -193,12 +193,18 @@ const AdvertiserDashboard = () => {
                       </a>
                     </SideImageContainer>
                   </ImageContainer>
-                  <p>Target URL: {ad.url}</p>
-                  <p>Impressions: {ad.impressions}</p>
-                  <p>Clicks: {ad.clicks}</p>
-                  <p>Start Date: {ad.start_date}</p>
-                  <p>End Date: {ad.end_date}</p>
-                  <p>Seconds between frames: {ad.image_change_interval}</p>
+                  <p><strong>Target URL:</strong> {ad.url}</p>
+                  <p><strong>Impressions:</strong> {ad.impressions}</p>
+                  <p><strong>Clicks:</strong> {ad.clicks}</p>
+                  <p><strong>Start Date:</strong> {ad.start_date}</p>
+                  <p><strong>End Date:</strong> {ad.end_date}</p>
+                  <p><strong>Seconds between frames:</strong> {ad.image_change_interval}</p>
+                  <p style={{marginBottom:'2px', paddingBottom:'2px'}}><strong>Lots where ad will appear (if between start date and end date):</strong></p>
+                  <ul style={{maxWidth: 'min-content', marginLeft:'auto', marginRight:'auto', marginTop:'0px', paddingTop:'0px'}}>
+                  {ad.lots.map((lot, index) => (
+                    <li key={index}>{lot}</li>
+                  ))}
+                  </ul>
                 </AdCard>
                 ))
                 ) : (
