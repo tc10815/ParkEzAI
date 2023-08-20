@@ -244,37 +244,44 @@ def serve_ad_view(request):
     # Get all the ads pointing to the provided lot id
     eligible_ads = Ad.objects.filter(lots__id=lot_id)
 
+    # print('\n\n Eligible ads based on lot (works):')
+    # for x in eligible_ads:
+    #     print(x.url)
+    #     print(x.start_date)
+    #     print(x.end_date)
+
     # Filter ads based on their start and end dates
     ads_within_date_range = eligible_ads.filter(
-        # Ad is always valid if both start_date and end_date are None
         models.Q(start_date__isnull=True, end_date__isnull=True) |
-        # Ad is valid if only start_date is provided and it's in the past or today
         models.Q(start_date__lte=current_date, end_date__isnull=True) |
-        # Ad is valid if only end_date is provided and it's in the future or today
         models.Q(start_date__isnull=True, end_date__gte=current_date) |
-        # Ad is valid if both start_date and end_date are provided and the current date is between them
         models.Q(start_date__lte=current_date, end_date__gte=current_date)
     )
 
-    # DEBUGGING: Print the ads and their start and end dates to the console
-    for ad in ads_within_date_range:
-        print(f"Ad: {ad.name}, Start Date: {ad.start_date}, End Date: {ad.end_date}")
+    # print('\n\n Ads within Date range???:')
+    # for x in ads_within_date_range:
+    #     print(x.url)
+    #     print(x.start_date)
+    #     print(x.end_date)
 
     users_with_ads = set(ad.user for ad in ads_within_date_range)
-
-    # If no users have ads for the provided lot, return an error
-    if not users_with_ads:
-        return Response({"error": "No ads available for this lot."}, status=status.HTTP_404_NOT_FOUND)
-
-    # Randomly select a user
     selected_user = choice(list(users_with_ads))
 
-    # Get all ads for the selected user that point to the provided lot id
-    selected_user_ads = Ad.objects.filter(user=selected_user, lots__id=lot_id)
+    # Get all VALID ads for the selected user that point to the provided lot id
+    # We reapply the date filter here to ensure only valid ads for the user are selected
+    selected_user_ads = Ad.objects.filter(user=selected_user, lots__id=lot_id).filter(
+        models.Q(start_date__isnull=True, end_date__isnull=True) |
+        models.Q(start_date__lte=current_date, end_date__isnull=True) |
+        models.Q(start_date__isnull=True, end_date__gte=current_date) |
+        models.Q(start_date__lte=current_date, end_date__gte=current_date)
+    )
 
-    # Randomly select one ad
-    selected_ad = choice(selected_user_ads)
+    # If there's no valid ad (just as a sanity check, this shouldn't happen since you're selecting users with valid ads)
+    if not selected_user_ads.exists():
+        return Response({"error": "Unexpected error. No valid ads for the chosen user."}, status=status.HTTP_404_NOT_FOUND)
 
+    # Randomly select one valid ad
+    selected_ad = choice(list(selected_user_ads))
     # Increment the impressions of the ad by one
     selected_ad.increment_impressions()
 
@@ -289,7 +296,6 @@ def serve_ad_view(request):
         with open(image_path, "rb") as image_file:
             base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')
         serialized_data[key] = f"data:image/jpeg;base64,{base64_encoded}"
-
     return Response(serialized_data, status=status.HTTP_200_OK)
 
 

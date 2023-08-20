@@ -1,8 +1,8 @@
 # ParkEz AI
 
-In this project, functional requirements taken from a 7 person, 2 semester class project (ParkEz) are being implemented by a single student, with AI assistance in coding, writing ('copy'), design and images (ParkEz AI). 
+In this project, functional requirements taken from a 9 person, 2 semester class project (ParkEz) are being implemented by a single student, with AI assistance in coding, writing ('copy'), design and images (ParkEz AI). 
 
-The goal of the product in both projects is to monitor parking lots for businesses using AI. *The larger goal of the ParkEz group class project is to learn documentation and Software Engineering methodologies on a team.* ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective of the programmer***. 
+The goal of the product in both projects is to monitor parking lots for businesses using AI. *The larger goal of the ParkEz group class project is to learn documentation and Software Engineering methodologies as a team.* ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective of the programmer***. 
 
 - [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
 - [Overview](#parkezai-project-overview), focusing on the AI process
@@ -41,17 +41,20 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] **[Functional Requirement 2.1](#2-parking-lot-management)**: Integrate track occupancy with Lot Owner Interface with bonus features 
   - [x] **[Function Requirement 2.2](#2-parking-lot-management)**: Integrate lot image / occupancy data archive in a way that provides lot owners with useful information 
   - [x] **[Function Requirement 2.3](#2-parking-lot-management)**: Create overparking detection, alert and review system and provide interface for lot owners
-- [ ] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system
+- [x] **Step 5:** Implement **[Functional Requirements 4.1, 4.2, 4.3](#4-advertising-management)** advertisement system
   - [x] **[Functional Requirement 4.1](#4-advertising-management)**: Create ad, upload ad
   - [x] **[Function Requirement 4.2](#4-advertising-management)**: Modify ad, edits existing ad's content
   - [x] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
-  - [ ] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
-- [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types
-- [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** sample license plate tracking
-  - [ ] Create small simple separate application that reads license plates. No online demo possible due to privacy concerns (not ethnical to read/share plates of unknowing people) 
+  - [x] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
+- [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types (this is a demonstration program, so I will not verify and charge real credit cards)
+- [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** model license plate tracking
+  - [ ] Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it*
 - [ ] **Step 8:** Finishing touches
   - [ ] Ensure all appropriate roles can access same Lot information as Lot Operator.
   - [ ] Ensure all appropriate roles can access same Advertisement  information as Advertiser.
+
+<br> 
+  <em>*Someday as an addendum to this project I may post code that reads license plates live and sends it to an API endpoint, although I'll never have a live demo.</em>
 
 ## Notes on Deploying Computer Vision and Machine Learning on Backend Server
 *(6/9/23-6/12/23)* It took me 3 days to deploy Machine Learning and Computer Vision to the Django server backend. My VPS (IONOS.com, \$2 bucks monthly for 10gb) only had 5.3G remaining after the server operating system and my other webpages. That's plenty of space for plain Django (Python + Libraries for Django are only ***80mb***), but when you add Machine Learning and Computer Vision (PyTorch, TorchVision and OpenCV) the libraries  add up to ***4.8gb***. Add folders for lot images and saved Torch Models and its impossible to run the backend on $2 monthly hosting. 
@@ -142,7 +145,7 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 * [x] **2.1 Track Occupancy:**	Tracking of how many spots are taken at what times, presented for individuals who manage parking lots
 * [x] **2.2 Access Footage Archive:**	Lot owners can access archived footage of their parking lots.
 * [x] **2.3 Detect Overparking:** 	Notification of whenever a space is occupied longer than a specified period of time.
-* [ ] **2.4 Track License Plates:**	Tracking what license plates are registered at what times.
+* [ ] **2.4 Track License Plates:**	Tracking what license plates are registered at what times.*
 
 #### 3. Parking Lot Status
 
@@ -162,3 +165,5 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 * [ ] **5.2 Validate Payment:** 	Checks that customer payment method can be billed correctly.
 
 *Note: I checked off a requirement as complete when at least 1 type of user can do it. I still need to adapt permissions so all intended  user account types can do all requirements in finishing touches*
+
+*<em>Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it</em>
