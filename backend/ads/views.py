@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.generics import ListAPIView
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from lots.models import LotMetadata
@@ -11,6 +11,10 @@ from .serializers import LotMetadataSerializer, AdSerializer, AdUpdateWithoutIma
 import base64, os
 from django.http import Http404
 from shutil import rmtree 
+from random import choice
+from datetime import date
+from django.db import models
+from django.utils.cache import add_never_cache_headers
 
 def get_directory_size(directory):
     total = 0
@@ -224,3 +228,81 @@ def delete_ad(request, advert_id):
     ad.delete()
 
     return Response({"success": "Ad deleted successfully."}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def serve_ad_view(request):
+    
+    # Get the lot id from request data
+    lot_id = request.data.get('lot_id', None)
+    if not lot_id:
+        return Response({"error": "Lot ID not provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Current date
+    current_date = date.today()
+
+    # Get all the ads pointing to the provided lot id
+    eligible_ads = Ad.objects.filter(lots__id=lot_id)
+
+    # Filter ads based on their start and end dates
+    ads_within_date_range = eligible_ads.filter(
+        # Ad is always valid if both start_date and end_date are None
+        models.Q(start_date__isnull=True, end_date__isnull=True) |
+        # Ad is valid if only start_date is provided and it's in the past or today
+        models.Q(start_date__lte=current_date, end_date__isnull=True) |
+        # Ad is valid if only end_date is provided and it's in the future or today
+        models.Q(start_date__isnull=True, end_date__gte=current_date) |
+        # Ad is valid if both start_date and end_date are provided and the current date is between them
+        models.Q(start_date__lte=current_date, end_date__gte=current_date)
+    )
+
+    # DEBUGGING: Print the ads and their start and end dates to the console
+    for ad in ads_within_date_range:
+        print(f"Ad: {ad.name}, Start Date: {ad.start_date}, End Date: {ad.end_date}")
+
+    users_with_ads = set(ad.user for ad in ads_within_date_range)
+
+    # If no users have ads for the provided lot, return an error
+    if not users_with_ads:
+        return Response({"error": "No ads available for this lot."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Randomly select a user
+    selected_user = choice(list(users_with_ads))
+
+    # Get all ads for the selected user that point to the provided lot id
+    selected_user_ads = Ad.objects.filter(user=selected_user, lots__id=lot_id)
+
+    # Randomly select one ad
+    selected_ad = choice(selected_user_ads)
+
+    # Increment the impressions of the ad by one
+    selected_ad.increment_impressions()
+
+    # Serialize the ad
+    serializer = AdSerializer(selected_ad)
+
+    # Convert image paths to Base64 encoded data
+    serialized_data = serializer.data
+    for key in ['top_banner_image1', 'top_banner_image2', 'top_banner_image3',
+                'side_banner_image1', 'side_banner_image2', 'side_banner_image3']:
+        image_path = serialized_data[key]
+        with open(image_path, "rb") as image_file:
+            base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')
+        serialized_data[key] = f"data:image/jpeg;base64,{base64_encoded}"
+
+    return Response(serialized_data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def increment_ad_clicks(request):
+    advert_id = request.data.get('advert_id')
+    if not advert_id:
+        return Response({"error": "advert_id not provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        ad_instance = Ad.objects.get(advert_id=advert_id)
+        ad_instance.increment_clicks()
+        return Response({"success": "Click incremented successfully for the provided advert_id."}, status=status.HTTP_200_OK)
+    except Ad.DoesNotExist:
+        return Response({"error": "Ad with the provided advert_id does not exist."}, status=status.HTTP_404_NOT_FOUND)

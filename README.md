@@ -20,7 +20,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/18/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/19/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -130,33 +130,35 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 
 #### 1. Account Management
 
-* **1.1 Summarize Account:**	Basic summary of account (when subscribed, when will expire, type of account).
-* **1.2 Authenticate Account:**	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
-* **1.3 Request Customer Support:**	A simple page where users can request customer support
-* **1.4 Create Account:**	Where users can create an account.
-* **1.5 Modify Account:**	Where users can make changes to their account, such as passwords
-* **1.6 Cancel Account:**	Where users can cancel their account.
+* [x] **1.1 Summarize Account:**	Basic summary of account (when subscribed, when will expire, type of account).
+* [x] **1.2 Authenticate Account:**	Authentication pages are where subscribed customers log in (both lot operators and advertisers).
+* [x] **1.3 Request Customer Support:**	A simple page where users can request customer support
+* [x] **1.4 Create Account:**	Where users can create an account.
+* [x] **1.5 Modify Account:**	Where users can make changes to their account, such as passwords
+* [x] **1.6 Cancel Account:**	Where users can cancel their account.
 
 #### 2. Parking Lot Management
 
-* **2.1 Track Occupancy:**	Tracking of how many spots are taken at what times, presented for individuals who manage parking lots
-* **2.2 Access Footage Archive:**	Lot owners can access archived footage of their parking lots.
-* **2.3 Detect Overparking:** 	Notification of whenever a space is occupied longer than a specified period of time.
-* **2.4 Track License Plates:**	Tracking what license plates are registered at what times.
+* [x] **2.1 Track Occupancy:**	Tracking of how many spots are taken at what times, presented for individuals who manage parking lots
+* [x] **2.2 Access Footage Archive:**	Lot owners can access archived footage of their parking lots.
+* [x] **2.3 Detect Overparking:** 	Notification of whenever a space is occupied longer than a specified period of time.
+* [ ] **2.4 Track License Plates:**	Tracking what license plates are registered at what times.
 
 #### 3. Parking Lot Status
 
-* **3.1 Search and Select Lot:**	Unsubscribed users can browse and search parking lots using ParkEZ. 
-* **3.2 View Occupancy Shows:** unsubscribed users most optimal space available and occupancy of selected parking lot. View includes ads.
-* **3.3 Access Occupancy Remotely:**	A non GUI element offers occupancy status data through an interface Parking Lot Managers can use with their website.
+* [x] **3.1 Search and Select Lot:**	Unsubscribed users can browse and search parking lots using ParkEZ. 
+* [x] **3.2 View Occupancy Shows:** unsubscribed users most optimal space available and occupancy of selected parking lot. View includes ads.
+* [x] **3.3 Access Occupancy Remotely:**	A non GUI element offers occupancy status data through an interface Parking Lot Managers can use with their website.
 
 #### 4. Advertising Management
 
-* **4.1 Create Ad:** Uploads ads.
-* **4.2 Modify Ad:** Edits existing ad's content.
-* **4.3 View Ad Statistics:** View impressions and clicks of placed ads.
+* [x] **4.1 Create Ad:** Uploads ads.
+* [x] **4.2 Modify Ad:** Edits existing ad's content.
+* [x] **4.3 View Ad Statistics:** View impressions and clicks of placed ads.
 
 #### 5. Payment Gateway
 
-* **5.1 Define Payment Method:**	Users decide how they pay for their subscription (ad or lot manger).
-* **5.2 Validate Payment:** 	Checks that customer payment method can be billed correctly.
+* [ ] **5.1 Define Payment Method:**	Users decide how they pay for their subscription (ad or lot manger).
+* [ ] **5.2 Validate Payment:** 	Checks that customer payment method can be billed correctly.
+
+*Note: I checked off a requirement as complete when at least 1 type of user can do it. I still need to adapt permissions so all intended  user account types can do all requirements in finishing touches*

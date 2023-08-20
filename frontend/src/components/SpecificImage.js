@@ -17,7 +17,7 @@ const LotCanvas = styled.canvas`
   height: auto; 
 `
 const TimeH2 = styled.h2` 
-  margin-top:75px;
+  margin-top:10px;
   margin-left: auto;
   margin-right: auto;
   align-items: center;
@@ -50,7 +50,19 @@ const LabelsDiv = styled.div`
   margin-right: auto;
   align-items: center;
   max-width: 70vw;
+`;
 
+const AdImage = styled.img`
+  height: auto;
+  width: 100%;
+  transition: opacity 0.5s;
+`;
+
+const AdBanner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
 `;
 
 function formatDate(inputdate){
@@ -78,6 +90,9 @@ const SpecificImage = () => {
   const [humanLabelsJson, setHumanLabelsJson] = useState({});
   const [bestSpots, setBestSpots] = useState({});
   const [bestSpot, setBestSpot] = useState('');
+  const [ad, setAd] = useState(null);
+  const [currentTopImageIndex, setCurrentTopImageIndex] = useState(1);
+  const [currentSideImageIndex, setCurrentSideImageIndex] = useState(1);
   const [previousImageName, setPreviousImageName] = useState('');
   const [nextImageName, setNextImageName] = useState('');
   const { lot, imageName } = useParams();
@@ -147,7 +162,23 @@ const SpecificImage = () => {
         })
         .catch((error) => {
             console.error('Error fetching data:', error);
-        });    
+        }); 
+        fetch(`${API_URL}ads/serve-ad/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            lot_id: lot,
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            setAd(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching ad:', error);
+          });   
 }, [lot, imageName]);
 
 
@@ -159,13 +190,59 @@ const SpecificImage = () => {
     navigate(`/image/${lot}/${nextImageName}`);
   };
 
+  useEffect(() => {
+    if (ad) {
+      const interval = setInterval(() => {
+        setCurrentTopImageIndex((prev) => (prev % 3) + 1);
+        setCurrentSideImageIndex((prev) => (prev % 3) + 1);
+      }, ad.image_change_interval * 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [ad]);
+
+  const handleAdClick = () => {
+    // Check if there's an ad and an advert_id
+    if (ad && ad.advert_id) {
+        fetch(`${API_URL}ads/increment_clicks/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                advert_id: ad.advert_id,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Click incremented successfully:', data);
+        })
+        .catch((error) => {
+            console.error('Error incrementing click:', error);
+        });
+    }
+  };
+
   return (
     <div>
+      {ad && (
+          <AdBanner style={{marginTop:'60px'}}>
+            <a href={ad.url} target="_blank" rel="noopener noreferrer" onClick={handleAdClick}>
+              <AdImage style={{width: '100%',height:'auto'}} src={ad[`top_banner_image${currentTopImageIndex}`]} />
+            </a>
+          </AdBanner>)}
       <TimeH2>
         {humanTime}
       </TimeH2>
       <ImageDiv>
         <LotCanvas ref={canvasRef} />
+        {ad && (
+          <AdBanner style={{marginLeft:'50px'}}>
+            <a href={ad.url} target="_blank" rel="noopener noreferrer" onClick={handleAdClick}>
+              <AdImage style={{width: '100%',height:'auto'}} src={ad[`side_banner_image${currentSideImageIndex}`]} />
+            </a>
+          </AdBanner>
+          )}
       </ImageDiv>
       <ButtonsDiv>
         <Button onClick={handlePrevious}>Previous</Button>

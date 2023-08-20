@@ -204,7 +204,7 @@ const AdvertiserDashboard = () => {
               {ads.length > 0 ? (
                 ads.map((ad, i) => (
                 <AdCard key={ad.advert_id}>
-                  <h3>Advertisement Name: <em>{ad.name}</em> <Link to={"/edit-ad/" + ad.advert_id}>(edit)</Link><a href="#" onClick={() => { if (window.confirm('Are you sure you want to delete this ad?')) deleteAd(ad.advert_id) }}>(delete)</a></h3>
+                  <h3>Advertisement Name: <em>{ad.name}</em> <Link style={{ fontSize: '0.7em', color: 'blue', textDecoration: 'none' }} to={"/edit-ad/" + ad.advert_id}>(edit)</Link> <a href="#" style={{ fontSize: '0.7em', color: 'blue', textDecoration: 'none' }} onClick={() => { if (window.confirm('Are you sure you want to delete this ad?')) deleteAd(ad.advert_id) }}>(delete)</a></h3>
 
 
                   <ImageContainer>
@@ -224,7 +224,7 @@ const AdvertiserDashboard = () => {
                   <p><strong>Start Date:</strong> {ad.start_date}</p>
                   <p><strong>End Date:</strong> {ad.end_date}</p>
                   <p><strong>Seconds between frames:</strong> {ad.image_change_interval}</p>
-                  <p style={{marginBottom:'2px', paddingBottom:'2px'}}><strong>Lots where ad will appear (if between start date and end date):</strong></p>
+                  <p style={{marginBottom:'2px', paddingBottom:'2px'}}><strong>Lots where ad will appear <br  />(if between start date and end date):</strong></p>
                   <ul style={{maxWidth: 'min-content', marginLeft:'auto', marginRight:'auto', marginTop:'0px', paddingTop:'0px'}}>
                   {ad.lots.map((lot, index) => (
                     <li key={index}>{lot}</li>
