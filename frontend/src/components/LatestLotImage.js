@@ -169,13 +169,15 @@ const LatestLotImage = () => {
         .catch((error) => {
             console.error('Error fetching data:', error);
         });
+        let theLot = lot;
+        if (!theLot) theLot = 'coldwater';
         fetch(`${API_URL}ads/serve-ad/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            lot_id: lot,
+            lot_id: theLot,
           }),
         })
           .then(response => response.json())

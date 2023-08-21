@@ -6,6 +6,7 @@ The goal of the product in both projects is to monitor parking lots for business
 
 - [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
 - [Overview](#parkezai-project-overview), focusing on the AI process
+- [Conclusions (Draft)](#conclusions-draft) An unfinished list of takeaways from the project
 - [Task List](#task-list) from this semester's tasks to project completion
 - [Semester 1 AI Prompts](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1/prompt_logs_part1), [Semester 2 AI prompts](https://github.com/tc10815/ParkEzAI/tree/main/prompt_logs) used thus far 
 - Notes:
@@ -167,3 +168,20 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 *Note: I checked off a requirement as complete when at least 1 type of user can do it. I still need to adapt permissions so all intended  user account types can do all requirements in finishing touches*
 
 *<em>Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it</em>
+
+# Conclusions (unfinished) 
+***Note: This is a working document, and won't be complete until the first version of the project is complete***
+
+As of 2023, ChatGPT-4 incredible at solving complex programming problems when presented as small, discrete tasks. Even in its current level of development, I was able make ParkEzAi significantly faster and with less knowledge of the technologies involved than was previously possible.
+
+Using ChatGPT-4 for ParkEzAi, I have also seen it has significant limitations. It's not possible for who knows nothing to build a complex application yet. While GPT4 generated most of the code for the project, it almost never worked the first time; I'd almost always have to remix and debug GPTs code to get it to do what I wanted. Although with GPT you need less specific knowledge to make progress, you still need a deep understanding of what's happening in the code to avoid getting stuck.
+
+While there were times when GPT4's code was so problematic that it would have been faster if I just wrote it myself, mostly it saved me time, helped me debug faster, and helped me do things with code I hadn't learned yet. Using some basic strategies when interacting with GTP4 can increase productivity. 
+
+### Tips 
+***Note: These tips are from my personal experience making ParkEzAI alone. I'm quoting or referencing any other material***
+
+1. **Don't ask GPT to do too much in a single prompt.** If you ask it to do something that requires too many steps, it will give you an answer that looks correct, and probably runs, but won't actually do what you were hoping. You'll save time in the long run by break complex tasks into multiple prompts and checking each step along the way.
+2. **Include as much relevant context/code as possible in each prompt.** GPT does remember code it wrote in previous messages, and code you previously sent it, but as the conversation continues it gets forgetful and starts making mistakes. I find it makes the fewest errors when I send it *all of the relevant code* needed for the answer in every prompt, omitting as much unrelated code as possible. 
+3. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEzAi, GPT4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
+4. **Ask it big picture questions, not just for code**. I would have made ParkEzAI a lot differently if I hadn't occasionally discussed what I was doing with GPT4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
