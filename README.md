@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/19/2023)
+# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/22/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -169,19 +169,20 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 
 *<em>Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it</em>
 
-# Conclusions (unfinished) 
+# Conclusions (draft) 
 ***Note: This is a working document, and won't be complete until the first version of the project is complete***
 
-As of 2023, ChatGPT-4 incredible at solving complex programming problems when presented as small, discrete tasks. Even in its current level of development, I was able make ParkEzAi significantly faster and with less knowledge of the technologies involved than was previously possible.
+As of 2023, ChatGPT-4 is incredible at solving programming problems when presented as small, discrete tasks. Even in its current state, I was able make ParkEzAi significantly faster and with slightly less knowledge than previously possible.
 
-Using ChatGPT-4 for ParkEzAi, I have also seen it has significant limitations. It's not possible for who knows nothing to build a complex application yet. While GPT4 generated most of the code for the project, it almost never worked the first time; I'd almost always have to remix and debug GPTs code to get it to do what I wanted. Although with GPT you need less specific knowledge to make progress, you still need a deep understanding of what's happening in the code to avoid getting stuck.
+Using ChatGPT-4 for ParkEz AI, I've also seen its limitations. It's not possible for someone who knows nothing to build a complex application yet. While GPT-4 generated most of the code for my project, it almost never worked the first time; I'd almost always have to remix and debug GPT-4's code to get it to do what I wanted. Although with GPT-4 you need less specific knowledge to make progress, you still need a deep understanding of what's happening in the code to avoid getting stuck.
 
-While there were times when GPT4's code was so problematic that it would have been faster if I just wrote it myself, mostly it saved me time, helped me debug faster, and helped me do things with code I hadn't learned yet. Using some basic strategies when interacting with GTP4 can increase productivity. 
+There were times when GPT-4's code was so problematic that it would have been faster if I just wrote it myself, but it mostly it saved me time, helped me debug faster, and helped me do things with code I hadn't mastered yet. Using some basic strategies when interacting with GTP-4 can increase productivity. 
 
 ### Tips 
-***Note: These tips are from my personal experience making ParkEzAI alone. I'm quoting or referencing any other material***
+***Note: These tips are from my personal experience making ParkEzAI alone. I'm not quoting or referencing any other material***
 
-1. **Don't ask GPT to do too much in a single prompt.** If you ask it to do something that requires too many steps, it will give you an answer that looks correct, and probably runs, but won't actually do what you were hoping. You'll save time in the long run by break complex tasks into multiple prompts and checking each step along the way.
-2. **Include as much relevant context/code as possible in each prompt.** GPT does remember code it wrote in previous messages, and code you previously sent it, but as the conversation continues it gets forgetful and starts making mistakes. I find it makes the fewest errors when I send it *all of the relevant code* needed for the answer in every prompt, omitting as much unrelated code as possible. 
-3. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEzAi, GPT4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
-4. **Ask it big picture questions, not just for code**. I would have made ParkEzAI a lot differently if I hadn't occasionally discussed what I was doing with GPT4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
+1. **Don't ask GPT-4 to do too much in a single prompt.** If you ask it to do something that requires too many steps, it will give you an answer that looks correct, and probably runs, but won't actually do what you were hoping. You'll save time in the long run by breaking complex tasks into multiple prompts and checking each step along the way.
+2. **Include as much relevant context/code as possible in all prompts.** GPT-4 does remember code it wrote in previous messages, and code you previously sent it, but as the conversation continues it gets forgetful and starts making mistakes. I find it makes the fewest errors when I send it *all of the relevant code* needed for the answer in every prompt, omitting as much unrelated code as possible. 
+3. **Exclude as much irrelevant code as possible in difficult prompts.** I've noticed I get lower quality responses if you include unrelated code in your prompt, such as unrelated functions and CSS code in React. I'll still include unnecessary code for basic requests since its time consuming to clean up, but for very difficult requests I'm careful to keep context as concise as possible.
+4. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEzAi, GPT4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
+5. **Ask it big picture questions, not just for code**. I would have made ParkEz AI a lot differently if I hadn't occasionally discussed what I was doing with GPT-4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
