@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
-import { formatDate } from '../shared/tools';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -40,10 +39,10 @@ const MyTable = styled.table`
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
-  
+
   th, td {
     border: 1px solid black;
-    padding: 8px;  // Optional: Add some padding for a better appearance
+    padding: 8px;
   }
 
   tr {
@@ -51,7 +50,6 @@ const MyTable = styled.table`
     border-bottom: 1px solid black;
   }
 `;
-
 
 const HeroImage = styled.div`
   margin-top: 2.2em;
@@ -68,11 +66,10 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 `;
 
-const Billing = () => {
+const Payments = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
-  const [invoices, setInvoices] = useState([]);
-
+  const [paymentMethods, setPaymentMethods] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -86,14 +83,14 @@ const Billing = () => {
         .then(response => response.json())
         .then(data => setUser(data));
 
-      fetch(API_URL + 'billing/invoices/', {
+      fetch(API_URL + 'billing/payment-methods/', {  // Updated endpoint
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
         },
       })
         .then(response => response.json())
-        .then(data => setInvoices(data));
+        .then(data => setPaymentMethods(data));
     }
   }, [location]);
 
@@ -102,38 +99,35 @@ const Billing = () => {
       <HeroImage>
         <TableContainer>
           {user ? (
-            <>
-              <SubHeading>Welcome back, {user ? user.first_name : ''}</SubHeading>
-            </>
+            <SubHeading>Welcome back, {user.first_name}</SubHeading>
           ) : (
             <SubHeading>Welcome back</SubHeading>
           )}
-          <p><strong><br />Invoices</strong></p>
+          <p><strong><br />Payment Methods</strong></p>
           <MyTable>
             <thead>
               <tr>
-                <th>Invoice ID</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Invoice Issued</th>
-                <th>Status</th>
-                <th>Payment Date</th>
-                <th>Payment Method</th>
-                <th>Invoice Total</th>
-                {console.log(invoices)}
+                {/* <th>Customer Email</th>
+                <th>Role</th> */}
+                <th>Credit Card Type</th>
+                <th>Expiration Month</th>
+                <th>Expiration Year</th>
+                <th>Name</th>
+                <th>Billing Address</th>
+                <th>Zip Code</th>
               </tr>
             </thead>
             <tbody>
-              {invoices.map(invoice => (
-                <tr key={invoice.invoice_id}>
-                  <td>{invoice.invoice_id}</td>
-                  <td>{invoice.customer.role.role_name}</td>
-                  <td>{invoice.customer.email}</td>
-                  <td>{formatDate(invoice.date_of_invoice)}</td>
-                  <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
-                  <td>{invoice.date_of_payment ? formatDate(invoice.date_of_payment) : 'Unpaid'}</td>
-                  <td>{invoice.payment_method_name}</td>
-                  <td>{invoice.payment_due}</td>
+              {paymentMethods.map(method => (
+                <tr key={method.name}>
+                  {/* <td>{method.customer.email}</td>
+                      <td>{method.customer.role.role_name}</td> */}
+                  <td>{method.credit_card_type}</td>
+                  <td>{method.expiration_month}</td>
+                  <td>{method.expiration_year}</td>
+                  <td>{method.name}</td>
+                  <td>{method.billing_address}</td>
+                  <td>{method.zip_code}</td>
                 </tr>
               ))}
             </tbody>
@@ -144,4 +138,5 @@ const Billing = () => {
     </HomeContainer>
   );
 };
-export default Billing;
+
+export default Payments;

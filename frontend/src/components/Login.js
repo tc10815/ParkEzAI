@@ -191,7 +191,7 @@ const Login = () => {
               navigate("/tickets"); 
               break;
             case 'Accountant':
-              navigate("/accountant-dashboard"); 
+              navigate("/billing"); 
               break;
             default:
               alert('Default');

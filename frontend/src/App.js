@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, useNavigate, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
+import Billing from './components/Billing';
 import FindParking from './components/FindParking';
 import About from './components/About';
 import HelpCenter from './components/HelpCenter';
@@ -14,7 +15,6 @@ import Error from './components/Error';
 import LoginFailed from './components/LoginFailed';
 import OperatorDashboard from './components/OperatorDashboard';
 import AdvertiserDashboard from './components/AdvertiserDashboard';
-import AccountantDashboard from './components/AccountantDashboard';
 import UpdateAccount from './components/UpdateAccount';
 import ChangePassword from './components/ChangePassword';
 import SuccessChange from './components/SuccessChange';
@@ -34,6 +34,7 @@ import OverparkingConfirm from './components/OverparkingConfirm';
 import Archive from './components/Archive';
 import CreateAd from './components/CreateAd';
 import EditAd from './components/EditAd';
+import Payments from './components/Payments';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -81,7 +82,6 @@ const App = () => {
           <Route path="/login-failed" element={<LoginFailed />} />
           <Route path="/operator-dashboard" element={<OperatorDashboard />} />
           <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
-          <Route path="/accountant-dashboard" element={<AccountantDashboard />} />
           <Route path="/account" element={<UpdateAccount />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/success-create" element={<SuccessCreate />} />
@@ -100,6 +100,8 @@ const App = () => {
           <Route path="/archive" element={<ArchiveRedirect />} />
           <Route path="/archive/:lot/:imageName" element={<Archive />} />
           <Route path="/overpark-confirm/:lot/:cam/:space/:starttime/:endtime" element={<OverparkingConfirm />} />
+          <Route path="/billing" element={<Billing />} />
+          <Route path="/payment-methods" element={<Payments />} />
         </Routes>
       </ContentWrapper>
     </Router>

@@ -172,11 +172,18 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 # Conclusions (draft) 
 ***Note: This is a working document, and won't be complete until the first version of the project is complete***
 
-As of 2023, ChatGPT-4 is incredible at solving programming problems when presented as small, discrete tasks. Even in its current state, I was able make ParkEzAi significantly faster and with slightly less knowledge than previously possible.
+As of 2023, ChatGPT-4 is incredible at solving programming problems when presented as small, discrete tasks. Even in its current state, I was able make ParkEz AI significantly faster and with slightly less knowledge than previously possible.
 
 Using ChatGPT-4 for ParkEz AI, I've also seen its limitations. It's not possible for someone who knows nothing to build a complex application yet. While GPT-4 generated most of the code for my project, it almost never worked the first time; I'd almost always have to remix and debug GPT-4's code to get it to do what I wanted. Although with GPT-4 you need less specific knowledge to make progress, you still need a deep understanding of what's happening in the code to avoid getting stuck.
 
 There were times when GPT-4's code was so problematic that it would have been faster if I just wrote it myself, but it mostly it saved me time, helped me debug faster, and helped me do things with code I hadn't mastered yet. Using some basic strategies when interacting with GTP-4 can increase productivity. 
+
+### What skills are necessary working with AI to code?
+Going into the project I had a **very strong background in Java, OOP and CS theory** from my undergraduate degree and some software internships in the late 00's. I learned **Python, basic machine learning with Keras/scikit-learn, Jupyter Notebook and some very basic React** working on my graduate degree 2021-2023.  
+
+I had **no real experience with PHP**, so for the Semester 1 project backend I relied on GPT for almost everything. It succeeded in making a working demo where accounts could be made and modified from other accounts, but authentication was inconsistent and it could easily be abused by bad actors. It worked as a demo but could never be used for real life. 
+
+Semester 2 I changed webservers and could now use Uvicorn, so I wanted to change to a Python-based backend to easily deploy real time machine learning. With my PHP experience in Semester 1, I learned I could not depend on GPT to build a good website without me also understanding the code, so in May, 2023 I read the first half of two books: William S. Vincent's Django for Beginners and Django for APIs. **Thanks to studying Django for a month before starting the project with GPT, the resulting Django backend is much higher quality and more resilient than Semester 1's PHP backend**
 
 ### Tips 
 ***Note: These tips are from my personal experience making ParkEzAI alone. I'm not quoting or referencing any other material***

@@ -343,7 +343,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/billing-admin">Billing Admin</StyledNavLink>
+                <StyledNavLink to="/billing">Billing Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -367,7 +367,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/lot-billing-admin">Lot Billing Admin</StyledNavLink>
+                <StyledNavLink to="/billing">Lot Billing Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -391,7 +391,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/ad-billing-admin">Ad Billing Admin</StyledNavLink>
+                <StyledNavLink to="/billing">Ad Billing Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -405,7 +405,7 @@ const Navigation = () => {
           <>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/accountant-dashboard">Accountant Dashboard</StyledNavLink>
+                <StyledNavLink to="/billing">Accountant Dashboard</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>

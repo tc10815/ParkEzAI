@@ -34,10 +34,15 @@ class PaymentMethod(models.Model):
         ('MASTER', 'MasterCard'),
         ('DISCOVER', 'Discover'),
     )
-
+    
+    customer = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
     credit_card_type = models.CharField(max_length=10, choices=CREDIT_CARD_CHOICES)
     fake_credit_card_number = models.CharField(max_length=16)  # Assuming it's a fake number for placeholder, not for real transactions
-    expiration_date = models.DateField()
+
+    # Split expiration_date into two fields
+    expiration_month = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 13)], help_text="Month in MM format", default=13)  # using 13 as an arbitrary value
+    expiration_year = models.PositiveIntegerField(help_text="Year in YYYY format", default=0)  # using 0 as an arbitrary value
+
     name = models.CharField(max_length=255)
     billing_address = models.TextField()
     zip_code = models.CharField(max_length=6)
@@ -45,3 +50,4 @@ class PaymentMethod(models.Model):
 
     def __str__(self):
         return self.name
+

@@ -10,6 +10,7 @@ urlpatterns = [
     path('tickets/', include('tickets.urls')),
     path('lots/', include('lots.urls')),
     path('ads/', include('ads.urls')),
+    path('billing/', include('billing.urls')),
 ]
 
 if settings.DEBUG:

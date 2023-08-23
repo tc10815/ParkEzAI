@@ -1,96 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-
+import { formatDate } from '../shared/tools';
+import { PStyle, LotCanvas, TimeH2, ImageDiv, Button, ButtonsDiv, LabelsDiv, AdImage, AdBanner} from '../shared/visuals';
 const API_URL = process.env.REACT_APP_API_URL;
 
-const PStyle = styled.p`
-  font-size: 2rem;
-  width: fit-content;
-  color: white;
-  background-color: rgba(0, 0, 0, 1); 
-  padding: 0.5rem 1rem;
-`;
-
-const ImageDiv = styled.div` 
-  margin-top:2;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Button = styled.button`
-  padding: 1rem 2rem; 
-  font-size: 1.5rem;  
-  margin: 0.5rem; 
-`;
-
-const ButtonsDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LabelsDiv = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-  max-width: 70vw;
-`;
-
-const LotCanvas = styled.canvas`
-  max-width: 70vw;
-  height: auto; 
-`
-
-const TimeH2 = styled.h2` 
-  margin-top:10px;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-  width: fit-content;
-  color: white;
-`;
-
-const AdImage = styled.img`
-  height: auto;
-  width: 100%;
-  transition: opacity 0.5s;
-`;
-
-const AdBanner = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px 0;
-`;
-
-function formatDate(inputdate){
-  // setHumanTime(data.timestamp);
-  const timestampUTC = new Date(inputdate); // parse the ISO string into a Date object
-  const timestampEST = new Date(timestampUTC.getTime() + (4 * 60 * 60 * 1000)); // subtract 5 hours from UTC to get EST
-  let hour = timestampEST.getHours();
-  let ampm = 'am'
-  if (hour == 0){
-    hour = 12;
-  } else if (hour > 12){
-    hour = hour - 12;
-    ampm = 'pm'
-  } 
-  
-
-  return (timestampEST.getMonth() + 1) + '/' + timestampEST.getDate() + '/' + timestampEST.getFullYear() + ' ' 
-    + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
-    
-}
 
 const LatestLotImage = () => {
   const canvasRef = useRef(null);
-  const [imageSrc, setImageSrc] = useState('');
   const [humanLabels, setHumanLabels] = useState('');
-  const [humanLabelsJson, setHumanLabelsJson] = useState({});
-  const [spots, setSpots] = useState({});
-  const [bestSpots, setBestSpots] = useState({});
   const [bestSpot, setBestSpot] = useState('');
   const [humanTime, setHumanTime] = useState('');
   const [ad, setAd] = useState(null);
@@ -115,9 +32,6 @@ const LatestLotImage = () => {
     fetch(endpoint.toString())
         .then(response => response.json())
         .then(data => {
-            setSpots(data.spots);
-            setBestSpots(data.bestspots);
-            setHumanLabelsJson(data.human_labels);
             const trueLabels = Object.entries(data.human_labels)
                         .filter(([key, value]) => value === true)
                         .map(([key]) => key)
@@ -134,7 +48,6 @@ const LatestLotImage = () => {
             setBestSpot(bestSpotString);
             setHumanLabels(trueLabels);
             setHumanTime(formatDate(data.timestamp));
-            setImageSrc(API_URL + 'lots' + data.image_url); 
             setPreviousImageName(data.previous_image_name_part);
             const image = new Image();
             image.src = API_URL + "lots" + data.image_url;
