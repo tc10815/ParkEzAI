@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, status, permissions, generics
 from .models import CustomUser, Role
-from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer, InitiateUserSerializer
+from .serializers import UserSerializer, UserCreateSerializer, CustomUserDetailsSerializer, UserUpdateSerializer, ChangePasswordSerializer, InitiateUserSerializer, UserPaymentSerializer
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import PermissionDenied
@@ -162,6 +162,30 @@ class UserRolesView(APIView):
 
         # Serialize the queryset
         serializer = UserSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+    
+class UserPaymentRolesView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        role_name = user.role.role_name
+
+        # Determine the rules based on the role of the user
+        if role_name == 'Accountant':
+            queryset = CustomUser.objects.filter(role__role_name__in=['Advertiser', 'Lot Operator'])
+        elif role_name == 'Customer Support':
+            queryset = CustomUser.objects.filter(role__role_name__in=['Advertiser', 'Lot Operator'])
+        elif role_name == 'Lot Specialist':
+            queryset = CustomUser.objects.filter(role__role_name='Lot Operator')
+        elif role_name == 'Advertising Specialist':
+            queryset = CustomUser.objects.filter(role__role_name='Advertiser')
+        else:
+            return Response({'detail': 'You do not have permission to access this.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Serialize the queryset
+        serializer = UserPaymentSerializer(queryset, many=True)
 
         return Response(serializer.data)
 

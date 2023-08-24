@@ -35,6 +35,7 @@ import Archive from './components/Archive';
 import CreateAd from './components/CreateAd';
 import EditAd from './components/EditAd';
 import Payments from './components/Payments';
+import AddPaymentMethod from './components/AddPaymentMethod';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -102,6 +103,7 @@ const App = () => {
           <Route path="/overpark-confirm/:lot/:cam/:space/:starttime/:endtime" element={<OverparkingConfirm />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/payment-methods" element={<Payments />} />
+          <Route path="/add-payment-method" element={<AddPaymentMethod />} />
         </Routes>
       </ContentWrapper>
     </Router>
