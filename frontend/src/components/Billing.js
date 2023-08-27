@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
@@ -12,6 +12,11 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+
+const PaymentButton = styled.button`
+  margin-top: 1em;
+  font-size: 110%;  
 `;
 
 const TableContainer = styled.div`
@@ -69,10 +74,13 @@ const HeroImage = styled.div`
 `;
 
 const Billing = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const location = useLocation();
   const [invoices, setInvoices] = useState([]);
-
+  const goToPaymentMethods = () => {
+    navigate("/payment-methods");
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -138,6 +146,7 @@ const Billing = () => {
               ))}
             </tbody>
           </MyTable>
+          <PaymentButton onClick={goToPaymentMethods}>View Payment Methods</PaymentButton>
         </TableContainer>
       </HeroImage>
       <Footer />

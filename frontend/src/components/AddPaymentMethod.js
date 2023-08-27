@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
@@ -70,6 +71,7 @@ const HeroImage = styled.div`
 
 const AddPaymentMethod = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [paymentFormData, setPaymentFormData] = useState({
     customer_id: '',
@@ -125,9 +127,10 @@ const AddPaymentMethod = () => {
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            // Handle error (e.g., show a message to the user)
+            alert('Error adding payment method');
         } else {
-            // Handle success (e.g., show a success message or redirect)
+            alert('Payment method successfully added')
+            navigate("/payment-methods");
         }
     });
 };

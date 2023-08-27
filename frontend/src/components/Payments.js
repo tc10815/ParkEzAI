@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
@@ -11,6 +11,11 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+
+const PaymentButton = styled.button`
+  margin-top: 1em;
+  font-size: 110%;  
 `;
 
 const TableContainer = styled.div`
@@ -67,9 +72,40 @@ const HeroImage = styled.div`
 `;
 
 const Payments = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState('');
   const location = useLocation();
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const goToAddPayments = () => {
+    navigate("/add-payment-method");
+  };
+  const handleDelete = (id) => {
+    const token = localStorage.getItem("token");
+    fetch(API_URL + `billing/delete-payment-method/${id}/`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+    })
+    .then(response => {
+        if (response.status === 204) {  
+            alert("Delete was successful!");
+            window.location.reload();
+        } else {
+            return response.json();
+        }
+    })
+    .then(data => {
+        if (data && data.error) {
+            alert(`Failed: ${data.error}`);
+        }
+    })
+    .catch(error => {
+        console.error("There was an error deleting the payment method:", error);
+        alert("Failed: There was an error processing your request.");
+    });
+};
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -81,8 +117,10 @@ const Payments = () => {
         },
       })
         .then(response => response.json())
-        .then(data => setUser(data));
-
+        .then(data => {
+          setUser(data);
+          setRole(data.role_name);
+      });
       fetch(API_URL + 'billing/payment-methods/', {  // Updated endpoint
         headers: {
           'Content-Type': 'application/json',
@@ -93,6 +131,8 @@ const Payments = () => {
         .then(data => setPaymentMethods(data));
     }
   }, [location]);
+
+  
 
   return (
     <HomeContainer>
@@ -107,31 +147,35 @@ const Payments = () => {
           <MyTable>
             <thead>
               <tr>
-                {/* <th>Customer Email</th>
-                <th>Role</th> */}
+                {(role == 'Lot Specialist') ? (<th>Email</th>) : (<p></p>)}
+                {(role == 'Lot Specialist') ? (<th>Role</th>) : (<p></p>)}
                 <th>Credit Card Type</th>
                 <th>Expiration Month</th>
                 <th>Expiration Year</th>
                 <th>Name</th>
                 <th>Billing Address</th>
                 <th>Zip Code</th>
+                <th>Action</th>
               </tr>
             </thead>
+            {console.log(paymentMethods)}
             <tbody>
               {paymentMethods.map(method => (
                 <tr key={method.name}>
-                  {/* <td>{method.customer.email}</td>
-                      <td>{method.customer.role.role_name}</td> */}
+                  {(role == 'Lot Specialist') ? (<td>{method.customer.email}</td>) : (<p></p>)}
+                  {(role == 'Lot Specialist') ? (<td>{method.customer.role_name}</td>) : (<p></p>)}
                   <td>{method.credit_card_type}</td>
                   <td>{method.expiration_month}</td>
                   <td>{method.expiration_year}</td>
                   <td>{method.name}</td>
                   <td>{method.billing_address}</td>
                   <td>{method.zip_code}</td>
+                  <td><button onClick={() => handleDelete(method.id)}>Delete</button></td>
                 </tr>
               ))}
             </tbody>
           </MyTable>
+          <PaymentButton onClick={goToAddPayments}>Add New Payment Method</PaymentButton>
         </TableContainer>
       </HeroImage>
       <Footer />

@@ -21,4 +21,10 @@ class AdvertisementInvoiceSerializer(serializers.ModelSerializer):
 class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentMethod
-        exclude = ['fake_credit_card_number']
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep.pop('fake_credit_card_number', None)
+        return rep
+

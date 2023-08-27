@@ -109,3 +109,22 @@ class CreatePaymentMethodAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DeletePaymentMethodAPIView(generics.DestroyAPIView):
+    queryset = PaymentMethod.objects.all()
+    serializer_class = PaymentMethodSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.request.user
+        user_role = user.role.role_name
+        instance = self.get_object()
+
+        if instance.customer == user:
+            pass
+        elif user_role in ['Customer Support', 'Accountant', 'Lot Specialist', 'Advertising Specialist']:
+            pass
+        else:
+            return Response({"error": "You don't have permission to delete this payment method."}, status=status.HTTP_403_FORBIDDEN)
+
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
