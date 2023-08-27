@@ -19,6 +19,8 @@ class AdvertisementInvoiceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
+    customer = UserSerializer(read_only=True)  # Embed customer information
+    
     class Meta:
         model = PaymentMethod
         fields = '__all__'
@@ -28,3 +30,12 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         rep.pop('fake_credit_card_number', None)
         return rep
 
+class CreateLotInvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LotInvoice
+        fields = '__all__'
+
+class CreateAdvertisementInvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdvertisementInvoice
+        fields = '__all__'

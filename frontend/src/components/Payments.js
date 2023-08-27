@@ -147,8 +147,8 @@ const Payments = () => {
           <MyTable>
             <thead>
               <tr>
-                {(role == 'Lot Specialist') ? (<th>Email</th>) : (<p></p>)}
-                {(role == 'Lot Specialist') ? (<th>Role</th>) : (<p></p>)}
+                {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<th>Email</th>) : (<p></p>)}
+                {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<th>Role</th>) : (<p></p>)}
                 <th>Credit Card Type</th>
                 <th>Expiration Month</th>
                 <th>Expiration Year</th>
@@ -162,8 +162,8 @@ const Payments = () => {
             <tbody>
               {paymentMethods.map(method => (
                 <tr key={method.name}>
-                  {(role == 'Lot Specialist') ? (<td>{method.customer.email}</td>) : (<p></p>)}
-                  {(role == 'Lot Specialist') ? (<td>{method.customer.role_name}</td>) : (<p></p>)}
+                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer.email}</td>) : (<p></p>)}
+                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer.role.role_name}</td>) : (<p></p>)}
                   <td>{method.credit_card_type}</td>
                   <td>{method.expiration_month}</td>
                   <td>{method.expiration_year}</td>

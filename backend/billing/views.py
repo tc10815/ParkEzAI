@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import LotInvoice, AdvertisementInvoice, PaymentMethod
-from .serializers import LotInvoiceSerializer, AdvertisementInvoiceSerializer, PaymentMethodSerializer
+from .serializers import LotInvoiceSerializer, AdvertisementInvoiceSerializer, PaymentMethodSerializer, CreateLotInvoiceSerializer, CreateAdvertisementInvoiceSerializer
 from accounts.models import CustomUser, Role
 
 class InvoiceAPIView(generics.ListAPIView):
@@ -128,3 +128,27 @@ class DeletePaymentMethodAPIView(generics.DestroyAPIView):
 
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class CreateLotInvoiceAPIView(APIView):
+    def post(self, request):
+        user = self.request.user
+        if user.role.role_name != 'Accountant':
+            return Response({"error": "Only Accountants can create invoices."}, status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = CreateLotInvoiceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateAdvertisementInvoiceAPIView(APIView):
+    def post(self, request):
+        user = self.request.user
+        if user.role.role_name != 'Accountant':
+            return Response({"error": "Only Accountants can create invoices."}, status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = CreateAdvertisementInvoiceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

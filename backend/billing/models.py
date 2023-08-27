@@ -11,7 +11,9 @@ class AdvertisementInvoice(models.Model):
     has_been_paid = models.BooleanField(default=False)
     lots_with_ads = models.ManyToManyField(LotMetadata)
     payment_due = models.PositiveIntegerField(help_text="Amount due in pennies")
-
+    is_monthly_invoice = models.BooleanField(default=True)
+    description = models.TextField(max_length=3000, null=True, blank=True)  # Optional field with max 3000 characters
+    
     def __str__(self):
         return str(self.invoice_id)
 
@@ -24,6 +26,8 @@ class LotInvoice(models.Model):
     has_been_paid = models.BooleanField(default=False)
     cameras = models.ManyToManyField(CamMetadata)
     payment_due = models.PositiveIntegerField(help_text="Amount due in pennies")
+    is_monthly_invoice = models.BooleanField(default=True)
+    description = models.TextField(max_length=3000, null=True, blank=True) 
 
     def __str__(self):
         return str(self.invoice_id)
