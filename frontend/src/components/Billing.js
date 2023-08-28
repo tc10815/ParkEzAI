@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
-import { formatDate } from '../shared/tools';
+import { formatDateNoTime } from '../shared/tools';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -137,9 +137,9 @@ const Billing = () => {
                   <td>{invoice.invoice_id}</td>
                   <td>{invoice.customer.role.role_name}</td>
                   <td>{invoice.customer.email}</td>
-                  <td>{formatDate(invoice.date_of_invoice)}</td>
+                  <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
                   <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
-                  <td>{invoice.date_of_payment ? formatDate(invoice.date_of_payment) : 'Unpaid'}</td>
+                  <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
                   <td>{invoice.payment_method_name}</td>
                   <td>{invoice.payment_due}</td>
                 </tr>

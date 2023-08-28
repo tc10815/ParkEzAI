@@ -97,6 +97,11 @@ const AddPaymentMethod = () => {
       .then(response => response.json())
       .then(data => {
         setUser(data);
+        if (["Lot Operator", "Advertiser"].includes(data.role_name)) {
+          setPaymentFormData(prev => ({ ...prev, customer_id: data.pk }));
+        }
+        console.log('userdata');
+        console.log(data);
         if(data.role_name != 'Lot Operator' && data.role_name != 'Advertiser'){
         fetch(API_URL + 'accounts/get-accounts-payment/', {
           headers: {

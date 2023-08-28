@@ -23,6 +23,11 @@ const FormContainer = styled.div`
   margin-bottom: 2em;
 `;
 
+const BigButton = styled.button`
+  margin-top: 1em;
+  font-size: 110%;  
+`;
+
 const FormLabel = styled.label`
   display: block; 
   margin-bottom: 0.5rem;
@@ -69,20 +74,29 @@ const HeroImage = styled.div`
   margin-bottom: 0rem;
 `;
 
+const getToday = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so +1 and pad with a leading 0 if necessary
+  const day = String(today.getDate()).padStart(2, '0'); // Pad with a leading 0 if necessary
+  return `${year}-${month}-${day}`;
+}
 
 const AddLotInvoice = () => {
   const [user, setUser] = useState(null);
+  const [paymentMethods, setPaymentMethods] = useState([]); // New state for payment methods
+  const [lotOperators, setLotOperators] = useState([]); // New state for lot operators
   const navigate = useNavigate();
   
   const [invoiceFormData, setInvoiceFormData] = useState({
-    date_of_invoice: '',
-    date_of_payment: '',
-    customer: '',
-    payment_method: '',
+    date_of_invoice: getToday(),
+    date_of_payment: null,
+    customer: null,  
+    payment_method: "",  
     has_been_paid: false,
     cameras: [],
     payment_due: 0,
-    is_monthly_invoice: true,
+    is_monthly_invoice: false,
     description: ''
   });
 
@@ -97,6 +111,45 @@ const AddLotInvoice = () => {
       })
       .then(response => response.json())
       .then(data => setUser(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Fetching payment methods
+      fetch(API_URL + 'billing/payment-methods/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('PaymentData');
+        console.log(data);
+        setPaymentMethods(data);
+
+        //paymentMethods.customer.email 
+    });
+      // Fetching lot operators
+      fetch(API_URL + 'accounts/get-accounts-payment/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        const operators = data.filter(u => u.role.role_name === "Lot Operator");
+        console.log('customer data')
+        console.log(data);
+        // operators.email
+        setLotOperators(operators);
+        if (operators.length > 0 && !invoiceFormData.customer) {
+          setInvoiceFormData(prev => ({ ...prev, customer: operators[0].id }));
+        }
+      });
     }
   }, []);
 
@@ -118,10 +171,15 @@ const AddLotInvoice = () => {
             alert('Error adding Lot Invoice');
         } else {
             alert('Lot Invoice successfully added')
-            navigate("/invoices");  // Redirect to an appropriate page after adding invoice
+            navigate("/billing");
         }
     });
   };
+  const getFilteredPaymentMethods = () => {
+    const selectedCustomer = lotOperators.find(operator => operator.id === parseInt(invoiceFormData.customer));
+    const selectedCustomerEmail = selectedCustomer ? selectedCustomer.email : null;
+    return paymentMethods.filter(method => method.customer.email === selectedCustomerEmail);
+}
 
 return (
     <HomeContainer>
@@ -129,7 +187,7 @@ return (
         <FormContainer>
           {user ? (
             <>
-              <SubHeading>Create a Lot Invoice, {user.first_name}</SubHeading>
+              <SubHeading>Create a Lot Invoice</SubHeading>
               <form onSubmit={handleSubmit}>
                 <FormLabel>Date of Invoice</FormLabel>
                 <FormInput 
@@ -138,7 +196,7 @@ return (
                   onChange={e => setInvoiceFormData({ ...invoiceFormData, date_of_invoice: e.target.value })}
                 />
 
-                <FormLabel>Date of Payment (optional)</FormLabel>
+                <FormLabel>Date of Payment (optional, leave blank if unpaid)</FormLabel>
                 <FormInput 
                   type="date"
                   value={invoiceFormData.date_of_payment}
@@ -146,20 +204,30 @@ return (
                 />
 
                 <FormLabel>Customer</FormLabel>
-                <FormInput 
-                  type="text"
-                  placeholder="Customer ID or Name"
+                <FormSelect
                   value={invoiceFormData.customer}
                   onChange={e => setInvoiceFormData({ ...invoiceFormData, customer: e.target.value })}
-                />
+                >
+                  {lotOperators.map(operator => (
+                    <option key={operator.id} value={operator.id}>
+                      {operator.first_name} {operator.last_name} ({operator.email})
+                    </option>
+                  ))}
+                </FormSelect>
 
-                <FormLabel>Payment Method ID</FormLabel>
-                <FormInput 
-                  type="text"
-                  placeholder="Payment Method ID"
-                  value={invoiceFormData.payment_method}
-                  onChange={e => setInvoiceFormData({ ...invoiceFormData, payment_method: e.target.value })}
-                />
+                <FormLabel>Payment Method</FormLabel>
+                <FormSelect
+                    value={invoiceFormData.payment_method}
+                    onChange={e => setInvoiceFormData({ ...invoiceFormData, payment_method: e.target.value })}
+                >
+                    <option value="">None</option>  
+                    {getFilteredPaymentMethods().map(method => (
+                        <option key={method.id} value={method.id}>
+                            {method.name} - {method.credit_card_type}
+                        </option>
+                    ))}
+                </FormSelect>
+
 
                 <FormLabel>Has Been Paid?</FormLabel>
                 <FormSelect
@@ -169,15 +237,6 @@ return (
                   <option value="false">No</option>
                   <option value="true">Yes</option>
                 </FormSelect>
-
-                {/* You may need a more sophisticated input for cameras, but this is a simple one for now */}
-                <FormLabel>Cameras (comma-separated IDs)</FormLabel>
-                <FormInput 
-                  type="text"
-                  placeholder="Camera IDs"
-                  value={invoiceFormData.cameras.join(',')}
-                  onChange={e => setInvoiceFormData({ ...invoiceFormData, cameras: e.target.value.split(',') })}
-                />
 
                 <FormLabel>Payment Due (in pennies)</FormLabel>
                 <FormInput 
@@ -201,7 +260,7 @@ return (
                   onChange={e => setInvoiceFormData({ ...invoiceFormData, description: e.target.value })}
                 ></FormTextarea>
 
-                <button type="submit">Create Lot Invoice</button>
+                <BigButton type="submit">Create Lot Invoice</BigButton>
               </form>
             </>
           ) : (

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import LotInvoice, AdvertisementInvoice, PaymentMethod
+from .models import LotInvoice, AdvertisementInvoice, PaymentMethod, CamMetadata
 from accounts.serializers import UserSerializer
 
 class LotInvoiceSerializer(serializers.ModelSerializer):
@@ -19,7 +19,6 @@ class AdvertisementInvoiceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
-    customer = UserSerializer(read_only=True)  # Embed customer information
     
     class Meta:
         model = PaymentMethod
@@ -31,6 +30,13 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         return rep
 
 class CreateLotInvoiceSerializer(serializers.ModelSerializer):
+    cameras = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=CamMetadata.objects.all(),
+        required=False,
+        allow_empty=True
+    )
+
     class Meta:
         model = LotInvoice
         fields = '__all__'

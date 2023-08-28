@@ -78,7 +78,7 @@ class CreatePaymentMethodAPIView(APIView):
     def post(self, request):
         user = self.request.user
         user_role = user.role.role_name
-        data = request.data
+        data = dict(request.data)  # Create a mutable copy of the request data
         print(data)
 
         if user_role in ['Lot Operator', 'Advertiser']:
@@ -105,10 +105,12 @@ class CreatePaymentMethodAPIView(APIView):
             return Response({"error": "You don't have permission to create a payment method."}, status=status.HTTP_403_FORBIDDEN)
 
         serializer = PaymentMethodSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
+        if serializer.is_valid(raise_exception=True): 
+            customer_instance = CustomUser.objects.get(id=data['customer'])
+            serializer.save(customer=customer_instance)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 class DeletePaymentMethodAPIView(generics.DestroyAPIView):
     queryset = PaymentMethod.objects.all()
@@ -131,15 +133,25 @@ class DeletePaymentMethodAPIView(generics.DestroyAPIView):
 
 class CreateLotInvoiceAPIView(APIView):
     def post(self, request):
+        print(request.data)
         user = self.request.user
         if user.role.role_name != 'Accountant':
             return Response({"error": "Only Accountants can create invoices."}, status=status.HTTP_403_FORBIDDEN)
         
+        # Check if payment_method is an empty string and set it to None
+        if request.data.get('payment_method') == "":
+            request.data['payment_method'] = None
+        
         serializer = CreateLotInvoiceSerializer(data=request.data)
+        if not serializer.is_valid():
+            print('serializer errors')
+            print(serializer.errors)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CreateAdvertisementInvoiceAPIView(APIView):
     def post(self, request):
@@ -148,7 +160,12 @@ class CreateAdvertisementInvoiceAPIView(APIView):
             return Response({"error": "Only Accountants can create invoices."}, status=status.HTTP_403_FORBIDDEN)
         
         serializer = CreateAdvertisementInvoiceSerializer(data=request.data)
+        if not serializer.is_valid():
+            print('realizer errors')
+            print(serializer.errors)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

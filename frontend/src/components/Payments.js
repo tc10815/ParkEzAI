@@ -162,9 +162,8 @@ const Payments = () => {
             <tbody>
               {paymentMethods.map(method => (
                 <tr key={method.name}>
-                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer.email}</td>) : (<p></p>)}
-                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer.role.role_name}</td>) : (<p></p>)}
-                  <td>{method.credit_card_type}</td>
+                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer?.email || ""}</td>) : (<p></p>)}
+                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer?.role?.role_name || ""}</td>) : (<p></p>)}                  <td>{method.credit_card_type}</td>
                   <td>{method.expiration_month}</td>
                   <td>{method.expiration_year}</td>
                   <td>{method.name}</td>

@@ -13,3 +13,9 @@ export const formatDate = (inputdate) => {
     return (timestampEST.getMonth() + 1) + '/' + timestampEST.getDate() + '/' + timestampEST.getFullYear() + ' ' 
       + hour + ':' + String(timestampEST.getMinutes()).padStart(2, '0') + ampm;
   }
+
+export const formatDateNoTime = (inputdate) => {
+    const timestampUTC = new Date(inputdate); // parse the ISO string into a Date object
+    return (timestampUTC.getMonth() + 1) + '/' + timestampUTC.getDate() + '/' + timestampUTC.getFullYear();
+  }
+  
