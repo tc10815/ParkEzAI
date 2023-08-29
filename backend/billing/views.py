@@ -169,3 +169,34 @@ class CreateAdvertisementInvoiceAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteLotInvoice(generics.DestroyAPIView):
+    queryset = LotInvoice.objects.all()
+    serializer_class = LotInvoiceSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.request.user
+        user_role = user.role.role_name
+
+        if user_role != 'Accountant':
+            return Response({"error": "Only Accountants can delete Lot Invoices."}, status=status.HTTP_403_FORBIDDEN)
+
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteAdInvoice(generics.DestroyAPIView):
+    queryset = AdvertisementInvoice.objects.all()
+    serializer_class = AdvertisementInvoiceSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.request.user
+        user_role = user.role.role_name
+
+        if user_role != 'Accountant':
+            return Response({"error": "Only Accountants can delete Advertisement Invoices."}, status=status.HTTP_403_FORBIDDEN)
+
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)

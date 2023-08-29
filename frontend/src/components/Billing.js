@@ -105,6 +105,35 @@ const Billing = () => {
     }
   }, [location]);
 
+  const deleteInvoice = (id, type) => {
+    const token = localStorage.getItem("token");
+    let deleteUrl = '';
+    console.log('type');
+    console.log(type);
+    if (type === "Advertiser") {
+      deleteUrl = `${API_URL}billing/delete-ad-invoice/${id.substring(3)}/`;
+    } else if (type === "Lot Operator") {
+      deleteUrl = `${API_URL}billing/delete-lot-invoice/${id.substring(3)}/`;
+    }
+    console.log(deleteUrl);
+    fetch(deleteUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`,
+      },
+    })
+    .then(response => {
+      if (response.status === 204) {
+        alert('Invoice deleted successfully!');
+        setInvoices(prevInvoices => prevInvoices.filter(invoice => invoice.invoice_id !== id));
+      } else {
+        alert('Error deleting invoice!');
+      }
+    });
+  };
+
+
   return (
     <HomeContainer>
       <HeroImage>
@@ -133,16 +162,26 @@ const Billing = () => {
             </thead>
             <tbody>
               {invoices.map(invoice => (
-                <tr key={invoice.invoice_id}>
-                  <td>{invoice.invoice_id}</td>
-                  <td>{invoice.customer.role.role_name}</td>
-                  <td>{invoice.customer.email}</td>
-                  <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
-                  <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
-                  <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
-                  <td>{invoice.payment_method_name}</td>
-                  <td>{invoice.payment_due}</td>
-                </tr>
+                <>
+                  <tr key={invoice.invoice_id}>
+                    <td>{invoice.invoice_id}</td>
+                    <td>{invoice.customer.role.role_name}</td>
+                    <td>{invoice.customer.email}</td>
+                    <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
+                    <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
+                    <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
+                    <td>{invoice.payment_method_name}</td>
+                    <td>{invoice.payment_due}</td>
+                    <td>
+                      <button onClick={() => deleteInvoice(invoice.invoice_id, invoice.customer.role.role_name)}>Delete</button>
+                    </td>
+                  </tr>
+                  {invoice.description && (
+                    <tr>
+                      <td style={{textAlign:'left'}}colSpan="8"><strong>Description:</strong> {invoice.description}</td>
+                    </tr>
+                  )}
+                </>
               ))}
             </tbody>
           </MyTable>

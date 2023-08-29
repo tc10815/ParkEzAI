@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import PaymentMethodAPIView, InvoiceAPIView, CreatePaymentMethodAPIView, DeletePaymentMethodAPIView, CreateLotInvoiceAPIView, CreateAdvertisementInvoiceAPIView
+from .views import PaymentMethodAPIView, InvoiceAPIView, CreatePaymentMethodAPIView, DeletePaymentMethodAPIView, \
+    CreateLotInvoiceAPIView, CreateAdvertisementInvoiceAPIView,  DeleteLotInvoice, DeleteAdInvoice
 
 urlpatterns = [
     path('invoices/', InvoiceAPIView.as_view(), name='invoices'),
@@ -7,5 +8,7 @@ urlpatterns = [
     path('create-payment-method/', CreatePaymentMethodAPIView.as_view(), name='create-payment-method'),
     path('delete-payment-method/<int:pk>/', DeletePaymentMethodAPIView.as_view(), name='delete-payment-method'),
     path('create-lot-invoice/', CreateLotInvoiceAPIView.as_view(), name='create-lot-billing-invoice'),
-    path('create-ad-invoice/', CreateAdvertisementInvoiceAPIView.as_view(), name='create-ad-billing-invoice')
+    path('create-ad-invoice/', CreateAdvertisementInvoiceAPIView.as_view(), name='create-ad-billing-invoice'),
+    path('delete-lot-invoice/<int:pk>/', DeleteLotInvoice.as_view(), name='delete-lot-invoice'),
+    path('delete-ad-invoice/<int:pk>/', DeleteAdInvoice.as_view(), name='delete-ad-invoice')
 ]

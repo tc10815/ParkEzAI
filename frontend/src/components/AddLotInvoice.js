@@ -85,6 +85,7 @@ const getToday = () => {
 const AddLotInvoice = () => {
   const [user, setUser] = useState(null);
   const [paymentMethods, setPaymentMethods] = useState([]); // New state for payment methods
+  const [customers, setCustomers] = useState([]);
   const [lotOperators, setLotOperators] = useState([]); // New state for lot operators
   const navigate = useNavigate();
   
@@ -110,7 +111,17 @@ const AddLotInvoice = () => {
         },
       })
       .then(response => response.json())
-      .then(data => setUser(data));
+      .then(data => {
+        setUser(data);
+        fetch(API_URL + 'accounts/get-accounts-payment/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+          },
+        })
+        .then(response => response.json())
+        .then(data => setCustomers(data));
+      })
     }
   }, []);
 
@@ -176,10 +187,12 @@ const AddLotInvoice = () => {
     });
   };
   const getFilteredPaymentMethods = () => {
-    const selectedCustomer = lotOperators.find(operator => operator.id === parseInt(invoiceFormData.customer));
-    const selectedCustomerEmail = selectedCustomer ? selectedCustomer.email : null;
-    return paymentMethods.filter(method => method.customer.email === selectedCustomerEmail);
-}
+    if (invoiceFormData.customer) {
+      const selectedCustomerId = parseInt(invoiceFormData.customer);
+      return paymentMethods.filter(method => method.customer === selectedCustomerId);
+    }
+    return [];
+  };
 
 return (
     <HomeContainer>
@@ -220,14 +233,13 @@ return (
                     value={invoiceFormData.payment_method}
                     onChange={e => setInvoiceFormData({ ...invoiceFormData, payment_method: e.target.value })}
                 >
-                    <option value="">None</option>  
+                    <option value="">Select a payment method</option>
                     {getFilteredPaymentMethods().map(method => (
-                        <option key={method.id} value={method.id}>
-                            {method.name} - {method.credit_card_type}
-                        </option>
+                      <option key={method.id} value={method.id}>
+                        {method.name} ({method.credit_card_type} ending in {method.name.slice(-4)})
+                      </option>
                     ))}
                 </FormSelect>
-
 
                 <FormLabel>Has Been Paid?</FormLabel>
                 <FormSelect

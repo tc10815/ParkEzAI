@@ -75,8 +75,13 @@ const Payments = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [role, setRole] = useState('');
+  const [customers, setCustomers] = useState([]);
   const location = useLocation();
   const [paymentMethods, setPaymentMethods] = useState([]);
+    const findCustomerById = (customerId) => {
+    return customers.find(customer => customer.id === customerId);
+  };
+
   const goToAddPayments = () => {
     navigate("/add-payment-method");
   };
@@ -120,6 +125,16 @@ const Payments = () => {
         .then(data => {
           setUser(data);
           setRole(data.role_name);
+          if(data.role_name != 'Lot Operator' && data.role_name != 'Advertiser'){
+            fetch(API_URL + 'accounts/get-accounts-payment/', {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`,
+              },
+            })
+            .then(response => response.json())
+            .then(data => setCustomers(data));
+          }
       });
       fetch(API_URL + 'billing/payment-methods/', {  // Updated endpoint
         headers: {
@@ -133,6 +148,88 @@ const Payments = () => {
   }, [location]);
 
   
+  const renderTableForLotOperatorAndAdvertiser = () => (
+    <MyTable>
+      <thead>
+        <tr>
+          <th>Credit Card Type</th>
+          <th>Expiration Month</th>
+          <th>Expiration Year</th>
+          <th>Name</th>
+          <th>Billing Address</th>
+          <th>Zip Code</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {paymentMethods.map(method => (
+          <tr key={method.name}>
+            <td>{method.credit_card_type}</td>
+            <td>{method.expiration_month}</td>
+            <td>{method.expiration_year}</td>
+            <td>{method.name}</td>
+            <td>{method.billing_address}</td>
+            <td>{method.zip_code}</td>
+            <td><button onClick={() => handleDelete(method.id)}>Delete</button></td>
+          </tr>
+        ))}
+      </tbody>
+    </MyTable>
+  );
+
+  const renderTableForOtherRoles = () => {
+    // Filter payment methods based on the user's role
+    let filteredMethods = paymentMethods;
+  
+    if (role === 'Lot Specialist') {
+      filteredMethods = paymentMethods.filter(method => {
+        const customer = findCustomerById(method.customer);
+        return customer?.role?.role_name === 'Lot Operator';
+      });
+    } else if (role === 'Advertising Specialist') {
+      filteredMethods = paymentMethods.filter(method => {
+        const customer = findCustomerById(method.customer);
+        return customer?.role?.role_name === 'Advertiser';
+      });
+    }
+  
+    return (
+      <MyTable>
+          <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Credit Card Type</th>
+            <th>Expiration Month</th>
+            <th>Expiration Year</th>
+            <th>Name</th>
+            <th>Billing Address</th>
+            <th>Zip Code</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredMethods.map(method => {
+            const customer = findCustomerById(method.customer);
+            return (
+              <tr key={method.name}>
+                <td>{customer?.email || ""}</td>
+                <td>{customer?.role?.role_name || ""}</td>
+                <td>{method.credit_card_type}</td>
+                <td>{method.expiration_month}</td>
+                <td>{method.expiration_year}</td>
+                <td>{method.name}</td>
+                <td>{method.billing_address}</td>
+                <td>{method.zip_code}</td>
+                <td><button onClick={() => handleDelete(method.id)}>Delete</button></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </MyTable>
+    );
+  };
+  
 
   return (
     <HomeContainer>
@@ -144,36 +241,7 @@ const Payments = () => {
             <SubHeading>Welcome back</SubHeading>
           )}
           <p><strong><br />Payment Methods</strong></p>
-          <MyTable>
-            <thead>
-              <tr>
-                {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<th>Email</th>) : (<p></p>)}
-                {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<th>Role</th>) : (<p></p>)}
-                <th>Credit Card Type</th>
-                <th>Expiration Month</th>
-                <th>Expiration Year</th>
-                <th>Name</th>
-                <th>Billing Address</th>
-                <th>Zip Code</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            {console.log(paymentMethods)}
-            <tbody>
-              {paymentMethods.map(method => (
-                <tr key={method.name}>
-                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer?.email || ""}</td>) : (<p></p>)}
-                  {(role !== 'Lot Operator' && role !== 'Advertiser')  ? (<td>{method.customer?.role?.role_name || ""}</td>) : (<p></p>)}                  <td>{method.credit_card_type}</td>
-                  <td>{method.expiration_month}</td>
-                  <td>{method.expiration_year}</td>
-                  <td>{method.name}</td>
-                  <td>{method.billing_address}</td>
-                  <td>{method.zip_code}</td>
-                  <td><button onClick={() => handleDelete(method.id)}>Delete</button></td>
-                </tr>
-              ))}
-            </tbody>
-          </MyTable>
+          {role === 'Lot Operator' || role === 'Advertiser' ? renderTableForLotOperatorAndAdvertiser() : renderTableForOtherRoles()}
           <PaymentButton onClick={goToAddPayments}>Add New Payment Method</PaymentButton>
         </TableContainer>
       </HeroImage>
