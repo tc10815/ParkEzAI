@@ -410,7 +410,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/add-lot-invoice">New Lot Invoice</StyledNavLink>
+                <StyledNavLink to="/add-invoice">New Invoice</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>

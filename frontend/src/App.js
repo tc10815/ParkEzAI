@@ -37,6 +37,8 @@ import EditAd from './components/EditAd';
 import Payments from './components/Payments';
 import AddPaymentMethod from './components/AddPaymentMethod';
 import AddLotInvoice from './components/AddLotInvoice';
+import AddAdInvoice from './components/AddAdInvoice';
+import AddInvoice from './components/AddInvoice';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -106,6 +108,8 @@ const App = () => {
           <Route path="/payment-methods" element={<Payments />} />
           <Route path="/add-payment-method" element={<AddPaymentMethod />} />
           <Route path="/add-lot-invoice" element={<AddLotInvoice />} />
+          <Route path="/add-ad-invoice" element={<AddAdInvoice />} />
+          <Route path="/add-invoice" element={<AddInvoice />} />
         </Routes>
       </ContentWrapper>
     </Router>

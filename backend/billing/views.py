@@ -155,19 +155,24 @@ class CreateLotInvoiceAPIView(APIView):
 
 class CreateAdvertisementInvoiceAPIView(APIView):
     def post(self, request):
+        print(request.data)  # Print request data for debugging
+        
         user = self.request.user
         if user.role.role_name != 'Accountant':
             return Response({"error": "Only Accountants can create invoices."}, status=status.HTTP_403_FORBIDDEN)
         
+        # Check if payment_method is an empty string and set it to None
+        if request.data.get('payment_method') == "":
+            request.data['payment_method'] = None
+        
         serializer = CreateAdvertisementInvoiceSerializer(data=request.data)
         if not serializer.is_valid():
-            print('realizer errors')
+            print('serializer errors')  # Fixed the typo here
             print(serializer.errors)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteLotInvoice(generics.DestroyAPIView):

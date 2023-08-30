@@ -78,6 +78,7 @@ const Billing = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
   const [invoices, setInvoices] = useState([]);
+  const [role, setRole] = useState('');
   const goToPaymentMethods = () => {
     navigate("/payment-methods");
   };
@@ -92,8 +93,10 @@ const Billing = () => {
         },
       })
         .then(response => response.json())
-        .then(data => setUser(data));
-
+        .then(data => {
+          setUser(data);
+          setRole(data.role_name);
+        })
       fetch(API_URL + 'billing/invoices/', {
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +115,7 @@ const Billing = () => {
     console.log(type);
     if (type === "Advertiser") {
       deleteUrl = `${API_URL}billing/delete-ad-invoice/${id.substring(3)}/`;
-    } else if (type === "Lot Operator") {
+    } else if (type === "Lot Operator") { //"Lot Operator" or "Advertiser"
       deleteUrl = `${API_URL}billing/delete-lot-invoice/${id.substring(3)}/`;
     }
     console.log(deleteUrl);
@@ -149,6 +152,7 @@ const Billing = () => {
           <MyTable>
             <thead>
               <tr>
+                {console.log(role)}
                 <th>Invoice ID</th>
                 <th>Role</th>
                 <th>Email</th>
@@ -157,6 +161,13 @@ const Billing = () => {
                 <th>Payment Date</th>
                 <th>Payment Method</th>
                 <th>Invoice Total</th>
+                {role !== "Lot Operator" && role !== "Advertiser" ? (
+                        <td>
+                          Action
+                        </td>
+                      ) : (
+                        <br />
+                      )}
                 {console.log(invoices)}
               </tr>
             </thead>
@@ -172,13 +183,21 @@ const Billing = () => {
                     <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
                     <td>{invoice.payment_method_name}</td>
                     <td>{invoice.payment_due}</td>
-                    <td>
-                      <button onClick={() => deleteInvoice(invoice.invoice_id, invoice.customer.role.role_name)}>Delete</button>
-                    </td>
+                      {role !== "Lot Operator" && role !== "Advertiser" ? (
+                        <td>
+                          <button onClick={() => deleteInvoice(invoice.invoice_id, invoice.customer.role.role_name)}>Delete</button>
+                        </td>
+                      ) : (
+                        <br />
+                      )}
                   </tr>
-                  {invoice.description && (
+                  {invoice.description && role !== "Lot Operator" && role !== "Advertiser" ? (
                     <tr>
-                      <td style={{textAlign:'left'}}colSpan="8"><strong>Description:</strong> {invoice.description}</td>
+                      <td style={{textAlign:'left'}} colSpan="9"><strong>Description:</strong> {invoice.description}</td>
+                    </tr>
+                     ) : (
+                    <tr>
+                      <td style={{textAlign:'left'}} colSpan="8"><strong>Description:</strong> {invoice.description}</td>
                     </tr>
                   )}
                 </>
