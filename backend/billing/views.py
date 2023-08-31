@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import LotInvoice, AdvertisementInvoice, PaymentMethod
 from .serializers import LotInvoiceSerializer, AdvertisementInvoiceSerializer, PaymentMethodSerializer, CreateLotInvoiceSerializer, CreateAdvertisementInvoiceSerializer
 from accounts.models import CustomUser, Role
+from datetime import datetime
 
 class InvoiceAPIView(generics.ListAPIView):
 
@@ -205,3 +206,58 @@ class DeleteAdInvoice(generics.DestroyAPIView):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class PayInvoice(APIView):
+    
+    def post(self, request):
+        # Check if user is logged in
+        user = self.request.user
+        if not user:
+            return Response({"error": "Please log in."}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Get the request data
+        is_ad_invoice = request.data.get('is_ad_invoice')
+        invoice_id = request.data.get('invoice_id')
+        payment_method_id = request.data.get('payment_method')
+        
+        # Get the Invoice model based on isAdInvoice
+        InvoiceModel = AdvertisementInvoice if is_ad_invoice else LotInvoice
+        try:
+            invoice = InvoiceModel.objects.get(pk=invoice_id)
+        except InvoiceModel.DoesNotExist:
+            return Response({"error": f"Invoice with ID {invoice_id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Validate Payment Method
+        try:
+            payment_method = PaymentMethod.objects.get(pk=payment_method_id)
+        except PaymentMethod.DoesNotExist:
+            return Response({"error": "Invalid payment method."}, status=status.HTTP_404_NOT_FOUND)
+        
+        if payment_method.customer != invoice.customer:
+            return Response({"error": "Payment method not associated with invoice customer."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check permissions based on user role
+        user_role = user.role.role_name
+        if user_role in ["Lot Operator", "Advertiser"] and invoice.customer != user:
+            return Response({"error": "You don't have permission to pay this invoice."}, status=status.HTTP_403_FORBIDDEN)
+        
+        # Role-specific checks
+        if user_role == "Lot Specialist" and isinstance(invoice, AdvertisementInvoice):
+            return Response({"error": "You don't have permission to pay Ad Invoices."}, status=status.HTTP_403_FORBIDDEN)
+        
+        if user_role == "Advertising Specialist" and isinstance(invoice, LotInvoice):
+            return Response({"error": "You don't have permission to pay Lot Invoices."}, status=status.HTTP_403_FORBIDDEN)
+        
+        # Update Invoice
+        invoice.payment_method = payment_method
+        invoice.has_been_paid = True
+        invoice.date_of_payment = datetime.now()
+        invoice.save()
+
+        # Return Response
+        if is_ad_invoice:
+            serializer = AdvertisementInvoiceSerializer(invoice)
+        else:
+            serializer = LotInvoiceSerializer(invoice)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)

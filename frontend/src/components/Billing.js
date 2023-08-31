@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import heroImage from '../images/accountantdbhero.jpg';
 import Footer from './Footer';
-import { formatDateNoTime } from '../shared/tools';
+import { formatDateNoTime, formatAmount} from '../shared/tools';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -83,6 +83,9 @@ const Billing = () => {
     navigate("/payment-methods");
   };
 
+
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -108,14 +111,14 @@ const Billing = () => {
     }
   }, [location]);
 
-  const deleteInvoice = (id, type) => {
+  const deleteInvoice = (id) => {
+    console.log('delete clicked');
     const token = localStorage.getItem("token");
     let deleteUrl = '';
-    console.log('type');
-    console.log(type);
-    if (type === "Advertiser") {
+
+    if (id.substring(0,2) === 'ad') {
       deleteUrl = `${API_URL}billing/delete-ad-invoice/${id.substring(3)}/`;
-    } else if (type === "Lot Operator") { //"Lot Operator" or "Advertiser"
+    } else if (id.substring(0,2) === 'op') { //"Lot Operator" or "Advertiser"
       deleteUrl = `${API_URL}billing/delete-lot-invoice/${id.substring(3)}/`;
     }
     console.log(deleteUrl);
@@ -162,9 +165,9 @@ const Billing = () => {
                 <th>Payment Method</th>
                 <th>Invoice Total</th>
                 {role !== "Lot Operator" && role !== "Advertiser" ? (
-                        <td>
+                        <th>
                           Action
-                        </td>
+                        </th>
                       ) : (
                         <br />
                       )}
@@ -174,19 +177,19 @@ const Billing = () => {
             <tbody>
               {invoices.map(invoice => (
                 <>
-                  <tr key={invoice.invoice_id}>
-                    <td>{invoice.invoice_id}</td>
-                    <td>{invoice.customer.role.role_name}</td>
-                    <td>{invoice.customer.email}</td>
-                    <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
+                 <tr key={invoice.invoice_id}>
+                   <td>{invoice.invoice_id}</td>
+                   <td>{invoice.customer?.role?.role_name || ''}</td>
+                   <td>{invoice.customer?.email || ''}</td>
+                   <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
                     <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
                     <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
                     <td>{invoice.payment_method_name}</td>
-                    <td>{invoice.payment_due}</td>
+                    <td>{formatAmount(invoice.payment_due)}</td>
                       {role !== "Lot Operator" && role !== "Advertiser" ? (
-                        <td>
-                          <button onClick={() => deleteInvoice(invoice.invoice_id, invoice.customer.role.role_name)}>Delete</button>
-                        </td>
+                    <td>
+                       <button onClick={() => deleteInvoice(invoice.invoice_id)}>Delete</button>
+                    </td>
                       ) : (
                         <br />
                       )}

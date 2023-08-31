@@ -178,7 +178,6 @@ const Payments = () => {
   );
 
   const renderTableForOtherRoles = () => {
-    // Filter payment methods based on the user's role
     let filteredMethods = paymentMethods;
   
     if (role === 'Lot Specialist') {

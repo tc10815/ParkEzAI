@@ -156,10 +156,11 @@ const AddAdInvoice = () => {
         console.log('customer data')
         console.log(data);
         // operators.email
-        setAdvertisers(advertisersLocal);
-        if (advertisers.length > 0 && !invoiceFormData.customer) {
-          setInvoiceFormData(prev => ({ ...prev, customer: advertisers[0].id }));
+        if (advertisersLocal.length > 0 && !invoiceFormData.customer) {
+          setInvoiceFormData(prev => ({ ...prev, customer: advertisersLocal[0].id }));
         }
+        setAdvertisers(advertisersLocal);
+        
       });
     }
   }, []);

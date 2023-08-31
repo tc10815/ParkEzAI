@@ -19,3 +19,8 @@ export const formatDateNoTime = (inputdate) => {
     return (timestampUTC.getMonth() + 1) + '/' + timestampUTC.getDate() + '/' + timestampUTC.getFullYear();
   }
   
+  export const formatAmount = (amountInCents) => {
+    if (amountInCents === null || amountInCents === undefined) return "N/A";
+    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amountInCents / 100);
+    return formattedAmount;
+  };

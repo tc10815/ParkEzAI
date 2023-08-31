@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         # Include any other non-sensitive fields you want to expose
-        fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'is_uninitialized']
+        fields = ['role', 'email', 'first_name', 'last_name', 'company_name', 'company_address', 'state', 'city', 'zip', 'is_uninitialized', 'id']
 
 class UserPaymentSerializer(serializers.ModelSerializer):
     role = RoleSerializer(read_only=True)  # Embed role information
