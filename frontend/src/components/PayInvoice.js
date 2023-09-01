@@ -68,6 +68,14 @@ const PayInvoice = () => {
   const [currentInvoiceId, setCurrentInvoiceId] = useState('');
   const [currentInvoice, setCurrentInvoice] = useState(null);
   const [userPk, setUserPk] = useState(''); 
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const handlePaymentMethodChange = (event) => {
+    const selectedMethodId = Number(event.target.value);
+    const foundMethod = filteredPaymentMethods.find(method => method.id === selectedMethodId);
+    setSelectedPaymentMethod(foundMethod);
+};
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -115,18 +123,55 @@ const PayInvoice = () => {
     if (currentInvoice?.customer?.id && paymentMethods.length > 0) {
       const filteredMethods = paymentMethods.filter(method => method.customer === currentInvoice.customer.id);
       setFilteredPaymentMethods(filteredMethods);
+      
+      // Setting the default selected payment method if available
+      if (filteredMethods.length > 0) {
+        setSelectedPaymentMethod(filteredMethods[0]);
+      }
     }
   }, [currentInvoice, paymentMethods]);
-
+  
 
   const payBill = () => {
-    console.log('paymentMethods');
-    console.log(paymentMethods);// only show payments items in the array paymentMethods (item.customer) is equal to user.pk  
-    console.log('currentInvoice');
-    console.log(currentInvoice);// only show payments items in the array paymentMethods (item.customer) is equal to user.pk  
-
+    const payment_method_id = selectedPaymentMethod.id;
+    const invoice_id = currentInvoice.invoice_id.substring(3);
+    const is_ad_invoice = currentInvoice.invoice_id.substring(0,2) === 'ad';
+  
+    // Construct the request data
+    const requestData = {
+      is_ad_invoice: is_ad_invoice,
+      invoice_id: invoice_id,
+      payment_method: payment_method_id
+    };
+  
+    // Send POST request
+    const token = localStorage.getItem("token");
+    fetch(API_URL + 'billing/pay-invoice/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
+      },
+      body: JSON.stringify(requestData)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to process payment');
+      }
+    })
+    .then(data => {
+      // Handle success
+      alert('Success!');
+      navigate('/billing');
+    })
+    .catch(error => {
+      // Handle error
+      alert('A rare error occurred. Please try again later.');
+    });
   }
-
+  
   return (
     <HomeContainer>
       <HeroImage>
@@ -143,13 +188,14 @@ const PayInvoice = () => {
               <p><strong>Invoice Total:</strong> {formatAmount(currentInvoice.payment_due)}</p>
               <p><strong>Description:</strong> {currentInvoice.description}</p>
 
-              <PaymentDropdown>
+              <PaymentDropdown onChange={handlePaymentMethodChange}>
                 {filteredPaymentMethods.map(method => (
                   <option key={method.id} value={method.id}>
                     {method.credit_card_type} - {method.name}
                   </option>
                 ))}
               </PaymentDropdown>
+
               <PaymentButton onClick={payBill}>Pay Invoice</PaymentButton>
             </>
           ) : (

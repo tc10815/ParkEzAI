@@ -228,27 +228,40 @@ return (
                   ))}
                 </FormSelect>
 
-                <FormLabel>Payment Method</FormLabel>
-                <FormSelect
-                    value={invoiceFormData.payment_method}
-                    onChange={e => setInvoiceFormData({ ...invoiceFormData, payment_method: e.target.value })}
-                >
-                    <option value="">Select a payment method</option>
-                    {getFilteredPaymentMethods().map(method => (
-                      <option key={method.id} value={method.id}>
-                        {method.name} ({method.credit_card_type} ending in {method.name.slice(-4)})
-                      </option>
-                    ))}
-                </FormSelect>
 
                 <FormLabel>Has Been Paid?</FormLabel>
                 <FormSelect
                   value={invoiceFormData.has_been_paid}
-                  onChange={e => setInvoiceFormData({ ...invoiceFormData, has_been_paid: e.target.value === 'true' })}
+                  onChange={e => {
+                    const hasBeenPaid = e.target.value === 'true';
+                    setInvoiceFormData({
+                      ...invoiceFormData,
+                      has_been_paid: hasBeenPaid,
+                      payment_method: hasBeenPaid ? invoiceFormData.payment_method : "" 
+                    });
+                  }}
                 >
                   <option value="false">No</option>
                   <option value="true">Yes</option>
                 </FormSelect>
+
+
+                {invoiceFormData.has_been_paid && (
+                  <>
+                    <FormLabel>Payment Method</FormLabel>
+                    <FormSelect
+                        value={invoiceFormData.payment_method}
+                        onChange={e => setInvoiceFormData({ ...invoiceFormData, payment_method: e.target.value })}
+                    >
+                        <option value="">Select a payment method</option>
+                        {getFilteredPaymentMethods().map(method => (
+                          <option key={method.id} value={method.id}>
+                            {method.name} ({method.credit_card_type} ending in {method.name.slice(-4)})
+                          </option>
+                        ))}
+                    </FormSelect>
+                  </>
+                )}
 
                 <FormLabel>Payment Due (in pennies)</FormLabel>
                 <FormInput 

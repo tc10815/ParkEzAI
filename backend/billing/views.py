@@ -184,7 +184,7 @@ class DeleteLotInvoice(generics.DestroyAPIView):
         user = self.request.user
         user_role = user.role.role_name
 
-        if user_role != 'Accountant':
+        if user_role not in ['Accountant', 'Customer Support', 'Lot Specialist']:
             return Response({"error": "Only Accountants can delete Lot Invoices."}, status=status.HTTP_403_FORBIDDEN)
 
         instance = self.get_object()
@@ -200,7 +200,7 @@ class DeleteAdInvoice(generics.DestroyAPIView):
         user = self.request.user
         user_role = user.role.role_name
 
-        if user_role != 'Accountant':
+        if user_role not in ['Accountant', 'Customer Support', 'Advertising Specialist']:
             return Response({"error": "Only Accountants can delete Advertisement Invoices."}, status=status.HTTP_403_FORBIDDEN)
 
         instance = self.get_object()

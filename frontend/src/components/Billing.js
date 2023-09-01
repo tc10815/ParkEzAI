@@ -82,6 +82,9 @@ const Billing = () => {
   const goToPaymentMethods = () => {
     navigate("/payment-methods");
   };
+  const markAsPaid = (id) => {
+    navigate('/pay-invoice/' + id.substring(0,2) + '/' + id.substring(3));
+  }
 
 
 
@@ -121,7 +124,6 @@ const Billing = () => {
     } else if (id.substring(0,2) === 'op') { //"Lot Operator" or "Advertiser"
       deleteUrl = `${API_URL}billing/delete-lot-invoice/${id.substring(3)}/`;
     }
-    console.log(deleteUrl);
     fetch(deleteUrl, {
       method: 'DELETE',
       headers: {
@@ -155,7 +157,6 @@ const Billing = () => {
           <MyTable>
             <thead>
               <tr>
-                {console.log(role)}
                 <th>Invoice ID</th>
                 <th>Role</th>
                 <th>Email</th>
@@ -164,49 +165,44 @@ const Billing = () => {
                 <th>Payment Date</th>
                 <th>Payment Method</th>
                 <th>Invoice Total</th>
-                {role !== "Lot Operator" && role !== "Advertiser" ? (
-                        <th>
-                          Action
-                        </th>
-                      ) : (
-                        <br />
-                      )}
-                {console.log(invoices)}
+                <th>Action</th>          
               </tr>
             </thead>
             <tbody>
               {invoices.map(invoice => (
                 <>
-                 <tr key={invoice.invoice_id}>
-                   <td>{invoice.invoice_id}</td>
-                   <td>{invoice.customer?.role?.role_name || ''}</td>
-                   <td>{invoice.customer?.email || ''}</td>
-                   <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
+                  <tr key={invoice.invoice_id}>
+                    <td>{invoice.invoice_id}</td>
+                    <td>{invoice.customer?.role?.role_name || ''}</td>
+                    <td>{invoice.customer?.email || ''}</td>
+                    <td>{formatDateNoTime(invoice.date_of_invoice)}</td>
                     <td>{invoice.has_been_paid ? 'Paid' : 'Unpaid'}</td>
                     <td>{invoice.date_of_payment ? formatDateNoTime(invoice.date_of_payment) : 'Unpaid'}</td>
                     <td>{invoice.payment_method_name}</td>
                     <td>{formatAmount(invoice.payment_due)}</td>
-                      {role !== "Lot Operator" && role !== "Advertiser" ? (
                     <td>
-                       <button onClick={() => deleteInvoice(invoice.invoice_id)}>Delete</button>
-                    </td>
-                      ) : (
-                        <br />
+                      {!invoice.has_been_paid && (
+                        <>
+                          {role === "Lot Operator" || role === "Advertiser" ? (
+                            <button onClick={() => markAsPaid(invoice.invoice_id)}>Pay</button>
+                          ) : (
+                            <button onClick={() => markAsPaid(invoice.invoice_id)}>Mark as Paid</button>
+                          )}
+                        </>
                       )}
+                      {role !== "Lot Operator" && role !== "Advertiser" && (
+                        <button onClick={() => deleteInvoice(invoice.invoice_id)}>Delete</button>
+                      )}
+                    </td>
                   </tr>
-                  {invoice.description && role !== "Lot Operator" && role !== "Advertiser" ? (
-                    <tr>
-                      <td style={{textAlign:'left'}} colSpan="9"><strong>Description:</strong> {invoice.description}</td>
-                    </tr>
-                     ) : (
-                    <tr>
-                      <td style={{textAlign:'left'}} colSpan="8"><strong>Description:</strong> {invoice.description}</td>
-                    </tr>
-                  )}
+                  <tr>
+                    <td style={{textAlign:'left'}} colSpan="9"><strong>Description:</strong> {invoice.description}</td>
+                  </tr>
                 </>
               ))}
             </tbody>
           </MyTable>
+
           <PaymentButton onClick={goToPaymentMethods}>View Payment Methods</PaymentButton>
         </TableContainer>
       </HeroImage>

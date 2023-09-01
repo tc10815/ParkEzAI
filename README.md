@@ -5,7 +5,7 @@ In this project, functional requirements taken from a 9 person, 2 semester class
 The goal of the product in both projects is to monitor parking lots for businesses using AI. *The larger goal of the ParkEz group class project is to learn documentation and Software Engineering methodologies as a team.* ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective of the programmer***. 
 
 - [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
-- [Overview](#parkezai-project-overview), focusing on the AI process
+- [Overview](#ParkEz AI-project-overview), focusing on the AI process
 - [Conclusions (Draft)](#conclusions-draft) An unfinished list of takeaways from the project
 - [Task List](#task-list) from this semester's tasks to project completion
 - [Semester 1 AI Prompts](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1/prompt_logs_part1), [Semester 2 AI prompts](https://github.com/tc10815/ParkEzAI/tree/main/prompt_logs) used thus far 
@@ -17,11 +17,11 @@ The goal of the product in both projects is to monitor parking lots for business
 
 ## Live Parking Spot Detection Demo
 [![Liveshot](https://backend.plan6.com/lots/github_view?camera=coldwatermi)](https://plan6.com/lot/coldwater)
-Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEzAi production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
+Image updates every 30 minutes, refresh this GitHub page to view updated image. The ParkEz AI production machine learning models label the spots as occupied (Red) or free (green). Monroe Street in Coldwater, Michigan. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEzAI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/24/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/24/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -34,7 +34,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] Identify overparked cars (cars parked beyond time limit)
 - [x] **Step 3:** Implement **[Functional Requirements 3.1, 3.2, and 3.3](#3-parking-lot-status)** by integrating Step 2's scripts with Django
   - [x] Create a API JPEG upload receiver for camera feeds (currently Coldwater, MI, but will work with any future lots)
-  - [x] Create auto uploader for Coldwater lot, uploads to ParkEzAi every 30 minutes
+  - [x] Create auto uploader for Coldwater lot, uploads to ParkEz AI every 30 minutes
   - [x] **[Functional Requirement 3.2](#3-parking-lot-status)**: Create view that shows lots to public, included occupancy and best space
   - [x] **[Functional Requirement 3.1](#3-parking-lot-status)**: Create view with search that shows all available parking lots (including placeholders) to public
   - [x] **[Functional Requirement 3.3](#3-parking-lot-status)**: Create a API endpoint that usable for general external websites and apps that shows public lot data 
@@ -53,6 +53,9 @@ Remake Semester 1's PHP backend with Django REST framework
 - [ ] **Step 8:** Finishing touches
   - [ ] Ensure all appropriate roles can access same Lot information as Lot Operator.
   - [ ] Ensure all appropriate roles can access same Advertisement  information as Advertiser.
+  - [ ] Rebuild parking lot detection models with newest training data to increase accuracy of parking detection
+  - [ ] Clean up web design of ParkEz AI (I'm not a web designer, but I want to make it look a little nicer)
+  - [ ] Refactor some redundant code (GPT-4 produces a lot of duplicate code, so moving some of it to utility files is an easy and worthwhile task). Get rid of console.logs.
 
 <br> 
   <em>*Someday as an addendum to this project I may post code that reads license plates live and sends it to an API endpoint, although I'll never have a live demo.</em>
@@ -73,9 +76,9 @@ the whole website runs much faster and has tons of space for Lot cam footage.
   
 ## Notes on Parking Spot Occupancy Detection 
 
-When I explained to GPT4 what I wanted to do, it recommended I use the YOLOv3 model to detect cars in parking spaces. YOLO is a model for detecting cars and other objects that doesn't require any training (you just tell it to look for cars and it does its thing). However, at night and in unusual weather it struggled. On 24 hour footage, it only had .58 recall, meaning it only registered cars in spaces 58% of time. 
+When I explained to GPT-4 what I wanted to do, it recommended I use the YOLOv3 model to detect cars in parking spaces. YOLO is a model for detecting cars and other objects that doesn't require any training (you just tell it to look for cars and it does its thing). However, at night and in unusual weather it struggled. On 24 hour footage, it only had .58 recall, meaning it only registered cars in spaces 58% of time. 
 
-That wasn't good enough so I worked with GPT4 to build models like cat-dog classifiers, using CNNs with PyTorch, to be applied to a cropped image of the space. I assigned a rectangle of the parking lot to each space, programmatically cropped the images and shaped them to 128x128 (now 256x256) and trained a model for each space based off of examples of cropped spaces containing a car, and without a car. 
+That wasn't good enough so I worked with GPT-4 to build models like cat-dog classifiers, using CNNs with PyTorch, to be applied to a cropped image of the space. I assigned a rectangle of the parking lot to each space, programmatically cropped the images and shaped them to 128x128 (now 256x256) and trained a model for each space based off of examples of cropped spaces containing a car, and without a car. 
 
 The current model is based on 350 images, 5 CNN layers and uses Adam optimizer and early stopping to improve training results. It still makes mistakes, but mistakes are somewhat rare. 
 
@@ -109,14 +112,14 @@ All Functional Requirements listed under _1. Account Management_ in Functional R
 
 It was a working model, but PHP was basic and had inconsistent authentication: Not scalable or secure enough to be used in real life. About 4000 lines of code for the frontend (React) and 900 for the backend (PHP). 
 
-# ParkEzAI (Project Overview)
+# ParkEz AI (Project Overview)
 How people code is changing. Over the last year (2022-2023) AI has become powerful and accessible enough to provide real productivity gains for programmers. This Web Application is an exploration of what coding may be like when AI assistance becomes the norm. 
 
 In this project, functional requirements taken from a large class project are being implemented with AI assistance in coding, writing ('copy'), design and images.
 
-ParkEz is a year long school project I'm working on as part of a large team (7 people) which I contributed to the design, but is being implemented by others. The requirements of ParkEz (school project) and ParkEzAI are exactly the same, but the implementation is entirely different, entirely independent. ParkEzAI is coded by one person (me) using mostly code generated by ChatGPT-4. 
+ParkEz is a year long school project I'm working on as part of a large team (9 people) which I contributed to the design, but is being implemented by others. The requirements of ParkEz (school project) and ParkEz AI are exactly the same, but the implementation is entirely different, entirely independent. ParkEz AI is coded by one person (me) using mostly code generated by ChatGPT-4. 
 
-When ParkEzAI began development, the ParkEz school project was mostly unimplemented, with only the frontend of the homepage, login page and new account page implemented with no backend. None of the code, design, text or images was used in ParkEzAI.
+When ParkEz AI began development, the ParkEz school project was mostly unimplemented, with only the frontend of the homepage, login page and new account page implemented with no backend. None of the code, design, text or images was used in ParkEz AI.
 
 ## The AI Assisted Process
 * AI tools used are ChatGPT-4 and Dall·E 2.
@@ -130,9 +133,9 @@ When ParkEzAI began development, the ParkEz school project was mostly unimplemen
 ![Sorcerer Mickey](./archive/img/mickey.jpg)
 
 ## Functional Requirements 
-**Note: identical for ParkEzAi (this project) and group ParkEz class project**
+**Note: identical for ParkEz AI (this project) and group ParkEz class project**
 
-ParkEzAI allows parking lot owners to see how many spaces are occupied in their lot, identify overparkers and record security to the cloud to revisit it later. It allows would be parkers to see how occupied a lot is and see the best spot. Advertisers can also place advertisements on the park lot page for the general public. 
+ParkEz AI allows parking lot owners to see how many spaces are occupied in their lot, identify overparkers and record security to the cloud to revisit it later. It allows would be parkers to see how occupied a lot is and see the best spot. Advertisers can also place advertisements on the park lot page for the general public. 
 
 #### 1. Account Management
 
@@ -153,7 +156,7 @@ ParkEzAI allows parking lot owners to see how many spaces are occupied in their 
 #### 3. Parking Lot Status
 
 * [x] **3.1 Search and Select Lot:**	Unsubscribed users can browse and search parking lots using ParkEZ. 
-* [x] **3.2 View Occupancy Shows:** unsubscribed users most optimal space available and occupancy of selected parking lot. View includes ads.
+* [x] **3.2 View Occupancy Shows:** Unsubscribed users most optimal space available and occupancy of selected parking lot. View includes ads.
 * [x] **3.3 Access Occupancy Remotely:**	A non GUI element offers occupancy status data through an interface Parking Lot Managers can use with their website.
 
 #### 4. Advertising Management
@@ -185,13 +188,13 @@ Going into the project I had a **very strong background in Java, OOP and CS theo
 
 I had **no real experience with PHP**, so for the Semester 1 project backend I relied on GPT for almost everything. It succeeded in making a working demo where accounts could be made and modified from other accounts, but authentication was inconsistent and it could easily be abused by bad actors. It worked as a demo but could never be used for real life. 
 
-Semester 2 I changed webservers and could now use Gunicorn, so I wanted to change to a Python-based backend to easily deploy real time machine learning. With my PHP experience in Semester 1, I learned I could not depend on GPT to build a good website without me also understanding the code, so in May, 2023 I read the first half of two books: William S. Vincent's Django for Beginners and Django for APIs. **Thanks to studying Django for a month before starting the project with GPT, the resulting Django backend is much higher quality and more resilient than Semester 1's PHP backend**
+Semester 2 I changed webservers and could now use Gunicorn, so I wanted to change to a Python-based backend to easily deploy real time machine learning. With my PHP experience in Semester 1, I learned I could not depend on GPT-4 to build a good website without me also understanding the code, so in May, 2023 I read the first half of two books: William S. Vincent's Django for Beginners and Django for APIs. **Thanks to studying Django for a month before starting the project with GPT-4, the resulting Django backend is much higher quality and more resilient than Semester 1's PHP backend**
 
 ### Tips 
-***Note: These tips are from my personal experience making ParkEzAI alone. I'm not quoting or referencing any other material***
+***Note: These tips are from my personal experience making ParkEz AI alone. I'm not quoting or referencing any other material***
 
 1. **Don't ask GPT-4 to do too much in a single prompt.** If you ask it to do something that requires too many steps, it will give you an answer that looks correct, and probably runs, but won't actually do what you were hoping. You'll save time in the long run by breaking complex tasks into multiple prompts and checking each step along the way.
 2. **Include as much relevant context/code as possible in all prompts.** GPT-4 does remember code it wrote in previous messages, and code you previously sent it, but as the conversation continues it gets forgetful and starts making mistakes. I find it makes the fewest errors when I send it *all of the relevant code* needed for the answer in every prompt, omitting as much unrelated code as possible. 
 3. **Exclude as much irrelevant code as possible in difficult prompts.** I've noticed I get lower quality responses if you include unrelated code in your prompt, such as unrelated functions and CSS code in React. I'll still include unnecessary code for basic requests since its time consuming to clean up, but for very difficult requests I'm careful to keep context as concise as possible.
-4. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEzAi, GPT4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
+4. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT-4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEz AI, GPT-4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
 5. **Ask it big picture questions, not just for code**. I would have made ParkEz AI a lot differently if I hadn't occasionally discussed what I was doing with GPT-4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
