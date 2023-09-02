@@ -56,6 +56,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [ ] Rebuild parking lot detection models with newest training data to increase accuracy of parking detection
   - [ ] Clean up web design of ParkEz AI (I'm not a web designer, but I want to make it look a little nicer)
   - [ ] Refactor some redundant code (GPT-4 produces a lot of duplicate code, so moving some of it to utility files is an easy and worthwhile task). Get rid of console.logs.
+  - [ ] Make it so "Reset Database with Demonstration Data" button works again (it currently doesn't reset ads/payment/invoices and breaks associations with ads/payment/invoices). It can ignore lot data since there's no control over that in the app.
 
 <br> 
   <em>*Someday as an addendum to this project I may post code that reads license plates live and sends it to an API endpoint, although I'll never have a live demo.</em>
