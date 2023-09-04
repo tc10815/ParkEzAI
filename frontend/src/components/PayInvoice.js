@@ -186,7 +186,7 @@ const PayInvoice = () => {
               <p><strong>Status:</strong> {currentInvoice.has_been_paid ? 'Paid' : 'Unpaid'}</p>
               <p><strong>Payment Date:</strong> {currentInvoice.date_of_payment ? formatDateNoTime(currentInvoice.date_of_payment) : 'Unpaid'}</p>
               <p><strong>Invoice Total:</strong> {formatAmount(currentInvoice.payment_due)}</p>
-              <p><strong>Description:</strong> {currentInvoice.description}</p>
+              <p style={{textAlign:'left', whiteSpace: 'pre-line'}}><strong>Description:</strong> {currentInvoice.description}</p>
 
               <PaymentDropdown onChange={handlePaymentMethodChange}>
                 {filteredPaymentMethods.map(method => (

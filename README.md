@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 8/24/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/04/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -57,6 +57,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [ ] Clean up web design of ParkEz AI (I'm not a web designer, but I want to make it look a little nicer)
   - [ ] Refactor some redundant code (GPT-4 produces a lot of duplicate code, so moving some of it to utility files is an easy and worthwhile task). Get rid of console.logs.
   - [ ] Make it so "Reset Database with Demonstration Data" button works again (it currently doesn't reset ads/payment/invoices and breaks associations with ads/payment/invoices). It can ignore lot data since there's no control over that in the app.
+  - [ ] Create short, narrated video that briefly explains project and demonstrates ParkEz AI's completed functionality. 
 
 <br> 
   <em>*Someday as an addendum to this project I may post code that reads license plates live and sends it to an API endpoint, although I'll never have a live demo.</em>

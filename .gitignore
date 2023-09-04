@@ -4,6 +4,7 @@ backend/ads/ad_data
 frontend/.env.development
 frontend/.env.production
 backend/db.sqlite3
+backend/.env
 uploadtester/coldwatermi
 uploadtester/coldwaterrecent
 uploadtester/images

@@ -10,3 +10,4 @@
 |Step 4-1|*7/24/23 - 8/6/23*|Made lot owner dashboard that can see overparking in the present, and cool demo JPG for github that shows current occupancy of Coldwater in the Readme|React, Django|
 |Step 4-2|*8/6/23 - 8/8/23*|Made so from the parking lot owner dashboard lot history and overparking history could be monitored|Django, React|
 |Step 5|*8/8/23 - 8/20/23*|Implemented ad banner system, including working upload dashboard and metrics|Django, React|
+|Step 6-1|*8/21/23 - 9/01/23*|Billing database design, billing views backend, billing frontend, first attempts at installing/configuring mail SMTP server on plan6.com server (same server/VPS as that hosts React) to email invoices without depending on 3rd party mail|Django, React|

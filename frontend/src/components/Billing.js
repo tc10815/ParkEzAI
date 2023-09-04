@@ -196,7 +196,9 @@ const Billing = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td style={{textAlign:'left'}} colSpan="9"><strong>Description:</strong> {invoice.description}</td>
+                    <td style={{textAlign:'left', whiteSpace: 'pre-line'}} colSpan="9">
+                        <strong>Description:</strong> <br />{invoice.description}
+                    </td>
                   </tr>
                 </>
               ))}
