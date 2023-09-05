@@ -84,7 +84,7 @@ class CreatePaymentMethodAPIView(APIView):
 
         if user_role in ['Lot Operator', 'Advertiser']:
             data['customer'] = user.id
-        elif user_role in ['Lot Specialist', 'Customer Support', 'Accountant']:
+        elif user_role in ['Advertising Specialist','Lot Specialist', 'Customer Support', 'Accountant']:
             # Check if customer_id is provided in the request
             customer_id = data.get('customer_id')
             if not customer_id:

@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/04/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/05/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -47,7 +47,7 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] **[Function Requirement 4.2](#4-advertising-management)**: Modify ad, edits existing ad's content
   - [x] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
   - [x] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
-- [ ] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types (this is a demonstration program, so I will not verify and charge real credit cards)
+- [x] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types (this is a demonstration program, so I will not verify and charge real credit cards)
 - [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** model license plate tracking
   - [ ] Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it*
 - [ ] **Step 8:** Finishing touches
@@ -169,8 +169,8 @@ ParkEz AI allows parking lot owners to see how many spaces are occupied in their
 
 #### 5. Payment Gateway
 
-* [ ] **5.1 Define Payment Method:**	Users decide how they pay for their subscription (ad or lot manger).
-* [ ] **5.2 Validate Payment:** 	Checks that customer payment method can be billed correctly.
+* [x] **5.1 Define Payment Method:**	Users decide how they pay for their subscription (ad or lot manger).
+* [x] **5.2 Validate Payment:** 	Checks that customer payment method can be billed correctly.
 
 *Note: I checked off a requirement as complete when at least 1 type of user can do it. I still need to adapt permissions so all intended  user account types can do all requirements in finishing touches*
 
