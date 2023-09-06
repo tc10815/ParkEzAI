@@ -49,3 +49,19 @@ class CamMetadata(models.Model):
 
     def __str__(self):
         return self.name
+    
+class LPRMetadata(models.Model):
+    name = models.CharField(max_length=255, primary_key=True)
+    lot = models.ForeignKey(LotMetadata, on_delete=models.CASCADE)
+    passcode = models.CharField(max_length=255)  # You can adjust max_length and other parameters as needed
+
+    def __str__(self):
+        return self.name
+
+class LicensePlateReading(models.Model):
+    lpr = models.ForeignKey(LPRMetadata, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    plate_number = models.CharField(max_length=10)  # Adjust max_length as per your region's plate format
+
+    def __str__(self):
+        return f"{self.plate_number} at {self.timestamp}"

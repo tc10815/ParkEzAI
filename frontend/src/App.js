@@ -40,6 +40,7 @@ import AddLotInvoice from './components/AddLotInvoice';
 import AddAdInvoice from './components/AddAdInvoice';
 import AddInvoice from './components/AddInvoice';
 import PayInvoice from './components/PayInvoice';
+import PlateData from './components/PlateData';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -112,6 +113,7 @@ const App = () => {
           <Route path="/add-ad-invoice" element={<AddAdInvoice />} />
           <Route path="/add-invoice" element={<AddInvoice />} />
           <Route path="/pay-invoice/:invoice_type/:id" element={<PayInvoice />} />
+          <Route path="/plate-data" element={<PlateData />} />
         </Routes>
       </ContentWrapper>
     </Router>

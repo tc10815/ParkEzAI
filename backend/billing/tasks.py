@@ -56,6 +56,7 @@ def generate_monthly_invoices():
 
         final_invoice_price = base_lot_price + (total_cameras * per_camera_price)
         description_lines.extend([
+            f"Base price: ${base_lot_price}",
             f"Total cameras: {total_cameras} at ${per_camera_price} = ${per_camera_price * total_cameras}\n",
             f"Invoice total: ${final_invoice_price}"
         ])
@@ -105,7 +106,8 @@ def generate_monthly_invoices():
 
         final_invoice_price = base_ad_price + (len(ads) * per_ad_price)
         description_lines.extend([
-            f"\nTotal ads: {len(ads)} at ${per_ad_price} = ${len(ads) * per_ad_price}\n",
+            f"\nBase price: ${base_ad_price}",
+            f"Total ads: {len(ads)} at ${per_ad_price} = ${len(ads) * per_ad_price}\n",
             f"Invoice total: ${final_invoice_price}\n"
         ])
 

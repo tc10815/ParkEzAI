@@ -11,8 +11,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.core.files.storage import default_storage
 from django.conf import settings
-from .serializers import CamImageSerializer
-from .models import CamImage, LotMetadata, CamMetadata
+from .serializers import CamImageSerializer, LicensePlateReadingSerializer, LPRMetadataNoPasscodeSerializer
+from .models import CamImage, LotMetadata, CamMetadata, LPRMetadata, LicensePlateReading
 from django.utils import timezone
 from datetime import datetime
 
@@ -432,8 +432,8 @@ class LotOwnerDashboardView(APIView):
 
     def get(self, request, format=None):
         user = self.request.user
-        role_name = user.role.role_name        
-        if role_name != 'Lot Operator':
+        allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
+        if user.role.role_name not in allowed_roles:
             return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
         # Retrieve the lots associated with the user
@@ -476,6 +476,10 @@ class LotOwnerDashboardView(APIView):
         human_labels = json.loads(lot_image.human_labels)
         model_labels = json.loads(lot_image.model_labels)
 
+        # Get the LPRMetadata for the lots
+        lpr_metadata_list = LPRMetadata.objects.filter(lot__in=lots)
+        lpr_serializer = LPRMetadataNoPasscodeSerializer(lpr_metadata_list, many=True)
+
         # Construct the response data
         response_data = {
             'image_url': image_url,
@@ -484,7 +488,8 @@ class LotOwnerDashboardView(APIView):
             'model_labels': model_labels,
             'previous_image_name_part': previous_image_name_part,
             'spots': spots_data,
-            'bestspots': bestspots_data
+            'bestspots': bestspots_data,
+            'lpr_metadata': lpr_serializer.data   # Add the serialized LPRMetadata to the response
         }
         return Response(response_data)
 
@@ -565,3 +570,41 @@ class GetArchiveView(APIView):
             'image': image_date
         }
         return Response(response_data)
+
+class LicensePlateReadingView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        lpr_name = request.data.get('lpr')
+        try:
+            lpr_metadata = LPRMetadata.objects.get(name=lpr_name)
+        except LPRMetadata.DoesNotExist:
+            return Response({"detail": "Invalid LPR device."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if lpr_metadata.passcode != request.data.get('passcode'):
+            return Response({"detail": "Incorrect passcode."}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = LicensePlateReadingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class RecentLicensePlateReadingsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, lpr_name, format=None):
+        # Check user's role
+        print('\n\n\n\n\n\nLPR NAME: ' + lpr_name)
+        user = self.request.user
+        allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
+        if user.role.role_name not in allowed_roles:
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Query the LicensePlateReading model for the given LPRMetadata
+        readings = LicensePlateReading.objects.filter(lpr__name=lpr_name).order_by('-timestamp')[:10]
+        print(readings)
+        # Serialize the readings
+        serializer = LicensePlateReadingSerializer(readings, many=True)        
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -11,4 +11,5 @@
 |Step 4-2|*8/6/23 - 8/8/23*|Made so from the parking lot owner dashboard lot history and overparking history could be monitored|Django, React|
 |Step 5|*8/8/23 - 8/20/23*|Implemented ad banner system, including working upload dashboard and metrics|Django, React|
 |Step 6-1|*8/21/23 - 9/01/23*|Billing database design, billing views backend, billing frontend, first attempts at installing/configuring mail SMTP server on plan6.com server (same server/VPS as that hosts React) to email invoices without depending on 3rd party mail|Django, React|
-|Step 6-1|*9/01/23 - 9/05/23*|Getting SMTP working on Ubuntu Server with Postfix and Dovecot and setting up Cron to automate monthly invoice generation |Ubuntu Server LTS, Django|
+|Step 6-2|*9/01/23 - 9/06/23*|Getting SMTP working on Ubuntu Server with Postfix and Dovecot and setting up Cron to automate monthly invoice generation |Ubuntu Server LTS, Django|
+|Step 7|*9/07/23*| Create tables to handle plate readings, create views to receive/send plate readings django API, made pages to display for authenticated users in in React,  made system that generates fake plates when cars park for demo purposes |Django, React|

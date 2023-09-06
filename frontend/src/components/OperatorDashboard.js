@@ -149,6 +149,7 @@ const OperatorDashboard = () => {
   const [sevenDayNames, setSevenDayNames] = useState([]);
   const [sevenTotalSpaceCounts, setSevenTotalSpaceCounts] = useState([]);
   const [sevenTotalCarCounts, setSevenTotalCarCounts] = useState([]);
+  const [recentReadings, setRecentReadings] = useState({});
 
   const calculateTableData = (data) => {
     const sortedData = data.slice().sort((a, b) => {
@@ -245,6 +246,9 @@ const OperatorDashboard = () => {
       })
       .then(response => response.json())
       .then(data => {
+          console.log(data.lpr_metadata);
+
+
           setDateOfMostRecentImage(data.timestamp);
           let bestSpotString = 'None available';
           let BestSpotSoFarKey = 99999;
@@ -260,10 +264,7 @@ const OperatorDashboard = () => {
               totalSpotsFull = totalSpotsFull + 1;
             }
           }
-
           setCurrentCarsParked(totalSpotsFull);
-
-
           setMaxCarsParked(Object.keys(data.human_labels).length)
           const image = new Image();
           image.src = API_URL + "lots" + data.image_url;
@@ -291,6 +292,21 @@ const OperatorDashboard = () => {
               }
               context.strokeRect(x1, y1, width, height);
               context.fillText(key, x1, y1 - 5); 
+              const fetchReadings = async () => {
+                let readings = {};
+                for (let lpr of data.lpr_metadata) {
+                    const response = await fetch(API_URL + `lots/recentreadings/${lpr.name}/`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${token}`,
+                        }
+                    });
+                    readings[lpr.name] = await response.json();
+                    console.log(readings);
+                }
+                setRecentReadings(readings);
+            }
+            fetchReadings();
           });
           }
       })
@@ -335,7 +351,7 @@ const OperatorDashboard = () => {
           <MyTable>
             <thead>
               <tr>
-                <th></th>
+                <th>{console.log()}</th>
                 <th>{sevenDayNames[0]}</th>
                 <th>{sevenDayNames[1]}</th>
                 <th>{sevenDayNames[2]}</th>
@@ -354,7 +370,8 @@ const OperatorDashboard = () => {
                 <td>{((sevenTotalCarCounts[3]/sevenTotalSpaceCounts[3])*100).toFixed(1)}%&nbsp;</td>
                 <td>{((sevenTotalCarCounts[4]/sevenTotalSpaceCounts[4])*100).toFixed(1)}%&nbsp;</td>
                 <td>{((sevenTotalCarCounts[5]/sevenTotalSpaceCounts[5])*100).toFixed(1)}%&nbsp;</td>
-                <td>{((sevenTotalCarCounts[6]/sevenTotalSpaceCounts[6])*100).toFixed(1)}%&nbsp;</td>              </tr>
+                <td>{((sevenTotalCarCounts[6]/sevenTotalSpaceCounts[6])*100).toFixed(1)}%&nbsp;</td>              
+              </tr>
               <tr>
                 <th>7-Day Total Cars Parked</th>
                 <td>{Math.round(sevenTotalCarCounts[0]/2)}</td>
@@ -398,9 +415,36 @@ const OperatorDashboard = () => {
                         </tr>
                     )
                 )}
+                <h3 style={{textDecoration: "underline"}}>License Plate Data**</h3>
+                {
+                  Object.keys(recentReadings).map(lprName => (
+                      <div key={lprName}>
+                          <h3>{lprName}</h3>
+                          <table>
+                              <thead>
+                                  <tr>
+                                      <th>Time</th>
+                                      <th>Plate Number</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {recentReadings[lprName].map(reading => (
+                                      <tr key={reading.timestamp}>
+                                          <td>{new Date(reading.timestamp).toLocaleString()}</td>
+                                          <td>{reading.plate_number}</td>
+                                      </tr>
+                                  ))}
+                              </tbody>
+                          </table>
+                      </div>
+                  ))
+              }
+
             </tbody>
-          </table>
+          </table>              
+          <p><Link to={`/plate-data/`}>See unabbreviated log</Link></p>
           <p>*Red indicates overparking alert.</p>
+          <p>**Lot shown is real data: real lot, real time. License Plate data is fictional and used to demonstrate interface, although interface can accept real license plate data.</p>
         </WebCamContainer>
       </HeroImage>
       <Footer />
