@@ -57,64 +57,58 @@ const HeroImage = styled.div`
 const PlateData = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
-  const canvasRef = useRef(null);
-  const [currentCarsParked, setCurrentCarsParked] = useState('');
-  const [dateOfMostRecentImage, setDateOfMostRecentImage] = useState('');
-  const [maxCarsParked, setMaxCarsParked] = useState('');
-  const [carsParkedToday, setCarsParkedToday] = useState('');
-  const [averageOccupancyToday, setAverageOccupancyToday] = useState('');
-  const [overparkingData, setOverparkingData] = useState({});
-  const [overparkingConfirmLinks, setOverparkingConfirmLinks] = useState({});
-  const [sevenDayNames, setSevenDayNames] = useState([]);
-  const [sevenTotalSpaceCounts, setSevenTotalSpaceCounts] = useState([]);
-  const [sevenTotalCarCounts, setSevenTotalCarCounts] = useState([]);
-  const [recentReadings, setRecentReadings] = useState({});
+  const [monthlyReadings, setMonthlyReadings] = useState({});
+  const [monthShown, setMonthShown] = useState(new Date().getMonth() + 1);
+  const [yearShown, setYearShown] = useState(new Date().getFullYear());
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  const fetchReadings = async (year, month) => {
+    const token = localStorage.getItem("token");
+    let readings = {};
+    const response = await fetch(API_URL + 'lots/lot_dashboard/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`,
+      },
+    });
+    const data = await response.json();
+    for (let lpr of data.lpr_metadata) {
+      const res = await fetch(API_URL + `lots/monthlyreadings/${lpr.name}/${year}/${month}/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        }
+      });
+      readings[lpr.name] = await res.json();
+    }
+    setMonthlyReadings(readings);
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetch(API_URL + 'accounts/users/me/', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`,
-        },
-      })
-      .then(response => response.json())
-      .then(data => setUser(data));
-
-      fetch(API_URL + 'lots/lot_dashboard/', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`,
-        },
-      })
-      .then(response => response.json())
-      .then(data => {
-        const fetchReadings = async () => {
-          let readings = {};
-          for (let lpr of data.lpr_metadata) {
-            const response = await fetch(API_URL + `lots/recentreadings/${lpr.name}/`, {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`,
-              }
-            });
-            readings[lpr.name] = await response.json();
-          }
-          setRecentReadings(readings);
-        }
-        fetchReadings();
-      });
-    }
-  }, [location]);
+    fetchReadings(yearShown, monthShown);
+  }, [yearShown, monthShown, location]);
 
   return (
     <HomeContainer>
       <HeroImage>
-        <WebCamContainer>
-          <SubHeading>Complete License Plate Log by Reader</SubHeading>
-          {
-            Object.keys(recentReadings).map(lprName => (
+      <WebCamContainer>
+      <SubHeading>Complete License Plate Log for {monthNames[monthShown - 1]}, {yearShown}</SubHeading>
+          <p>From all of your License Plate Readers</p>
+            <select value={yearShown} onChange={e => setYearShown(e.target.value)}>
+              {[...Array(10)].map((_, idx) => (
+                <option key={idx} value={new Date().getFullYear() - idx}>
+                  {new Date().getFullYear() - idx}
+                </option>
+              ))}
+            </select>
+            <select value={monthShown} onChange={e => setMonthShown(e.target.value)}>
+              {monthNames.map((month, idx) => (
+                <option key={idx} value={idx + 1}>
+                  {month}
+                </option>
+              ))}
+            </select>        {
+            Object.keys(monthlyReadings).map(lprName => (
               <div key={lprName}>
                 <h3>Plate Reader: {lprName}</h3>
                 <MyTable>
@@ -125,7 +119,7 @@ const PlateData = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {recentReadings[lprName].map(reading => (
+                    {monthlyReadings[lprName].map(reading => (
                       <tr key={reading.timestamp}>
                         <td>{new Date(reading.timestamp).toLocaleString()}</td>
                         <td>{reading.plate_number}</td>

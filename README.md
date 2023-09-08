@@ -5,7 +5,7 @@ In this project, functional requirements taken from a 9 person, 2 semester class
 The goal of the product in both projects is to monitor parking lots for businesses using AI. *The larger goal of the ParkEz group class project is to learn documentation and Software Engineering methodologies as a team.* ***The larger goal of this version of the project is to understand AI's role in the future of programming from the perspective of the programmer***. 
 
 - [Functional Requirements](#functional-requirements), what both the ParkEz AI and the group project ParkEz will actually do
-- [Overview](#ParkEz AI-project-overview), focusing on the AI process
+- [Overview](#parkez-ai-project-overview), focusing on the AI process
 - [Conclusions (Draft)](#conclusions-draft) An unfinished list of takeaways from the project
 - [Task List](#task-list) from this semester's tasks to project completion
 - [Semester 1 AI Prompts](https://github.com/tc10815/ParkEzAI/tree/main/archive/part1/prompt_logs_part1), [Semester 2 AI prompts](https://github.com/tc10815/ParkEzAI/tree/main/prompt_logs) used thus far 
@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/05/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/08/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -48,8 +48,8 @@ Remake Semester 1's PHP backend with Django REST framework
   - [x] **[Function Requirement 4.3](#4-advertising-management)**: View Ad Statistics, in including impressions and clicks
   - [x] Ad renders correctly on public lot pages; ads are displayed with equal frequency when more than one ad is for a lot. 
 - [x] **Step 6:** Implement **[Functional Requirements 5.1 and 5.2](#5-payment-gateway)** model email and payment systems, which are integrated for all account types (this is a demonstration program, so I will not verify and charge real credit cards)
-- [ ] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** model license plate tracking
-  - [ ] Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it*
+- [x] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** model license plate tracking
+  - [x] Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it*
 - [ ] **Step 8:** Finishing touches
   - [ ] Ensure all appropriate roles can access same Lot information as Lot Operator.
   - [ ] Ensure all appropriate roles can access same Advertisement  information as Advertiser.
@@ -153,7 +153,7 @@ ParkEz AI allows parking lot owners to see how many spaces are occupied in their
 * [x] **2.1 Track Occupancy:**	Tracking of how many spots are taken at what times, presented for individuals who manage parking lots
 * [x] **2.2 Access Footage Archive:**	Lot owners can access archived footage of their parking lots.
 * [x] **2.3 Detect Overparking:** 	Notification of whenever a space is occupied longer than a specified period of time.
-* [ ] **2.4 Track License Plates:**	Tracking what license plates are registered at what times.*
+* [x] **2.4 Track License Plates:**	Tracking what license plates are registered at what times.*
 
 #### 3. Parking Lot Status
 
@@ -200,3 +200,4 @@ Semester 2 I changed webservers and could now use Gunicorn, so I wanted to chang
 3. **Exclude as much irrelevant code as possible in difficult prompts.** I've noticed I get lower quality responses if you include unrelated code in your prompt, such as unrelated functions and CSS code in React. I'll still include unnecessary code for basic requests since its time consuming to clean up, but for very difficult requests I'm careful to keep context as concise as possible.
 4. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT-4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEz AI, GPT-4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
 5. **Ask it big picture questions, not just for code**. I would have made ParkEz AI a lot differently if I hadn't occasionally discussed what I was doing with GPT-4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
+6. **It performs much better when you give it an example of something similar elsewhere in the code in the prompt**

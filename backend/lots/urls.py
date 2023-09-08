@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import ImageUploadView, LatestImageView, SpecificImageView, LotMenuView, LatestJPGImageFileView, \
     LotOwnerDashboardView, GetLotHistory, OverparkingConfirm, GetArchiveView, LicensePlateReadingView, \
-    RecentLicensePlateReadingsView
+    RecentLicensePlateReadingsView, MonthlyLicensePlateReadingsView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -17,4 +17,6 @@ urlpatterns = [
     path('get_defaults', GetArchiveView.as_view(), name='get_defaults'),
     path('licenseplatereading/', LicensePlateReadingView.as_view(), name='license-plate-reading'),
     path('recentreadings/<str:lpr_name>/', RecentLicensePlateReadingsView.as_view(), name='recent-readings'),
+    path('monthlyreadings/<str:lot_name>/<int:year>/<int:month>/', MonthlyLicensePlateReadingsView.as_view(), name='monthly-readings'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -290,6 +290,11 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/plate-data">Plates</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/my-tickets">Support</StyledNavLink>
               </StyledButton>
             </StyledLi>

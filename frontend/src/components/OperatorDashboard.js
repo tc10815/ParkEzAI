@@ -415,12 +415,14 @@ const OperatorDashboard = () => {
                         </tr>
                     )
                 )}
-                <h3 style={{textDecoration: "underline"}}>License Plate Data**</h3>
+            </tbody>
+          </table>  
+          <h3 style={{textDecoration: "underline"}}>License Plate Data**</h3>
                 {
                   Object.keys(recentReadings).map(lprName => (
                       <div key={lprName}>
-                          <h3>{lprName}</h3>
-                          <table>
+                          <h3>Plate Reader: <em>{lprName}</em></h3>
+                          <MyTable>
                               <thead>
                                   <tr>
                                       <th>Time</th>
@@ -435,16 +437,13 @@ const OperatorDashboard = () => {
                                       </tr>
                                   ))}
                               </tbody>
-                          </table>
+                          </MyTable>
                       </div>
                   ))
-              }
-
-            </tbody>
-          </table>              
+              }            
           <p><Link to={`/plate-data/`}>See unabbreviated log</Link></p>
-          <p>*Red indicates overparking alert.</p>
-          <p>**Lot shown is real data: real lot, real time. License Plate data is fictional and used to demonstrate interface, although interface can accept real license plate data.</p>
+          <p><em>*Red indicates overparking alert.</em></p>
+          <p><em>**Lot shown is real data: real lot, real time. License Plate data is fictional and used to demonstrate interface, although interface can accept real license plate data.</em></p>
         </WebCamContainer>
       </HeroImage>
       <Footer />

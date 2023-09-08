@@ -596,7 +596,6 @@ class RecentLicensePlateReadingsView(APIView):
 
     def get(self, request, lpr_name, format=None):
         # Check user's role
-        print('\n\n\n\n\n\nLPR NAME: ' + lpr_name)
         user = self.request.user
         allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
         if user.role.role_name not in allowed_roles:
@@ -607,4 +606,36 @@ class RecentLicensePlateReadingsView(APIView):
         print(readings)
         # Serialize the readings
         serializer = LicensePlateReadingSerializer(readings, many=True)        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class MonthlyLicensePlateReadingsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, lot_name, year, month, format=None):
+        # Check user's role
+        user = self.request.user
+        allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
+        if user.role.role_name not in allowed_roles:
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+        
+        # Define the start and end date for the given month
+        start_date = datetime(year, month, 1)
+        print('start date ' + str(start_date))
+        if month == 12:
+            end_date = datetime(year+1, 1, 1)
+        else:
+            end_date = datetime(year, month+1, 1)
+        print('end date ' + str(end_date))
+
+        # Query the LicensePlateReading model for the given month, year, and LPRMetadata
+        readings = LicensePlateReading.objects.filter(
+            lpr=lot_name, 
+            timestamp__gte=start_date, 
+            timestamp__lt=end_date
+        ).order_by('-timestamp')
+        print(readings)
+        
+        # Serialize the readings
+        serializer = LicensePlateReadingSerializer(readings, many=True)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
