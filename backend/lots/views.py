@@ -8,11 +8,13 @@ from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import NotFound
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.core.files.storage import default_storage
 from django.conf import settings
 from .serializers import CamImageSerializer, LicensePlateReadingSerializer, LPRMetadataNoPasscodeSerializer
 from .models import CamImage, LotMetadata, CamMetadata, LPRMetadata, LicensePlateReading
+from accounts.models import CustomUser
 from django.utils import timezone
 from datetime import datetime
 
@@ -436,16 +438,19 @@ class LotOwnerDashboardView(APIView):
         if user.role.role_name not in allowed_roles:
             return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
-        # Retrieve the lots associated with the user
-        lots = []
-        for x in LotMetadata.objects.all():
-            if str(x.owner) == request.user.email:
-                lots.append(x) 
-        lot_cams = {}
-        for lot in lots:
-            cameras = CamMetadata.objects.filter(lot=lot)
-            lot_cams[str(lot)] = cameras
-        
+        # Decide which user's lots to fetch based on role and request data
+        target_user_email = user.email  # default to the logged-in user
+        if user.role.role_name in ['Customer Support', 'Lot Specialist', 'Accountant']:
+            target_user_email = request.query_params.get('email', target_user_email)  # Use provided email or default to the logged-in user
+
+        try:
+            target_user = CustomUser.objects.get(email=target_user_email)
+        except CustomUser.DoesNotExist:
+            raise NotFound(detail="User not found.")
+
+        # Retrieve the lots associated with the target user
+        lots = LotMetadata.objects.filter(owner=target_user)
+        lot_cams = {str(lot): CamMetadata.objects.filter(lot=lot) for lot in lots}        
 
         camera_names = [camera.name for camera in lot_cams[str(lots[0])]]
         try:
@@ -639,3 +644,20 @@ class MonthlyLicensePlateReadingsView(APIView):
         serializer = LicensePlateReadingSerializer(readings, many=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UsersWithLotsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, format=None):
+        user = self.request.user
+        allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
+        if user.role.role_name not in allowed_roles:
+            return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Get all lots and their associated owners
+        lots = LotMetadata.objects.all()
+        users_with_lots = [{
+            'email': lot.owner.email
+        } for lot in lots if lot.owner]  # if lot.owner ensures that only those lots with associated users are considered.
+
+        return Response(users_with_lots, status=status.HTTP_200_OK)

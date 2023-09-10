@@ -138,6 +138,9 @@ const OperatorDashboard = () => {
 
   const [user, setUser] = useState(null);
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get('email');
+
   const canvasRef = useRef(null);
   const [currentCarsParked, setCurrentCarsParked] = useState('');
   const [dateOfMostRecentImage, setDateOfMostRecentImage] = useState('');
@@ -238,7 +241,12 @@ const OperatorDashboard = () => {
         .then(data => setUser(data));
     }
     if (token) {
-      fetch(API_URL + 'lots/lot_dashboard/', {
+      let url = API_URL + 'lots/lot_dashboard/';
+      if (email) {
+        url += `?email=${email}`;
+      }
+
+      fetch(url, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
@@ -246,9 +254,6 @@ const OperatorDashboard = () => {
       })
       .then(response => response.json())
       .then(data => {
-          console.log(data.lpr_metadata);
-
-
           setDateOfMostRecentImage(data.timestamp);
           let bestSpotString = 'None available';
           let BestSpotSoFarKey = 99999;

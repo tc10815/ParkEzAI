@@ -123,7 +123,6 @@ const LatestLotImage = () => {
   }, [ad]);
 
   const handleAdClick = () => {
-    // Check if there's an ad and an advert_id
     if (ad && ad.advert_id) {
         fetch(`${API_URL}ads/increment_clicks/`, {
             method: 'POST',

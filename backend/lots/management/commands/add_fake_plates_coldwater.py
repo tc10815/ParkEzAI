@@ -20,15 +20,15 @@ class Command(BaseCommand):
 
     def readings_count(self, hour, weekday):
         if 1 <= hour <= 5:
-            return random.choice([0])
+            return random.choice([0, 0, 1])
         elif 6 <= hour <= 15:
-            return random.choice([0, 1, 2, 3])
+            return random.choice([0, 1, 2])
         elif 16 <= hour <= 23:
-            return random.choice([2, 3, 4, 5]) if weekday < 5 else random.choice([3, 4, 5])
+            return random.choice([2, 3, 4]) if weekday < 5 else random.choice([3, 4, 5])
 
     def handle(self, *args, **kwargs):
         current_hour = datetime.now().hour
-        current_weekday = datetime.now().weekday()  # 0 is Monday, 6 is Sunday
+        current_weekday = datetime.now().weekday() 
 
         count = self.readings_count(current_hour, current_weekday)
 

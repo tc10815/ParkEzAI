@@ -5,7 +5,6 @@ import heroImage from '../images/park-hero.jpg';
 import theme from '../theme';
 import Footer from "./Footer";
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 const HomeContainer = styled.div`
@@ -44,7 +43,7 @@ const HeroImage = styled.div`
   margin-bottom: 2rem;
 `;
 
-const LocationList = styled.ul`
+const UserList = styled.ul`
   list-style-type: none;
   list-style-position: inside;
   margin-right: 0rem;
@@ -53,7 +52,7 @@ const LocationList = styled.ul`
   padding-left:0rem;
 `;
 
-const LocationItem = styled.li`
+const UserItem = styled.li`
   font-size: 120%;
   margin-right: 0rem;
   margin-left:0rem;
@@ -71,36 +70,48 @@ const LocationItem = styled.li`
   }
 `;
 
-const AddInvoice = () => {
+const ChooseLotDashboard = () => {
   const navigate = useNavigate();
+  const [usersWithLots, setUsersWithLots] = useState([]);
 
-  const handleMenuClick = (selected) => {
-    if (selected === 'lot'){
-      navigate("/add-lot-invoice");
-    }
-    if (selected === 'ad'){
-      navigate("/add-ad-invoice");
-    }
+  useEffect(() => {
+    const fetchUsersWithLots = async () => {
+      const response = await fetch(API_URL + "lots/users_with_lots/", {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUsersWithLots(data);
+      }
+    };
+
+    fetchUsersWithLots();
+  }, []);
+  
+  const handleUserClick = (email) => {
+    navigate(`/operator-dashboard?email=${email}`);
   };
 
   return (
     <HomeContainer>
-      <HeroImage>
+    <HeroImage>
         <ListOrganize>
-          <SubHeading>Choose Create Invoice Type</SubHeading>
-          <LocationList>
-            <LocationItem onClick={() => handleMenuClick('lot')}>
-              Create Lot Operator Invoice
-            </LocationItem>
-            <LocationItem onClick={() => handleMenuClick('ad')}>
-              Create Advertiser Invoice
-            </LocationItem>
-          </LocationList>
+            <SubHeading>Select Lot Operator to View Dashboard</SubHeading>
+            <UserList>
+                {usersWithLots.map(user => (
+                    <UserItem key={user.email} onClick={() => handleUserClick(user.email)}>
+                        {user.email}
+                    </UserItem>
+                ))}
+            </UserList>
         </ListOrganize>
-      </HeroImage>
-      <Footer />
-    </HomeContainer>
+    </HeroImage>
+    <Footer />
+  </HomeContainer>
   );
 };
 
-export default AddInvoice;
+export default ChooseLotDashboard;

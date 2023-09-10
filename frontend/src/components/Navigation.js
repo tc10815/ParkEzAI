@@ -338,12 +338,17 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/lot-admin">Lot Admin</StyledNavLink>
+                <StyledNavLink to="/choose-lot-dashboard">Lot Admin</StyledNavLink>
               </StyledButton>
-              </StyledLi>
+            </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/ad-admin">Ad Admin</StyledNavLink>
+                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/choose-ad-dashboard">Ad Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -367,7 +372,12 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/lot-admin">Lot Admin</StyledNavLink>
+                <StyledNavLink to="/choose-lot-dashboard">Lot Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -391,7 +401,7 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/ad-admin">Ad Admin</StyledNavLink>
+                <StyledNavLink to="/choose-ad-dashboard">Ad Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -416,6 +426,21 @@ const Navigation = () => {
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/add-invoice">New Invoice</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/choose-lot-dashboard">Lot Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
+              </StyledButton>
+            </StyledLi>
+            <StyledLi>
+              <StyledButton onClick={scrollToTop}>
+                <StyledNavLink to="/choose-ad-dashboard">Ad Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
