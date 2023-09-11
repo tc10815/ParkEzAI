@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import PopulateDBView, UserViewSet, CreateUserView, CurrentUserView, \
     UpdateUserView, ChangePasswordView, DeleteAccountView, UserRolesView, \
     UserDeleteView, ChangePasswordRoleBasedView, CreateEmployeeView,  \
-    InitiateUserView, LogoutView, UserPaymentRolesView
+    InitiateUserView, LogoutView, UserPaymentRolesView, AdvertiserUsersView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -21,6 +21,7 @@ urlpatterns = [
     path('change-password-staff/', ChangePasswordRoleBasedView.as_view(), name='change-password-role-based'),
     path('create_employee/', CreateEmployeeView.as_view(), name='create_employee'),
     path('initiate-user/', InitiateUserView.as_view(), name='initiate-user'),
+    path('get-advertisers/', AdvertiserUsersView.as_view(), name='get-advertisers'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('', include(router.urls))
 ]

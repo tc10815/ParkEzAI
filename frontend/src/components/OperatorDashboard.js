@@ -214,7 +214,11 @@ const OperatorDashboard = () => {
     const context = canvas.getContext('2d');
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(API_URL + 'lots/get_lot_history/', {
+      let url = API_URL + 'lots/get_lot_history/';
+      if (email) {
+        url += `?email=${email}`;
+      }
+      fetch(url, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

@@ -89,14 +89,13 @@ const UserItem = styled.li`
   }
 `;
 
-const ChooseLotDashboard = () => {
+const ChooseAdDashboard = () => {
   const navigate = useNavigate();
   const [usersWithLots, setUsersWithLots] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('Dashboard');
 
   useEffect(() => {
     const fetchUsersWithLots = async () => {
-      const response = await fetch(API_URL + "lots/users_with_lots/", {
+      const response = await fetch(API_URL + "accounts/get-advertisers/", {
         headers: {
           Authorization: `Token ${localStorage.getItem("token")}`,
         },
@@ -112,38 +111,14 @@ const ChooseLotDashboard = () => {
   }, []);
   
   const handleUserClick = (email) => {
-    if (selectedOption === 'Dashboard') {
-      navigate(`/operator-dashboard?email=${email}`);
-    } else if (selectedOption === 'Plates') {
-      navigate(`/plate-data?email=${email}`);
-    }
-  };
+      navigate(`/advertiser-dashboard?email=${email}`);
+  }
 
   return (
     <HomeContainer>
     <HeroImage>
         <ListOrganize>
-            <SubHeading>Select Lot Operator to View Dashboard or Plates</SubHeading>
-            <div>
-            <StyledInput 
-              type="radio" 
-              id="dashboard" 
-              name="option" 
-              value="Dashboard" 
-              checked={selectedOption === 'Dashboard'}
-              onChange={() => setSelectedOption('Dashboard')}
-            />
-            <StyledLabel htmlFor="dashboard">Dashboard</StyledLabel>
-            <StyledInput 
-              type="radio" 
-              id="plates" 
-              name="option" 
-              value="Plates" 
-              checked={selectedOption === 'Plates'}
-              onChange={() => setSelectedOption('Plates')}
-            />
-            <StyledLabel htmlFor="plates">Plates</StyledLabel>
-          </div>
+            <SubHeading>Select Advertiser to view Dashboard</SubHeading>
             <UserList>
                 {usersWithLots.map(user => (
                     <UserItem key={user.email} onClick={() => handleUserClick(user.email)}>
@@ -158,4 +133,4 @@ const ChooseLotDashboard = () => {
   );
 };
 
-export default ChooseLotDashboard;
+export default ChooseAdDashboard;

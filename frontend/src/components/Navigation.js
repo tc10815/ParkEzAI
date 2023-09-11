@@ -343,11 +343,6 @@ const Navigation = () => {
             </StyledLi>
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
-            <StyledLi>
-              <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/choose-ad-dashboard">Ad Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
@@ -373,11 +368,6 @@ const Navigation = () => {
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/choose-lot-dashboard">Lot Admin</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
-            <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>
@@ -431,11 +421,6 @@ const Navigation = () => {
             <StyledLi>
               <StyledButton onClick={scrollToTop}>
                 <StyledNavLink to="/choose-lot-dashboard">Lot Admin</StyledNavLink>
-              </StyledButton>
-            </StyledLi>
-            <StyledLi>
-              <StyledButton onClick={scrollToTop}>
-                <StyledNavLink to="/choose-plate-dashboard">Plate Admin</StyledNavLink>
               </StyledButton>
             </StyledLi>
             <StyledLi>

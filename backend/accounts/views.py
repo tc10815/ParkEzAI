@@ -147,7 +147,6 @@ class UserRolesView(APIView):
     def get(self, request, format=None):
         user = self.request.user
         role_name = user.role.role_name
-
         # Determine the rules based on the role of the user
         if role_name == 'Accountant':
             queryset = CustomUser.objects.exclude(email=user.email).exclude(role__isnull=True)
@@ -305,3 +304,22 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+class AdvertiserUsersView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        role_name = self.request.user.role.role_name
+
+        # Check if the current user has the appropriate role to access this view
+        if str(role_name) not in ['Accountant', 'Customer Support', 'Advertising Specialist']: 
+            return Response({'detail': 'You do not have permission to access this.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Filter users by role_name
+        advertiser_role = Role.objects.get(role_name="Advertiser")
+        advertisers = CustomUser.objects.filter(role=advertiser_role)
+
+        # Serialize the queryset
+        serializer = UserSerializer(advertisers, many=True)
+
+        return Response(serializer.data)

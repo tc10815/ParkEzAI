@@ -55,8 +55,9 @@ const HeroImage = styled.div`
 `;
 
 const PlateData = () => {
-  const [user, setUser] = useState(null);
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get('email');
   const [monthlyReadings, setMonthlyReadings] = useState({});
   const [monthShown, setMonthShown] = useState(new Date().getMonth() + 1);
   const [yearShown, setYearShown] = useState(new Date().getFullYear());
@@ -65,11 +66,17 @@ const PlateData = () => {
   const fetchReadings = async (year, month) => {
     const token = localStorage.getItem("token");
     let readings = {};
-    const response = await fetch(API_URL + 'lots/lot_dashboard/', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
+
+    let url = API_URL + 'lots/lot_dashboard/';
+    if (email) {
+        url += `?email=${email}`;
+    }
+
+    const response = await fetch(url, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+        },
     });
     const data = await response.json();
     for (let lpr of data.lpr_metadata) {

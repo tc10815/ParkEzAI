@@ -105,8 +105,9 @@ const AdvertiserDashboard = () => {
   const [totalSeconds, setTotalSeconds] = useState(0);
   const [topImageIndices, setTopImageIndices] = useState([]);
   const [sideImageIndices, setSideImageIndices] = useState([]);
-
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get('email');
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -121,7 +122,12 @@ const AdvertiserDashboard = () => {
         .then(data => setUser(data));
 
       // Fetch the user's ads
-      fetch(API_URL + 'ads/user-ads/', {
+      let url = API_URL + 'ads/user-ads/';
+      if (email) {
+        url += `?email=${email}`;
+      }
+    
+      fetch(url, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,

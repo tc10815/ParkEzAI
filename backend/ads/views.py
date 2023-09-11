@@ -15,6 +15,10 @@ from random import choice
 from datetime import date
 from django.db import models
 from django.utils.cache import add_never_cache_headers
+from django.core.exceptions import ObjectDoesNotExist
+from accounts.models import CustomUser
+
+
 
 def get_directory_size(directory):
     total = 0
@@ -58,7 +62,25 @@ def create_ad(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_ads_list_view(request):
-    user_ads = Ad.objects.filter(user=request.user)
+    user = request.user
+    allowed_roles = ['Advertiser', 'Customer Support', 'Advertising Specialist', 'Accountant']
+    
+    # Check if the user has an allowed role
+    if user.role.role_name not in allowed_roles:
+        return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+
+    # Decide which user's ads to fetch based on role and request data
+    target_user_email = user.email  # default to the logged-in user
+    if user.role.role_name in ['Customer Support', 'Advertising Specialist', 'Accountant']:
+        target_user_email = request.query_params.get('email', target_user_email)  # Use provided email or default to the logged-in user
+
+    try:
+        target_user = CustomUser.objects.get(email=target_user_email)
+    except ObjectDoesNotExist:
+        return Response({"message": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Retrieve the ads associated with the target user
+    user_ads = Ad.objects.filter(user=target_user)
     serializer = AdSerializer(user_ads, many=True)
     serialized_data = serializer.data
 
@@ -66,7 +88,7 @@ def user_ads_list_view(request):
     for ad in serialized_data:
         for key in ['top_banner_image1', 'top_banner_image2', 'top_banner_image3',
                     'side_banner_image1', 'side_banner_image2', 'side_banner_image3']:
-
+            
             image_path = ad[key]
             with open(image_path, "rb") as image_file:
                 base64_encoded = base64.b64encode(image_file.read()).decode('utf-8')

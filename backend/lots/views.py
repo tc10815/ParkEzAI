@@ -504,12 +504,22 @@ class GetLotHistory(APIView):
 
     def get(self, request, format=None):
         user = self.request.user
-        role_name = user.role.role_name        
-        if role_name != 'Lot Operator':
+        allowed_roles = ['Lot Operator', 'Customer Support', 'Lot Specialist', 'Accountant']
+        if user.role.role_name not in allowed_roles:
             return Response({"message": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
-        # Retrieve the lots associated with the user
-        lots = LotMetadata.objects.filter(owner=user)
+        # Decide which user's lots to fetch based on role and request data
+        target_user_email = user.email  # default to the logged-in user
+        if user.role.role_name in ['Customer Support', 'Lot Specialist', 'Accountant']:
+            target_user_email = request.query_params.get('email', target_user_email)  # Use provided email or default to the logged-in user
+
+        try:
+            target_user = CustomUser.objects.get(email=target_user_email)
+        except CustomUser.DoesNotExist:
+            raise NotFound(detail="User not found.")
+
+        # Retrieve the lots associated with the target user
+        lots = LotMetadata.objects.filter(owner=target_user)
         cam_names = CamMetadata.objects.filter(lot__in=lots).values_list('name', flat=True)
         cam_images = CamImage.objects.filter(camera_name__in=cam_names)
 
@@ -519,6 +529,7 @@ class GetLotHistory(APIView):
             'image_data': serializer.data
         }
         return Response(response_data)
+
     
 class OverparkingConfirm(APIView):
     def get(self, request, lot, cam, spot, startdatetime, enddatetime, format=None):

@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/08/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/10/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -51,8 +51,8 @@ Remake Semester 1's PHP backend with Django REST framework
 - [x] **Step 7:** Implement **[Functional Requirement 2.4](#2-parking-lot-management)** model license plate tracking
   - [x] Create API infrastructure to receive license plate data, and frontend ability to display it, with random filler data. Reading peoples license plates and posting it on a public demo website is not ethnical, so I won't do it*
 - [ ] **Step 8:** Finishing touches
-  - [ ] Ensure all appropriate roles can access same Lot information as Lot Operator.
-  - [ ] Ensure all appropriate roles can access same Advertisement  information as Advertiser.
+  - [x] Ensure all appropriate roles can access same Lot information as Lot Operator.
+  - [x] Ensure all appropriate roles can access same Advertisement information as Advertiser.
   - [ ] Rebuild parking lot detection models with newest training data to increase accuracy of parking detection
   - [ ] Clean up web design of ParkEz AI (I'm not a web designer, but I want to make it look a little nicer)
   - [ ] Refactor some redundant code (GPT-4 produces a lot of duplicate code, so moving some of it to utility files is an easy and worthwhile task). Get rid of console.logs.
@@ -200,4 +200,4 @@ Semester 2 I changed webservers and could now use Gunicorn, so I wanted to chang
 3. **Exclude as much irrelevant code as possible in difficult prompts.** I've noticed I get lower quality responses if you include unrelated code in your prompt, such as unrelated functions and CSS code in React. I'll still include unnecessary code for basic requests since its time consuming to clean up, but for very difficult requests I'm careful to keep context as concise as possible.
 4. **Mention versions of the software you are using if you are having issues.** With React, in particular, there's different ways of doing things with different versions of the framework. In 2023, GPT-4 only knows code up to late 2021, so most of its knowledge is going to be out of date. In ParkEz AI, GPT-4 was never completely stumped about how to do something with modern techniques, but a few times I've had to tell it my versions to get the right answer.
 5. **Ask it big picture questions, not just for code**. I would have made ParkEz AI a lot differently if I hadn't occasionally discussed what I was doing with GPT-4. It's advice wasn't always great (the original method of detecting cars it recommended with the YOLO model took me days to implement and ultimately didn't work that well), but many times it gave me good perspective.
-6. **It performs much better when you give it an example of something similar elsewhere in the code in the prompt**
+6. **Give examples if possible** It performs much better when you give it an example of something similar elsewhere in the code in the prompt
