@@ -21,7 +21,7 @@ Image updates every 30 minutes, refresh this GitHub page to view updated image. 
 
 Occasionally the models mislabel a spot, although fairly rarely. See more by [clicking the image](https://plan6.com/lot/coldwater).
 
-# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/10/2023)
+# ParkEz AI: Semester 2 ([plan6.com](https://plan6.com) - updated 9/12/2023)
 **In progress: June 1 - Present**
 ## Task List
 - [x] **Step 1:** Redo **[Functional Requirements 1.1, 1.2, 1.3, 1.4, 1.5 and 1.6](#1-account-management):** 
@@ -82,9 +82,35 @@ When I explained to GPT-4 what I wanted to do, it recommended I use the YOLOv3 m
 
 That wasn't good enough so I worked with GPT-4 to build models like cat-dog classifiers, using CNNs with PyTorch, to be applied to a cropped image of the space. I assigned a rectangle of the parking lot to each space, programmatically cropped the images and shaped them to 128x128 (now 256x256) and trained a model for each space based off of examples of cropped spaces containing a car, and without a car. 
 
-The current model is based on 350 images, 5 CNN layers and uses Adam optimizer and early stopping to improve training results. It still makes mistakes, but mistakes are somewhat rare. 
+The current models are based on 5 CNN layers and uses Adam optimizer and early stopping to improve training results. 
 
-The models will be periodically improved as more data comes in.
+**Real Life Detection Performance**
+I created a new group of models on September 12, 2023 based on 2200 images (same Pytorch CNN). In creating these new models, I also benchmarked the performance of the previous models, created July 23, 2023 (based on 380 images, collected between 6/17/2023 and 7/20/2023. 
+
+The July 23 models were used on ParkEz AI live from 7/23 to 9/10, on 2,188 different parking lot images.
+
+*7/23/2023 models performance on 2,180 images from 7/23 to 9/10:*
+|Metric|Score|
+|---|---|
+|Accuracy|99.06%|
+|Precision|98.17%|
+|Recall|98.13%|
+|Specificity|99.37%|
+|F1 Score|98.15%|
+
+|Parking Spot|F-Score|
+|---|---|
+|A1|98.64%|
+|A2|99.08%|
+|A3|98.15%|
+|B1|99.48%|
+|B2|99.90%|
+|B3|99.91%|
+|B4|99.55%|
+|B5|97.81%|
+|B6|92.32%|
+
+As you can see, the 7/23/2023, 380-image models performed extremely well. Time will tell if the 9/12/2023, 2200-image model is an improvement.
 
 ## Notes on PHP to Django API migration 
 ### Remade Semester 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3
