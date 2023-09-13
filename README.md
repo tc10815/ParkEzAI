@@ -53,7 +53,7 @@ Remake Semester 1's PHP backend with Django REST framework
 - [ ] **Step 8:** Finishing touches
   - [x] Ensure all appropriate roles can access same Lot information as Lot Operator.
   - [x] Ensure all appropriate roles can access same Advertisement information as Advertiser.
-  - [ ] Rebuild parking lot detection models with newest training data to increase accuracy of parking detection
+  - [x] Rebuild parking lot detection models with newest training data to increase accuracy of parking detection
   - [ ] Clean up web design of ParkEz AI (I'm not a web designer, but I want to make it look a little nicer)
   - [ ] Refactor some redundant code (GPT-4 produces a lot of duplicate code, so moving some of it to utility files is an easy and worthwhile task). Get rid of console.logs.
   - [ ] Make it so "Reset Database with Demonstration Data" button works again (it currently doesn't reset ads/payment/invoices and breaks associations with ads/payment/invoices). It can ignore lot data since there's no control over that in the app.
@@ -89,7 +89,7 @@ I created a new group of models on September 12, 2023 based on 2200 images (same
 
 The July 23 models were used on ParkEz AI live from 7/23 to 9/10, on 2,188 different parking lot images.
 
-*7/23/2023 models performance on 2,180 images from 7/23 to 9/10:*
+*7/23/2023 models performance on 2,200 images from 7/23 to 9/10:*
 |Metric|Score|
 |---|---|
 |Accuracy|99.06%|
@@ -110,7 +110,9 @@ The July 23 models were used on ParkEz AI live from 7/23 to 9/10, on 2,188 diffe
 |B5|97.81%|
 |B6|92.32%|
 
-As you can see, the 7/23/2023, 380-image models performed extremely well. Time will tell if the 9/12/2023, 2200-image model is an improvement.
+**As you can see, the 7/23/2023, 380-image models performed extremely well. Time will tell if the 9/12/2023, 2200-image model is an improvement.**
+
+*Note: 9/12/2023, 2,200 image models took only 46 minutes to train collectively, with an GPU optimized PyTorch in Ubuntu with NVIDIA GeForce RTX 3060 Ti 8GB GDDR6, AMD Ryzen™ 7 5700X 8-Core, 16-Thread (4.6GHz) and 2x8GB RAM at 3200MHz.*
 
 ## Notes on PHP to Django API migration 
 ### Remade Semester 1 in Django. Django is more scalable and secure, almost production ready. A Python backend will be useful for machine learning in Requirements 2 and 3
