@@ -1,0 +1,18 @@
+$navbar-dark-color: #FFFFFF; 
+$navbar-dark-hover-color: lighten(#FFFFFF, 10%); 
+// $navbar-dark-bg: #000; 
+// $navbar-dark-active-bg: lighten($navbar-dark-bg, 5%); 
+$dark:          #000;
+
+
+// $navbar-dark-color:                 rgba($white, .55) !default;
+// $navbar-dark-hover-color:           rgba($white, .75) !default;
+$navbar-dark-active-color:             rgba(#14BB00, 1);
+// $navbar-dark-disabled-color:        rgba($white, .25) !default;
+// $navbar-dark-icon-color:            $navbar-dark-color !default;
+// $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-icon-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+// $navbar-dark-toggler-border-color:  rgba($white, .1) !default;
+$navbar-dark-brand-color:               rgba(#14BB00, 1);
+// $navbar-dark-brand-hover-color:     $navbar-dark-active-color #0100FF; 
+
+@import '../node_modules/bootstrap/scss/bootstrap';
