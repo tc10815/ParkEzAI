@@ -1,29 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const FooterContainer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
-`;
 
 const Footer = () => {
   return (
-    <FooterContainer>
-      <FooterItem>ParkEz Inc.</FooterItem>
-      <FooterItem>1234 Park Street, Suite 567</FooterItem>
-      <FooterItem>Stamford, CT 06902</FooterItem>
-      <FooterItem>Phone: (203) 123-4567</FooterItem>
-      <FooterItem>Email: support@parkez.ai</FooterItem>
-    </FooterContainer>
+    <footer className="bg-dark text-white text-center py-4 my-footer">
+      <p className="mb-1">ParkEz Inc.</p>
+      <p className="mb-1">1234 Park Street, Suite 567</p>
+      <p className="mb-1">Stamford, CT 06902</p>
+      <p className="mb-1">Phone: (203) 123-4567</p>
+      <p className="mb-1">Email: support@parkez.ai</p>
+    </footer>
   );
 };
 

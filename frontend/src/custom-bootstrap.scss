@@ -1,16 +1,12 @@
 $black-color: #000;
-$slightly-gray: lighten($black-color, 10%); // Slightly more gray than black
-$aqua-color: rgba(0, 255, 255, 0.2); // This is a 20% opacity aqua.
+$slightly-gray: lighten($black-color, 10%); 
+$aqua-color: rgba(0, 255, 255, 0.2); 
 $navbar-dark-color: #FFF;
 $navbar-dark-hover-color: #FFF;
 $navbar-dark-active-color: #FFF;
-
 $--bs-navbar-padding-y: 0em;
 $--bs-navbar-padding-x: 0em;
-
-.navbar.bg-dark {
-    background-color: $black-color !important; 
-}
+$dark: #000;
 
 .nav-link.active {
     background-color: darken($aqua-color,15%);
@@ -21,7 +17,6 @@ $--bs-navbar-padding-x: 0em;
     align-items: center;
     font-weight: bold; 
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 .custom-logo {
@@ -43,8 +38,6 @@ $--bs-navbar-padding-x: 0em;
         justify-content: center; 
         font-weight: bold; 
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
-        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-
         &:hover {
             background-color: $aqua-color;
         }
@@ -52,10 +45,7 @@ $--bs-navbar-padding-x: 0em;
 }
 
 .navbar {
-    // Explicitly set the padding to none
     padding: 0 !important;
-
-    // Optionally override the Bootstrap CSS variables
     --bs-navbar-padding-y: 0;
     --bs-navbar-padding-x: 0;
     margin: 0; 
@@ -65,6 +55,24 @@ $--bs-navbar-padding-x: 0em;
 
 .navbar-toggler {
     padding: 0.1rem 0.75rem;
+}
+
+.bg-hover-aqua:hover {
+    background-color: #39828E !important;
+}
+
+.shadow-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.custom-placeholder::placeholder {
+    color: grey !important;
+    opacity: 1;
+}
+
+.custom-placeholder:focus {
+    border-color: #39828E !important;
+    box-shadow: none;
 }
 
 @import '../node_modules/bootstrap/scss/bootstrap';
