@@ -6,9 +6,9 @@ import { FiMenu } from 'react-icons/fi';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const Navigation = () => {
+    const navBarRef = React.createRef();
     const [userRole, setUserRole] = useState(null);
     const navigate = useNavigate();
-
     const handleLogout = async () => {
     const token = localStorage.getItem("token");
         const response = await fetch(API_URL + "accounts/logout/", {
@@ -26,6 +26,13 @@ const Navigation = () => {
     const scrollToTop = () => {
         window.scrollTo(0, 0);
     };
+
+    const handleNavLinkClick = () => {
+      scrollToTop();
+      if (navBarRef.current.classList.contains('show')) {
+          navBarRef.current.classList.remove('show');
+      }
+  };  
 
     const fetchUserRole = async () => {
         const token = localStorage.getItem("token");
@@ -53,6 +60,9 @@ const Navigation = () => {
     
         };
         const handleLogout = () => {
+        if (navBarRef.current.classList.contains('show')) {
+            navBarRef.current.classList.remove('show');
+        }
           setUserRole(null);
         };
         window.addEventListener('tokenUpdate', handleTokenUpdate);
@@ -91,19 +101,19 @@ const Navigation = () => {
             return (
               <>
               <li className="nav-item ps-2 pe-2">
-                  <NavLink onClick={scrollToTop} className="nav-link"  to="/">Home</NavLink>
+                  <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/">Home</NavLink>
               </li>
               <li className="nav-item ps-2 pe-2">
-                  <NavLink onClick={scrollToTop} className="nav-link"  to="/find-parking">Find Parking</NavLink>
+                  <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/find-parking">Find Parking</NavLink>
               </li>
               <li className="nav-item ps-2 pe-2">
-                  <NavLink onClick={scrollToTop} className="nav-link"  to="/about">About</NavLink>
+                  <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/about">About</NavLink>
               </li>
                 <li className="nav-item ps-2 pe-2">
-                    <NavLink onClick={scrollToTop} className="nav-link"  to="/signup">Sign Up</NavLink>
+                    <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/signup">Sign Up</NavLink>
                 </li>
                 <li className="nav-item ps-2 pe-2">
-                    <NavLink onClick={scrollToTop} className="nav-link"  to="/login">Login</NavLink>
+                    <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/login">Login</NavLink>
                 </li>
               </>
             );
@@ -112,111 +122,111 @@ const Navigation = () => {
               'Lot Operator': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/operator-dashboard">Parking Lot Dashboard</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/operator-dashboard">Parking Lot Dashboard</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/archive">Archive</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/archive">Archive</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/plate-data">Plates</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/plate-data">Plates</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/my-tickets">Support</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/my-tickets">Support</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Billing</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Billing</NavLink>
                   </li>
                 </>
               ),
               'Advertiser': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/advertiser-dashboard">Advertisements Dashboard</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/advertiser-dashboard">Advertisements Dashboard</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/create-ad">Create Ad</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/create-ad">Create Ad</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/my-tickets">Support</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/my-tickets">Support</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Billing</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Billing</NavLink>
                   </li>
                 </>
               ),
               'Customer Support': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/tickets">Support tickets</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/tickets">Support tickets</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Billing Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Billing Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/manage-accounts">Manage User Accounts</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/manage-accounts">Manage User Accounts</NavLink>
                   </li>
                 </>
               ),
               'Lot Specialist': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/tickets">Support tickets</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/tickets">Support tickets</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">                    
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Lot Billing Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Lot Billing Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/manage-accounts">Manage Lot Accounts</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/manage-accounts">Manage Lot Accounts</NavLink>
                   </li>
                 </>
               ),
               'Advertising Specialist': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/tickets">Support tickets</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/tickets">Support tickets</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Ad Billing Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Ad Billing Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/manage-accounts">Manage Ad Accounts</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/manage-accounts">Manage Ad Accounts</NavLink>
                   </li>
                 </>
               ),
               'Accountant': (
                 <>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/billing">Accountant Dashboard</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/billing">Accountant Dashboard</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/add-invoice">New Invoice</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/add-invoice">New Invoice</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-lot-dashboard">Lot Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/choose-ad-dashboard">Ad Admin</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/manage-accounts">Manage Accounts</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/manage-accounts">Manage Accounts</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/create-staff-account">Create Employees</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/create-staff-account">Create Employees</NavLink>
                   </li>
                   <li className="nav-item ps-2 pe-2">
-                      <NavLink onClick={scrollToTop} className="nav-link"  to="/tickets">Support tickets</NavLink>
+                      <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/tickets">Support tickets</NavLink>
                   </li>
                 </>
               ),
@@ -226,7 +236,7 @@ const Navigation = () => {
               <>
                 {roleLinks[userRole]}
                 <li className="nav-item ps-2 pe-2">
-                    <NavLink onClick={scrollToTop} className="nav-link"  to="/account">Account</NavLink>
+                    <NavLink onClick={handleNavLinkClick} className="nav-link"  to="/account">Account</NavLink>
                 </li>
                 {loggedInLinks}
               </>
@@ -243,7 +253,7 @@ return (
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <FiMenu />
         </button>
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div ref={navBarRef} className="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul className="navbar-nav mb-2 mb-lg-0">
                 {renderLinksByRole()}
             </ul>
