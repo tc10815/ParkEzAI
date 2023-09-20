@@ -75,4 +75,31 @@ $dark: #000;
     box-shadow: none;
 }
 
+.custom-list-group {
+    padding-left: 20px; 
+  }
+  
+  .custom-list-group .list-group-item {
+    background-color: transparent;
+    border: none;
+    position: relative; // existing positioning for pseudo-element
+  
+    padding-top: 0px; // adjust value as desired
+    padding-bottom: 0px; // adjust value as desired
+    margin-top: 0px; // adjust value as desired
+    margin-bottom: 0px; // adjust value as desired
+    
+    &::before {
+      content: '•'; 
+      position: absolute;
+      left: -3px; 
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .bg-dark.list-group-item {
+    border: none;
+  }
+  
 @import '../node_modules/bootstrap/scss/bootstrap';

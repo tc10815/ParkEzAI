@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .nav-link.active {
   background-color: rgba(0, 179, 179, 0.2); }
 
@@ -51,6 +52,27 @@
 .custom-placeholder:focus {
   border-color: #39828E !important;
   box-shadow: none; }
+
+.custom-list-group {
+  padding-left: 20px; }
+
+.custom-list-group .list-group-item {
+  background-color: transparent;
+  border: none;
+  position: relative;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px; }
+  .custom-list-group .list-group-item::before {
+    content: '•';
+    position: absolute;
+    left: -3px;
+    top: 50%;
+    transform: translateY(-50%); }
+
+.bg-dark.list-group-item {
+  border: none; }
 
 /*!
    * Bootstrap  v5.3.2 (https://getbootstrap.com/)

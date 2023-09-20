@@ -3,25 +3,31 @@ import heroImage from '../images/about-hero.jpg';
 import about1image from '../images/about-image1.jpg';
 import about2image from '../images/about-image2.jpg';
 import Footer from './Footer';
+import { Container, Row, Col, Image, Table } from 'react-bootstrap';
 
 const About = () => {
   return (
-    <div className="bg-white d-flex flex-column"> 
-      <div className="bg-white">
-        <div 
-          className="d-flex justify-content-center align-items-center text-white"
-          style={{ 
-            backgroundImage: `url(${heroImage})`, 
-            backgroundPosition: 'top', 
-            backgroundSize: 'cover', 
-            minHeight: '30vh'
-          }}
-        >
+    <>
+    <Container fluid className="bg-white">
+      <Row className="justify-content-center align-items-center text-white" 
+        style={{ 
+          backgroundImage: `url(${heroImage})`,
+          backgroundPosition: 'left top',
+          backgroundSize: 'cover',
+          minHeight: '30vh'
+        }}
+      >
+        <Col className="text-center d-md-block d-none" style={{maxWidth:'fit-content'}}>
           <h1 className="fs-1 bg-dark py-2 px-4">About ParkEz</h1>
-        </div>
+        </Col>
+        <Col xs={1} className="text-center d-md-none py-5 w-100">
+          <h1 className="fs-1 bg-dark py-2 px-4 ">About ParkEz</h1>
+        </Col>
+      </Row>
 
-        <div className="container text-center my-4">
-          <h2 className="fs-2 mb-3">Our Story</h2>
+
+      <Container className="text-center my-4">
+        <h2 className="fs-2 mb-3">Our Story</h2>
           <p>
           ParkEz was founded in 2021 by a group of parking lot owners and advertisers who saw an opportunity to revolutionize the parking industry. Our mission is to make parking simpler, more accessible, and more efficient for both parking lot owners and users, while also creating new advertising opportunities for businesses.
         </p>
@@ -29,8 +35,7 @@ const About = () => {
           Through our platform, we connect parking lot owners with advertisers, helping them increase revenue while providing a better experience for their customers. By leveraging cutting-edge technology, we create customized solutions for each of our clients, ensuring they get the most out of their partnership with us.
         </p>      
           
-          <img src={about1image} alt="Team working together" className="w-100 mb-4" style={{ maxWidth: '800px' }} />
-
+        <Image src={about1image} alt="Team working together" className="w-100 mb-4" style={{ maxWidth: '800px' }} />
           <h2 className="fs-2 mb-3">Our Values</h2>
           <p className="fs-5 text-start mb-4">
           At ParkEz, we prioritize innovation, collaboration, and customer satisfaction. We believe that by working together and constantly pushing the boundaries of what's possible, we can create a world where parking is no longer a source of stress but rather an opportunity for growth and connection.
@@ -40,12 +45,11 @@ const About = () => {
           <p className="fs-5 text-start mb-4">
           Our team is made up of industry experts with diverse backgrounds in technology, advertising, and parking management. We are dedicated to providing our clients with the highest level of service and support, ensuring their success and satisfaction.
           </p>
-          <img src={about2image} alt="Team members in a meeting" className="w-100 mb-4" style={{ maxWidth: '800px' }} />
-
-          <div className="container-lg mt-4" style={{ maxWidth: '800px' }}>
-      <h2 className="mb-4">Pricing</h2>
-      <table className="table table-bordered">
-        <thead>
+          <Image src={about2image} alt="Team members in a meeting" className="w-100 mb-4" style={{ maxWidth: '800px' }} />
+          <Container className="mt-4" style={{ maxWidth: '800px' }}>
+          <h2 className="mb-4">Pricing</h2>
+          <Table bordered>
+            <thead>
           <tr>
             <th>Service</th>
             <th>Details</th>
@@ -72,8 +76,7 @@ const About = () => {
             <td>$20/month per lot</td>
           </tr>
         </tbody>
-      </table>
-    </div>
+      </Table>
           <h2 className="fs-2 mb-3">Testimonials</h2>
           <blockquote className="blockquote text-center fs-4">
             <p>"Working with ParkEz has completely transformed our parking operations. Their innovative solutions have helped us generate more revenue while improving the overall experience for our customers."</p>
@@ -83,11 +86,11 @@ const About = () => {
             <p>"As an advertiser, partnering with ParkEz has been a game-changer. Their platform allows us to reach a wider audience and make a greater impact with our ads."</p>
             <footer className="blockquote-footer">John Doe, Advertiser</footer>
           </blockquote>
-        </div>
-
-        <Footer />
-      </div>
-    </div>
+        </Container>
+      </Container>
+    </Container>
+    <Footer />
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '../images/park-hero.jpg';
+import { Container, Row, Col, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 import Footer from "./Footer";
 
 
@@ -34,51 +35,54 @@ const FindParking = () => {
   };
 
   return (
-      <div style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', height: 'calc(100vh)', backgroundPosition: 'center' }}>
-          <div className="container h-100">
-              <div className="row justify-content-center align-items-center h-100">
-                <div className="col-12 col-md-8 text-center">
-                  <h1 className="text-white py-0 my-0 mb-5 shadow-text">Choose Lot to Find Parking</h1>
-                  <div className="row justify-content-center">
-                    <div className="col-12 col-lg-4"> 
-                      <input
-                          type="text"
-                          value={search}
-                          onChange={handleSearchChange}
-                          placeholder="Search"
-                          className="form-control my-0 py-0 bg-dark text-white custom-placeholder"
-                                />
-                      </div>
-                    </div>
-                      <div style={{display: 'inline-flex', flexDirection: 'column', alignItems: 'start'}}>
-                          <ul className="list-unstyled m-0 p-0">
-                              {lots.filter(lots => 
-                                  lots.name.toLowerCase().includes(search.toLowerCase()) ||
-                                  lots.city.toLowerCase().includes(search.toLowerCase()) ||
-                                  lots.state.toLowerCase().includes(search.toLowerCase()) ||
-                                  lots.zip.toLowerCase().includes(search.toLowerCase())
-                              ).map((lots, index) => (
-                                  <li 
-                                      key={index} 
-                                      className="py-1 px-2 my-1 bg-dark text-white bg-hover-aqua" 
-                                      onClick={() => handleMenuClick(lots)}
-                                      style={{cursor: 'pointer', transition: 'background-color 0.3s'}}
-                                  >
-                                      {lots.name}, {lots.city} {lots.state}  {lots.zip}
-                                  </li>
-                              ))}
-                          </ul>
-                      </div>
-                      <p className="text-white font-weight-bold shadow-text mt-5">
-                          <strong>Note:</strong> Monroe St, Coldwater is the only working demo parking lot at this time
-                      </p>
-                      <p className="text-white shadow-text">Other lots are to demonstrate lot search</p>
-                  </div>
-              </div>
-          </div>
-        <Footer />
-    </div>
+<div style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', height: 'calc(100vh)', backgroundPosition: 'center' }}>
+  <Container fluid className="h-100">
+    <Row className="justify-content-center align-items-center h-100">
+      <Col xs={12} md={4} className="text-center">
+        <h1 className="text-white bg-dark py-0 my-0 mb-0 shadow-text">Choose Lot to Find Parking</h1>
+        
+        <Row className="justify-content-center">
+          <Col xs={12} md={8}>
+            <InputGroup>
+              <FormControl 
+                value={search}
+                onChange={handleSearchChange}
+                placeholder="Search"
+                className="my-3 py-2 px-4 bg-dark text-white custom-placeholder"
+              />
+            </InputGroup>
+          </Col>
+        </Row>
+        
+        <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'start' }}>
+          <ListGroup variant="flush" className="m-0 p-0">
+            {lots.filter(lot => 
+              lot.name.toLowerCase().includes(search.toLowerCase()) ||
+              lot.city.toLowerCase().includes(search.toLowerCase()) ||
+              lot.state.toLowerCase().includes(search.toLowerCase()) ||
+              lot.zip.toLowerCase().includes(search.toLowerCase())
+            ).map((lot, index) => (
+              <ListGroup.Item 
+                key={index} 
+                className="py-2 px-3 my-0 bg-dark text-white bg-hover-aqua" 
+                onClick={() => handleMenuClick(lot)}
+                style={{ cursor: 'pointer', transition: 'background-color 0.3s' }}
+              >
+                {lot.name}, {lot.city} {lot.state}  {lot.zip}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </div>
+
+        <p className="text-white font-weight-bold shadow-text mt-5">
+          <strong>Note:</strong> Monroe St, Coldwater is the only working demo parking lot at this time
+        </p>
+        <p className="text-white shadow-text">Other lots are to demonstrate lot search</p>
+      </Col>
+    </Row>
+  </Container>
+  <Footer />
+</div>
   );
 };
-
 export default FindParking;
