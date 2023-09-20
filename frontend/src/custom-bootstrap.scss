@@ -7,6 +7,8 @@ $navbar-dark-active-color: #FFF;
 $--bs-navbar-padding-y: 0em;
 $--bs-navbar-padding-x: 0em;
 $dark: #000;
+@import '../node_modules/bootstrap/scss/bootstrap';
+
 
 .nav-link.active {
     background-color: darken($aqua-color,15%);
@@ -52,7 +54,14 @@ $dark: #000;
     flex-grow: 1; 
     display: flex; 
 }
-
+.dark-table td{
+    background-color: #000;
+    color: whitesmoke;
+}
+.dark-table thead{
+    background-color: #000;
+    color:whitesmoke;
+}
 .navbar-toggler {
     padding: 0.1rem 0.75rem;
 }
@@ -101,5 +110,24 @@ $dark: #000;
   .bg-dark.list-group-item {
     border: none;
   }
-  
-@import '../node_modules/bootstrap/scss/bootstrap';
+
+    @media (max-width: 576px) { // Bootstrap's breakpoint for small screens
+    .align-items-start-sm {
+        align-items: flex-start !important;
+    }
+
+}
+
+@media (min-width: 768px) {  
+    .custom-padding-top {
+        padding-top: 20vh; 
+    }
+}
+.clickable:hover {
+    cursor: pointer;
+}
+
+.login-border {
+    border:#777;
+    border-style: solid;
+}

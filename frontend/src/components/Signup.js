@@ -1,109 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import heroImage from '../images/signup-hero.jpg';
+import { Container, Row, Col, Form, Button, Modal, FormControl, InputGroup } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const HomeContainer = styled.div`
-  background-color: black;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
-
-const Footer = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FooterItem = styled.p`
-  margin: 0.2rem;
-`;
-
-const SignUpOrganizer = styled.div`
-  margin-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-left: 0;
-`;
-
-const SubHeading = styled.h2`
-  font-size: 2rem;
-  width: fit-content;
-  color: white;
-  background-color: rgba(0, 0, 0, 1); // No transparency
-  padding: 0.5rem 1rem;
-`;
-
-const HeroImage = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  background-image: url(${heroImage});
-  background-position-y: top;
-  background-size: cover;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: inline-block;
-  
-  font-size: 1.5rem;
-  margin-bottom: 0rem;
-
-`;
-const Input = styled.input`
-  font-size: 1rem;
-  padding: 0.5rem;
-  margin-bottom: 0.1rem;
-  width: 100%;
-  max-width: 300px;
-`;
-
-const LoginButton = styled.button`
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  margin-top: 0.8rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  background-color: rgba(0, 0, 0, 1);
-  color: white;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0072ff;
-  }
-`;
-const SignUpForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const SignupButton = styled(LoginButton)`
-  margin-bottom: 0;
-`;
-
-const Select = styled.select`
-  font-size: 1rem;
-  padding: 0.5rem;
-  margin-bottom: 0.1rem;
-  width: 100%;
-  max-width: 300px;
-`;
-
-
 const Signup = () => {
   const navigate = useNavigate();
-  
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [redirectTo, setRedirectTo] = useState('');
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const role = e.target.elements[0].value;
@@ -116,16 +22,14 @@ const Signup = () => {
     const city = e.target.elements[7].value;
     const zip = e.target.elements[8].value;
     const password = e.target.elements[9].value;
-  
     const role_id = role === "parking_lot_owner" ? "Lot Operator" : "Advertiser";
-  
     const response = await fetch(API_URL + "accounts/create_user/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        role: role_id,  // change key to `role` instead of `role_id`
+        role: role_id, 
         email,
         first_name: firstName,
         last_name: lastName,
@@ -135,70 +39,114 @@ const Signup = () => {
         city,
         zip,
         password,
-        is_uninitialized: false, // if you want to set `is_uninitialized` to false, otherwise remove this line
+        is_uninitialized: false,
       }),
     });
-  
+
     if (response.ok) {
-      navigate('/success');
+      setModalMessage('New account has been successfully created.');
+      setRedirectTo('/login');
+      setShowModal(true);
     } else {
-      const errorText = await response.text();
-      navigate('/error', { state: { errorMessage: errorText } });
+      setModalMessage(`Failed to create account.`);
+      setRedirectTo(window.location.pathname);
+      setShowModal(true);
     }
   };
-  
+  const handleClose = () => {
+    setShowModal(false);
+    navigate(redirectTo);
+  };
+
   const resetAndPrepopulate = async () => {
     const response = await fetch(API_URL + "accounts/populate_db/", { method: "POST" });
-  
+
     if (response.ok) {
-        const data = await response.json();
-        alert(data.message);
+      const data = await response.json();
+      alert(data.message);
     } else {
-        alert("Error resetting and prepopulating users");
+      alert("Error resetting and prepopulating users");
     }
   };
   return (
-    <HomeContainer>
-      <HeroImage>
-        <SignUpOrganizer>
-          <SubHeading>Join us for parking lot monitoring or to advertise</SubHeading>
-          <SignUpForm onSubmit={handleSignUpSubmit}>
-            <Select required>
-              <option value="">Choose lot monitoring or advertising</option>
-              <option value="parking_lot_owner">Parking Lot Monitoring</option>
-              <option value="advertiser">Advertising</option>
-            </Select>
-            <Input type="email" placeholder="Email" required />
-            <Input type="text" placeholder="First Name" required />
-            <Input type="text" placeholder="Last Name" required />
-            <Input type="text" placeholder="Company Name" required />
-            <Input type="text" placeholder="Company Address" required />
-            <Select required>
-              <option value="">Select State...</option>
-              <option value="CT">CT</option>
-              <option value="NJ">NJ</option>
-              <option value="NY">NY</option>
-            </Select>
-            <Input type="text" placeholder="City" required />
-            <Input type="text" placeholder="ZIP" required />
-            <Input type="password" placeholder="Password" required />
-            <SignupButton type="submit">Sign Up</SignupButton>
-          </SignUpForm>
-        </SignUpOrganizer>
-      </HeroImage>
-      <Footer>
-        <FooterItem>ParkEz Inc.</FooterItem>
-        <FooterItem>1234 Park Street, Suite 567</FooterItem>
-        <FooterItem>Stamford, CT 06902</FooterItem>
-        <FooterItem>Phone: (203) 123-4567</FooterItem>
-        <FooterItem>Email: support@parkez.ai</FooterItem>
+    <div style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', height: '100vh', backgroundPosition: 'center' }}>
+      <Container className="h-100">
+        <Row className="align-items-center">
+          <Col xs={12} className="text-center">
+            <h1 className="text-white bg-dark py-3 my-4 my-md-5">Join us for parking lot monitoring or to advertise</h1>
+
+            <Form onSubmit={handleSignUpSubmit} className="mx-auto">
+              <Form.Group>
+                <Form.Control as="select" required>
+                  <option value="">Choose lot monitoring or advertising</option>
+                  <option value="parking_lot_owner">Parking Lot Monitoring</option>
+                  <option value="advertiser">Advertising</option>
+                </Form.Control>
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="email" placeholder="Email" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="First Name" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="Last Name" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="Company Name" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="Company Address" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control as="select" required>
+                  <option value="">Select State...</option>
+                  <option value="CT">CT</option>
+                  <option value="NJ">NJ</option>
+                  <option value="NY">NY</option>
+                </Form.Control>
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="City" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="text" placeholder="ZIP" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control type="password" placeholder="Password" required />
+              </Form.Group>
+              <Button variant="dark" type="submit" className="w-100">Sign Up</Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+      <footer className="bg-dark text-white text-center py-4">
         <h2>Demonstrations Features (not for production)</h2>
-        <button id="reset-and-prepopulate" type="button" onClick={resetAndPrepopulate}>Reset Database with Demonstration Data</button>
+        <Button variant="dark" onClick={resetAndPrepopulate}>Reset Database with Demonstration Data</Button>
         <Link to="/users">
-          <button type="button">View All Users</button>
+          <Button variant="dark">View All Users</Button>
         </Link>
-      </Footer>
-    </HomeContainer>
+        <p className="mb-1">ParkEz Inc.</p>
+        <p className="mb-1">1234 Park Street, Suite 567</p>
+        <p className="mb-1">Stamford, CT 06902</p>
+        <p className="mb-1">Phone: (203) 123-4567</p>
+        <p className="mb-1">Email: support@parkez.ai</p>
+      </footer>
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Notification</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{modalMessage}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            Okay
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+    </div>
   );
 };
 export default Signup;
