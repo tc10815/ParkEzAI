@@ -294,7 +294,7 @@ const Archive = () => {
 
 
   return (
-    <div>
+    <div style={{backgroundColor:'black'}}>
       <TimeH2>
       <Button onClick={handlePrevious}>Previous</Button>
         {humanTime}

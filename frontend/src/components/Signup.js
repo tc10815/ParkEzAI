@@ -77,28 +77,28 @@ const Signup = () => {
 
             <Form onSubmit={handleSignUpSubmit} className="mx-auto">
               <Form.Group>
-                <Form.Control as="select" required>
+                <Form.Control as="select"  className="mb-2" required>
                   <option value="">Choose lot monitoring or advertising</option>
                   <option value="parking_lot_owner">Parking Lot Monitoring</option>
                   <option value="advertiser">Advertising</option>
                 </Form.Control>
               </Form.Group>
               <Form.Group>
-                <Form.Control type="email" placeholder="Email" required />
+                <Form.Control className="mb-2" type="email" placeholder="Email" required />
               </Form.Group>
               <Form.Group>
-                <Form.Control type="text" placeholder="First Name" required />
+                <Form.Control className="mb-2" type="text" placeholder="First Name" required />
               </Form.Group>
               <Form.Group>
-                <Form.Control type="text" placeholder="Last Name" required />
+                <Form.Control className="mb-2" type="text" placeholder="Last Name" required />
               </Form.Group>
               <Form.Group>
-                <Form.Control type="text" placeholder="Company Name" required />
+                <Form.Control className="mb-2" type="text" placeholder="Company Name" required />
               </Form.Group>
               <Form.Group>
-                <Form.Control type="text" placeholder="Company Address" required />
+                <Form.Control className="mb-2" type="text" placeholder="Company Address" required />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-2" >
                 <Form.Control as="select" required>
                   <option value="">Select State...</option>
                   <option value="CT">CT</option>
@@ -106,13 +106,13 @@ const Signup = () => {
                   <option value="NY">NY</option>
                 </Form.Control>
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-2" >
                 <Form.Control type="text" placeholder="City" required />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-2" >
                 <Form.Control type="text" placeholder="ZIP" required />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-2" >
                 <Form.Control type="password" placeholder="Password" required />
               </Form.Group>
               <Button variant="dark" type="submit" className="w-100">Sign Up</Button>

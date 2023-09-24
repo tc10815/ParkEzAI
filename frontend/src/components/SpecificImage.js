@@ -143,7 +143,7 @@ const SpecificImage = () => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor:'black'}}>
       {ad && (
           <AdBanner style={{marginTop:'60px'}}>
             <a href={ad.url} target="_blank" rel="noopener noreferrer" onClick={handleAdClick}>

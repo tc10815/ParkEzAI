@@ -10,7 +10,6 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import styled from 'styled-components';
 import UsersList from './components/UsersList';
-import Success from './components/Success';
 import Error from './components/Error';
 import LoginFailed from './components/LoginFailed';
 import OperatorDashboard from './components/OperatorDashboard';
@@ -82,7 +81,6 @@ const App = () => {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/create-staff-account" element={<CreateStaffAccount />} />
-          <Route path="/success" element={<Success />} />
           <Route path="/success-change" element={<SuccessChange />} />
           <Route path="/error" element={<Error />} />
           <Route path="/error-change" element={<ErrorChange />} />
